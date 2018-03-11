@@ -1,0 +1,7 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 5em 1em 5em 1em;
+    font-size: 5em;
+}
