@@ -23,7 +23,7 @@ export const CellsBoard = (props: CellsBoardProps) => {
     return <div className="container">You win!</div>;
   } else {
     return (
-      <div className="container">
+      <div>
         {props.G.cells.map((cell: number, idx: number) => (
           <Cell
             key={idx}

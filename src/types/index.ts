@@ -2,6 +2,8 @@
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
   cells: Array<number>;
+  skills: Array<string>;
+  selectedSkill: string;
 }
 
 export interface GameContext {
@@ -11,6 +13,7 @@ export interface GameContext {
 
 export interface Moves {
   activateCell(): object;
+  activateSkill(): object;
 }
 
 export interface Events {
@@ -24,6 +27,26 @@ export interface CellsBoardProps {
   moves: Moves;
   events: Events;
 }
+
+export interface GameBoardProps {
+  G: SimpleGame;
+  ctx: GameContext;
+  moves: Moves;
+  events: Events;
+}
+
+export interface SkillsBoardProps {
+  G: SimpleGame;
+  ctx: GameContext;
+  moves: Moves;
+  events: Events;
+}
+
+export interface SkillProps {
+    G: SimpleGame;
+    skill: string;
+    activateSkill(skill: string): object;
+  }
 
 export interface CellProps {
     G: SimpleGame;
