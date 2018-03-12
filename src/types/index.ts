@@ -1,3 +1,5 @@
+/* Types from boardgame.io */
+// FIXME shoud live in a .d.ts
 export interface SimpleGame {
   cells: Array<number>;
 }
@@ -5,14 +7,6 @@ export interface SimpleGame {
 export interface GameContext {
   currentPlayer: string;
   gameover?: string;
-}
-
-export interface CellProps {
-  G: SimpleGame;
-  cell: number;
-  idx: number;
-  activateCell(index: number): object;
-  endTurn(): object;
 }
 
 export interface Moves {
@@ -23,9 +17,17 @@ export interface Events {
   endTurn(): object;
 }
 
-export interface CBProps {
+/* Components props types defintion */
+export interface CellsBoardProps {
   G: SimpleGame;
   ctx: GameContext;
   moves: Moves;
   events: Events;
 }
+
+export interface CellProps {
+    G: SimpleGame;
+    cell: number;
+    idx: number;
+    activateCell(index: number): object;
+  }
