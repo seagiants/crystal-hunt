@@ -3,6 +3,7 @@ import * as React from "react";
 import { GameBoardProps } from "./types/index";
 import { CellsBoard } from "./CellsBoard";
 import { SkillsBoard } from "./SkillsBoard";
+import CurrentPhase from "./CurrentPhase";
 import "./index.css";
 
 export const GameBoard = (props: GameBoardProps) => {
@@ -11,19 +12,20 @@ export const GameBoard = (props: GameBoardProps) => {
   } else {
     return (
       <div className="container">
+        <CurrentPhase currentPhase={props.ctx.phase} />
         <SkillsBoard
-         G={props.G}
-         ctx={props.ctx}
-         moves={props.moves}
-         events={props.events}
+          G={props.G}
+          ctx={props.ctx}
+          moves={props.moves}
+          events={props.events}
         />
         <CellsBoard
-         G={props.G}
-         ctx={props.ctx}
-         moves={props.moves}
-         events={props.events}
+          G={props.G}
+          ctx={props.ctx}
+          moves={props.moves}
+          events={props.events}
         />
       </div>
-            );
-          }
+    );
+  }
 };

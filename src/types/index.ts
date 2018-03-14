@@ -8,6 +8,7 @@ export interface SimpleGame {
 
 export interface GameContext {
   currentPlayer: string;
+  phase: string;
   gameover?: string;
 }
 

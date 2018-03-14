@@ -7,7 +7,11 @@ import { GameBoard } from "./GameBoard";
 import { SimpleGame, GameContext } from "./types/index";
 
 const makeThree = Game({
-  setup: () => ({ cells: [0, 0, 0], skills: ["Dexterity"], selectedSkill: null }),
+  setup: () => ({
+    cells: [0, 0, 0],
+    skills: ["Dexterity"],
+    selectedSkill: null
+  }),
   moves: {
     // it seems that G and ctx are injected
     activateCell: (G: SimpleGame, ctx: object, index: number) => {
@@ -17,7 +21,7 @@ const makeThree = Game({
     },
     activateSkill: (G: SimpleGame, ctx: object, skill: string) => {
       console.log(skill);
-      return {...G, selectedSkill: skill};
+      return { ...G, selectedSkill: skill };
     }
   },
 
@@ -35,15 +39,15 @@ const makeThree = Game({
       {
         name: "Choose Skill",
         allowedMoves: ["activateSkill"],
-        endPhaseIf: (G: SimpleGame, ctx: object) => {
-          return G.selectedSkill;
+        endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
+          return G.selectedSkill !== null;
         }
       },
       {
         name: "Choose Cell",
         allowedMoves: ["activateCell"],
-        endPhaseIf: (G: SimpleGame, ctx: object) => {
-          return (G.selectedSkill === null);
+        endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
+          return G.selectedSkill === null;
         }
       }
     ]
