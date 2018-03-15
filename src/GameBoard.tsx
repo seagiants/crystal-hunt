@@ -13,13 +13,13 @@ export const GameBoard = (props: GameBoardProps) => {
     return (
       <div className="container">
         <CurrentPhase currentPhase={props.ctx.phase} />
-        <SkillsBoard
+        <CellsBoard
           G={props.G}
           ctx={props.ctx}
           moves={props.moves}
           events={props.events}
         />
-        <CellsBoard
+        <SkillsBoard
           G={props.G}
           ctx={props.ctx}
           moves={props.moves}

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { CellProps, CellsBoardProps } from "./types/index";
-import "./CellsBoard.css";
 
 export const Cell = (props: CellProps) => {
   return (
@@ -20,7 +19,7 @@ export const Cell = (props: CellProps) => {
 
 export const CellsBoard = (props: CellsBoardProps) => {
   if (props.ctx.gameover === "0") {
-    return <div className="container">You win!</div>;
+    return <div>You win!</div>;
   } else {
     return (
       <div>
