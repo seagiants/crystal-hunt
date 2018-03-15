@@ -1,8 +1,8 @@
 import * as React from "react";
-// import { CellProps, CellsBoardProps } from "./types/index";
 import { GameBoardProps } from "./types/index";
 import { CellsBoard } from "./CellsBoard";
 import { SkillsBoard } from "./SkillsBoard";
+import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
 import "./index.css";
 
@@ -12,6 +12,7 @@ export const GameBoard = (props: GameBoardProps) => {
   } else {
     return (
       <div className="container">
+        <PlayerInfo ID={props.playerID} />
         <CurrentPhase currentPhase={props.ctx.phase} />
         <CellsBoard
           G={props.G}

@@ -34,6 +34,7 @@ export interface GameBoardProps {
   ctx: GameContext;
   moves: Moves;
   events: Events;
+  playerID: string;
 }
 
 export interface SkillsBoardProps {
@@ -44,14 +45,14 @@ export interface SkillsBoardProps {
 }
 
 export interface SkillProps {
-    G: SimpleGame;
-    skill: string;
-    activateSkill(skill: string): object;
-  }
+  G: SimpleGame;
+  skill: string;
+  activateSkill(skill: string): object;
+}
 
 export interface CellProps {
-    G: SimpleGame;
-    cell: number;
-    idx: number;
-    activateCell(index: number): object;
-  }
+  G: SimpleGame;
+  cell: number;
+  idx: number;
+  activateCell(index: number): object;
+}
