@@ -10,7 +10,12 @@ yarn start
 
 # Server
 
-Pre-requisites : install ts-node and typescript globally.
+Pre-requisites : install [ts-node](https://github.com/TypeStrong/ts-node) and typescript globally: 
+
+```
+yarn global add ts-node
+yarn global add typescript
+```
 
 To start the server :
 
