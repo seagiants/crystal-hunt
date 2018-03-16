@@ -9,6 +9,7 @@ export const Cell = (props: CellProps) => {
         onClick={e => {
           e.preventDefault();
           props.activateCell(props.idx);
+          props.endTurn();
         }}
       >
         [{props.cell}]
@@ -27,6 +28,7 @@ export const CellsBoard = (props: CellsBoardProps) => {
           <Cell
             key={idx}
             activateCell={props.moves.activateCell}
+            endTurn={props.events.endTurn}
             G={props.G}
             cell={cell}
             idx={idx}

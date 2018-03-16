@@ -12,7 +12,10 @@ export const GameBoard = (props: GameBoardProps) => {
   } else {
     return (
       <div className="container">
-        <PlayerInfo ID={props.playerID} />
+        <PlayerInfo
+          ID={props.playerID}
+          currentPlayer={props.ctx.currentPlayer}
+        />
         <CurrentPhase currentPhase={props.ctx.phase} />
         <CellsBoard
           G={props.G}

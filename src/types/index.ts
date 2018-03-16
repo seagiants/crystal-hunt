@@ -48,6 +48,7 @@ export interface SkillProps {
   G: SimpleGame;
   skill: string;
   activateSkill(skill: string): object;
+  endTurn(): object;
 }
 
 export interface CellProps {
@@ -55,4 +56,5 @@ export interface CellProps {
   cell: number;
   idx: number;
   activateCell(index: number): object;
+  endTurn(): object;
 }
