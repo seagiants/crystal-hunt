@@ -1,12 +1,14 @@
 import * as React from "react";
-import { SkillProps, SkillsBoardProps } from "./types/index";
+import { Skill, SkillsBoardProps, SkillProps } from "./types/index";
+import { getSkillColor } from "./librairies/skillLib";
 
-export const Skill = (props: SkillProps) => {
+export const SkillAction = (props: SkillProps) => {
   return (
     <svg>
       <rect
         width="100"
         height="100"
+        style={{ fill: getSkillColor(props.skill) }}
         stroke="black"
         onClick={e => {
           e.preventDefault();
@@ -21,8 +23,8 @@ export const Skill = (props: SkillProps) => {
 export const SkillsBoard = (props: SkillsBoardProps) => {
   return (
     <div>
-      {props.G.skills.map((skill: string, idx: number) => (
-        <Skill
+      {props.G.skills.map((skill: Skill, idx: number) => (
+        <SkillAction
           key={idx}
           activateSkill={props.moves.activateSkill}
           endTurn={props.events.endTurn}

@@ -1,10 +1,11 @@
-import { SimpleGame, GameContext } from "./types/index";
+import { SimpleGame, GameContext, SkillName, Skill } from "./types/index";
 import { Game } from "boardgame.io/core";
+import { getSkill } from "./librairies/skillLib";
 
 const CrystalHunt = Game({
   setup: () => ({
     cells: [0, 0, 0],
-    skills: ["Dexterity"],
+    skills: [getSkill(SkillName.Move)],
     selectedSkill: null
   }),
   moves: {
@@ -14,9 +15,10 @@ const CrystalHunt = Game({
       cells[index] = 1;
       return { ...G, cells, selectedSkill: null };
     },
-    activateSkill: (G: SimpleGame, ctx: object, skill: string) => {
-      console.log(skill);
-      return { ...G, selectedSkill: skill };
+    activateSkill: (G: SimpleGame, ctx: object, skill: Skill) => {
+      console.log("Activating " + skill.name + " skill");
+      const skillSaved: SimpleGame = { ...G, selectedSkill: skill };
+      return skill.skillPower(skillSaved);
     }
   },
 

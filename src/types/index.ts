@@ -2,8 +2,8 @@
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
   cells: Array<number>;
-  skills: Array<string>;
-  selectedSkill: string;
+  skills: Array<Skill>;
+  selectedSkill: Skill;
 }
 
 export interface GameContext {
@@ -46,8 +46,8 @@ export interface SkillsBoardProps {
 
 export interface SkillProps {
   G: SimpleGame;
-  skill: string;
-  activateSkill(skill: string): object;
+  skill: Skill;
+  activateSkill(skill: Skill): object;
   endTurn(): object;
 }
 
@@ -58,3 +58,29 @@ export interface CellProps {
   activateCell(index: number): object;
   endTurn(): object;
 }
+
+// Skill related object definitions.
+export enum SkillCategoryName {
+  Dexterity = "Dexterity",
+  Intelligence = "Intelligence",
+  Wisdom = "Wisdom",
+  Strength = "Strength"
+}
+
+export enum SkillName {
+  Move = "Move"
+}
+
+export interface SkillCategory {
+  name: SkillCategoryName;
+  color: string;
+}
+
+export interface Skill {
+  name: SkillName;
+  skillCategory: SkillCategoryName;
+  symbol: number;
+  skillPower(state: SimpleGame): SimpleGame;
+}
+// skillPower:function(state,powerProperties)=>state, il renvoie un state modifié
+// skillProperties:[powerProperty]
