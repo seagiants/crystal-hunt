@@ -80,7 +80,10 @@ export interface Skill {
   name: SkillName;
   skillCategory: SkillCategoryName;
   symbol: number;
-  skillPower(state: SimpleGame): SimpleGame;
 }
-// skillPower:function(state,powerProperties)=>state, il renvoie un state modifié
-// skillProperties:[powerProperty]
+
+export interface SkillPower {
+  (G: SimpleGame): SimpleGame;
+}
+
+export type SkillPowerDicType = { [key in SkillName]: SkillPower };
