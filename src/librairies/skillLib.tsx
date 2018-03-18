@@ -1,36 +1,16 @@
 import {
   Skill,
   SkillCategory,
+  SkillPower,
   SkillCategoryName,
   SimpleGame,
   SkillName,
-  SkillPowerDicType
+  SkillDicType,
+  SkillPowerDicType,
+  SkillCategoryDicType
 } from "../types";
 
-export const SkillCategoryLib: Array<SkillCategory> = [
-  {
-    name: SkillCategoryName.Dexterity,
-    color: "green"
-  }
-];
-
-export function getSkillCategory(
-  skillCategoryName: SkillCategoryName
-): SkillCategory {
-  return SkillCategoryLib.filter(
-    (skillCategory: SkillCategory) => skillCategory.name === skillCategoryName
-  )[0];
-}
-
-const SkillLib: Array<Skill> = [
-  {
-    name: SkillName.Move,
-    skillCategory: SkillCategoryName.Dexterity,
-    symbol: 1
-  }
-];
-
-// This is a dictionnary, aka each key is mapped on skillName.
+// This is dictionnaries, aka each key is mapped on skillName.
 const SkillPowerDic: SkillPowerDicType = {
   Move: (g: SimpleGame): SimpleGame => {
     console.log("Try to move");
@@ -38,14 +18,45 @@ const SkillPowerDic: SkillPowerDicType = {
   }
 };
 
-export function getSkillPower(skillName: string) {
+const SkillDic: SkillDicType = {
+  Move: {
+    name: SkillName.Move,
+    skillCategory: SkillCategoryName.Dexterity,
+    symbol: 1
+  }
+};
+
+const SkillCategoryDic: SkillCategoryDicType = {
+  Dexterity : {
+    name: SkillCategoryName.Dexterity,
+    color: "green"
+  },
+  Intelligence: {
+    name: SkillCategoryName.Intelligence,
+    color: "blue"
+  },
+  Wisdom: {
+    name: SkillCategoryName.Wisdom,
+    color: "yellow"
+  },
+  Strength: {
+    name: SkillCategoryName.Strength,
+    color: "red"
+  }
+};
+
+export function getSkillPower(skillName: string): SkillPower {
   return SkillPowerDic[skillName];
 }
 
 export function getSkill(skillName: string): Skill {
-  return SkillLib.filter((skill: Skill) => skill.name === skillName)[0];
+  return SkillDic[skillName];
 }
 
 export function getSkillColor(skill: Skill): string {
   return getSkillCategory(skill.skillCategory).color;
+}
+
+export function getSkillCategory(skillCategoryName: SkillCategoryName): SkillCategory {
+  return SkillCategoryDic[skillCategoryName];
 }

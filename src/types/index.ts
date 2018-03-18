@@ -87,3 +87,7 @@ export interface SkillPower {
 }
 
 export type SkillPowerDicType = { [key in SkillName]: SkillPower };
+
+export type SkillDicType = {[key in SkillName]: Skill};
+
+export type SkillCategoryDicType = {[key in SkillCategoryName]: SkillCategory};
