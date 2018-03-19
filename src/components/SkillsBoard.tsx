@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Skill, SkillsBoardProps, SkillProps } from "./types/index";
-import { getSkillColor } from "./librairies/skillLib";
+import { Skill, SkillsBoardProps, SkillProps } from "../types/index";
+import { getSkillColor } from "../librairies/skillLib";
 
 export const SkillAction = (props: SkillProps) => {
   return (
@@ -13,7 +13,7 @@ export const SkillAction = (props: SkillProps) => {
         onClick={e => {
           e.preventDefault();
           props.activateSkill(props.skill);
-          props.endTurn();
+          // props.endTurn();
         }}
       />
     </svg>
@@ -23,7 +23,7 @@ export const SkillAction = (props: SkillProps) => {
 export const SkillsBoard = (props: SkillsBoardProps) => {
   return (
     <div>
-      {props.G.skills.map((skill: Skill, idx: number) => (
+      {props.G.playersContext[props.ctx.currentPlayer].skills.map((skill: Skill, idx: number) => (
         <SkillAction
           key={idx}
           activateSkill={props.moves.activateSkill}

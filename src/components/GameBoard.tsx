@@ -1,11 +1,11 @@
 import * as React from "react";
-import { GameBoardProps } from "./types/index";
+import { GameBoardProps } from "../types/index";
 import { CellsBoard } from "./CellsBoard";
 import { SkillsBoard } from "./SkillsBoard";
 import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
-import MapBoard from "./components/MapBoard";
-import "./index.css";
+import MapBoard from "./MapBoard";
+import "../index.css";
 
 export const GameBoard = (props: GameBoardProps) => {
   if (props.ctx.gameover === "0") {

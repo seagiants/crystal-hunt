@@ -1,8 +1,8 @@
-/// <reference path="./boardgame.io.d.ts" />
+/// <reference path="../boardgame.io.d.ts" />
 
 import { Client } from "boardgame.io/react";
 import { GameBoard } from "./GameBoard";
-import CrystalHunt from "./Game";
+import CrystalHunt from "../Game";
 
 const App = Client({
   game: CrystalHunt,

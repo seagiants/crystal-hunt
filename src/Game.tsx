@@ -1,23 +1,41 @@
-import { SimpleGame, GameContext, Skill } from "./types/index";
+import { SimpleGame, GameContext, Skill, PlayerContext } from "./types/index";
 import { Game } from "boardgame.io/core";
 import { getSkill, getSkillPower } from "./librairies/skillLib";
+
+function setSelectedSkill(G: SimpleGame, skillValue: Skill | null, playerId: string): SimpleGame {
+  return {
+    ...G, playersContext: {
+      ...G.playersContext, [playerId]: {
+        ...G.playersContext[playerId], selectedSkill: skillValue
+      }
+    }
+  };
+}
+
+function initPlayerContext(playerId: string): PlayerContext {
+  return {
+    playerID: playerId,
+    skills: [getSkill("Move")],
+    selectedSkill: null
+  };
+}
 
 const CrystalHunt = Game({
   setup: () => ({
     cells: [0, 0, 0],
-    skills: [getSkill("Move")],
-    selectedSkill: null
+    playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") }
   }),
   moves: {
     // it seems that G and ctx are injected
-    activateCell: (G: SimpleGame, ctx: object, index: number) => {
+    activateCell: (G: SimpleGame, ctx: GameContext, index: number) => {
       let cells = [...G.cells];
       cells[index] = 1;
-      return { ...G, cells, selectedSkill: null };
+      const skillSaved: SimpleGame = setSelectedSkill(G, null, ctx.currentPlayer);
+      return { ...skillSaved, cells };
     },
-    activateSkill: (G: SimpleGame, ctx: object, skill: Skill) => {
+    activateSkill: (G: SimpleGame, ctx: GameContext, skill: Skill) => {
       console.log("Activating " + skill.name + " skill");
-      const skillSaved: SimpleGame = { ...G, selectedSkill: skill };
+      const skillSaved: SimpleGame = setSelectedSkill(G, skill, ctx.currentPlayer);
       return getSkillPower(skill.name)(skillSaved);
     }
   },
@@ -37,14 +55,14 @@ const CrystalHunt = Game({
         name: "Choose Skill",
         allowedMoves: ["activateSkill"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          return G.selectedSkill !== null;
+          return G.playersContext[ctx.currentPlayer].selectedSkill !== null;
         }
       },
       {
         name: "Choose Cell",
         allowedMoves: ["activateCell"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          return G.selectedSkill === null;
+          return G.playersContext[ctx.currentPlayer].selectedSkill === null;
         }
       }
     ]

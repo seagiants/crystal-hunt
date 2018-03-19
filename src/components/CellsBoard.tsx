@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CellProps, CellsBoardProps } from "./types/index";
+import { CellProps, CellsBoardProps } from "../types/index";
 
 export const Cell = (props: CellProps) => {
   return (

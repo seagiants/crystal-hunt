@@ -2,8 +2,7 @@
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
   cells: Array<number>;
-  skills: Array<Skill>;
-  selectedSkill: Skill;
+  playersContext: PlayersContextType;
 }
 
 export interface GameContext {
@@ -57,6 +56,14 @@ export interface CellProps {
   idx: number;
   activateCell(index: number): object;
   endTurn(): object;
+}
+// PlayerContext definitions.
+type PlayersContextType = {[index: string]: PlayerContext};
+
+export interface PlayerContext {
+  playerID: string;  
+  skills: Array<Skill>;
+  selectedSkill: Skill | null;
 }
 
 // Skill related object definitions.
