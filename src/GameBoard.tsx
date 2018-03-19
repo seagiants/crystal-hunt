@@ -4,6 +4,7 @@ import { CellsBoard } from "./CellsBoard";
 import { SkillsBoard } from "./SkillsBoard";
 import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
+import MapBoard from "./components/MapBoard";
 import "./index.css";
 
 export const GameBoard = (props: GameBoardProps) => {
@@ -17,6 +18,7 @@ export const GameBoard = (props: GameBoardProps) => {
           currentPlayer={props.ctx.currentPlayer}
         />
         <CurrentPhase currentPhase={props.ctx.phase} />
+        <MapBoard />
         <CellsBoard
           G={props.G}
           ctx={props.ctx}
