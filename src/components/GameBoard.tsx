@@ -1,10 +1,9 @@
 import * as React from "react";
 import { GameBoardProps } from "../types/index";
-import { CellsBoard } from "./CellsBoard";
-import { SkillsBoard } from "./SkillsBoard";
+import { SkillsBoard } from "../skill/SkillsBoard";
 import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
-import MapBoard from "./MapBoard";
+import MapBoard from "../map/MapBoard";
 import "../index.css";
 
 export const GameBoard = (props: GameBoardProps) => {
@@ -18,12 +17,11 @@ export const GameBoard = (props: GameBoardProps) => {
           currentPlayer={props.ctx.currentPlayer}
         />
         <CurrentPhase currentPhase={props.ctx.phase} />
-        <MapBoard />
-        <CellsBoard
+        <MapBoard
           G={props.G}
           ctx={props.ctx}
           moves={props.moves}
-          events={props.events}
+          events={props.events} 
         />
         <SkillsBoard
           G={props.G}

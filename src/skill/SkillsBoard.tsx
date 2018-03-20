@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Skill, SkillsBoardProps, SkillProps } from "../types/index";
-import { getSkillColor } from "../librairies/skillLib";
+import { Skill, SkillsBoardProps, SkillProps } from "./Skill";
+import { getSkillColor } from "./skillLib";
 
 export const SkillAction = (props: SkillProps) => {
   return (

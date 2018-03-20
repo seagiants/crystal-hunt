@@ -1,6 +1,7 @@
-import { SimpleGame, GameContext, Skill, PlayerContext } from "./types/index";
+import { SimpleGame, GameContext, PlayerContext } from "./types/index";
+import { Skill } from "./skill/Skill";
 import { Game } from "boardgame.io/core";
-import { getSkill, getSkillPower } from "./librairies/skillLib";
+import { getSkill, getSkillPower } from "./skill/skillLib";
 
 function setSelectedSkill(G: SimpleGame, skillValue: Skill | null, playerId: string): SimpleGame {
   return {
