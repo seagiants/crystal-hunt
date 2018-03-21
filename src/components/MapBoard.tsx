@@ -44,7 +44,6 @@ const toKey = (x: number, y: number) => `${x}x${y}`;
 const simpleMap = new Map(mapDef);
 
 const MapBoard = (props: object) => {
-  console.dir(simpleMap.layout);
   const xys = Object.keys(simpleMap.layout)
     .map(xy => xy.split("x"))
     .map(xy => xy.map(z => parseInt(z, 10)));
@@ -59,6 +58,10 @@ const MapBoard = (props: object) => {
         {xys.map(([x, y]) => (
           <g key={toKey(x, y)}>
             <rect
+              onClick={e => {
+                e.preventDefault();
+                console.dir(simpleMap.layout[toKey(x, y)]);
+              }}
               className="tile"
               x={x * 40}
               y={y * 40}
