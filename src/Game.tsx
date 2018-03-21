@@ -2,12 +2,20 @@ import { SimpleGame, GameContext, PlayerContext } from "./types/index";
 import { Skill } from "./skill/Skill";
 import { Game } from "boardgame.io/core";
 import { getSkill, getSkillPower } from "./skill/skillLib";
+import { basicMap } from "./map/mapDefinitions";
 
-function setSelectedSkill(G: SimpleGame, skillValue: Skill | null, playerId: string): SimpleGame {
+function setSelectedSkill(
+  G: SimpleGame,
+  skillValue: Skill | null,
+  playerId: string
+): SimpleGame {
   return {
-    ...G, playersContext: {
-      ...G.playersContext, [playerId]: {
-        ...G.playersContext[playerId], selectedSkill: skillValue
+    ...G,
+    playersContext: {
+      ...G.playersContext,
+      [playerId]: {
+        ...G.playersContext[playerId],
+        selectedSkill: skillValue
       }
     }
   };
@@ -24,6 +32,7 @@ function initPlayerContext(playerId: string): PlayerContext {
 const CrystalHunt = Game({
   setup: () => ({
     cells: [0, 0, 0],
+    map: basicMap,
     playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") }
   }),
   moves: {
@@ -31,12 +40,20 @@ const CrystalHunt = Game({
     activateCell: (G: SimpleGame, ctx: GameContext, index: number) => {
       let cells = [...G.cells];
       cells[index] = 1;
-      const skillSaved: SimpleGame = setSelectedSkill(G, null, ctx.currentPlayer);
+      const skillSaved: SimpleGame = setSelectedSkill(
+        G,
+        null,
+        ctx.currentPlayer
+      );
       return { ...skillSaved, cells };
     },
     activateSkill: (G: SimpleGame, ctx: GameContext, skill: Skill) => {
       console.log("Activating " + skill.name + " skill");
-      const skillSaved: SimpleGame = setSelectedSkill(G, skill, ctx.currentPlayer);
+      const skillSaved: SimpleGame = setSelectedSkill(
+        G,
+        skill,
+        ctx.currentPlayer
+      );
       return getSkillPower(skill.name)(skillSaved);
     }
   },

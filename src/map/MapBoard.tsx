@@ -1,19 +1,10 @@
 import * as React from "react";
-import { Map, Cell, MapBoardProps } from "./Map";
-
-const mapDef = {
-  "0x0": new Cell("room").addPlayerAvatar(0),
-  "1x0": new Cell("room"),
-  "1x1": new Cell("room", true),
-  "1x2": new Cell("room"),
-  "2x2": new Cell("room")
-};
+import { Map, MapBoardProps } from "./Map";
 
 const toKey = (x: number, y: number) => `${x}x${y}`;
 
-const simpleMap = new Map(mapDef);
-
 const MapBoard = (props: MapBoardProps) => {
+  const simpleMap = new Map(props.G.map);
   const xys = Object.keys(simpleMap.layout)
     .map(xy => xy.split("x"))
     .map(xy => xy.map(z => parseInt(z, 10)));

@@ -5,6 +5,7 @@ import { Skill } from "../skill/Skill";
 export interface SimpleGame {
   cells: Array<number>;
   playersContext: PlayersContextType;
+  map: object;
 }
 
 export interface GameContext {
