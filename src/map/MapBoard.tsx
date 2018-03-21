@@ -14,7 +14,6 @@ const toKey = (x: number, y: number) => `${x}x${y}`;
 const simpleMap = new Map(mapDef);
 
 const MapBoard = (props: MapBoardProps) => {
-  console.dir(simpleMap.layout);
   const xys = Object.keys(simpleMap.layout)
     .map(xy => xy.split("x"))
     .map(xy => xy.map(z => parseInt(z, 10)));
