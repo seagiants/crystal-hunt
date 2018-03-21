@@ -3,12 +3,12 @@ import {
   SkillCategory,
   SkillPower,
   SkillCategoryName,
-  SimpleGame,
   SkillName,
   SkillDicType,
   SkillPowerDicType,
   SkillCategoryDicType
-} from "../types";
+} from "./Skill";
+import { SimpleGame } from "../types";
 
 // This is dictionnaries, aka each key is mapped on skillName.
 const SkillPowerDic: SkillPowerDicType = {
@@ -27,7 +27,7 @@ const SkillDic: SkillDicType = {
 };
 
 const SkillCategoryDic: SkillCategoryDicType = {
-  Dexterity : {
+  Dexterity: {
     name: SkillCategoryName.Dexterity,
     color: "green"
   },

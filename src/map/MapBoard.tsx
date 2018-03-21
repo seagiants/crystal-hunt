@@ -1,35 +1,5 @@
 import * as React from "react";
-
-class Cell {
-  type: string; // TODO use a real type
-  monster: boolean;
-  treasure: boolean;
-  avatar: number;
-
-  constructor(
-    type: string,
-    monster: boolean = false,
-    treasure: boolean = false,
-    playerAvatar: number = -1
-  ) {
-    this.type = type;
-    this.monster = monster;
-    this.treasure = treasure;
-    this.avatar = playerAvatar;
-  }
-
-  addPlayerAvatar(playerID: number) {
-    return new Cell(this.type, this.monster, this.treasure, playerID);
-  }
-}
-
-class Map {
-  layout: object;
-
-  constructor(mapLayoutDefinition: object) {
-    this.layout = mapLayoutDefinition;
-  }
-}
+import { Map, Cell, MapBoardProps } from "./Map";
 
 const mapDef = {
   "0x0": new Cell("room").addPlayerAvatar(0),
@@ -43,7 +13,8 @@ const toKey = (x: number, y: number) => `${x}x${y}`;
 
 const simpleMap = new Map(mapDef);
 
-const MapBoard = (props: object) => {
+const MapBoard = (props: MapBoardProps) => {
+  console.dir(simpleMap.layout);
   const xys = Object.keys(simpleMap.layout)
     .map(xy => xy.split("x"))
     .map(xy => xy.map(z => parseInt(z, 10)));
