@@ -25,14 +25,7 @@ export const CellsBoard = (props: CellsBoardProps) => {
     return (
       <div>
         {props.G.cells.map((cell: number, idx: number) => (
-          <Cell
-            key={idx}
-            activateCell={props.moves.activateCell}
-            endTurn={props.events.endTurn}
-            G={props.G}
-            cell={cell}
-            idx={idx}
-          />
+          <div key={idx}>NONO</div>
         ))}
       </div>
     );

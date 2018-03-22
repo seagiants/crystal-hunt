@@ -35,6 +35,21 @@ export class Cell {
 export class Map {
   layout: object;
 
+  static toKey(x: number, y: number) {
+    return `${x}x${y}`;
+  }
+
+  static playerMove(xy: number[]) {
+    // TODO real implementation
+    return {
+      "0x0": new Cell("room").toJSON(),
+      "1x0": new Cell("room").addPlayerAvatar(0).toJSON(),
+      "1x1": new Cell("room", true).toJSON(),
+      "1x2": new Cell("room").toJSON(),
+      "2x2": new Cell("room").toJSON()
+    };
+  }
+
   constructor(mapLayoutDefinition: object) {
     let o = {};
     for (let k of Object.keys(mapLayoutDefinition)) {

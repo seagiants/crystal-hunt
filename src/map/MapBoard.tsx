@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Map, MapBoardProps } from "./Map";
 
-const toKey = (x: number, y: number) => `${x}x${y}`;
-
 const MapBoard = (props: MapBoardProps) => {
   const simpleMap = new Map(props.G.map);
   const xys = Object.keys(simpleMap.layout)
@@ -17,11 +15,13 @@ const MapBoard = (props: MapBoardProps) => {
         xmlns="http://www.w3.org/2000/svg"
       >
         {xys.map(([x, y]) => (
-          <g key={toKey(x, y)}>
+          <g key={Map.toKey(x, y)}>
             <rect
               onClick={e => {
                 e.preventDefault();
-                console.dir(simpleMap.layout[toKey(x, y)]);
+                console.dir(simpleMap.layout[Map.toKey(x, y)]);
+                props.moves.activateCell([x, y]);
+                props.events.endTurn();
               }}
               className="tile"
               x={x * 40}
@@ -31,7 +31,7 @@ const MapBoard = (props: MapBoardProps) => {
               rx="10"
               ry="10"
             />
-            {simpleMap.layout[toKey(x, y)].avatar === 0 ? (
+            {simpleMap.layout[Map.toKey(x, y)].avatar === 0 ? (
               <text x={x * 40 + 10} y={y * 40 + 30} fill="yellow">
                 P
               </text>
