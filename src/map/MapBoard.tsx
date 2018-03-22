@@ -19,7 +19,6 @@ const MapBoard = (props: MapBoardProps) => {
             <rect
               onClick={e => {
                 e.preventDefault();
-                console.dir(simpleMap.layout[Map.toKey(x, y)]);
                 props.moves.activateCell([x, y]);
                 props.events.endTurn();
               }}
@@ -31,9 +30,9 @@ const MapBoard = (props: MapBoardProps) => {
               rx="10"
               ry="10"
             />
-            {simpleMap.layout[Map.toKey(x, y)].avatar === 0 ? (
+            {simpleMap.layout[Map.toKey(x, y)].avatar !== -1 ? (
               <text x={x * 40 + 10} y={y * 40 + 30} fill="yellow">
-                P
+                {simpleMap.layout[Map.toKey(x, y)].avatar}
               </text>
             ) : null}
           </g>

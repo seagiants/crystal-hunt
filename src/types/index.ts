@@ -1,11 +1,12 @@
 import { Skill } from "../skill/Skill";
+import { MapDef } from "../map/mapDefinitions";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
   cells: Array<number>;
   playersContext: PlayersContextType;
-  map: object;
+  map: MapDef;
 }
 
 export interface GameContext {

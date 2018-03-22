@@ -39,14 +39,13 @@ const CrystalHunt = Game({
   moves: {
     // it seems that G and ctx are injected
     activateCell: (G: SimpleGame, ctx: GameContext, cellXY: number[]) => {
-      console.log("Chosen cell is", cellXY);
-      // TODO fake move
-      const mapAfterMove = Map.playerMove(cellXY);
+      const mapAfterMove = new Map(G.map).playerMove(cellXY, ctx.currentPlayer);
       const skillSaved: SimpleGame = setSelectedSkill(
         G,
         null,
         ctx.currentPlayer
       );
+      console.dir(mapAfterMove);
       return { ...skillSaved, map: mapAfterMove };
     },
     activateSkill: (G: SimpleGame, ctx: GameContext, skill: Skill) => {
@@ -63,7 +62,6 @@ const CrystalHunt = Game({
   flow: {
     endGameIf: (G: SimpleGame, ctx: GameContext) => {
       const sumOfCells = G.cells.reduce((a: number, b: number) => a + b);
-      console.log("sum of cells", sumOfCells);
       if (sumOfCells === 3) {
         return ctx.currentPlayer;
       } else {
