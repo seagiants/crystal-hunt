@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Skill, SkillTemplate, SkillsBoardProps, SkillProps } from "./Skill";
+import { Skill, SkillJSON } from "./Skill";
+import { ActionsBoardProps, ActionProps } from "../types";
 
-export const SkillAction = (props: SkillProps) => {
+export const PlayerAction = (props: ActionProps) => {
   const skill = new Skill(props.skill);
   return (
     <svg>
@@ -12,7 +13,7 @@ export const SkillAction = (props: SkillProps) => {
         stroke="black"
         onClick={e => {
           e.preventDefault();
-          props.activateSkill(props.skill);
+          props.activateSkill(skill.name);
           // props.endTurn();
         }}
       />
@@ -20,12 +21,12 @@ export const SkillAction = (props: SkillProps) => {
   );
 };
 
-export const SkillsBoard = (props: SkillsBoardProps) => {
+export const ActionsBoard = (props: ActionsBoardProps) => {
   return (
     <div>
       {props.G.playersContext[props.ctx.currentPlayer].skills.map(
-        (skill: SkillTemplate, idx: number) => (
-          <SkillAction
+        (skill: SkillJSON, idx: number) => (
+          <PlayerAction
             key={idx}
             activateSkill={props.moves.activateSkill}
             endTurn={props.events.endTurn}

@@ -1,7 +1,7 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
-import { SkillTemplate, Skill } from "./skill/Skill";
+import { Skill } from "./skill/Skill";
 import { Game } from "boardgame.io/core";
-import { getSkillTemplate } from "./skill/skillLib";
+import { getSkillJSON, SkillName } from "./skill/skillLib";
 import { basicMap } from "./map/mapDefinitions";
 import { getSkill, getSelectedSkillName } from "./state/getters";
 import { setSelectedSkill } from "./state/setters";
@@ -9,7 +9,7 @@ import { setSelectedSkill } from "./state/setters";
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [getSkillTemplate("Move")],
+    skills: [getSkillJSON("Move")],
     selectedSkill: null
   };
 }
@@ -33,7 +33,7 @@ const CrystalHunt = Game({
         */
       const selectedSkillName = getSelectedSkillName(G, ctx.currentPlayer);
       const skill = new Skill(
-        getSkill(G, ctx.currentPlayer, selectedSkillName.name)
+        getSkill(G, ctx.currentPlayer, selectedSkillName)
       );
       const playerMoved = skill.power(G, ctx, ctx.currentPlayer, cellXY);
       const skillSaved: SimpleGame = setSelectedSkill(
@@ -44,15 +44,15 @@ const CrystalHunt = Game({
       console.dir(playerMoved);
       return skillSaved;
     },
-    activateSkill: (G: SimpleGame, ctx: GameContext, skill: SkillTemplate) => {
+    activateSkill: (G: SimpleGame, ctx: GameContext, skillName: SkillName) => {
       /* activateSkill workflow :
         - select the skill
         TODO : Check if target needed, and then select or trigger the skill
       */
-      console.log("Activating " + skill.name + " skill");
+      console.log("Activating " + skillName + " skill");
       const skillSaved: SimpleGame = setSelectedSkill(
         G,
-        skill,
+        skillName,
         ctx.currentPlayer
       );
       return skillSaved;

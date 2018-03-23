@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GameBoardProps } from "../types/index";
-import { SkillsBoard } from "../skill/SkillsBoard";
+import { ActionsBoard } from "../skill/ActionsBoard";
 import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";
@@ -23,7 +23,7 @@ export const GameBoard = (props: GameBoardProps) => {
           moves={props.moves}
           events={props.events} 
         />
-        <SkillsBoard
+        <ActionsBoard
           G={props.G}
           ctx={props.ctx}
           moves={props.moves}

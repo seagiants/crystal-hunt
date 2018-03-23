@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Map, MapBoardProps } from "./Map";
+import { Cell, MapBoardProps } from "./Cell";
 
 const MapBoard = (props: MapBoardProps) => {  
 //  const simpleMap = new Map(props.G.map);
@@ -15,7 +15,7 @@ const MapBoard = (props: MapBoardProps) => {
         xmlns="http://www.w3.org/2000/svg"
       >
         {xys.map(([x, y]) => (
-          <g key={Map.toKey(x, y)}>
+          <g key={Cell.toKey(x, y)}>
             <rect
               onClick={e => {
                 e.preventDefault();
@@ -30,9 +30,9 @@ const MapBoard = (props: MapBoardProps) => {
               rx="10"
               ry="10"
             />                     
-            {props.G.map[Map.toKey(x, y)].avatar !== -1 ? (
+            {props.G.map[Cell.toKey(x, y)].avatar !== -1 ? (
               <text x={x * 40 + 10} y={y * 40 + 30} fill="yellow">
-                {props.G.map[Map.toKey(x, y)].avatar}
+                {props.G.map[Cell.toKey(x, y)].avatar}
               </text>
             ) : null}
           </g>

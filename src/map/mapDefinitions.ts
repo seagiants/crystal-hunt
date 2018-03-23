@@ -1,7 +1,7 @@
-import { Cell, CellTemplate } from "./Map";
+import { Cell, CellJSON } from "./Cell";
 
 export interface MapDef {
-  [propName: string]: CellTemplate;
+  [propName: string]: CellJSON;
 }
 
 export const basicMap: MapDef = {

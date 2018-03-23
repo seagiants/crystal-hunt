@@ -1,9 +1,9 @@
 import { SimpleGame } from "../types";
-import { SkillTemplate } from "../skill/Skill";
+import { SkillName } from "../skill/skillLib";
 
 export function setSelectedSkill(
   G: SimpleGame,
-  skillValue: SkillTemplate | null,
+  skillName: SkillName | null,
   playerId: string
 ): SimpleGame {
   return {
@@ -12,7 +12,7 @@ export function setSelectedSkill(
       ...G.playersContext,
       [playerId]: {
         ...G.playersContext[playerId],
-        selectedSkill: skillValue
+        selectedSkill: skillName
       }
     }
   };

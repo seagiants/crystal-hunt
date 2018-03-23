@@ -1,36 +1,27 @@
-import { SimpleGame, GameContext, Moves, Events } from "../types";
-import { getSkillPower, SkillName, SkillCategoryName, getSkillCategory } from "./skillLib";
-
-export interface SkillsBoardProps {
-  G: SimpleGame;
-  ctx: GameContext;
-  moves: Moves;
-  events: Events;
-}
-
-export interface SkillProps {
-  G: SimpleGame;
-  skill: SkillTemplate;
-  activateSkill(skill: SkillTemplate): object;
-  endTurn(): object;
-}
+import { SimpleGame, GameContext } from "../types";
+import {
+  getSkillPower,
+  SkillName,
+  SkillCategoryName,
+  getSkillCategory
+} from "./skillLib";
 
 export interface SkillCategory {
   name: SkillCategoryName;
   color: string;
 }
 
-export interface SkillTemplate {
+export interface SkillJSON {
   name: SkillName;
   skillCategory: SkillCategoryName;
   symbol: number;
 }
 
-export class Skill implements SkillTemplate {
+export class Skill implements SkillJSON {
   name: SkillName;
   skillCategory: SkillCategoryName;
-  symbol: number;  
-  constructor(template: SkillTemplate) {
+  symbol: number;
+  constructor(template: SkillJSON) {
     this.name = template.name;
     this.skillCategory = template.skillCategory;
     this.symbol = template.symbol;
@@ -46,6 +37,13 @@ export class Skill implements SkillTemplate {
   getColor(): string {
     return getSkillCategory(this.skillCategory).color;
   }
+  toJSON(): SkillJSON {
+    return {
+      name: this.name,
+      skillCategory: this.skillCategory,
+      symbol: this.symbol
+    };
+  }
 }
 
 export interface SkillPower {
@@ -59,7 +57,7 @@ export interface SkillPower {
 
 export type SkillPowerDicType = { [key in SkillName]: SkillPower };
 
-export type SkillDicType = { [key in SkillName]: SkillTemplate };
+export type SkillDicType = { [key in SkillName]: SkillJSON };
 
 export type SkillCategoryDicType = {
   [key in SkillCategoryName]: SkillCategory

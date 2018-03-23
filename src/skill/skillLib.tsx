@@ -1,5 +1,5 @@
 import {
-  SkillTemplate,
+  SkillJSON,
   SkillCategory,
   SkillPower,
   SkillDicType,
@@ -7,7 +7,7 @@ import {
   SkillCategoryDicType
 } from "./Skill";
 import { SimpleGame, GameContext } from "../types";
-import { Map } from "../map/Map";
+import { Cell } from "../map/Cell";
 import { setPlayerPosition } from "../state/setters";
 
 // This is dictionnaries, aka each key is mapped on skillName.
@@ -19,7 +19,7 @@ const SkillPowerDic: SkillPowerDicType = {
     xy: number[]
   ): SimpleGame => {
     const [x, y] = xy;
-    const key = Map.toKey(x, y);
+    const key = Cell.toKey(x, y);
     let newG = setPlayerPosition(g, ctx.currentPlayer, key);
     console.log("Try to move");
     return newG;
@@ -68,7 +68,7 @@ export function getSkillPower(skillName: string): SkillPower {
   return SkillPowerDic[skillName];
 }
 
-export function getSkillTemplate(skillName: string): SkillTemplate {
+export function getSkillJSON(skillName: string): SkillJSON {
   return SkillDic[skillName];
 }
 

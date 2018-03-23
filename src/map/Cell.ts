@@ -1,19 +1,22 @@
 import { SimpleGame, GameContext, Moves, Events } from "../types";
-import { MapDef } from "./mapDefinitions";
 
-export interface CellTemplate {
+export interface CellJSON {
   type: string; // TODO use a real type
   monster: boolean;
   treasure: boolean;
   avatar: number;
 }
 
-export class Cell implements CellTemplate {
+export class Cell implements CellJSON {
   type: string; // TODO use a real type
   monster: boolean;
   treasure: boolean;
   avatar: number;
 
+  static toKey(x: number, y: number) {
+    return `${x}x${y}`;
+  }
+  
   constructor(
     type: string,
     monster: boolean = false,
@@ -42,8 +45,10 @@ export class Cell implements CellTemplate {
       avatar: this.avatar
     };
   }
+
 }
 // TODO Delete class Map implementation
+/*
 export class Map {
   layout: object;
   player0Position: string;
@@ -90,6 +95,7 @@ export class Map {
     this.layout = o;
   }
 }
+*/
 
 export interface MapBoardProps {
   G: SimpleGame;
