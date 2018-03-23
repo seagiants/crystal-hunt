@@ -3,7 +3,11 @@ import { Skill } from "./skill/Skill";
 import { Game } from "boardgame.io/core";
 import { getSkillJSON, SkillName } from "./skill/skillLib";
 import { basicMap } from "./map/mapDefinitions";
-import { getSkill, getSelectedSkillName } from "./state/getters";
+import {
+  getSkill,
+  getSelectedSkillName,
+  getAvatarOnCell
+} from "./state/getters";
 import { setSelectedSkill } from "./state/setters";
 
 function initPlayerContext(playerId: string): PlayerContext {
@@ -61,6 +65,10 @@ const CrystalHunt = Game({
 
   flow: {
     endGameIf: (G: SimpleGame, ctx: GameContext) => {
+      const avatarOnCentralCell = getAvatarOnCell(G, 1, 1);
+      if (avatarOnCentralCell > -1) {
+        return true;
+      }
       return;
     },
     phases: [

@@ -1,6 +1,6 @@
 import { SkillJSON } from "../skill/Skill";
 import { SkillName } from "../skill/skillLib";
-// import { MapDef } from "../map/mapDefinitions";
+import { MapDef } from "../map/mapDefinitions";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
@@ -9,13 +9,13 @@ export interface SimpleGame {
   playersContext: PlayersContextType;
   players0Position: string;
   players1Position: string;
-  map: object;
+  map: MapDef;
 }
 
 export interface GameContext {
   currentPlayer: string;
   phase: string;
-  gameover?: string;
+  gameover?: boolean;
 }
 
 export interface Moves {
