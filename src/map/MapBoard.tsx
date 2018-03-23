@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Map, MapBoardProps } from "./Map";
 
-const MapBoard = (props: MapBoardProps) => {
-  const simpleMap = new Map(props.G.map);
-  const xys = Object.keys(simpleMap.layout)
+const MapBoard = (props: MapBoardProps) => {  
+//  const simpleMap = new Map(props.G.map);
+  const xys = Object.keys(props.G.map)
     .map(xy => xy.split("x"))
     .map(xy => xy.map(z => parseInt(z, 10)));
   return (
@@ -29,10 +29,10 @@ const MapBoard = (props: MapBoardProps) => {
               height="40"
               rx="10"
               ry="10"
-            />
-            {simpleMap.layout[Map.toKey(x, y)].avatar !== -1 ? (
+            />                     
+            {props.G.map[Map.toKey(x, y)].avatar !== -1 ? (
               <text x={x * 40 + 10} y={y * 40 + 30} fill="yellow">
-                {simpleMap.layout[Map.toKey(x, y)].avatar}
+                {props.G.map[Map.toKey(x, y)].avatar}
               </text>
             ) : null}
           </g>

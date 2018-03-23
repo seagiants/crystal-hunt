@@ -1,7 +1,14 @@
 import { SimpleGame, GameContext, Moves, Events } from "../types";
 import { MapDef } from "./mapDefinitions";
 
-export class Cell {
+export interface CellTemplate {
+  type: string; // TODO use a real type
+  monster: boolean;
+  treasure: boolean;
+  avatar: number;
+}
+
+export class Cell implements CellTemplate {
   type: string; // TODO use a real type
   monster: boolean;
   treasure: boolean;
@@ -36,11 +43,11 @@ export class Cell {
     };
   }
 }
-
+// TODO Delete class Map implementation
 export class Map {
   layout: object;
-  playerOnePosition: string;
-  playerTwoPosition: string;
+  player0Position: string;
+  player1Position: string;
 
   static toKey(x: number, y: number) {
     return `${x}x${y}`;
@@ -51,30 +58,30 @@ export class Map {
     const key = Map.toKey(x, y);
     // Delete old cell position
     if (playerID === "0") {
-      this.layout[this.playerOnePosition] = this.layout[
-        this.playerOnePosition
+      this.layout[this.player0Position] = this.layout[
+        this.player0Position
       ].deletePlayerAvatar(0);
-      this.playerOnePosition = key;
+      this.player0Position = key;
     }
     if (playerID === "1") {
-      this.layout[this.playerTwoPosition] = this.layout[
-        this.playerTwoPosition
+      this.layout[this.player1Position] = this.layout[
+        this.player1Position
       ].deletePlayerAvatar(1);
-      this.playerTwoPosition = key;
+      this.player1Position = key;
     }
     // Update cell
     this.layout[key] = new Cell("room").addPlayerAvatar(parseInt(playerID, 10));
     return {
-      playerOnePosition: this.playerOnePosition,
-      playerTwoPosition: this.playerTwoPosition,
+      player0Position: this.player0Position,
+      player1Position: this.player1Position,
       ...this.layout
     };
   }
 
   constructor(mapLayoutDefinition: MapDef) {
-    let { playerOnePosition, playerTwoPosition, ...map } = mapLayoutDefinition;
-    this.playerOnePosition = <string>playerOnePosition;
-    this.playerTwoPosition = <string>playerTwoPosition;
+    let { player0Position, player1Position, ...map } = mapLayoutDefinition;
+    // this.player0Position = mapLayoutDefinition.player0Position!;
+    // this.player1Position = mapLayoutDefinition.player1Position!;
     let o = {};
     for (let k of Object.keys(map)) {
       let { type, monster, treasure, avatar } = map[k];

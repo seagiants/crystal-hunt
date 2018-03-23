@@ -1,31 +1,15 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
-import { Skill } from "./skill/Skill";
+import { SkillTemplate, Skill } from "./skill/Skill";
 import { Game } from "boardgame.io/core";
-import { getSkill, getSkillPower } from "./skill/skillLib";
+import { getSkillTemplate } from "./skill/skillLib";
 import { basicMap } from "./map/mapDefinitions";
-import { Map } from "./map/Map";
-
-function setSelectedSkill(
-  G: SimpleGame,
-  skillValue: Skill | null,
-  playerId: string
-): SimpleGame {
-  return {
-    ...G,
-    playersContext: {
-      ...G.playersContext,
-      [playerId]: {
-        ...G.playersContext[playerId],
-        selectedSkill: skillValue
-      }
-    }
-  };
-}
+import { getSkill, getSelectedSkillName } from "./state/getters";
+import { setSelectedSkill } from "./state/setters";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [getSkill("Move")],
+    skills: [getSkillTemplate("Move")],
     selectedSkill: null
   };
 }
@@ -34,53 +18,64 @@ const CrystalHunt = Game({
   setup: () => ({
     cells: [0, 0, 0],
     map: basicMap,
+    player0Position: "0x0",
+    player1Position: "2x2",
     playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") }
   }),
   moves: {
     // it seems that G and ctx are injected
     activateCell: (G: SimpleGame, ctx: GameContext, cellXY: number[]) => {
-      const mapAfterMove = new Map(G.map).playerMove(cellXY, ctx.currentPlayer);
+      /* activateCell Workflow :
+        - Retrieve Skill (TODO : failover if no skill)
+        - Trigger Skill (TODO : check prior conditions)
+        - Unselect skill
+        TODO : Log the action, to display to players.
+        */
+      const selectedSkillName = getSelectedSkillName(G, ctx.currentPlayer);
+      const skill = new Skill(
+        getSkill(G, ctx.currentPlayer, selectedSkillName.name)
+      );
+      const playerMoved = skill.power(G, ctx, ctx.currentPlayer, cellXY);
       const skillSaved: SimpleGame = setSelectedSkill(
-        G,
+        playerMoved,
         null,
         ctx.currentPlayer
       );
-      console.dir(mapAfterMove);
-      return { ...skillSaved, map: mapAfterMove };
+      console.dir(playerMoved);
+      return skillSaved;
     },
-    activateSkill: (G: SimpleGame, ctx: GameContext, skill: Skill) => {
+    activateSkill: (G: SimpleGame, ctx: GameContext, skill: SkillTemplate) => {
+      /* activateSkill workflow :
+        - select the skill
+        TODO : Check if target needed, and then select or trigger the skill
+      */
       console.log("Activating " + skill.name + " skill");
       const skillSaved: SimpleGame = setSelectedSkill(
         G,
         skill,
         ctx.currentPlayer
       );
-      return getSkillPower(skill.name)(skillSaved);
+      return skillSaved;
     }
   },
 
   flow: {
     endGameIf: (G: SimpleGame, ctx: GameContext) => {
-      const sumOfCells = G.cells.reduce((a: number, b: number) => a + b);
-      if (sumOfCells === 3) {
-        return ctx.currentPlayer;
-      } else {
-        return;
-      }
+      return;
     },
     phases: [
       {
         name: "Choose Skill",
         allowedMoves: ["activateSkill"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          return G.playersContext[ctx.currentPlayer].selectedSkill !== null;
+          return getSelectedSkillName(G, ctx.currentPlayer) !== null;
         }
       },
       {
         name: "Choose Cell",
         allowedMoves: ["activateCell"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          return G.playersContext[ctx.currentPlayer].selectedSkill === null;
+          return getSelectedSkillName(G, ctx.currentPlayer) === null;
         }
       }
     ]

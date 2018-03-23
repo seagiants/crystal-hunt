@@ -1,12 +1,14 @@
-import { Skill } from "../skill/Skill";
-import { MapDef } from "../map/mapDefinitions";
+import { SkillTemplate } from "../skill/Skill";
+// import { MapDef } from "../map/mapDefinitions";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
   cells: Array<number>;
   playersContext: PlayersContextType;
-  map: MapDef;
+  players0Position: string;
+  players1Position: string;
+  map: object;
 }
 
 export interface GameContext {
@@ -52,8 +54,8 @@ type PlayersContextType = { [index: string]: PlayerContext };
 
 export interface PlayerContext {
   playerID: string;
-  skills: Array<Skill>;
-  selectedSkill: Skill | null;
+  skills: Array<SkillTemplate>;
+  selectedSkill: SkillTemplate | null;
 }
 
 // Skill related object definitions.

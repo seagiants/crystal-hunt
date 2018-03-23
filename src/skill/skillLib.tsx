@@ -1,22 +1,41 @@
 import {
-  Skill,
+  SkillTemplate,
   SkillCategory,
   SkillPower,
-  SkillCategoryName,
-  SkillName,
   SkillDicType,
   SkillPowerDicType,
   SkillCategoryDicType
 } from "./Skill";
-import { SimpleGame } from "../types";
+import { SimpleGame, GameContext } from "../types";
+import { Map } from "../map/Map";
+import { setPlayerPosition } from "../state/setters";
 
 // This is dictionnaries, aka each key is mapped on skillName.
 const SkillPowerDic: SkillPowerDicType = {
-  Move: (g: SimpleGame): SimpleGame => {
+  Move: (
+    g: SimpleGame,
+    ctx: GameContext,
+    playerID: string,
+    xy: number[]
+  ): SimpleGame => {
+    const [x, y] = xy;
+    const key = Map.toKey(x, y);
+    let newG = setPlayerPosition(g, ctx.currentPlayer, key);
     console.log("Try to move");
-    return g;
+    return newG;
   }
 };
+
+export enum SkillName {
+  Move = "Move"
+}
+
+export enum SkillCategoryName {
+  Dexterity = "Dexterity",
+  Intelligence = "Intelligence",
+  Wisdom = "Wisdom",
+  Strength = "Strength"
+}
 
 const SkillDic: SkillDicType = {
   Move: {
@@ -49,14 +68,12 @@ export function getSkillPower(skillName: string): SkillPower {
   return SkillPowerDic[skillName];
 }
 
-export function getSkill(skillName: string): Skill {
+export function getSkillTemplate(skillName: string): SkillTemplate {
   return SkillDic[skillName];
 }
 
-export function getSkillColor(skill: Skill): string {
-  return getSkillCategory(skill.skillCategory).color;
-}
-
-export function getSkillCategory(skillCategoryName: SkillCategoryName): SkillCategory {
+export function getSkillCategory(
+  skillCategoryName: SkillCategoryName
+): SkillCategory {
   return SkillCategoryDic[skillCategoryName];
 }

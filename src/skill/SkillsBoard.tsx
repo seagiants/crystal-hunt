@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Skill, SkillsBoardProps, SkillProps } from "./Skill";
-import { getSkillColor } from "./skillLib";
+import { Skill, SkillTemplate, SkillsBoardProps, SkillProps } from "./Skill";
 
 export const SkillAction = (props: SkillProps) => {
+  const skill = new Skill(props.skill);
   return (
     <svg>
       <rect
         width="100"
         height="100"
-        style={{ fill: getSkillColor(props.skill) }}
+        style={{ fill: skill.getColor() }}
         stroke="black"
         onClick={e => {
           e.preventDefault();
@@ -23,15 +23,17 @@ export const SkillAction = (props: SkillProps) => {
 export const SkillsBoard = (props: SkillsBoardProps) => {
   return (
     <div>
-      {props.G.playersContext[props.ctx.currentPlayer].skills.map((skill: Skill, idx: number) => (
-        <SkillAction
-          key={idx}
-          activateSkill={props.moves.activateSkill}
-          endTurn={props.events.endTurn}
-          G={props.G}
-          skill={skill}
-        />
-      ))}
+      {props.G.playersContext[props.ctx.currentPlayer].skills.map(
+        (skill: SkillTemplate, idx: number) => (
+          <SkillAction
+            key={idx}
+            activateSkill={props.moves.activateSkill}
+            endTurn={props.events.endTurn}
+            G={props.G}
+            skill={skill}
+          />
+        )
+      )}
     </div>
   );
 };

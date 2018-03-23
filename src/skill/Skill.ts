@@ -1,4 +1,5 @@
 import { SimpleGame, GameContext, Moves, Events } from "../types";
+import { getSkillPower, SkillName, SkillCategoryName, getSkillCategory } from "./skillLib";
 
 export interface SkillsBoardProps {
   G: SimpleGame;
@@ -9,20 +10,9 @@ export interface SkillsBoardProps {
 
 export interface SkillProps {
   G: SimpleGame;
-  skill: Skill;
-  activateSkill(skill: Skill): object;
+  skill: SkillTemplate;
+  activateSkill(skill: SkillTemplate): object;
   endTurn(): object;
-}
-
-export enum SkillCategoryName {
-  Dexterity = "Dexterity",
-  Intelligence = "Intelligence",
-  Wisdom = "Wisdom",
-  Strength = "Strength"
-}
-
-export enum SkillName {
-  Move = "Move"
 }
 
 export interface SkillCategory {
@@ -30,18 +20,47 @@ export interface SkillCategory {
   color: string;
 }
 
-export interface Skill {
+export interface SkillTemplate {
   name: SkillName;
   skillCategory: SkillCategoryName;
   symbol: number;
 }
 
-export interface SkillPower {
-  (G: SimpleGame): SimpleGame;
+export class Skill implements SkillTemplate {
+  name: SkillName;
+  skillCategory: SkillCategoryName;
+  symbol: number;  
+  constructor(template: SkillTemplate) {
+    this.name = template.name;
+    this.skillCategory = template.skillCategory;
+    this.symbol = template.symbol;
+  }
+  power(
+    g: SimpleGame,
+    ctx: GameContext,
+    playerId: string,
+    target: object
+  ): SimpleGame {
+    return getSkillPower(this.name)(g, ctx, playerId, target);
+  }
+  getColor(): string {
+    return getSkillCategory(this.skillCategory).color;
+  }
 }
 
-export type SkillPowerDicType = {[key in SkillName]: SkillPower };
+export interface SkillPower {
+  (
+    G: SimpleGame,
+    ctx: GameContext,
+    playerId: string,
+    target?: object
+  ): SimpleGame;
+}
 
-export type SkillDicType = {[key in SkillName]: Skill};
+export type SkillPowerDicType = { [key in SkillName]: SkillPower };
 
-export type SkillCategoryDicType = {[key in SkillCategoryName]: SkillCategory};
+export type SkillDicType = { [key in SkillName]: SkillTemplate };
+
+export type SkillCategoryDicType = {
+  [key in SkillCategoryName]: SkillCategory
+};
