@@ -82,6 +82,7 @@ export interface PlayerCaracs extends Caracs {
   healthCurrent: number;
   healthInit: number;
 }
+
 export interface PlayerContext {
   playerID: string;
   skills: Array<SkillJSON>;

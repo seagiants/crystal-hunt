@@ -5,13 +5,12 @@ import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";
 import "../index.css";
-import { getAvatarOnCell } from "../state/getters";
 
 export const GameBoard = (props: GameBoardProps) => {
-  if (props.ctx.gameover === true) {
+  if (props.ctx.gameover) {
     return (
       <div className="container">
-        Player {getAvatarOnCell(props.G, 1, 1)} wins!
+        Player {props.ctx.gameover} wins!
       </div>
     );
   } else {

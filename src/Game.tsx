@@ -6,14 +6,19 @@ import { basicMap } from "./map/mapDefinitions";
 import {
   getSkill,
   getSelectedSkillName,
-  getAvatarOnCell
+  getAvatarOnCell,
+  getHealth
 } from "./state/getters";
 import { setSelectedSkill, setEndTurn } from "./state/setters";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [getSkillJSON("Move"), getSkillJSON("Cristallize"), getSkillJSON("Attack")],
+    skills: [
+      getSkillJSON("Move"),
+      getSkillJSON("Cristallize"),
+      getSkillJSON("Attack")
+    ],
     selectedSkill: null,
     caracs: {
       healthInit: 5,
@@ -79,10 +84,20 @@ const CrystalHunt = Game({
   },
 
   flow: {
+    // EndGame workflow, checking victory conditions, returning winner playerId
     endGameIf: (G: SimpleGame, ctx: GameContext) => {
       const avatarOnCentralCell = getAvatarOnCell(G, 1, 1);
+      // Checking player on centrall Cell
       if (avatarOnCentralCell > -1) {
-        return true;
+        return avatarOnCentralCell;
+      }
+      // Checking player0 is alive
+      if (getHealth(G, "0") < 1) {
+        return 1;
+      }
+      // Checking player1 is alive
+      if (getHealth(G, "1") < 1) {
+        return 0;
       }
       return;
     },

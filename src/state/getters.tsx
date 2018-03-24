@@ -20,6 +20,10 @@ export function getSkill(
   )[0];
 }
 
+export function getHealth(g: SimpleGame, playerId: string): number {
+  return g.playersContext[playerId].caracs.healthCurrent;
+}
+
 export function getPlayerPosition(g: SimpleGame, playerId: string): string {
   return g[`player${playerId}Position`];
 }
