@@ -16,7 +16,8 @@ export interface SkillJSON {
   skillCategory: SkillCategoryName;
   symbol: number;
   isTargetRequired: boolean;
-  modifiers: Modifiers;
+  caracs: Caracs;
+  powerName: string;
 }
 
 export class Skill implements SkillJSON {
@@ -24,16 +25,18 @@ export class Skill implements SkillJSON {
   skillCategory: SkillCategoryName;
   symbol: number;
   isTargetRequired: boolean;
-  modifiers: Modifiers;
+  caracs: Caracs;
+  powerName: string;
   constructor(template: SkillJSON) {
     this.name = template.name;
     this.skillCategory = template.skillCategory;
     this.symbol = template.symbol;
     this.isTargetRequired = template.isTargetRequired;
-    this.modifiers = { ...template.modifiers };
+    this.powerName = template.powerName;
+    this.caracs = { ...template.caracs };
   }
   power(g: SimpleGame, ctx: GameContext, target: object): SimpleGame {
-    return getSkillPower(this.name)(g, ctx, target, this.modifiers);
+    return getSkillPower(this.powerName)(g, ctx, target, this.caracs);
   }
   getColor(): string {
     return getSkillCategory(this.skillCategory).color;
@@ -44,13 +47,15 @@ export class Skill implements SkillJSON {
       skillCategory: this.skillCategory,
       symbol: this.symbol,
       isTargetRequired: this.isTargetRequired,
-      modifiers: { ...this.modifiers }
+      caracs: { ...this.caracs },
+      powerName: this.powerName
     };
   }
 }
-// Correspond to key/value pairs used to modify power effect.
-export interface Modifiers {
-  [modifierName: string]: number | boolean;
+// Correspond to key/value pairs for game elements (player, monster, skill, spell) caracteristics.
+// Caracteristics are tagged name assiociated with some game logic.
+export interface Caracs {
+  [caracName: string]: number | boolean;
 }
 
 export interface SkillPower {
@@ -58,11 +63,11 @@ export interface SkillPower {
     G: SimpleGame,
     ctx: GameContext,
     target: object,
-    powerModifiers: Modifiers
+    powerCaracs: Caracs
   ): SimpleGame;
 }
 
-export type SkillPowerDicType = { [key in SkillName]: SkillPower };
+export type SkillPowerDicType = { [key in string]: SkillPower };
 
 export type SkillDicType = { [key in SkillName]: SkillJSON };
 

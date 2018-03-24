@@ -1,4 +1,4 @@
-import { SkillJSON } from "../skill/Skill";
+import { SkillJSON, Caracs } from "../skill/Skill";
 import { SkillName } from "../skill/skillLib";
 import { MapDef } from "../map/mapDefinitions";
 
@@ -78,10 +78,15 @@ export interface ActionProps {
 // PlayerContext definitions.
 type PlayersContextType = { [index: string]: PlayerContext };
 
+export interface PlayerCaracs extends Caracs {
+  healthCurrent: number;
+  healthInit: number;
+}
 export interface PlayerContext {
   playerID: string;
   skills: Array<SkillJSON>;
   selectedSkill: SkillName | null;
+  caracs: PlayerCaracs;
 }
 
 // Skill related object definitions.

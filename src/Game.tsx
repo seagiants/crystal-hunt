@@ -13,8 +13,12 @@ import { setSelectedSkill, setEndTurn } from "./state/setters";
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [getSkillJSON("Move"), getSkillJSON("Cristallize")],
-    selectedSkill: null
+    skills: [getSkillJSON("Move"), getSkillJSON("Cristallize"), getSkillJSON("Attack")],
+    selectedSkill: null,
+    caracs: {
+      healthInit: 5,
+      healthCurrent: 5
+    }
   };
 }
 

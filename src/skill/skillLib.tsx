@@ -8,11 +8,11 @@ import {
 } from "./Skill";
 import { SimpleGame, GameContext } from "../types";
 import { Cell } from "../map/Cell";
-import { setPlayerPosition, setCellCrystallize } from "../state/setters";
-import { getPlayerPosition } from "../state/getters";
+import { setPlayerPosition, setCellCrystallize, setHealth } from "../state/setters";
+import { getPlayerPosition, getAvatarOnCell } from "../state/getters";
 
 // This is dictionnaries, aka each key is mapped on skillName.
-const SkillPowerDic: SkillPowerDicType = {
+export const SkillPowerDic: SkillPowerDicType = {
   Move: (g: SimpleGame, ctx: GameContext, xy: number[]): SimpleGame => {
     const [x, y] = xy;
     const key = Cell.toKey(x, y);
@@ -28,12 +28,17 @@ const SkillPowerDic: SkillPowerDicType = {
       true
     );
     return crystallizedCell;
+  },
+  Attack: (g: SimpleGame, ctx: GameContext, xy: number[]) => {
+    const avatar = getAvatarOnCell(g, xy[0], xy[1]);
+    return avatar > -1 ? setHealth(g, avatar, -1) : g;
   }
 };
 
 export enum SkillName {
   Move = "Move",
-  Cristallize = "Cristallize"
+  Cristallize = "Cristallize",
+  Attack = "Attack"
 }
 
 export enum SkillCategoryName {
@@ -49,7 +54,8 @@ const SkillDic: SkillDicType = {
     skillCategory: SkillCategoryName.Dexterity,
     symbol: 1,
     isTargetRequired: true,
-    modifiers: {
+    powerName: "Move",
+    caracs: {
       speed: 1
     }
   },
@@ -58,8 +64,19 @@ const SkillDic: SkillDicType = {
     skillCategory: SkillCategoryName.Wisdom,
     symbol: 2,
     isTargetRequired: false,
-    modifiers: {
+    powerName: "Cristallize",
+    caracs: {
       quantity: 1
+    }
+  },
+  Attack: {
+    name: SkillName.Attack,
+    skillCategory: SkillCategoryName.Strength,
+    symbol: 3,
+    isTargetRequired: true,
+    powerName: "Attack",
+    caracs: {
+      attackValue: 1
     }
   }
 };
@@ -83,8 +100,8 @@ const SkillCategoryDic: SkillCategoryDicType = {
   }
 };
 
-export function getSkillPower(skillName: string): SkillPower {
-  return SkillPowerDic[skillName];
+export function getSkillPower(powerName: string): SkillPower {
+  return SkillPowerDic[powerName];
 }
 
 export function getSkillJSON(skillName: string): SkillJSON {
