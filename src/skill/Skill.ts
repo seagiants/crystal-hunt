@@ -15,16 +15,19 @@ export interface SkillJSON {
   name: SkillName;
   skillCategory: SkillCategoryName;
   symbol: number;
+  isTargetRequired: boolean;
 }
 
 export class Skill implements SkillJSON {
   name: SkillName;
   skillCategory: SkillCategoryName;
   symbol: number;
+  isTargetRequired: boolean;
   constructor(template: SkillJSON) {
     this.name = template.name;
     this.skillCategory = template.skillCategory;
     this.symbol = template.symbol;
+    this.isTargetRequired = template.isTargetRequired;
   }
   power(
     g: SimpleGame,
@@ -41,7 +44,8 @@ export class Skill implements SkillJSON {
     return {
       name: this.name,
       skillCategory: this.skillCategory,
-      symbol: this.symbol
+      symbol: this.symbol,
+      isTargetRequired: this.isTargetRequired
     };
   }
 }
@@ -51,7 +55,7 @@ export interface SkillPower {
     G: SimpleGame,
     ctx: GameContext,
     playerId: string,
-    target?: object
+    target: object
   ): SimpleGame;
 }
 

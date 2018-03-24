@@ -41,7 +41,8 @@ const SkillDic: SkillDicType = {
   Move: {
     name: SkillName.Move,
     skillCategory: SkillCategoryName.Dexterity,
-    symbol: 1
+    symbol: 1,
+    isTargetRequired: true
   }
 };
 

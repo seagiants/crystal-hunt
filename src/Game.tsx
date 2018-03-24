@@ -50,16 +50,25 @@ const CrystalHunt = Game({
     },
     activateSkill: (G: SimpleGame, ctx: GameContext, skillName: SkillName) => {
       /* activateSkill workflow :
-        - select the skill
+        - Check if TargetRequired => Select the skill and wait for target. Break.
+        - Trigger the power.
         TODO : Check if target needed, and then select or trigger the skill
       */
       console.log("Activating " + skillName + " skill");
-      const skillSaved: SimpleGame = setSelectedSkill(
-        G,
-        skillName,
-        ctx.currentPlayer
-      );
-      return skillSaved;
+      const skill: Skill = new Skill(getSkill(G, ctx.currentPlayer, skillName));
+      if (skill.isTargetRequired) {
+        console.log("Skill " + skillName + " is selected");        
+        const skillSaved: SimpleGame = setSelectedSkill(
+          G,
+          skillName,
+          ctx.currentPlayer
+        );
+        return skillSaved;
+      } else {
+        console.log("Skill " + skillName + " is triggered");
+        const triggerPower = skill.power(G, ctx, ctx.currentPlayer, {});
+        return triggerPower;
+      }
     }
   },
 

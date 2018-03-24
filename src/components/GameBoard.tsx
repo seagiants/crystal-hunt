@@ -8,7 +8,6 @@ import "../index.css";
 import { getAvatarOnCell } from "../state/getters";
 
 export const GameBoard = (props: GameBoardProps) => {
-  console.log(props.ctx.gameover);
   if (props.ctx.gameover === true) {
     return (
       <div className="container">
