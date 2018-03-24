@@ -42,11 +42,21 @@ export function setPlayerPosition(
       [newPosition]: {
         ...g.map[newPosition],
         avatar: parseInt(playerId, 10)
-      }      
+      }
     }
   };
 }
 
+export function setCellCrystallize(
+  g: SimpleGame,
+  cellId: string,
+  isCrystallized: boolean
+) {
+  let temp = { ...g };
+  temp.map[cellId].isCrystallized = isCrystallized;
+  return temp;
+}
+
 export function setEndTurn(g: SimpleGame, value: boolean): SimpleGame {
-  return {...g, endTurn: value};
+  return { ...g, endTurn: value };
 }

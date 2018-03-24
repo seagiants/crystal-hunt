@@ -11,10 +11,14 @@
   fill: grey;
 }
 
-.CrystalCell {
+.CrystallizedCell {
   fill: gold;
 }
 
-.Cell:hover {
+.BlackCrystalCell {
+  fill: black;
+}
+.CellClickable:hover {
   fill: blue;
+  cursor: pointer;
 }

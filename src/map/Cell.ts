@@ -1,8 +1,10 @@
 import { SimpleGame, GameContext, Moves, Events } from "../types";
+import { getCellType, getCrystallized } from "../state/getters";
 
 export enum CellType {
   RoomCell = "RoomCell",
-  CrystalCell = "CrystalCell"
+  CrystalCell = "CrystalCell",
+  BlackCrystalCell = "BlackCrystalCell"
 }
 
 export interface CellJSON {
@@ -10,28 +12,51 @@ export interface CellJSON {
   monster: boolean;
   treasure: boolean;
   avatar: number;
+  isCrystallized: boolean;
 }
 
 export class Cell implements CellJSON {
-  type: CellType; 
+  type: CellType;
   monster: boolean;
   treasure: boolean;
   avatar: number;
+  isCrystallized: boolean;
 
   static toKey(x: number, y: number) {
     return `${x}x${y}`;
   }
-  
+
+  static isClickable(
+    g: SimpleGame,
+    ctx: GameContext,
+    x: number,
+    y: number
+  ): boolean {
+    return g.map[Cell.toKey(x, y)].avatar.toString() !== ctx.currentPlayer;
+  }
+
+  static cssClass(g: SimpleGame, ctx: GameContext, x: number, y: number) {
+    const clickableClass: string = Cell.isClickable(g, ctx, x, y)
+      ? "CellClickable "
+      : "CellNotClickable ";
+    const typeClass: string = getCrystallized(g, Cell.toKey(x, y))
+      ? "CrystallizedCell "
+      : getCellType(g, Cell.toKey(x, y));
+    return clickableClass + typeClass;
+  }
+
   constructor(
     type: CellType,
     monster: boolean = false,
     treasure: boolean = false,
-    playerAvatar: number = -1
+    playerAvatar: number = -1,
+    isCrystallized: boolean = false
   ) {
     this.type = type;
     this.monster = monster;
     this.treasure = treasure;
     this.avatar = playerAvatar;
+    this.isCrystallized = isCrystallized;
   }
 
   addPlayerAvatar(playerID: number) {
@@ -47,10 +72,10 @@ export class Cell implements CellJSON {
       type: this.type,
       monster: this.monster,
       treasure: this.treasure,
-      avatar: this.avatar
+      avatar: this.avatar,
+      isCrystallized: this.isCrystallized
     };
   }
-
 }
 // TODO Delete class Map implementation
 /*

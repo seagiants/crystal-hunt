@@ -8,15 +8,12 @@ import {
 } from "./Skill";
 import { SimpleGame, GameContext } from "../types";
 import { Cell } from "../map/Cell";
-import { setPlayerPosition } from "../state/setters";
+import { setPlayerPosition, setCellCrystallize } from "../state/setters";
+import { getPlayerPosition } from "../state/getters";
 
 // This is dictionnaries, aka each key is mapped on skillName.
 const SkillPowerDic: SkillPowerDicType = {
-  Move: (
-    g: SimpleGame,
-    ctx: GameContext,
-    xy: number[]
-  ): SimpleGame => {
+  Move: (g: SimpleGame, ctx: GameContext, xy: number[]): SimpleGame => {
     const [x, y] = xy;
     const key = Cell.toKey(x, y);
     let newG = setPlayerPosition(g, ctx.currentPlayer, key);
@@ -24,7 +21,13 @@ const SkillPowerDic: SkillPowerDicType = {
     return newG;
   },
   Cristallize: (g: SimpleGame, ctx: GameContext) => {
-    return g;
+    const playerCell = getPlayerPosition(g, ctx.currentPlayer);
+    const crystallizedCell: SimpleGame = setCellCrystallize(
+      g,
+      playerCell,
+      true
+    );
+    return crystallizedCell;
   }
 };
 

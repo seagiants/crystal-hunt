@@ -22,7 +22,7 @@ const MapBoard = (props: MapBoardProps) => {
                 props.moves.activateCell([x, y]);
                 // props.events.endTurn();
               }}
-              className={"Cell " + props.G.map[Cell.toKey(x, y)].type}
+              className={Cell.cssClass(props.G, props.ctx, x, y)}
               x={x * 40}
               y={y * 40}
               width="40"
