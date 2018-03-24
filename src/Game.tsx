@@ -39,7 +39,7 @@ const CrystalHunt = Game({
       const skill = new Skill(
         getSkill(G, ctx.currentPlayer, selectedSkillName)
       );
-      const playerMoved = skill.power(G, ctx, ctx.currentPlayer, cellXY);
+      const playerMoved = skill.power(G, ctx, cellXY);
       const skillSaved: SimpleGame = setSelectedSkill(
         playerMoved,
         null,
@@ -52,7 +52,7 @@ const CrystalHunt = Game({
       /* activateSkill workflow :
         - Check if TargetRequired => Select the skill and wait for target. Break.
         - Trigger the power.
-        TODO : Check if target needed, and then select or trigger the skill
+        TODO : Preview the legal targets.
       */
       console.log("Activating " + skillName + " skill");
       const skill: Skill = new Skill(getSkill(G, ctx.currentPlayer, skillName));
@@ -66,7 +66,7 @@ const CrystalHunt = Game({
         return skillSaved;
       } else {
         console.log("Skill " + skillName + " is triggered");
-        const triggerPower = skill.power(G, ctx, ctx.currentPlayer, {});
+        const triggerPower = skill.power(G, ctx, {});
         return triggerPower;
       }
     }

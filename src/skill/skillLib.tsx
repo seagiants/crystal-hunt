@@ -15,7 +15,6 @@ const SkillPowerDic: SkillPowerDicType = {
   Move: (
     g: SimpleGame,
     ctx: GameContext,
-    playerID: string,
     xy: number[]
   ): SimpleGame => {
     const [x, y] = xy;
@@ -42,7 +41,10 @@ const SkillDic: SkillDicType = {
     name: SkillName.Move,
     skillCategory: SkillCategoryName.Dexterity,
     symbol: 1,
-    isTargetRequired: true
+    isTargetRequired: true,
+    modifiers: {
+      speed: 1
+    }
   }
 };
 

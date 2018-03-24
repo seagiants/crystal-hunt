@@ -16,6 +16,7 @@ export interface SkillJSON {
   skillCategory: SkillCategoryName;
   symbol: number;
   isTargetRequired: boolean;
+  modifiers: Modifiers;
 }
 
 export class Skill implements SkillJSON {
@@ -23,19 +24,16 @@ export class Skill implements SkillJSON {
   skillCategory: SkillCategoryName;
   symbol: number;
   isTargetRequired: boolean;
+  modifiers: Modifiers;
   constructor(template: SkillJSON) {
     this.name = template.name;
     this.skillCategory = template.skillCategory;
     this.symbol = template.symbol;
     this.isTargetRequired = template.isTargetRequired;
+    this.modifiers = { ...template.modifiers };
   }
-  power(
-    g: SimpleGame,
-    ctx: GameContext,
-    playerId: string,
-    target: object
-  ): SimpleGame {
-    return getSkillPower(this.name)(g, ctx, playerId, target);
+  power(g: SimpleGame, ctx: GameContext, target: object): SimpleGame {
+    return getSkillPower(this.name)(g, ctx, target, this.modifiers);
   }
   getColor(): string {
     return getSkillCategory(this.skillCategory).color;
@@ -45,17 +43,22 @@ export class Skill implements SkillJSON {
       name: this.name,
       skillCategory: this.skillCategory,
       symbol: this.symbol,
-      isTargetRequired: this.isTargetRequired
+      isTargetRequired: this.isTargetRequired,
+      modifiers: { ...this.modifiers }
     };
   }
+}
+// Correspond to key/value pairs used to modify power effect.
+export interface Modifiers {
+  [modifierName: string]: number | boolean;
 }
 
 export interface SkillPower {
   (
     G: SimpleGame,
     ctx: GameContext,
-    playerId: string,
-    target: object
+    target: object,
+    powerModifiers: Modifiers
   ): SimpleGame;
 }
 
