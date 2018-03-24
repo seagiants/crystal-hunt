@@ -36,7 +36,24 @@ export class Skill implements SkillJSON {
     this.caracs = { ...template.caracs };
   }
   power(g: SimpleGame, ctx: GameContext, target: object): SimpleGame {
-    return getSkillPower(this.powerName)(g, ctx, target, this.caracs);
+    console.log(this.getAddedCaracs(g, ctx.currentPlayer));    
+    return getSkillPower(this.powerName)(
+      g,
+      ctx,
+      target,
+      this.getAddedCaracs(g, ctx.currentPlayer)
+    );
+  }
+  // Add caracs (only number) from skill and player.
+  // Todo handle Boolean caracs
+  getAddedCaracs(g: SimpleGame, playerId: string): Caracs {
+    let newCaracs: Caracs = { ...g.playersContext[playerId].caracs };
+    Object.keys(this.caracs).forEach(carac => {
+      newCaracs[carac] !== undefined
+        ? (newCaracs[carac] = newCaracs[carac] + this.caracs[carac])
+        : (newCaracs[carac] = this.caracs[carac]);
+    });
+    return newCaracs;
   }
   getColor(): string {
     return getSkillCategory(this.skillCategory).color;
@@ -55,9 +72,14 @@ export class Skill implements SkillJSON {
 // Correspond to key/value pairs for game elements (player, monster, skill, spell) caracteristics.
 // Caracteristics are tagged name assiociated with some game logic.
 export interface Caracs {
-  [caracName: string]: number | boolean;
+  [caracName: string]: number;
 }
 
+export interface AttackCaracs extends Caracs {
+  // Used to determine the attack damage.
+  attackValue: number;
+  [caracName: string]: number;
+}
 export interface SkillPower {
   (
     G: SimpleGame,

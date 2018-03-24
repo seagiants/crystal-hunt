@@ -61,9 +61,13 @@ export function setEndTurn(g: SimpleGame, value: boolean): SimpleGame {
   return { ...g, endTurn: value };
 }
 
-export function setHealth(g: SimpleGame, id: number, value: number): SimpleGame {
-  let newState = {...g};
-  let oldHealth: number = newState.playersContext[id].caracs.healthCurrent; 
-  newState.playersContext[id].caracs.healthCurrent = oldHealth - 1;
-  return newState; 
+export function setHealth(
+  g: SimpleGame,
+  id: number,
+  value: number
+): SimpleGame {
+  let newState = { ...g };
+  let oldHealth: number = newState.playersContext[id].caracs.healthCurrent;
+  newState.playersContext[id].caracs.healthCurrent = oldHealth + value;
+  return newState;
 }

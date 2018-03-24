@@ -4,7 +4,8 @@ import {
   SkillPower,
   SkillDicType,
   SkillPowerDicType,
-  SkillCategoryDicType
+  SkillCategoryDicType,
+  AttackCaracs
 } from "./Skill";
 import { SimpleGame, GameContext } from "../types";
 import { Cell } from "../map/Cell";
@@ -29,9 +30,9 @@ export const SkillPowerDic: SkillPowerDicType = {
     );
     return crystallizedCell;
   },
-  Attack: (g: SimpleGame, ctx: GameContext, xy: number[]) => {
+  Attack: (g: SimpleGame, ctx: GameContext, xy: number[], caracs: AttackCaracs) => {
     const avatar = getAvatarOnCell(g, xy[0], xy[1]);
-    return avatar > -1 ? setHealth(g, avatar, -1) : g;
+    return avatar > -1 ? setHealth(g, avatar, -caracs.attackValue) : g;
   }
 };
 

@@ -22,7 +22,8 @@ function initPlayerContext(playerId: string): PlayerContext {
     selectedSkill: null,
     caracs: {
       healthInit: 5,
-      healthCurrent: 5
+      healthCurrent: 5,
+      attackValue: 1
     }
   };
 }

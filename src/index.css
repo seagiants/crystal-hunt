@@ -7,6 +7,12 @@
   font-size: 2em;
 }
 
+.HPBar {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
 .RoomCell {
   fill: grey;
 }

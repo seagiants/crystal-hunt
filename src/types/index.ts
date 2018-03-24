@@ -81,6 +81,7 @@ type PlayersContextType = { [index: string]: PlayerContext };
 export interface PlayerCaracs extends Caracs {
   healthCurrent: number;
   healthInit: number;
+  attackValue: number;
 }
 
 export interface PlayerContext {
