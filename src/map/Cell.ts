@@ -1,14 +1,19 @@
 import { SimpleGame, GameContext, Moves, Events } from "../types";
 
+export enum CellType {
+  RoomCell = "RoomCell",
+  CrystalCell = "CrystalCell"
+}
+
 export interface CellJSON {
-  type: string; // TODO use a real type
+  type: CellType;
   monster: boolean;
   treasure: boolean;
   avatar: number;
 }
 
 export class Cell implements CellJSON {
-  type: string; // TODO use a real type
+  type: CellType; 
   monster: boolean;
   treasure: boolean;
   avatar: number;
@@ -18,7 +23,7 @@ export class Cell implements CellJSON {
   }
   
   constructor(
-    type: string,
+    type: CellType,
     monster: boolean = false,
     treasure: boolean = false,
     playerAvatar: number = -1
