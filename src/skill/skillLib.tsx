@@ -22,11 +22,15 @@ const SkillPowerDic: SkillPowerDicType = {
     let newG = setPlayerPosition(g, ctx.currentPlayer, key);
     console.log("Try to move");
     return newG;
+  },
+  Cristallize: (g: SimpleGame, ctx: GameContext) => {
+    return g;
   }
 };
 
 export enum SkillName {
-  Move = "Move"
+  Move = "Move",
+  Cristallize = "Cristallize"
 }
 
 export enum SkillCategoryName {
@@ -44,6 +48,15 @@ const SkillDic: SkillDicType = {
     isTargetRequired: true,
     modifiers: {
       speed: 1
+    }
+  },
+  Cristallize: {
+    name: SkillName.Cristallize,
+    skillCategory: SkillCategoryName.Wisdom,
+    symbol: 2,
+    isTargetRequired: false,
+    modifiers: {
+      quantity: 1
     }
   }
 };

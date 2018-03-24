@@ -46,3 +46,7 @@ export function setPlayerPosition(
     }
   };
 }
+
+export function setEndTurn(g: SimpleGame, value: boolean): SimpleGame {
+  return {...g, endTurn: value};
+}

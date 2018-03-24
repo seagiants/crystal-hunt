@@ -8,12 +8,12 @@ import {
   getSelectedSkillName,
   getAvatarOnCell
 } from "./state/getters";
-import { setSelectedSkill } from "./state/setters";
+import { setSelectedSkill, setEndTurn } from "./state/setters";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [getSkillJSON("Move")],
+    skills: [getSkillJSON("Move"), getSkillJSON("Cristallize")],
     selectedSkill: null
   };
 }
@@ -33,6 +33,7 @@ const CrystalHunt = Game({
         - Retrieve Skill (TODO : failover if no skill)
         - Trigger Skill (TODO : check prior conditions)
         - Unselect skill
+        - endTurn
         TODO : Log the action, to display to players.
         */
       const selectedSkillName = getSelectedSkillName(G, ctx.currentPlayer);
@@ -45,19 +46,19 @@ const CrystalHunt = Game({
         null,
         ctx.currentPlayer
       );
-      console.dir(playerMoved);
-      return skillSaved;
+      const endTurn: SimpleGame = setEndTurn(skillSaved, true);
+      return endTurn;
     },
     activateSkill: (G: SimpleGame, ctx: GameContext, skillName: SkillName) => {
       /* activateSkill workflow :
-        - Check if TargetRequired => Select the skill and wait for target. Break.
-        - Trigger the power.
+        - Check if TargetRequired, Select the skill and wait for target.
+        - If not, Trigger the power, end turn.
         TODO : Preview the legal targets.
       */
       console.log("Activating " + skillName + " skill");
       const skill: Skill = new Skill(getSkill(G, ctx.currentPlayer, skillName));
       if (skill.isTargetRequired) {
-        console.log("Skill " + skillName + " is selected");        
+        console.log("Skill " + skillName + " is selected");
         const skillSaved: SimpleGame = setSelectedSkill(
           G,
           skillName,
@@ -67,7 +68,8 @@ const CrystalHunt = Game({
       } else {
         console.log("Skill " + skillName + " is triggered");
         const triggerPower = skill.power(G, ctx, {});
-        return triggerPower;
+        const endTurn = setEndTurn(triggerPower, true);
+        return endTurn;
       }
     }
   },
@@ -80,6 +82,8 @@ const CrystalHunt = Game({
       }
       return;
     },
+    endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
+    onTurnEnd: (G: SimpleGame, ctx: GameContext) => setEndTurn(G, false),
     phases: [
       {
         name: "Choose Skill",

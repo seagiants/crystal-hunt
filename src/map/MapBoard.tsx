@@ -20,7 +20,7 @@ const MapBoard = (props: MapBoardProps) => {
               onClick={e => {
                 e.preventDefault();
                 props.moves.activateCell([x, y]);
-                props.events.endTurn();
+                // props.events.endTurn();
               }}
               className="tile"
               x={x * 40}

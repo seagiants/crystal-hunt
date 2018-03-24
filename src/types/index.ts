@@ -10,6 +10,7 @@ export interface SimpleGame {
   players0Position: string;
   players1Position: string;
   map: MapDef;
+  endTurn: boolean;
 }
 
 export interface GameContext {
