@@ -26,4 +26,3 @@ export function cssClass(
     : getCellType(g, toKey(x, y));
   return clickableClass + typeClass;
 }
-

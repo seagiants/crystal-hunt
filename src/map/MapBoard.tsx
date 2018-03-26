@@ -5,7 +5,6 @@ import { SkillName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
 import { SimpleGame, GameContext, Moves, Events } from "../types";
 
-
 export interface MapBoardProps {
   G: SimpleGame;
   ctx: GameContext;
