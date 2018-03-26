@@ -1,13 +1,24 @@
-import { Cell, CellJSON, CellType } from "./Cell";
+import { CellTypeName } from "./Cell";
+import { Cell } from "./type";
 
 export interface MapDef {
-  [propName: string]: CellJSON;
+  [propName: string]: Cell;
+}
+
+function initCell(cellType: CellTypeName): Cell {
+  return {
+    type: cellType,
+    monster: false,
+    treasure: false,
+    avatar: -1,
+    isCrystallized: false
+  };
 }
 
 export const basicMap: MapDef = {
-  "0x0": new Cell(CellType.RoomCell).addPlayerAvatar(0).toJSON(),
-  "1x0": new Cell(CellType.RoomCell).toJSON(),
-  "1x1": new Cell(CellType.BlackCrystalCell, true).toJSON(),
-  "1x2": new Cell(CellType.RoomCell).toJSON(),
-  "2x2": new Cell(CellType.RoomCell).addPlayerAvatar(1).toJSON()
+  "0x0": { ...initCell(CellTypeName.RoomCell), avatar: 0 },
+  "1x0": initCell(CellTypeName.RoomCell),
+  "1x1": initCell(CellTypeName.BlackCrystalCell),
+  "1x2": initCell(CellTypeName.RoomCell),
+  "2x2": { ...initCell(CellTypeName.RoomCell), avatar: 1 }
 };

@@ -1,7 +1,8 @@
 import { SimpleGame } from "../types";
 import { Skill, Caracs } from "../action/type";
 import { SkillName } from "../action/skillLib";
-import { CellType, CellJSON } from "../map/Cell";
+import { Cell } from "../map/type";
+import { CellTypeName } from "../map/Cell";
 
 export function getSelectedSkillName(
   g: SimpleGame,
@@ -37,11 +38,11 @@ export function getAvatarOnCell(g: SimpleGame, cellId: string): number {
   return g.map[cellId].avatar;
 }
 
-export function getCell(g: SimpleGame, cellId: string): CellJSON {
+export function getCell(g: SimpleGame, cellId: string): Cell {
   return g.map[cellId];
 }
 
-export function getCellType(g: SimpleGame, cellId: string): CellType {
+export function getCellType(g: SimpleGame, cellId: string): CellTypeName {
   return g.map[cellId].type;
 }
 

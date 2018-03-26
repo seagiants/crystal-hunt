@@ -1,8 +1,17 @@
 import * as React from "react";
-import { Cell, MapBoardProps } from "./Cell";
+import { toKey, cssClass } from "./Cell";
 import { getSelectedSkillName, getSkill } from "../state/getters";
 import { SkillName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
+import { SimpleGame, GameContext, Moves, Events } from "../types";
+
+
+export interface MapBoardProps {
+  G: SimpleGame;
+  ctx: GameContext;
+  moves: Moves;
+  events: Events;
+}
 
 const MapBoard = (props: MapBoardProps) => {
   let isClickable: (x: number, y: number) => boolean;
@@ -16,7 +25,7 @@ const MapBoard = (props: MapBoardProps) => {
         getSkill(props.G, props.ctx.currentPlayer, selectedSkill),
         props.G,
         props.ctx,
-        Cell.toKey(x, y)
+        toKey(x, y)
       );
   } else {
     isClickable = (x: number, y: number) => true;
@@ -34,7 +43,7 @@ const MapBoard = (props: MapBoardProps) => {
       >
         {xys.map(([x, y]) => {
           return (
-            <g key={Cell.toKey(x, y)}>
+            <g key={toKey(x, y)}>
               <rect
                 onClick={
                   isClickable(x, y)
@@ -47,7 +56,7 @@ const MapBoard = (props: MapBoardProps) => {
                         e.preventDefault();
                       }
                 }
-                className={Cell.cssClass(
+                className={cssClass(
                   props.G,
                   props.ctx,
                   x,
@@ -61,9 +70,9 @@ const MapBoard = (props: MapBoardProps) => {
                 rx="10"
                 ry="10"
               />
-              {props.G.map[Cell.toKey(x, y)].avatar !== -1 ? (
+              {props.G.map[toKey(x, y)].avatar !== -1 ? (
                 <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
-                  {props.G.map[Cell.toKey(x, y)].avatar}
+                  {props.G.map[toKey(x, y)].avatar}
                 </text>
               ) : null}
             </g>

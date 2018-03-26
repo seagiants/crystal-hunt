@@ -11,7 +11,7 @@ import {
 import { setSelectedSkill, setEndTurn } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
-import { Cell } from "./map/Cell";
+import { toKey } from "./map/Cell";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
@@ -50,7 +50,7 @@ const CrystalHunt = Game({
         selectedSkill,
         G,
         ctx,
-        Cell.toKey(cellXY[0], cellXY[1])
+        toKey(cellXY[0], cellXY[1])
       );
       const skillSaved: SimpleGame = setSelectedSkill(
         playerMoved,
