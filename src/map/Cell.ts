@@ -35,8 +35,8 @@ export class Cell implements CellJSON {
     return g.map[Cell.toKey(x, y)].avatar.toString() !== ctx.currentPlayer;
   }
 
-  static cssClass(g: SimpleGame, ctx: GameContext, x: number, y: number) {
-    const clickableClass: string = Cell.isClickable(g, ctx, x, y)
+  static cssClass(g: SimpleGame, ctx: GameContext, x: number, y: number, isClickable: boolean) {
+    const clickableClass: string = isClickable
       ? "CellClickable "
       : "CellNotClickable ";
     const typeClass: string = getCrystallized(g, Cell.toKey(x, y))

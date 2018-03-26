@@ -1,5 +1,5 @@
-import { SkillJSON, Caracs } from "../skill/Skill";
-import { SkillName } from "../skill/skillLib";
+import { Skill, Caracs } from "../action/type";
+import { SkillName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
 
 /* Types from boardgame.io */
@@ -70,8 +70,8 @@ export interface ActionsBoardProps {
 
 export interface ActionProps {
   G: SimpleGame;
-  skill: SkillJSON;
-  activateSkill(skill: SkillName): object;
+  skill: Skill;
+  activateSkill(skill: string): object;
   endTurn(): object;
 }
 
@@ -86,7 +86,7 @@ export interface PlayerCaracs extends Caracs {
 
 export interface PlayerContext {
   playerID: string;
-  skills: Array<SkillJSON>;
+  skills: Array<Skill>;
   selectedSkill: SkillName | null;
   caracs: PlayerCaracs;
 }

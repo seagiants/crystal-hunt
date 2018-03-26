@@ -1,7 +1,6 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
-import { Skill } from "./skill/Skill";
 import { Game } from "boardgame.io/core";
-import { getSkillJSON, SkillName } from "./skill/skillLib";
+import { SkillName } from "./action/skillLib";
 import { basicMap } from "./map/mapDefinitions";
 import {
   getSkill,
@@ -10,15 +9,14 @@ import {
   getHealth
 } from "./state/getters";
 import { setSelectedSkill, setEndTurn } from "./state/setters";
+import { loadSkill } from "./action/Skill";
+import { triggerPower } from "./action/Power";
+import { Cell } from "./map/Cell";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [
-      getSkillJSON("Move"),
-      getSkillJSON("Cristallize"),
-      getSkillJSON("Attack")
-    ],
+    skills: [loadSkill("Move"), loadSkill("Cristallize"), loadSkill("Attack")],
     selectedSkill: null,
     caracs: {
       healthInit: 5,
@@ -47,10 +45,13 @@ const CrystalHunt = Game({
         TODO : Log the action, to display to players.
         */
       const selectedSkillName = getSelectedSkillName(G, ctx.currentPlayer);
-      const skill = new Skill(
-        getSkill(G, ctx.currentPlayer, selectedSkillName)
+      const selectedSkill = getSkill(G, ctx.currentPlayer, selectedSkillName);
+      const playerMoved = triggerPower(
+        selectedSkill,
+        G,
+        ctx,
+        Cell.toKey(cellXY[0], cellXY[1])
       );
-      const playerMoved = skill.power(G, ctx, cellXY);
       const skillSaved: SimpleGame = setSelectedSkill(
         playerMoved,
         null,
@@ -66,9 +67,10 @@ const CrystalHunt = Game({
         TODO : Preview the legal targets.
       */
       console.log("Activating " + skillName + " skill");
-      const skill: Skill = new Skill(getSkill(G, ctx.currentPlayer, skillName));
+      const skill = getSkill(G, ctx.currentPlayer, skillName);
       if (skill.isTargetRequired) {
         console.log("Skill " + skillName + " is selected");
+        // SelectedSkill is stored in the state.
         const skillSaved: SimpleGame = setSelectedSkill(
           G,
           skillName,
@@ -77,9 +79,11 @@ const CrystalHunt = Game({
         return skillSaved;
       } else {
         console.log("Skill " + skillName + " is triggered");
-        const triggerPower = skill.power(G, ctx, {});
-        const endTurn = setEndTurn(triggerPower, true);
-        return endTurn;
+        // State is modified by the power.
+        const powerTriggered = triggerPower(skill, G, ctx, "");
+        // EndTurn is triggered.
+        const TurnEnded = setEndTurn(powerTriggered, true);
+        return TurnEnded;
       }
     }
   },
@@ -87,7 +91,7 @@ const CrystalHunt = Game({
   flow: {
     // EndGame workflow, checking victory conditions, returning winner playerId
     endGameIf: (G: SimpleGame, ctx: GameContext) => {
-      const avatarOnCentralCell = getAvatarOnCell(G, 1, 1);
+      const avatarOnCentralCell = getAvatarOnCell(G, "1x1");
       // Checking player on centrall Cell
       if (avatarOnCentralCell > -1) {
         return avatarOnCentralCell;

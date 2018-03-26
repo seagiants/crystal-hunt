@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GameBoardProps } from "../types/index";
-import { ActionsBoard } from "../skill/ActionsBoard";
+import { ActionsBoard } from "../action/ActionsBoard";
 import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";

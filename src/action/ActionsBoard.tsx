@@ -1,19 +1,19 @@
 import * as React from "react";
-import { Skill, SkillJSON } from "./Skill";
+import { getColor } from "./Skill";
 import { ActionsBoardProps, ActionProps } from "../types";
+import { Skill } from "./type";
 
 export const PlayerAction = (props: ActionProps) => {
-  const skill = new Skill(props.skill);
   return (
     <svg>
       <rect
         width="100"
         height="100"
-        style={{ fill: skill.getColor() }}
+        style={{ fill: getColor(props.skill) }}
         stroke="black"
         onClick={e => {
           e.preventDefault();
-          props.activateSkill(skill.name);
+          props.activateSkill(props.skill.name);
           // props.endTurn();
         }}
       />
@@ -25,7 +25,7 @@ export const ActionsBoard = (props: ActionsBoardProps) => {
   return (
     <div>
       {props.G.playersContext[props.ctx.currentPlayer].skills.map(
-        (skill: SkillJSON, idx: number) => (
+        (skill: Skill, idx: number) => (
           <PlayerAction
             key={idx}
             activateSkill={props.moves.activateSkill}

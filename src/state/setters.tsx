@@ -1,5 +1,5 @@
 import { SimpleGame } from "../types";
-import { SkillName } from "../skill/skillLib";
+import { SkillName } from "../action/skillLib";
 
 export function setSelectedSkill(
   G: SimpleGame,
