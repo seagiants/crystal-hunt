@@ -1,18 +1,18 @@
 import { Power, CheckTarget, Caracs, AttackCaracs } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import {
-  setPlayerPosition,
   setCellCrystallize,
-  setHealth
+  setHealth,
+  setAvatarPosition
 } from "../state/setters";
-import { getPlayerPosition, getAvatarOnCell } from "../state/getters";
+import { getAvatarOnCell, getAvatarPosition } from "../state/getters";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
 } = {
   Move: {
     power: (g: SimpleGame, ctx: GameContext, targetId: string): SimpleGame => {
-      let newG = setPlayerPosition(g, ctx.currentPlayer, targetId);
+      let newG = setAvatarPosition(g, ctx.currentPlayer, targetId);
       console.log("Try to move");
       return newG;
     },
@@ -27,7 +27,7 @@ export const PowerLib: {
   },
   Cristallize: {
     power: (g: SimpleGame, ctx: GameContext) => {
-      const playerCell = getPlayerPosition(g, ctx.currentPlayer);
+      const playerCell = getAvatarPosition(g, ctx.currentPlayer);
       const crystallizedCell: SimpleGame = setCellCrystallize(
         g,
         playerCell,
@@ -53,7 +53,7 @@ export const PowerLib: {
       caracs: AttackCaracs
     ) => {
       const avatar = getAvatarOnCell(g, targetId);
-      return avatar > -1 ? setHealth(g, avatar, -caracs.attackValue) : g;
+      return avatar !== null ? setHealth(g, avatar, -caracs.attackValue) : g;
     },
     // Check if there's an avatar on cell and it's not the current player's one.
     check: (
@@ -63,7 +63,7 @@ export const PowerLib: {
       caracs: Caracs
     ): boolean => {
       const avatar = getAvatarOnCell(g, targetId);
-      return avatar !== -1 && avatar.toString() !== ctx.currentPlayer;
+      return avatar !== null && avatar.toString() !== ctx.currentPlayer;
     }
   }
 };

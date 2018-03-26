@@ -1,14 +1,18 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
 import { Game } from "boardgame.io/core";
 import { SkillName } from "./action/skillLib";
-import { basicMap } from "./map/mapDefinitions";
+import { initMapSetup } from "./map/mapDefinitions";
 import {
   getSkill,
   getSelectedSkillName,
   getAvatarOnCell,
   getHealth
 } from "./state/getters";
-import { setSelectedSkill, setEndTurn } from "./state/setters";
+import {
+  setSelectedSkill,
+  setEndTurn,
+  cleanDeadMonsters
+} from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
@@ -27,13 +31,16 @@ function initPlayerContext(playerId: string): PlayerContext {
 }
 
 const CrystalHunt = Game({
-  setup: () => ({
-    cells: [0, 0, 0],
-    map: basicMap,
-    player0Position: "0x0",
-    player1Position: "2x2",
-    playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") }
-  }),
+  setup: () => {
+    // let map = basicMap;
+    // let avatars = [initPlayerAvatar("0"),initPlayerAvatar("1"),initMonsterAvatar("M2")];
+    const basicSetup = initMapSetup();
+    return {
+      map: basicSetup.basicMap,
+      playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
+      avatars: basicSetup.basicAvatars
+    };
+  },
   moves: {
     // it seems that G and ctx are injected
     activateCell: (G: SimpleGame, ctx: GameContext, cellXY: number[]) => {
@@ -93,7 +100,7 @@ const CrystalHunt = Game({
     endGameIf: (G: SimpleGame, ctx: GameContext) => {
       const avatarOnCentralCell = getAvatarOnCell(G, "1x1");
       // Checking player on centrall Cell
-      if (avatarOnCentralCell > -1) {
+      if (avatarOnCentralCell !== null) {
         return avatarOnCentralCell;
       }
       // Checking player0 is alive
@@ -107,7 +114,10 @@ const CrystalHunt = Game({
       return;
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
-    onTurnEnd: (G: SimpleGame, ctx: GameContext) => setEndTurn(G, false),
+    onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
+      const deadMonstersCleaned: SimpleGame = cleanDeadMonsters(G);
+      return setEndTurn(deadMonstersCleaned, false);
+    },
     phases: [
       {
         name: "Choose Skill",

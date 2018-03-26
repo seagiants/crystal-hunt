@@ -1,7 +1,7 @@
 import { SimpleGame } from "../types";
 import { Skill, Caracs } from "../action/type";
 import { SkillName } from "../action/skillLib";
-import { Cell } from "../map/type";
+import { Cell, Avatar } from "../map/type";
 import { CellTypeName } from "../map/Cell";
 
 export function getSelectedSkillName(
@@ -25,16 +25,20 @@ export function getHealth(g: SimpleGame, playerId: string): number {
   return g.playersContext[playerId].caracs.healthCurrent;
 }
 
-export function getPlayerPosition(g: SimpleGame, playerId: string): string {
-  return g[`player${playerId}Position`];
+export function getAvatar(g: SimpleGame, avatarId: string): Avatar {
+  return g.avatars.filter(avatar => avatar.id === avatarId)[0];
+}
+
+export function getAvatarPosition(g: SimpleGame, avatarId: string): string {
+  return getAvatar(g, avatarId).position;
 }
 
 export function getPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
-  return g.playersContext[playerId].caracs;
+  return getAvatar(g, playerId).caracs;
 }
 
 // TODO : Should be Cell method, or Cell class is useless.
-export function getAvatarOnCell(g: SimpleGame, cellId: string): number {
+export function getAvatarOnCell(g: SimpleGame, cellId: string): string | null {
   return g.map[cellId].avatar;
 }
 
