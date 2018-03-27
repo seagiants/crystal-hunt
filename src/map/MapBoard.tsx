@@ -1,9 +1,10 @@
 import * as React from "react";
-import { toKey, cssClass } from "./Cell";
+import { toKey } from "./Cell";
 import { getSelectedSkillName, getSkill } from "../state/getters";
 import { SkillName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
 import { SimpleGame, GameContext, Moves, Events } from "../types";
+import CellMap from "./MapCell";
 
 export interface MapBoardProps {
   G: SimpleGame;
@@ -42,39 +43,15 @@ const MapBoard = (props: MapBoardProps) => {
       >
         {xys.map(([x, y]) => {
           return (
-            <g key={toKey(x, y)}>
-              <rect
-                onClick={
-                  isClickable(x, y)
-                    ? e => {
-                        e.preventDefault();
-                        props.moves.activateCell([x, y]);
-                        // props.events.endTurn();
-                      }
-                    : e => {
-                        e.preventDefault();
-                      }
-                }
-                className={cssClass(
-                  props.G,
-                  props.ctx,
-                  x,
-                  y,
-                  isClickable(x, y)
-                )}
-                x={x * 40}
-                y={y * 40}
-                width="40"
-                height="40"
-                rx="10"
-                ry="10"
-              />
-              {props.G.map[toKey(x, y)].avatar !== -1 ? (
-                <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
-                  {props.G.map[toKey(x, y)].avatar}
-                </text>
-              ) : null}
-            </g>
+            <CellMap
+              key={toKey(x, y)}
+              G={props.G}
+              ctx={props.ctx}
+              x={x}
+              y={y}
+              isClickable={isClickable(x, y)}
+              moves={props.moves}
+            />            
           );
         })}
       </svg>

@@ -1,5 +1,7 @@
 import { SimpleGame } from "../types";
 import { SkillName } from "../action/skillLib";
+import { getAvatarPosition } from "./getters";
+import { Avatar } from "../map/type";
 
 export function setSelectedSkill(
   G: SimpleGame,
@@ -18,30 +20,33 @@ export function setSelectedSkill(
   };
 }
 
-export function setPlayerPosition(
+export function setAvatarPosition(
   g: SimpleGame,
-  playerId: string,
+  avatarId: string,
   newPosition: string
 ): SimpleGame {
-  const playerIdPosition: string = `player${playerId}Position`;
-  console.log("playerIdPosition: " + playerIdPosition);
-  const oldPosition: string = g[playerIdPosition];
+  const oldPosition: string = getAvatarPosition(g, avatarId);
   console.log("oldPosition: " + oldPosition);
   return {
     ...g,
     // Setting the new player position
-    [playerIdPosition]: newPosition,
+    avatars: g.avatars.map(
+      avatar =>
+        avatar.id === avatarId
+          ? { ...avatar, position: newPosition }
+          : { ...avatar }
+    ),
     map: {
       ...g.map,
       // Updating the origin cell
       [oldPosition]: {
         ...g.map[oldPosition],
-        avatar: -1
+        avatar: null
       },
       // Updating the target cell
       [newPosition]: {
         ...g.map[newPosition],
-        avatar: parseInt(playerId, 10)
+        avatar: avatarId
       }
     }
   };
@@ -63,11 +68,69 @@ export function setEndTurn(g: SimpleGame, value: boolean): SimpleGame {
 
 export function setHealth(
   g: SimpleGame,
-  id: number,
+  id: string,
   value: number
 ): SimpleGame {
-  let newState = { ...g };
-  let oldHealth: number = newState.playersContext[id].caracs.healthCurrent;
-  newState.playersContext[id].caracs.healthCurrent = oldHealth + value;
+  let newState = {
+    ...g,
+    avatars: g.avatars.map(
+      avatar =>
+        avatar.id === id
+          ? {
+              ...avatar,
+              caracs: {
+                ...avatar.caracs,
+                healthCurrent: avatar.caracs.healthCurrent + value
+              }
+            }
+          : { ...avatar }
+    )
+  };
   return newState;
+}
+
+export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
+  const deadMonsters: Array<Avatar> = g.avatars.filter(
+    avatar => avatar.caracs.healthCurrent < 1
+  );
+  // Clean dead monster position on cell.
+  /* const notOnCellAnymore: SimpleGame = 
+    deadMonsters.reduce(
+    (gTemp, currentMonster): SimpleGame => {
+      return {
+        ...gTemp,
+        map: {
+          ...gTemp.map,
+          [currentMonster.position]: {
+            ...gTemp.map[currentMonster.position],
+            avatar: null
+          }
+        }
+      };
+    },
+    { ...g }
+  );
+  */
+  let tempG = { ...g };
+  deadMonsters.forEach((avatar: Avatar) => {
+    tempG = {
+      ...tempG,
+      map: {
+        ...tempG.map,
+        [avatar.position]: {
+          ...tempG.map[avatar.position],
+          avatar: null
+        }
+      }
+    };
+  });
+  const notOnCellAnymore = tempG;
+  // Clean dead monsters from Avatars.
+  const noDeadOnAvatars: SimpleGame = {
+    ...notOnCellAnymore,
+    avatars: notOnCellAnymore.avatars.filter(
+      avatar => avatar.caracs.healthCurrent > 0
+    )
+  };  
+  return noDeadOnAvatars;
 }

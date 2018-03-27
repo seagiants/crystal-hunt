@@ -1,14 +1,13 @@
 import { Skill, Caracs } from "../action/type";
 import { SkillName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
+import { Avatar } from "../map/type";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
-export interface SimpleGame {
-  cells: Array<number>;
+export interface SimpleGame {  
   playersContext: PlayersContextType;
-  players0Position: string;
-  players1Position: string;
+  avatars: Array<Avatar>;
   map: MapDef;
   endTurn: boolean;
 }
