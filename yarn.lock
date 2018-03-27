@@ -3694,7 +3694,7 @@ koa-socket@^4.4.0:
     koa-compose "3.1.0"
     socket.io "1.4.5"
 
-koa-static@^4.0.1:
+koa-static@^4.0.1, koa-static@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/koa-static/-/koa-static-4.0.2.tgz#6cda92d88d771dcaad9f0d825cd94a631c861a1a"
   dependencies:

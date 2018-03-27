@@ -8,7 +8,8 @@ const App = Client({
   game: CrystalHunt,
   board: GameBoard,
   multiplayer: {
-    server: "localhost:7000"
+    // server: "localhost:7000"
+    server: "crystal-hunt.appspot.com"
   }
 });
 

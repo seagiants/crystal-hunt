@@ -8,6 +8,7 @@
 * rm -rf /deploy/staging
 * cp -a build/\* deploy/staging/
 * cp deploy/app.yaml deploy/staging/
+* ? change start command in package.json for appengine
 * cp package.json deploy/staging/
 * tsc ./deploy/server.ts --outDir ./deploy/staging/
 * ? manually change ../src/Game to ./src/Game in server.js
