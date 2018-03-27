@@ -21,8 +21,9 @@ export function getSkill(
   )[0];
 }
 
-export function getHealth(g: SimpleGame, playerId: string): number {
-  return g.playersContext[playerId].caracs.healthCurrent;
+export function getHealth(g: SimpleGame, avatarId: string): number {
+  return g.avatars.filter(avatar => avatar.id === avatarId)[0].caracs
+    .healthCurrent;
 }
 
 export function getAvatar(g: SimpleGame, avatarId: string): Avatar {

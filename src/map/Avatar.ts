@@ -1,5 +1,14 @@
 import { Avatar } from "./type";
 import { loadSkill } from "../action/Skill";
+import { SimpleGame, GameContext } from "../types";
+import {
+  getAvatarPosition,
+  getAvatarOnCell,
+  getAvatar,
+  getCell
+} from "../state/getters";
+import { toKey } from "./Cell";
+import { loadPower } from "../action/Power";
 
 export enum AvatarTypeName {
   Player = "Player",
@@ -31,4 +40,37 @@ export function initMonsterAvatar(id: string, position: string): Avatar {
     },
     skills: [loadSkill("Attack")]
   };
+}
+
+// First implem' with monster attacks every player next to it.
+export function triggerMonsterSkill(
+  g: SimpleGame,
+  ctx: GameContext,
+  monsterId: string
+): SimpleGame {
+  const currentMonsterPosition: string = getAvatarPosition(g, monsterId);
+  const xy = currentMonsterPosition.split("x");
+  const caracs = getAvatar(g, monsterId).caracs;
+  // TODO : Make it in a cleaner way
+  let neighbourCell: Array<String> = [];
+  neighbourCell.push(toKey(parseInt(xy[0], 10), parseInt(xy[1], 10) + 1));
+  neighbourCell.push(toKey(parseInt(xy[0], 10), parseInt(xy[1], 10) - 1));
+  neighbourCell.push(toKey(parseInt(xy[0], 10) + 1, parseInt(xy[1], 10)));
+  neighbourCell.push(toKey(parseInt(xy[0], 10) - 1, parseInt(xy[1], 10)));
+  console.log("Neighbours :");
+  console.log(neighbourCell);    
+  let tempState: SimpleGame = { ...g };
+  neighbourCell.forEach((cellId: string) => {
+    if (
+      getCell(g, cellId) !== undefined &&
+      getAvatarOnCell(g, cellId) !== null
+    ) {
+      tempState = loadPower("Attack")(g, ctx, cellId, caracs);
+      console.log(tempState);
+      
+    }
+  });
+  console.log("finale");
+  console.log(tempState);  
+  return tempState;
 }

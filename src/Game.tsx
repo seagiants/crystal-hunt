@@ -16,6 +16,7 @@ import {
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
+import { triggerMonsterSkill } from "./map/Avatar";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
@@ -117,6 +118,15 @@ const CrystalHunt = Game({
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
       const deadMonstersCleaned: SimpleGame = cleanDeadMonsters(G);
       return setEndTurn(deadMonstersCleaned, false);
+    },
+    onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
+      let monsters = G.avatars.filter(avatar => avatar.type === "Monster");
+      console.log("monsters :");
+      console.log(monsters);            
+      let tempG = { ...G };
+      return monsters.reduce(
+        (prev, curr) => { return triggerMonsterSkill(prev, ctx, curr.id); },
+        tempG);
     },
     phases: [
       {

@@ -47,7 +47,7 @@ export function checkTarget(
 // Factories for power related functions.
 
 // Power factory
-function loadPower(powerName: string): Power {
+export function loadPower(powerName: string): Power {
   return PowerLib[powerName].power;
 }
 
