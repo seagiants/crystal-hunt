@@ -17,12 +17,13 @@
     "react-dom": "^16.2.0"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "dev-start": "react-scripts-ts start",
+    "dev-server":
+      "ts-node -O '{\"module\": \"commonjs\"}' ./server/dev-server.ts",
+    "start": "node server.js",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "dev-server":
-      "ts-node -O '{\"module\": \"commonjs\"}' ./server/dev-server.ts",
     "server-build":
       "tsc ./deploy/server.ts --outDir ./deploy/staging/ --jsx react"
   }

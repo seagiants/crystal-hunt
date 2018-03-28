@@ -5,12 +5,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 To start the client :
 
 ```
-yarn start
+yarn dev-start
 ```
 
 # Server
 
-Pre-requisites : install [ts-node](https://github.com/TypeStrong/ts-node) and typescript globally: 
+Pre-requisites : install [ts-node](https://github.com/TypeStrong/ts-node) and typescript globally:
 
 ```
 yarn global add ts-node
@@ -20,5 +20,5 @@ yarn global add typescript
 To start the server :
 
 ```
-ts-node -O '{"module": "commonjs"}' server.ts
+yarn dev-server
 ```
