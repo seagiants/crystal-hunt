@@ -8,23 +8,36 @@ import {
   getAvatarOnCell,
   getHealth
 } from "./state/getters";
-import { setSelectedSkill, setEndTurn, cleanDeadMonsters } from "./state/setters";
+import {
+  setSelectedSkill,
+  setEndTurn,
+  cleanDeadMonsters,
+  setCards,
+  plugCard
+} from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
 import { triggerMonsterSkill } from "./map/Avatar";
 import { Avatar } from "./map/type";
+// import { loadCard } from "./action/Card";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [loadSkill("Move"), loadSkill("Draw"), loadSkill("Cristallize"), loadSkill("Attack")],
+    skills: [
+      loadSkill("Move"),
+      loadSkill("Draw"),
+      loadSkill("Cristallize"),
+      loadSkill("Attack")
+    ],
     selectedSkill: null,
     caracs: {
       healthInit: 5,
       healthCurrent: 5,
       attackValue: 1
-    }
+    },
+    cards: []
   };
 }
 
@@ -36,7 +49,9 @@ const CrystalHunt = Game({
     return {
       map: basicSetup.basicMap,
       playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
-      avatars: basicSetup.basicAvatars
+      avatars: basicSetup.basicAvatars,
+      equipmentPlayer0: {},
+      equipmentPlayer1: {}
     };
   },
   moves: {
@@ -90,6 +105,19 @@ const CrystalHunt = Game({
         const TurnEnded = setEndTurn(powerTriggered, true);
         return TurnEnded;
       }
+    },
+    activateCard: (
+      G: SimpleGame,
+      ctx: GameContext,
+      cardIndex: number,
+      playerId: string
+    ) => {
+      /* Pick Card workflow :
+         - Plug the card
+         - Clean card board 
+      */
+      const cardPlugged = plugCard(G, playerId, cardIndex);
+      return setCards(cardPlugged, playerId, []);
     }
   },
 
@@ -129,7 +157,7 @@ const CrystalHunt = Game({
     phases: [
       {
         name: "Choose Skill",
-        allowedMoves: ["activateSkill"],
+        allowedMoves: ["activateSkill", "activateCard"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
           return getSelectedSkillName(G, ctx.currentPlayer) !== null;
         }

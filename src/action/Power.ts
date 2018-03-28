@@ -1,6 +1,6 @@
 import { Caracs, Skill, Power, CheckTarget } from "./type";
 import { SimpleGame, GameContext } from "../types";
-import { getPlayerCaracs } from "../state/getters";
+import { getPlayerCaracs, getEquipmentPlayerCaracs } from "../state/getters";
 import { PowerLib } from "./powerLib";
 
 /* ****************************** Power API *********************** */
@@ -22,11 +22,15 @@ export function triggerPower(
   ctx: GameContext,
   targetId: string
 ): SimpleGame {
-  const caracs = getAddedCaracs(
+  const caracsWithSkills = getAddedCaracs(
     getPlayerCaracs(g, ctx.currentPlayer),
     skill.caracs
   );
-  return loadPower(skill.powerName)(g, ctx, targetId, caracs);
+  const caracsWithEquipments = getAddedCaracs(
+    getEquipmentPlayerCaracs(g, ctx.currentPlayer),
+    caracsWithSkills
+  );
+  return loadPower(skill.powerName)(g, ctx, targetId, caracsWithEquipments);
 }
 
 // Used to check if a target (cellId) is a valid targer for a power (aka powerName)

@@ -1,4 +1,4 @@
-import { SkillCategoryName } from "./skillLib";
+import { SkillCategoryName, ActionType } from "./skillLib";
 import { SimpleGame, GameContext } from "../types";
 
 /*
@@ -29,13 +29,23 @@ export interface SkillCategory {
   color: string;
 }
 
-export interface Skill {
-  name: string;
-  skillCategory: SkillCategoryName;
+// Abstract interface, to group up common props between actions
+export interface ACTIONTEMPLATE {
+  name: string; // Action name, used to describe the action
+  skillCategory: SkillCategoryName; // Dext,Stren,Intell,Wisd, To be renamed.
   symbol: number;
-  isTargetRequired: boolean;
   caracs: Caracs;
+}
+
+export interface Skill extends ACTIONTEMPLATE {
+  isTargetRequired: boolean;
   powerName: string;
+}
+
+export interface Equipment extends ACTIONTEMPLATE {}
+
+export interface Card extends Skill {
+  type: ActionType;
 }
 
 export interface AttackCaracs extends Caracs {

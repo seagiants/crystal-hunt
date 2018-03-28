@@ -1,5 +1,5 @@
 import { SimpleGame } from "../types";
-import { Skill, Caracs } from "../action/type";
+import { Skill, Caracs, Card } from "../action/type";
 import { SkillName } from "../action/skillLib";
 import { Cell, Avatar } from "../map/type";
 import { CellTypeName } from "../map/Cell";
@@ -38,6 +38,10 @@ export function getPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
   return getAvatar(g, playerId).caracs;
 }
 
+export function getEquipmentPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
+  return g[`equipmentPlayer${playerId}`].caracs;
+}
+
 // TODO : Should be Cell method, or Cell class is useless.
 export function getAvatarOnCell(g: SimpleGame, cellId: string): string | null {
   return g.map[cellId].avatar;
@@ -53,4 +57,16 @@ export function getCellType(g: SimpleGame, cellId: string): CellTypeName {
 
 export function getCrystallized(g: SimpleGame, cellId: string): boolean {
   return g.map[cellId].isCrystallized;
+}
+
+export function getCards(g: SimpleGame, playerId: string): Array<Card> {
+  return g.playersContext[playerId].cards;
+}
+
+export function getCard(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): Card {
+  return getCards(g, playerId)[cardIndex];
 }

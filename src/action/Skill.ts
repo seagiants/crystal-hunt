@@ -1,5 +1,5 @@
 import { SkillCategoryName, SkillLib, SkillCategoryLib } from "./skillLib";
-import { Skill, SkillCategory } from "./type";
+import { Skill, SkillCategory, Card } from "./type";
 
 // Loaders for JSON data
 
@@ -16,6 +16,6 @@ export function loadSkillCategory(
 }
 
 // Used to get the color of a Skill
-export function getColor(skill: Skill): string {
-  return loadSkillCategory(skill.skillCategory).color;
+export function getColor(element: Skill | Card): string {
+  return loadSkillCategory(element.skillCategory).color;
 }

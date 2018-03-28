@@ -1,4 +1,4 @@
-import { Skill, SkillCategory } from "./type";
+import { Skill, SkillCategory, Card } from "./type";
 
 export enum SkillName {
   Move = "Move",
@@ -13,6 +13,26 @@ export enum SkillCategoryName {
   Wisdom = "Wisdom",
   Strength = "Strength"
 }
+
+export enum ActionType {
+  Spell = "Spell",
+  Skill = "Skill",
+  Equipment = "Equipment"
+}
+
+export const CardLib: { [key: string]: Card } = {
+  Sword: {
+    name: "Sword",
+    type: ActionType.Equipment,
+    skillCategory: SkillCategoryName.Strength,
+    isTargetRequired: true,
+    caracs: {
+      attackValue: 2
+    },
+    symbol: 2,
+    powerName: "Attack"
+  }
+};
 
 export const SkillLib: { [key in SkillName]: Skill } = {
   Move: {

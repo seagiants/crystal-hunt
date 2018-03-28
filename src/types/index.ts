@@ -1,12 +1,14 @@
-import { Skill, Caracs } from "../action/type";
+import { Skill, Caracs, Card, Equipment } from "../action/type";
 import { SkillName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
 import { Avatar } from "../map/type";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
-export interface SimpleGame {  
+export interface SimpleGame {
   playersContext: PlayersContextType;
+  equipmentPlayer0: Equipment;
+  equipmentPlayer1: Equipment;
   avatars: Array<Avatar>;
   map: MapDef;
   endTurn: boolean;
@@ -21,6 +23,7 @@ export interface GameContext {
 export interface Moves {
   activateCell(cellXY: number[]): object;
   activateSkill(): object;
+  activateCard(): object;
 }
 
 export interface Events {
@@ -65,12 +68,23 @@ export interface ActionsBoardProps {
   ctx: GameContext;
   moves: Moves;
   events: Events;
+  playerId: string;
 }
 
 export interface ActionProps {
   G: SimpleGame;
   skill: Skill;
   activateSkill(skill: string): object;
+  endTurn(): object;
+}
+
+export interface CardProps {
+  G: SimpleGame;
+  ctx: GameContext;
+  card: Card;
+  index: number;
+  playerId: string;
+  activateCard(cardIndex: number, playerId: string): object;
   endTurn(): object;
 }
 
@@ -88,6 +102,7 @@ export interface PlayerContext {
   skills: Array<Skill>;
   selectedSkill: SkillName | null;
   caracs: PlayerCaracs;
+  cards: Array<Card>;
 }
 
 // Skill related object definitions.

@@ -1,7 +1,9 @@
 import { SimpleGame } from "../types";
 import { SkillName } from "../action/skillLib";
-import { getAvatarPosition } from "./getters";
+import { getAvatarPosition, getCard } from "./getters";
 import { Avatar } from "../map/type";
+import { loadCard, loadEquipment } from "../action/Card";
+import { Card } from "../action/type";
 
 export function setSelectedSkill(
   G: SimpleGame,
@@ -92,10 +94,9 @@ export function setHealth(
 }
 
 export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
-  const deadMonsters: Array<Avatar> = g.avatars.filter(
-    avatar => {
-      return(avatar.type === "Monster" && avatar.caracs.healthCurrent < 1);
-    });
+  const deadMonsters: Array<Avatar> = g.avatars.filter(avatar => {
+    return avatar.type === "Monster" && avatar.caracs.healthCurrent < 1;
+  });
   let tempG = { ...g };
   deadMonsters.forEach((avatar: Avatar) => {
     tempG = {
@@ -118,4 +119,34 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
     )
   };
   return noDeadOnAvatars;
+}
+
+export function drawCards(g: SimpleGame, playerId: string): SimpleGame {
+  return setCards(g, playerId, [loadCard("Sword")]);
+}
+
+export function setCards(
+  g: SimpleGame,
+  playerId: string,
+  cards: Array<Card>
+): SimpleGame {
+  return {
+    ...g,
+    playersContext: {
+      ...g.playersContext,
+      [playerId]: {
+        ...g.playersContext[playerId],
+        cards: cards
+      }
+    }
+  };
+}
+
+export function plugCard(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): SimpleGame {
+  const card = getCard(g, playerId, cardIndex);
+  return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(card) };
 }

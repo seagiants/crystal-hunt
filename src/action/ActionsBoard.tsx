@@ -5,7 +5,7 @@ import { Skill } from "./type";
 
 export const PlayerAction = (props: ActionProps) => {
   return (
-    <svg>
+    <svg width="130" height="130">
       <rect
         width="100"
         height="100"
@@ -27,7 +27,7 @@ export const PlayerAction = (props: ActionProps) => {
 export const ActionsBoard = (props: ActionsBoardProps) => {
   return (
     <div>
-      {props.G.playersContext[props.ctx.currentPlayer].skills.map(
+      {props.G.playersContext[props.playerId].skills.map(
         (skill: Skill, idx: number) => (
           <PlayerAction
             key={idx}

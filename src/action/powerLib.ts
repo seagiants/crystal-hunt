@@ -3,7 +3,8 @@ import { SimpleGame, GameContext } from "../types";
 import {
   setCellCrystallize,
   setHealth,
-  setAvatarPosition
+  setAvatarPosition,
+  drawCards
 } from "../state/setters";
 import { getAvatarOnCell, getAvatarPosition } from "../state/getters";
 
@@ -67,16 +68,15 @@ export const PowerLib: {
     }
   },
   Draw: {
-    power: (g: SimpleGame, ctx: GameContext) => {      
-      return g;
+    power: (g: SimpleGame, ctx: GameContext) => {
+      const cardsAdded = drawCards(g, ctx.currentPlayer);
+      return cardsAdded;
     },
     check: (
       g: SimpleGame,
       ctx: GameContext,
       targetId: string,
       caracs: Caracs
-    ): boolean => {
-      return true;
-    }
+    ): boolean => true
   }
 };
