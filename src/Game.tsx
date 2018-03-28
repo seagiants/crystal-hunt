@@ -115,9 +115,12 @@ const CrystalHunt = Game({
       /* Pick Card workflow :
          - Plug the card
          - Clean card board 
+         - EndTurn is triggered.
       */
       const cardPlugged = plugCard(G, playerId, cardIndex);
-      return setCards(cardPlugged, playerId, []);
+      const cardsCleaned = setCards(cardPlugged, playerId, []);
+      const turnEnded = setEndTurn(cardsCleaned, true);
+      return turnEnded;
     }
   },
 

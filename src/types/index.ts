@@ -1,5 +1,5 @@
 import { Skill, Caracs, Card, Equipment } from "../action/type";
-import { SkillName } from "../action/skillLib";
+import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
 import { Avatar } from "../map/type";
 
@@ -63,7 +63,7 @@ export interface CellProps extends ComponentProps {
   endTurn(): object;
 }
 
-export interface ActionsBoardProps {
+export interface TilesBoardProps {
   G: SimpleGame;
   ctx: GameContext;
   moves: Moves;
@@ -71,16 +71,15 @@ export interface ActionsBoardProps {
   playerId: string;
 }
 
-export interface ActionProps {
-  G: SimpleGame;
+export interface ActionTileProps {
   skill: Skill;
+  equipment: Equipment;
+  category: SkillCategoryName;
   activateSkill(skill: string): object;
   endTurn(): object;
 }
 
-export interface CardProps {
-  G: SimpleGame;
-  ctx: GameContext;
+export interface CardTileProps {
   card: Card;
   index: number;
   playerId: string;

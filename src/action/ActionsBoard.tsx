@@ -1,9 +1,10 @@
 import * as React from "react";
 import { getColor } from "./Skill";
-import { ActionsBoardProps, ActionProps } from "../types";
-import { Skill } from "./type";
+import { TilesBoardProps, ActionTileProps } from "../types";
+import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
+import { getEquipment, getSkillByCat } from "../state/getters";
 
-export const PlayerAction = (props: ActionProps) => {
+export const ActionTile = (props: ActionTileProps) => {
   return (
     <svg width="130" height="130">
       <rect
@@ -24,19 +25,27 @@ export const PlayerAction = (props: ActionProps) => {
   );
 };
 
-export const ActionsBoard = (props: ActionsBoardProps) => {
+export const ActionsBoard = (props: TilesBoardProps) => {
+  // Render ActionTiles by Category, one for each CategoryName.      
   return (
     <div>
-      {props.G.playersContext[props.playerId].skills.map(
-        (skill: Skill, idx: number) => (
-          <PlayerAction
-            key={idx}
-            activateSkill={props.moves.activateSkill}
-            endTurn={props.events.endTurn}
-            G={props.G}
-            skill={skill}
-          />
-        )
+      {Object.keys(SkillCategoryLib).map(
+        (skillCategoryName: SkillCategoryName, idx: number) => {
+          return (
+            <ActionTile
+              key={`ActionTile${idx}${props.playerId}`}
+              activateSkill={props.moves.activateSkill}
+              endTurn={props.events.endTurn}              
+              category={skillCategoryName}
+              skill={getSkillByCat(props.G, props.playerId, skillCategoryName)}
+              equipment={getEquipment(
+                props.G,
+                props.playerId,
+                skillCategoryName
+              )}
+            />
+          );
+        }
       )}
     </div>
   );

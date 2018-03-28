@@ -1,5 +1,5 @@
 import { SimpleGame } from "../types";
-import { Skill, Caracs, Card } from "../action/type";
+import { Skill, Caracs, Card, Equipment } from "../action/type";
 import { SkillName } from "../action/skillLib";
 import { Cell, Avatar } from "../map/type";
 import { CellTypeName } from "../map/Cell";
@@ -21,6 +21,16 @@ export function getSkill(
   )[0];
 }
 
+export function getSkillByCat(
+  g: SimpleGame,
+  playerId: string,
+  skillCategoryName: string
+): Skill {
+  return g.playersContext[playerId].skills.filter(
+    skill => skill.skillCategory === skillCategoryName
+  )[0];
+}
+
 export function getHealth(g: SimpleGame, avatarId: string): number {
   return g.avatars.filter(avatar => avatar.id === avatarId)[0].caracs
     .healthCurrent;
@@ -36,6 +46,10 @@ export function getAvatarPosition(g: SimpleGame, avatarId: string): string {
 
 export function getPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
   return getAvatar(g, playerId).caracs;
+}
+
+export function getEquipment(g: SimpleGame, playerId: string, categoryName: string): Equipment {
+  return g[`equipmentPlayer${playerId}`];
 }
 
 export function getEquipmentPlayerCaracs(g: SimpleGame, playerId: string): Caracs {

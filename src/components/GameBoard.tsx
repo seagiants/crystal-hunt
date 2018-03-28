@@ -6,7 +6,7 @@ import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";
 import "../index.css";
 import { getHealth } from "../state/getters";
-import { CardsBoard } from "./Card";
+import { CardsBoard } from "./CardsBoard";
 
 export const GameBoard = (props: GameBoardProps) => {
   if (props.ctx.gameover !== undefined) {
