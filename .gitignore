@@ -8,6 +8,7 @@
 
 # production
 /build
+/deploy/staging
 
 # misc
 .DS_Store
