@@ -65,5 +65,18 @@ export const PowerLib: {
       const avatar = getAvatarOnCell(g, targetId);
       return avatar !== null && avatar.toString() !== ctx.currentPlayer;
     }
+  },
+  Draw: {
+    power: (g: SimpleGame, ctx: GameContext) => {      
+      return g;
+    },
+    check: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ): boolean => {
+      return true;
+    }
   }
 };

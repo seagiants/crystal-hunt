@@ -17,6 +17,9 @@ export const PlayerAction = (props: ActionProps) => {
           // props.endTurn();
         }}
       />
+      <text x="10" y="50">
+        {props.skill.name}
+      </text>
     </svg>
   );
 };

@@ -1,7 +1,8 @@
 import { toKey, cssClass } from "./Cell";
 import * as React from "react";
 import { Moves, SimpleGame, GameContext } from "../types";
-import { getCellType } from "../state/getters";
+import { getCellType, getAvatar } from "../state/getters";
+import { Avatar } from "./type";
 
 const CellMap = (props: {
   G: SimpleGame;
@@ -56,11 +57,28 @@ const CellMap = (props: {
 };
 
 function renderAvatar(g: SimpleGame, x: number, y: number) {
-  return g.map[toKey(x, y)].avatar !== null ? (
+  const avatarId = g.map[toKey(x, y)].avatar;
+  return avatarId !== null ? (
     <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
+      <title>{getAvatarDescription(getAvatar(g, avatarId))}</title>
       {g.map[toKey(x, y)].avatar}
     </text>
   ) : null;
+}
+
+function getAvatarDescription(avatar: Avatar): string {
+  switch (avatar.type) {
+    case "Monster":
+      return (
+        "There's a monster there with " +
+        avatar.caracs.healthCurrent +
+        "HP ! Run you fool !"
+      );
+    case "Player":
+      return "A fool";
+    default:
+      return "";
+  }
 }
 
 export default CellMap;

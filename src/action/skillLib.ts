@@ -3,7 +3,8 @@ import { Skill, SkillCategory } from "./type";
 export enum SkillName {
   Move = "Move",
   Cristallize = "Cristallize",
-  Attack = "Attack"
+  Attack = "Attack",
+  Draw = "Draw"
 }
 
 export enum SkillCategoryName {
@@ -42,6 +43,16 @@ export const SkillLib: { [key in SkillName]: Skill } = {
     powerName: "Attack",
     caracs: {
       attackValue: 1
+    }
+  },
+  Draw: {
+    name: SkillName.Draw,
+    skillCategory: SkillCategoryName.Intelligence,
+    symbol: 3,
+    isTargetRequired: false,
+    powerName: "Draw",
+    caracs: {
+      drawCards: 1
     }
   }
 };

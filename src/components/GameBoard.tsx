@@ -6,6 +6,7 @@ import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";
 import "../index.css";
 import { getHealth } from "../state/getters";
+import { CardsBoard } from "./Card";
 
 export const GameBoard = (props: GameBoardProps) => {
   if (props.ctx.gameover !== undefined) {
@@ -13,6 +14,7 @@ export const GameBoard = (props: GameBoardProps) => {
   } else {
     return (
       <div className="container">
+        <CardsBoard/>
         <PlayerInfo
           ID={props.playerID}
           currentPlayer={props.ctx.currentPlayer}

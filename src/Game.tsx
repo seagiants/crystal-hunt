@@ -18,7 +18,7 @@ import { Avatar } from "./map/type";
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [loadSkill("Move"), loadSkill("Cristallize"), loadSkill("Attack")],
+    skills: [loadSkill("Move"), loadSkill("Draw"), loadSkill("Cristallize"), loadSkill("Attack")],
     selectedSkill: null,
     caracs: {
       healthInit: 5,
