@@ -57,8 +57,6 @@ export function triggerMonsterSkill(
   neighbourCell.push(toKey(parseInt(xy[0], 10), parseInt(xy[1], 10) - 1));
   neighbourCell.push(toKey(parseInt(xy[0], 10) + 1, parseInt(xy[1], 10)));
   neighbourCell.push(toKey(parseInt(xy[0], 10) - 1, parseInt(xy[1], 10)));
-  console.log("Neighbours :");
-  console.log(neighbourCell);    
   let tempState: SimpleGame = { ...g };
   neighbourCell.forEach((cellId: string) => {
     if (
@@ -66,11 +64,7 @@ export function triggerMonsterSkill(
       getAvatarOnCell(g, cellId) !== null
     ) {
       tempState = loadPower("Attack")(g, ctx, cellId, caracs);
-      console.log(tempState);
-      
     }
   });
-  console.log("finale");
-  console.log(tempState);  
   return tempState;
 }

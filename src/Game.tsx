@@ -8,15 +8,12 @@ import {
   getAvatarOnCell,
   getHealth
 } from "./state/getters";
-import {
-  setSelectedSkill,
-  setEndTurn,
-  cleanDeadMonsters
-} from "./state/setters";
+import { setSelectedSkill, setEndTurn, cleanDeadMonsters } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
 import { triggerMonsterSkill } from "./map/Avatar";
+import { Avatar } from "./map/type";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
@@ -106,11 +103,11 @@ const CrystalHunt = Game({
       }
       // Checking player0 is alive
       if (getHealth(G, "0") < 1) {
-        return 1;
+        return "1";
       }
       // Checking player1 is alive
       if (getHealth(G, "1") < 1) {
-        return 0;
+        return "0";
       }
       return;
     },
@@ -121,12 +118,13 @@ const CrystalHunt = Game({
     },
     onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
       let monsters = G.avatars.filter(avatar => avatar.type === "Monster");
-      console.log("monsters :");
-      console.log(monsters);            
+      // console.log("monsters :");
+      // console.log(monsters);
       let tempG = { ...G };
-      return monsters.reduce(
-        (prev, curr) => { return triggerMonsterSkill(prev, ctx, curr.id); },
-        tempG);
+      // Each monster will trigger their skill then pass the state to the next.
+      let reducer = (prevG: SimpleGame, currMonster: Avatar) =>
+        triggerMonsterSkill(prevG, ctx, currMonster.id);
+      return monsters.reduce(reducer, tempG);
     },
     phases: [
       {

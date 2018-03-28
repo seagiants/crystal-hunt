@@ -73,44 +73,29 @@ export function setHealth(
 ): SimpleGame {
   let newState = {
     ...g,
-    avatars: g.avatars.map(
-      avatar =>
-        avatar.id === id
-          ? {
-              ...avatar,
-              caracs: {
-                ...avatar.caracs,
-                healthCurrent: avatar.caracs.healthCurrent + value
-              }
+    avatars: g.avatars.map(avatar => {
+      return avatar.id === id
+        ? {
+            ...avatar,
+            caracs: {
+              ...avatar.caracs,
+              healthCurrent:
+                avatar.caracs.healthCurrent + value > 0
+                  ? avatar.caracs.healthCurrent + value
+                  : 0
             }
-          : { ...avatar }
-    )
+          }
+        : { ...avatar };
+    })
   };
   return newState;
 }
 
 export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
   const deadMonsters: Array<Avatar> = g.avatars.filter(
-    avatar => avatar.caracs.healthCurrent < 1
-  );
-  // Clean dead monster position on cell.
-  /* const notOnCellAnymore: SimpleGame = 
-    deadMonsters.reduce(
-    (gTemp, currentMonster): SimpleGame => {
-      return {
-        ...gTemp,
-        map: {
-          ...gTemp.map,
-          [currentMonster.position]: {
-            ...gTemp.map[currentMonster.position],
-            avatar: null
-          }
-        }
-      };
-    },
-    { ...g }
-  );
-  */
+    avatar => {
+      return(avatar.type === "Monster" && avatar.caracs.healthCurrent < 1);
+    });
   let tempG = { ...g };
   deadMonsters.forEach((avatar: Avatar) => {
     tempG = {
@@ -129,8 +114,8 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
   const noDeadOnAvatars: SimpleGame = {
     ...notOnCellAnymore,
     avatars: notOnCellAnymore.avatars.filter(
-      avatar => avatar.caracs.healthCurrent > 0
+      avatar => avatar.caracs.healthCurrent > 0 || avatar.type === "Player"
     )
-  };  
+  };
   return noDeadOnAvatars;
 }
