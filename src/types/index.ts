@@ -75,6 +75,7 @@ export interface ActionTileProps {
   skill: Skill;
   equipment: Equipment;
   category: SkillCategoryName;
+  playerID: string;
   activateSkill(skill: string): object;
   endTurn(): object;
 }

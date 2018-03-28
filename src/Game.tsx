@@ -6,7 +6,8 @@ import {
   getSkill,
   getSelectedSkillName,
   getAvatarOnCell,
-  getHealth
+  getHealth,
+  getCards
 } from "./state/getters";
 import {
   setSelectedSkill,
@@ -83,8 +84,10 @@ const CrystalHunt = Game({
     activateSkill: (G: SimpleGame, ctx: GameContext, skillName: SkillName) => {
       /* activateSkill workflow :
         - Check if TargetRequired, Select the skill and wait for target.
-        - If not, Trigger the power, end turn.
+        - If not, Trigger the power,
+        - If not Draw skill end turn (To refactor!).
         TODO : Preview the legal targets.
+        TODO : Review endTurn workflow
       */
       console.log("Activating " + skillName + " skill");
       const skill = getSkill(G, ctx.currentPlayer, skillName);
@@ -102,8 +105,9 @@ const CrystalHunt = Game({
         // State is modified by the power.
         const powerTriggered = triggerPower(skill, G, ctx, "");
         // EndTurn is triggered.
-        const TurnEnded = setEndTurn(powerTriggered, true);
-        return TurnEnded;
+        const turnEnded = setEndTurn(powerTriggered, true);
+        // Todo : Implement a better workflow
+        return skill.name === "Draw" ? powerTriggered : turnEnded;
       }
     },
     activateCard: (
@@ -160,9 +164,12 @@ const CrystalHunt = Game({
     phases: [
       {
         name: "Choose Skill",
-        allowedMoves: ["activateSkill", "activateCard"],
+        allowedMoves: ["activateSkill"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          return getSelectedSkillName(G, ctx.currentPlayer) !== null;
+          return (
+            getSelectedSkillName(G, ctx.currentPlayer) !== null ||
+            getCards(G, ctx.currentPlayer).length > 0
+          );
         }
       },
       {
@@ -170,6 +177,13 @@ const CrystalHunt = Game({
         allowedMoves: ["activateCell"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
           return getSelectedSkillName(G, ctx.currentPlayer) === null;
+        }
+      },
+      {
+        name: "Pick a Card",
+        allowedMoves: ["activateCard"],
+        endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
+          return (getCards(G, ctx.currentPlayer).length === 0);
         }
       }
     ]

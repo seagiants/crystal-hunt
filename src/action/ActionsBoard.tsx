@@ -37,6 +37,7 @@ export const ActionsBoard = (props: TilesBoardProps) => {
               activateSkill={props.moves.activateSkill}
               endTurn={props.events.endTurn}              
               category={skillCategoryName}
+              playerID={props.playerId}
               skill={getSkillByCat(props.G, props.playerId, skillCategoryName)}
               equipment={getEquipment(
                 props.G,
