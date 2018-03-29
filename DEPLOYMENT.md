@@ -4,13 +4,9 @@
 
 # Build
 
-* yarn build
-* rm -rf /deploy/staging
-* cp -a build/\* deploy/staging/
-* cp deploy/app.yaml deploy/staging/
-* cp package.json deploy/staging/
-* tsc ./deploy/server.ts --outDir ./deploy/staging/ --jsx react
-* ? manually change ../src/Game to ./src/Game in server.js
+* sh build-deploy.sh
+* ../src/Game --> ./src/Game
+* koa_static_1["default"] --> koa_static_1
 
 # Deploy
 

@@ -19,3 +19,5 @@ cp package.json deploy/staging
 
 echo -e "${CYAN}o - Building the server${NC}"
 tsc ./deploy/server.ts --outDir ./deploy/staging/ --jsx react
+mv ./deploy/staging/deploy/server.js ./deploy/staging/
+rmdir ./deploy/staging/deploy
