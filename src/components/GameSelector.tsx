@@ -32,6 +32,8 @@ class GameSelector extends React.Component<
   }
 
   render() {
+    console.log("in gameselector render");
+    console.log("selectedGameId", this.state.selectedGameId);
     let selectionComponent = (
       <div>
         <div>Select a game</div>
