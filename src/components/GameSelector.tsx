@@ -4,7 +4,9 @@ import App from "./App";
 interface GameSelectorProps {}
 interface GameSelectorState {
   inProgressGameId?: string;
+  inProgressPlayerId?: string;
   selectedGameId?: string;
+  selectedPlayerId?: string;
 }
 
 class GameSelector extends React.Component<
@@ -15,25 +17,33 @@ class GameSelector extends React.Component<
     super(props);
     this.state = {
       inProgressGameId: "",
-      selectedGameId: ""
+      inProgressPlayerId: "",
+      selectedGameId: "",
+      selectedPlayerId: ""
     };
     // Binding is not allowed in JSX becuz of bad perfs
-    this.handleChange = this.handleChange.bind(this);
+    this.handleGIDChange = this.handleGIDChange.bind(this);
+    this.handlePIDChange = this.handlePIDChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event: React.FormEvent<HTMLInputElement>) {
+  handleGIDChange(event: React.FormEvent<HTMLInputElement>) {
     this.setState({ inProgressGameId: event.currentTarget.value });
+  }
+
+  handlePIDChange(event: React.FormEvent<HTMLInputElement>) {
+    this.setState({ inProgressPlayerId: event.currentTarget.value });
   }
 
   handleSubmit(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();
-    this.setState({ selectedGameId: this.state.inProgressGameId });
+    this.setState({
+      selectedGameId: this.state.inProgressGameId,
+      selectedPlayerId: this.state.inProgressPlayerId
+    });
   }
 
   render() {
-    console.log("in gameselector render");
-    console.log("selectedGameId", this.state.selectedGameId);
     let selectionComponent = (
       <div>
         <div>Select a game</div>
@@ -41,8 +51,15 @@ class GameSelector extends React.Component<
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
+              placeholder="gameId"
               value={this.state.inProgressGameId}
-              onChange={this.handleChange}
+              onChange={this.handleGIDChange}
+            />
+            <input
+              type="text"
+              placeholder="playerId, 0 or 1"
+              value={this.state.inProgressPlayerId}
+              onChange={this.handlePIDChange}
             />
             <input type="submit" value="Submit" />
           </form>
@@ -51,13 +68,17 @@ class GameSelector extends React.Component<
     );
     let gameComponent = (
       <div>
-        <App gameID={this.state.selectedGameId} playerID="0" />
-        <App gameID={this.state.selectedGameId} playerID="1" />
+        <App
+          gameID={this.state.selectedGameId}
+          playerID={this.state.selectedPlayerId}
+        />
       </div>
     );
     return (
       <div>
-        {this.state.selectedGameId !== "" ? gameComponent : selectionComponent}
+        {this.state.selectedGameId !== "" && this.state.selectedPlayerId !== ""
+          ? gameComponent
+          : selectionComponent}
       </div>
     );
   }
