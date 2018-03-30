@@ -48,7 +48,7 @@ const CrystalHunt = Game({
     // let avatars = [initPlayerAvatar("0"),initPlayerAvatar("1"),initMonsterAvatar("M2")];
     const basicSetup = initMapSetup();
     return {
-      map: basicSetup.basicMap,
+      map: basicSetup.map,
       playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
       avatars: basicSetup.basicAvatars,
       equipmentPlayer0: {},
@@ -183,7 +183,7 @@ const CrystalHunt = Game({
         name: "Pick a Card",
         allowedMoves: ["activateCard"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          return (getCards(G, ctx.currentPlayer).length === 0);
+          return getCards(G, ctx.currentPlayer).length === 0;
         }
       }
     ]

@@ -36,9 +36,9 @@ const MapBoard = (props: MapBoardProps) => {
   return (
     <div>
       <svg
-        width="200"
-        height="200"
-        viewBox="0 0 120 120"
+        width="600"
+        height="400"
+        viewBox="0 0 300 300"
         xmlns="http://www.w3.org/2000/svg"
       >
         {xys.map(([x, y]) => {
@@ -51,7 +51,7 @@ const MapBoard = (props: MapBoardProps) => {
               y={y}
               isClickable={isClickable(x, y)}
               moves={props.moves}
-            />            
+            />
           );
         })}
       </svg>
