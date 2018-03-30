@@ -22,3 +22,7 @@ To start the server :
 ```
 yarn dev-server
 ```
+
+# Logo
+
+Via [textcraft](https://textcraft.net/), using Minstrel for the main title and Umbrage for the subtitle.
