@@ -13,7 +13,8 @@ import {
   setSelectedSkill,
   setEndTurn,
   setCards,
-  plugCard
+  plugCard,
+  cleanDeadMonsters
 } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
@@ -146,9 +147,11 @@ const CrystalHunt = Game({
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
+      // EndTurn Workflow : Clean deadMonsters, triggerEnchantments, reset EndTurn.
+      const deadMonstersCleaned = cleanDeadMonsters(G);
       // Trigger EndTurnEchantment
       const enchantmentTriggered = triggerEnchantments(
-        G,
+        deadMonstersCleaned,
         ctx,
         ctx.currentPlayer,
         TriggerPhase.TurnEnd

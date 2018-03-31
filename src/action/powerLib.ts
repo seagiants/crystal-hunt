@@ -5,7 +5,11 @@ import {
   setAvatarPosition,
   drawCards
 } from "../state/setters";
-import { getAvatarOnCell, getAvatarPosition } from "../state/getters";
+import {
+  getAvatarOnCell,
+  getAvatarPosition,
+  getCrystallized
+} from "../state/getters";
 import { damage, heal } from "../state/gameLogic";
 
 export const PowerLib: {
@@ -102,6 +106,23 @@ export const PowerLib: {
       caracs: Caracs
     ) => {
       return heal(g, ctx.currentPlayer, caracs.healValue);
+    },
+    check: () => true
+  },
+  // TODO : Implement conditions for enchantments,
+  // or checkTargetNamed functions to be able to mix power & checkTarget in card ?
+  HealSelfOnCrystalized: {
+    // Restore Health to the current player if he's on a crystalized cell.
+    power: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      const avatarPosition = getAvatarPosition(g, ctx.currentPlayer);
+      return getCrystallized(g, avatarPosition)
+        ? heal(g, ctx.currentPlayer, caracs.healValue)
+        : g;
     },
     check: () => true
   }

@@ -48,7 +48,7 @@ export const CardLib: { [key: string]: Card } = {
       healValue: 1
     },
     symbol: 3,
-    powerName: "HealSelf"
+    powerName: "HealSelfOnCrystalized"
   }
 };
 
