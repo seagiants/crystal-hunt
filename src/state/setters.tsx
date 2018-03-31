@@ -1,8 +1,8 @@
 import { SimpleGame } from "../types";
-import { SkillName } from "../action/skillLib";
+import { SkillName, ActionType } from "../action/skillLib";
 import { getAvatarPosition, getCard } from "./getters";
 import { Avatar } from "../map/type";
-import { loadCard, loadEquipment } from "../action/Card";
+import { loadCard, loadEquipment, getCardType, loadEnchantment } from "../action/Card";
 import { Card } from "../action/type";
 
 export function setSelectedSkill(
@@ -82,9 +82,7 @@ export function setHealth(
             caracs: {
               ...avatar.caracs,
               healthCurrent:
-                avatar.caracs.healthCurrent + value > 0
-                  ? avatar.caracs.healthCurrent + value
-                  : 0
+                value
             }
           }
         : { ...avatar };
@@ -122,7 +120,10 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
 }
 
 export function drawCards(g: SimpleGame, playerId: string): SimpleGame {
-  return setCards(g, playerId, [loadCard("Sword")]);
+  return setCards(g, playerId, [
+    loadCard("Sword"),
+    loadCard("CrystalAffinity")
+  ]);
 }
 
 export function setCards(
@@ -143,6 +144,33 @@ export function setCards(
 }
 
 export function plugCard(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): SimpleGame {
+  switch (getCardType(getCard(g, playerId, cardIndex))) {
+    case ActionType.Equipment:
+      return plugEquipment(g, playerId, cardIndex);
+    case ActionType.Enchantment:
+      return plugEnchantment(g, playerId, cardIndex);
+    default:
+      return g;
+  }
+}
+
+// Make it plugs on Intelligence prop only
+// (Enchantment should be longer to cast, trigger intelligence twice : draw card, then cast enchantment)
+export function plugEnchantment(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): SimpleGame {
+  const card = getCard(g, playerId, cardIndex);
+  return { ...g, [`enchantmentPlayer${playerId}`]: loadEnchantment(card) };
+}
+
+// Make it plugs on categorized prop (aka equipmentStrengthPlayer, or equipmentDexterityPlayer)
+export function plugEquipment(
   g: SimpleGame,
   playerId: string,
   cardIndex: number

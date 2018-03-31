@@ -1,6 +1,6 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
 import { Game } from "boardgame.io/core";
-import { SkillName } from "./action/skillLib";
+import { SkillName, TriggerPhase } from "./action/skillLib";
 import { initMapSetup } from "./map/mapDefinitions";
 import {
   getSkill,
@@ -12,7 +12,6 @@ import {
 import {
   setSelectedSkill,
   setEndTurn,
-  cleanDeadMonsters,
   setCards,
   plugCard
 } from "./state/setters";
@@ -21,6 +20,7 @@ import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
 import { triggerMonsterSkill } from "./map/Avatar";
 import { Avatar } from "./map/type";
+import { triggerEnchantments } from "./state/gameLogic";
 // import { loadCard } from "./action/Card";
 
 function initPlayerContext(playerId: string): PlayerContext {
@@ -50,9 +50,7 @@ const CrystalHunt = Game({
     return {
       map: basicSetup.map,
       playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
-      avatars: basicSetup.basicAvatars,
-      equipmentPlayer0: {},
-      equipmentPlayer1: {}
+      avatars: basicSetup.basicAvatars
     };
   },
   moves: {
@@ -148,13 +146,18 @@ const CrystalHunt = Game({
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
-      const deadMonstersCleaned: SimpleGame = cleanDeadMonsters(G);
-      return setEndTurn(deadMonstersCleaned, false);
+      // Trigger EndTurnEchantment
+      const enchantmentTriggered = triggerEnchantments(
+        G,
+        ctx,
+        ctx.currentPlayer,
+        TriggerPhase.TurnEnd
+      );
+      // Reset EndTurnProp
+      return setEndTurn(enchantmentTriggered, false);
     },
     onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
       let monsters = G.avatars.filter(avatar => avatar.type === "Monster");
-      // console.log("monsters :");
-      // console.log(monsters);
       let tempG = { ...G };
       // Each monster will trigger their skill then pass the state to the next.
       let reducer = (prevG: SimpleGame, currMonster: Avatar) =>

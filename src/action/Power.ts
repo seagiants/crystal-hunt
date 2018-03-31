@@ -1,4 +1,4 @@
-import { Caracs, Skill, Power, CheckTarget } from "./type";
+import { Caracs, Skill, Power, CheckTarget, Enchantment } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import { getPlayerCaracs, getEquipmentPlayerCaracs } from "../state/getters";
 import { PowerLib } from "./powerLib";
@@ -16,8 +16,9 @@ export function getAddedCaracs(caracs1: Caracs, caracs2: Caracs): Caracs {
 }
 
 // Used to trigger a power, based on PowerName.
+// TODO : Switch from ctx.currentPlayer to playerId (should'nt depend on the gameContext)
 export function triggerPower(
-  skill: Skill,
+  skill: Skill | Enchantment,
   g: SimpleGame,
   ctx: GameContext,
   targetId: string

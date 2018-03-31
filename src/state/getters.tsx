@@ -1,6 +1,6 @@
 import { SimpleGame } from "../types";
-import { Skill, Caracs, Card, Equipment } from "../action/type";
-import { SkillName } from "../action/skillLib";
+import { Skill, Caracs, Card, Equipment, Enchantment } from "../action/type";
+import { SkillName, TriggerPhase } from "../action/skillLib";
 import { Cell, Avatar } from "../map/type";
 import { CellTypeName } from "../map/Cell";
 
@@ -36,6 +36,11 @@ export function getHealth(g: SimpleGame, avatarId: string): number {
     .healthCurrent;
 }
 
+export function getHealthInit(g: SimpleGame, avatarId: string): number {
+  return g.avatars.filter(avatar => avatar.id === avatarId)[0].caracs
+    .healthInit;
+}
+
 export function getAvatar(g: SimpleGame, avatarId: string): Avatar {
   return g.avatars.filter(avatar => avatar.id === avatarId)[0];
 }
@@ -48,12 +53,39 @@ export function getPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
   return getAvatar(g, playerId).caracs;
 }
 
-export function getEquipment(g: SimpleGame, playerId: string, categoryName: string): Equipment {
+export function getEquipment(
+  g: SimpleGame,
+  playerId: string,
+  categoryName: string
+): Equipment {
   return g[`equipmentPlayer${playerId}`];
 }
 
-export function getEquipmentPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
-  return g[`equipmentPlayer${playerId}`].caracs;
+export function getEquipmentPlayerCaracs(
+  g: SimpleGame,
+  playerId: string
+): Caracs {
+  return g[`equipmentPlayer${playerId}`] !== undefined
+    ? g[`equipmentPlayer${playerId}`].caracs
+    : {};
+}
+
+export function getEnchantment(
+  g: SimpleGame,
+  playerId: string,
+  categoryName: string
+): Enchantment {
+  return g[`enchantmentPlayer${playerId}`];
+}
+
+export function getEnchantmentTrigger(
+  g: SimpleGame,
+  playerId: string,
+  categoryName: string
+): TriggerPhase {
+  return g[`enchantmentPlayer${playerId}`] !== undefined
+    ? g[`enchantmentPlayer${playerId}`].trigger
+    : null;
 }
 
 // TODO : Should be Cell method, or Cell class is useless.

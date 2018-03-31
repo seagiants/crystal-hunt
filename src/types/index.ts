@@ -1,4 +1,4 @@
-import { Skill, Caracs, Card, Equipment } from "../action/type";
+import { Skill, Caracs, Card, Equipment, Enchantment } from "../action/type";
 import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
 import { Avatar } from "../map/type";
@@ -7,8 +7,10 @@ import { Avatar } from "../map/type";
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
   playersContext: PlayersContextType;
-  equipmentPlayer0: Equipment;
-  equipmentPlayer1: Equipment;
+  equipmentPlayer0?: Equipment;
+  equipmentPlayer1?: Equipment;
+  enchantmentPlayer0?: Enchantment;
+  enchantmentPlayer1?: Enchantment;
   avatars: Array<Avatar>;
   map: MapDef;
   endTurn: boolean;

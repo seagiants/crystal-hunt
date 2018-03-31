@@ -1,5 +1,10 @@
-import { SkillCategoryName, CardLib, SkillCategoryLib } from "./skillLib";
-import { Card, SkillCategory, Equipment } from "./type";
+import {
+  SkillCategoryName,
+  CardLib,
+  SkillCategoryLib,
+  ActionType
+} from "./skillLib";
+import { Card, SkillCategory, Equipment, Enchantment } from "./type";
 
 // Loaders for JSON data
 
@@ -20,11 +25,26 @@ export function getColor(card: Card): string {
   return loadCardCategory(card.skillCategory).color;
 }
 
+export function getCardType(card: Card): ActionType {
+  return card.type;
+}
+
 export function loadEquipment(card: Card): Equipment {
   return {
     name: card.name,
     skillCategory: card.skillCategory,
     symbol: card.symbol,
     caracs: card.caracs
+  };
+}
+
+export function loadEnchantment(card: Card): Enchantment {
+  return {
+    name: card.name,
+    skillCategory: card.skillCategory,
+    symbol: card.symbol,
+    caracs: card.caracs,
+    powerName: card.powerName,
+    trigger: card.trigger!
   };
 }

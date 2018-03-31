@@ -17,7 +17,13 @@ export enum SkillCategoryName {
 export enum ActionType {
   Spell = "Spell",
   Skill = "Skill",
-  Equipment = "Equipment"
+  Equipment = "Equipment",
+  Enchantment = "Enchantment"
+}
+
+export enum TriggerPhase {
+  TurnStart = "TurnStart",
+  TurnEnd = "TurnEnd"
 }
 
 export const CardLib: { [key: string]: Card } = {
@@ -31,6 +37,18 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 2,
     powerName: "Attack"
+  },
+  CrystalAffinity: {
+    name: "CrystalAffinity",
+    type: ActionType.Enchantment,
+    skillCategory: SkillCategoryName.Wisdom,
+    isTargetRequired: false,
+    trigger: TriggerPhase.TurnEnd,
+    caracs: {
+      healValue: 1
+    },
+    symbol: 3,
+    powerName: "HealSelf"
   }
 };
 

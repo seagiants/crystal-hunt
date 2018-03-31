@@ -12,11 +12,6 @@ const CellMap = (props: {
   isClickable: boolean;
   moves: Moves;
 }) => {
-  /*
-  console.log("Cell init");
-  console.log(props.x + ":" + props.y);
-  console.log(props.isClickable);
-  */
   return (
     <g key={toKey(props.x, props.y)}>
       <rect

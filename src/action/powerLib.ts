@@ -2,11 +2,11 @@ import { Power, CheckTarget, Caracs, AttackCaracs } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import {
   setCellCrystallize,
-  setHealth,
   setAvatarPosition,
   drawCards
 } from "../state/setters";
 import { getAvatarOnCell, getAvatarPosition } from "../state/getters";
+import { damage, heal } from "../state/gameLogic";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
@@ -54,7 +54,7 @@ export const PowerLib: {
       caracs: AttackCaracs
     ) => {
       const avatar = getAvatarOnCell(g, targetId);
-      return avatar !== null ? setHealth(g, avatar, -caracs.attackValue) : g;
+      return avatar !== null ? damage(g, avatar, caracs.attackValue) : g;
     },
     // Check if there's an avatar on cell and it's not the current player's one.
     check: (
@@ -78,5 +78,31 @@ export const PowerLib: {
       targetId: string,
       caracs: Caracs
     ): boolean => true
+  },
+  Heal: {
+    // Restore health to an avatar.
+    power: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      return heal(g, targetId, caracs.healValue);
+    },
+    // Todo, check that we got a corresponding avatar to heal (getAvatar(g,targetId)!==undefined or null ?)
+    check: (g: SimpleGame, ctx: GameContext, targetId: string) => true
+  },
+  // TODO: Refactor to use only one Heal power with more param/carac ?
+  HealSelf: {
+    // Restore health to the current player.
+    power: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      return heal(g, ctx.currentPlayer, caracs.healValue);
+    },
+    check: () => true
   }
 };

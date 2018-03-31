@@ -1,4 +1,4 @@
-import { SkillCategoryName, ActionType } from "./skillLib";
+import { SkillCategoryName, ActionType, TriggerPhase } from "./skillLib";
 import { SimpleGame, GameContext } from "../types";
 
 /*
@@ -44,13 +44,26 @@ export interface Skill extends ACTIONTEMPLATE {
 
 export interface Equipment extends ACTIONTEMPLATE {}
 
+// Enchantment should be auto-trigger power, at start or end of turn, so no targetRequired
+export interface Enchantment extends ACTIONTEMPLATE {  
+  trigger: TriggerPhase;
+  powerName: string;
+}
+
 export interface Card extends Skill {
   type: ActionType;
+  trigger?: TriggerPhase;
 }
 
 export interface AttackCaracs extends Caracs {
   // Used to determine the attack damage.
   attackValue: number;
+  [caracName: string]: number;
+}
+
+export interface HealCaracs extends Caracs {
+  // Used to determine the health points to restore.
+  healValue: number;
   [caracName: string]: number;
 }
 
