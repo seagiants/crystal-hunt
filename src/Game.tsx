@@ -12,16 +12,14 @@ import {
 import {
   setSelectedSkill,
   setEndTurn,
-  setCards,
-  plugCard,
-  cleanDeadMonsters
+  setCards
 } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
 import { triggerMonsterSkill } from "./map/Avatar";
 import { Avatar } from "./map/type";
-import { triggerEnchantments } from "./state/gameLogic";
+import { triggerEnchantments, plugCard, cleanDeadMonsters } from "./state/gameLogic";
 // import { loadCard } from "./action/Card";
 
 function initPlayerContext(playerId: string): PlayerContext {

@@ -2,15 +2,14 @@ import { Power, CheckTarget, Caracs, AttackCaracs } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import {
   setCellCrystallize,
-  setAvatarPosition,
-  drawCards
+  setAvatarPosition
 } from "../state/setters";
 import {
   getAvatarOnCell,
   getAvatarPosition,
   getCrystallized
 } from "../state/getters";
-import { damage, heal } from "../state/gameLogic";
+import { damage, heal, drawCards } from "../state/gameLogic";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
