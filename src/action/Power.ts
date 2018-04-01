@@ -17,19 +17,20 @@ export function getAddedCaracs(caracs1: Caracs, caracs2: Caracs): Caracs {
 
 // Used to trigger a power, based on PowerName.
 // TODO : Switch from ctx.currentPlayer to playerId (should'nt depend on the gameContext)
+// TODO : Improve handle of caracs based on the type of action (for spell, skill&equipment caracs should'nt be added)
 export function triggerPower(
   action: Skill | Enchantment | Spell,
   g: SimpleGame,
   ctx: GameContext,
   targetId: string
 ): SimpleGame {
-  const caracsWithSkills = getAddedCaracs(
+  const caracsWithPower = getAddedCaracs(
     getPlayerCaracs(g, ctx.currentPlayer),
     action.caracs
   );
   const caracsWithEquipments = getAddedCaracs(
     getEquipmentPlayerCaracs(g, ctx.currentPlayer),
-    caracsWithSkills
+    caracsWithPower
   );
   return loadPower(action.powerName)(g, ctx, targetId, caracsWithEquipments);
 }

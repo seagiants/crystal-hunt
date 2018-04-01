@@ -56,7 +56,7 @@ export const CardLib: { [key: string]: Card } = {
     skillCategory: SkillCategoryName.Strength,
     isTargetRequired: true,
     caracs: {
-      attackValue: 2
+      attackValue: 3
     },
     symbol: 4,
     powerName: "Summon"
@@ -91,7 +91,7 @@ export const SkillLib: { [key in SkillName]: Skill } = {
     isTargetRequired: true,
     powerName: "Attack",
     caracs: {
-      attackValue: 1
+      attackValue: 0
     }
   },
   Draw: {
@@ -101,7 +101,7 @@ export const SkillLib: { [key in SkillName]: Skill } = {
     isTargetRequired: false,
     powerName: "Draw",
     caracs: {
-      drawCards: 1
+      drawCards: 3
     }
   }
 };

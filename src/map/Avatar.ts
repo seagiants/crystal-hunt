@@ -9,6 +9,7 @@ import {
 } from "../state/getters";
 import { toKey } from "./Cell";
 import { loadPower } from "../action/Power";
+import { Caracs } from "../action/type";
 
 export enum AvatarTypeName {
   Player = "Player",
@@ -29,14 +30,28 @@ export function initPlayerAvatar(id: string, position: string): Avatar {
   };
 }
 
-export function initMonsterAvatar(id: string, position: string): Avatar {
+// TODO : Improve the init monster mechanism (if no caracs provided, only some, all,...).
+export function initMonsterAvatar(
+  id: string,
+  position: string,
+  caracs?: Caracs
+): Avatar {
+  const healthCurrent =
+    caracs !== undefined && caracs.healthCurrent !== undefined
+      ? caracs.healthCurrent
+      : 2;
+  const attackValue =
+    caracs !== undefined && caracs.attackValue !== undefined
+      ? caracs.attackValue
+      : 2;
+  console.log(attackValue);
   return {
     id: id,
     type: AvatarTypeName.Monster,
     position: position,
     caracs: {
-      healthCurrent: 2,
-      attackValue: 2
+      healthCurrent: healthCurrent,
+      attackValue: attackValue
     },
     skills: [loadSkill("Attack")]
   };

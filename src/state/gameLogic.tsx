@@ -27,7 +27,7 @@ import {
   loadEquipment,
   loadSpell
 } from "../action/Card";
-import { Skill, Spell } from "../action/type";
+import { Skill, Spell, Caracs } from "../action/type";
 import { initMonsterAvatar } from "../map/Avatar";
 
 // auto triggering enchantment logic
@@ -184,10 +184,13 @@ export function getActiveAction(
 export function summon(
   g: SimpleGame,
   monsterName: string,
-  cellId: string
+  cellId: string,
+  caracs?: Caracs
 ): SimpleGame {
   // TODO : Better handling of the id, it's overloaded in the setter function.
-  const monster = initMonsterAvatar("NeverMind", cellId);
+  console.log("in summon");
+  console.log(caracs);  
+  const monster = initMonsterAvatar("NeverMind", cellId, caracs);
   const monsterAdded = addMonster(g, monster);
   const monsterPositionned = setCellAvatar(
     monsterAdded,

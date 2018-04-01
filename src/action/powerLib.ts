@@ -129,7 +129,7 @@ export const PowerLib: {
       targetId: string,
       caracs: Caracs
     ) => {
-      const monsterSummoned = summon(g, "BasicMonster", targetId);
+      const monsterSummoned = summon(g, "BasicMonster", targetId, caracs);
       return monsterSummoned;
     },
     check: (
