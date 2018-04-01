@@ -2,6 +2,7 @@ import { Caracs, Skill, Power, CheckTarget, Enchantment, Spell } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import { getPlayerCaracs, getEquipmentPlayerCaracs } from "../state/getters";
 import { PowerLib } from "./powerLib";
+import { addInfoMessage } from "../state/setters";
 
 /* ****************************** Power API *********************** */
 // Used to get all added caracs of a power.
@@ -32,7 +33,14 @@ export function triggerPower(
     getEquipmentPlayerCaracs(g, ctx.currentPlayer),
     caracsWithPower
   );
-  return loadPower(action.powerName)(g, ctx, targetId, caracsWithEquipments);
+  const infoMessage = action.powerName + " is trigerred on " + targetId;
+  const withInfo = addInfoMessage(g, infoMessage);
+  return loadPower(action.powerName)(
+    withInfo,
+    ctx,
+    targetId,
+    caracsWithEquipments
+  );
 }
 
 // Used to check if a target (cellId) is a valid targer for a power (aka powerName)

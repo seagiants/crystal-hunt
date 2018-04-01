@@ -120,3 +120,7 @@ export function setCards(
     }
   };
 }
+
+export function addInfoMessage(g: SimpleGame, message: string): SimpleGame {
+  return { ...g, infoMessages: [...g.infoMessages, message] };
+}

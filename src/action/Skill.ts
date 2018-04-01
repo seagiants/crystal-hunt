@@ -17,6 +17,5 @@ export function loadSkillCategory(
 
 // Used to get the color of a Skill
 export function getColor(element: Skill | Card): string {
-  console.log(element);  
   return loadSkillCategory(element.skillCategory).color;
 }

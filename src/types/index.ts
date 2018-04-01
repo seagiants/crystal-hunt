@@ -15,6 +15,8 @@ export interface SimpleGame {
   monsterCounter: number;
   // Used to setup easily the map.
   blackCrystalCellId: string;
+  // Used to display info to players
+  infoMessages: Array<String>;
   // equipment props
   equipmentPlayer0?: Equipment;
   equipmentPlayer1?: Equipment;

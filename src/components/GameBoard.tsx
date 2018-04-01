@@ -5,7 +5,7 @@ import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";
 import "../index.css";
-import { getHealth } from "../state/getters";
+import { getHealth, getInfos } from "../state/getters";
 import { CardsBoard } from "./CardsBoard";
 
 export const GameBoard = (props: GameBoardProps) => {
@@ -25,6 +25,7 @@ export const GameBoard = (props: GameBoardProps) => {
           ID={props.playerID}
           currentPlayer={props.ctx.currentPlayer}
           currentHealth={getHealth(props.G, props.playerID)}
+          infos={getInfos(props.G)}
         />
         <CurrentPhase currentPhase={props.ctx.phase} />
         <MapBoard

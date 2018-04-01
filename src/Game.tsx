@@ -53,7 +53,8 @@ const CrystalHunt = Game({
       blackCrystalCellId: basicSetup.blackCrystalCellId,
       monsterCounter: 2,
       endTurn: false,
-      selectedAction: null
+      selectedAction: null,
+      infoMessages: ["Game started"]
     };
   },
   moves: {

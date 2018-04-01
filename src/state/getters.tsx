@@ -144,3 +144,9 @@ export function getCard(
 ): Card {
   return getCards(g, playerId)[cardIndex];
 }
+
+export function getInfos(
+  g: SimpleGame
+): Array<String> {
+  return g.infoMessages;
+}
