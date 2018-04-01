@@ -121,6 +121,10 @@ export function getCell(g: SimpleGame, cellId: string): Cell {
   return g.map[cellId];
 }
 
+export function getBlackCrystalCellId(g: SimpleGame): string {
+  return g.blackCrystalCellId;
+}
+
 export function getCellType(g: SimpleGame, cellId: string): CellTypeName {
   return g.map[cellId].type;
 }

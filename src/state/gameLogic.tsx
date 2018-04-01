@@ -13,7 +13,9 @@ import {
   getCategory,
   getSkillByCat,
   getSpell,
-  getMonsterCounter
+  getMonsterCounter,
+  getBlackCrystalCellId,
+  getAvatarOnCell
 } from "./getters";
 import { triggerPower } from "../action/Power";
 import { setHealth, setCards, addMonster, setCellAvatar } from "./setters";
@@ -193,4 +195,9 @@ export function summon(
     "M" + getMonsterCounter(monsterAdded).toString()
   );
   return monsterPositionned;
+}
+
+// Black Crystal Cell is identified by the BlackCrystalCellId.
+export function getBlackCrystalCellAvatarId(g: SimpleGame ): string | null {
+  return getAvatarOnCell(g, getBlackCrystalCellId(g));
 }

@@ -13,6 +13,8 @@ export interface SimpleGame {
   endTurn: boolean;
   // Used for monster ids.
   monsterCounter: number;
+  // Used to setup easily the map.
+  blackCrystalCellId: string;
   // equipment props
   equipmentPlayer0?: Equipment;
   equipmentPlayer1?: Equipment;

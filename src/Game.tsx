@@ -4,7 +4,6 @@ import { TriggerPhase, SkillCategoryName } from "./action/skillLib";
 import { initMapSetup } from "./map/mapDefinitions";
 import {
   getSelectedActionCategory,
-  getAvatarOnCell,
   getHealth,
   getCards
 } from "./state/getters";
@@ -18,7 +17,8 @@ import {
   triggerEnchantments,
   plugCard,
   cleanDeadMonsters,
-  getActiveAction
+  getActiveAction,
+  getBlackCrystalCellAvatarId
 } from "./state/gameLogic";
 // import { loadCard } from "./action/Card";
 
@@ -50,6 +50,7 @@ const CrystalHunt = Game({
       map: basicSetup.map,
       playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
       avatars: basicSetup.basicAvatars,
+      blackCrystalCellId: basicSetup.blackCrystalCellId,
       monsterCounter: 2,
       endTurn: false,
       selectedAction: null
@@ -145,7 +146,7 @@ const CrystalHunt = Game({
   flow: {
     // EndGame workflow, checking victory conditions, returning winner playerId
     endGameIf: (G: SimpleGame, ctx: GameContext) => {
-      const avatarOnCentralCell = getAvatarOnCell(G, "1x1");
+      const avatarOnCentralCell = getBlackCrystalCellAvatarId(G);
       // Checking player on centrall Cell
       if (avatarOnCentralCell !== null) {
         return avatarOnCentralCell;

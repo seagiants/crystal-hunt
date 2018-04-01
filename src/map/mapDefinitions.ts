@@ -42,9 +42,11 @@ const _longerMap: MapDef = {
   "6x4": { ...initCell(CellTypeName.RoomCell), avatar: "1" }
 };
 
+// TODO : Improve BlackCrsytalCell handle.
 export function initMapSetup(): {
   map: MapDef;
   basicAvatars: Array<Avatar>;
+  blackCrystalCellId: string,
 } {
   let basicAvatars = [
     initPlayerAvatar("0", "0x0"),
@@ -53,6 +55,7 @@ export function initMapSetup(): {
   ];
   return {
     map: _longerMap,
-    basicAvatars: basicAvatars
+    basicAvatars: basicAvatars,
+    blackCrystalCellId: "3x2"
   };
 }
