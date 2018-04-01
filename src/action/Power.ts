@@ -3,6 +3,7 @@ import { SimpleGame, GameContext } from "../types";
 import { getPlayerCaracs, getEquipmentPlayerCaracs } from "../state/getters";
 import { PowerLib } from "./powerLib";
 import { addInfoMessage } from "../state/setters";
+import { diminishChargeSpell } from "../state/gameLogic";
 
 /* ****************************** Power API *********************** */
 // Used to get all added caracs of a power.
@@ -17,6 +18,7 @@ export function getAddedCaracs(caracs1: Caracs, caracs2: Caracs): Caracs {
 }
 
 // Used to trigger a power, based on PowerName.
+// Workflow : AddCaracts, setInfo, diminish charge if any, Trigger power.
 // TODO : Switch from ctx.currentPlayer to playerId (should'nt depend on the gameContext)
 // TODO : Improve handle of caracs based on the type of action (for spell, skill&equipment caracs should'nt be added)
 export function triggerPower(
@@ -33,10 +35,14 @@ export function triggerPower(
     getEquipmentPlayerCaracs(g, ctx.currentPlayer),
     caracsWithPower
   );
-  const infoMessage = action.powerName + " is trigerred on " + targetId;
-  const withInfo = addInfoMessage(g, infoMessage);
+  const infoMessage: string = action.powerName + " is trigerred on " + targetId;
+  const withInfo: SimpleGame = addInfoMessage(g, infoMessage);
+  const chargeDimished =
+    action[`charge`] !== undefined
+      ? diminishChargeSpell(withInfo, ctx.currentPlayer, action.skillCategory)
+      : withInfo;
   return loadPower(action.powerName)(
-    withInfo,
+    chargeDimished,
     ctx,
     targetId,
     caracsWithEquipments

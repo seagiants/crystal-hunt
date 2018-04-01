@@ -55,8 +55,9 @@ export const CardLib: { [key: string]: Card } = {
     type: ActionType.Spell,
     skillCategory: SkillCategoryName.Strength,
     isTargetRequired: true,
+    charge: 2,
     caracs: {
-      attackValue: 3
+      attackValue: 3,
     },
     symbol: 4,
     powerName: "Summon"
@@ -77,6 +78,7 @@ export const CardLib: { [key: string]: Card } = {
     type: ActionType.Spell,
     skillCategory: SkillCategoryName.Strength,
     isTargetRequired: true,
+    charge: 2,
     caracs: {
       attackValue: 1,
       attackRange: 5

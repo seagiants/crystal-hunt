@@ -18,7 +18,8 @@ import {
   plugCard,
   cleanDeadMonsters,
   getActiveAction,
-  getBlackCrystalCellAvatarId
+  getBlackCrystalCellAvatarId,
+  cleanExhaustedSpell
 } from "./state/gameLogic";
 // import { loadCard } from "./action/Card";
 
@@ -164,11 +165,13 @@ const CrystalHunt = Game({
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
-      // EndTurn Workflow : Clean deadMonsters, triggerEnchantments, reset EndTurn.
+      // EndTurn Workflow : Clean deadMonsters, clean exhausted Spell, triggerEnchantments, reset EndTurn.
       const deadMonstersCleaned = cleanDeadMonsters(G);
+      // Clean Exhausted Spell
+      const exhaustedSpellCleaned = cleanExhaustedSpell(deadMonstersCleaned, ctx.currentPlayer);
       // Trigger EndTurnEchantment
       const enchantmentTriggered = triggerEnchantments(
-        deadMonstersCleaned,
+        exhaustedSpellCleaned,
         ctx,
         ctx.currentPlayer,
         TriggerPhase.TurnEnd

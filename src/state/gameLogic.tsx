@@ -1,7 +1,8 @@
 import {
   TriggerPhase,
   ActionType,
-  SkillCategoryName
+  SkillCategoryName,
+  SkillCategoryLib
 } from "../action/skillLib";
 import { SimpleGame, GameContext } from "../types";
 import {
@@ -107,6 +108,33 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
   return noDeadOnAvatars;
 }
 
+export function cleanExhaustedSpell(
+  g: SimpleGame,
+  playerId: string
+): SimpleGame {
+  let newG: SimpleGame;
+  // Clean a spell if its charge < 1 for current category & player.
+  function reducer(prevG: SimpleGame, categoryName: string) {
+    const spellValue = g[`${categoryName.toLowerCase()}SpellPlayer${playerId}`];
+    if (
+      spellValue !== undefined &&
+      spellValue !== null &&
+      spellValue.charge !== undefined &&
+      spellValue.charge < 1
+    ) {
+      return {
+        ...prevG,
+        [`${categoryName.toLowerCase()}SpellPlayer${playerId}`]: null
+      };
+    } else {
+      return prevG;
+    }
+  }
+
+  newG = Object.keys(SkillCategoryLib).reduce(reducer, g);
+  return newG;
+}
+
 // Draw key words : Replace cards of a player with full new cards.
 // TODO : Correctly implements deck mechanism.
 export function drawCards(g: SimpleGame, playerId: string): SimpleGame {
@@ -139,7 +167,7 @@ export function plugCard(
   }
 }
 
-// Make it plugs on Intelligence prop only
+// TODO : Make it plugs on Intelligence prop only
 // (Enchantment should be longer to cast, trigger intelligence twice : draw card, then cast enchantment)
 export function plugEnchantment(
   g: SimpleGame,
@@ -150,7 +178,7 @@ export function plugEnchantment(
   return { ...g, [`enchantmentPlayer${playerId}`]: loadEnchantment(card) };
 }
 
-// Make it plugs on categorized prop (aka equipmentStrengthPlayer, or equipmentDexterityPlayer)
+// TODO: Make it plugs on categorized prop (aka equipmentStrengthPlayer, or equipmentDexterityPlayer)
 export function plugEquipment(
   g: SimpleGame,
   playerId: string,
@@ -160,7 +188,7 @@ export function plugEquipment(
   return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(card) };
 }
 
-// Stored in the categorized spell slot of the player.
+// TODO: Stored in the categorized spell slot of the player.
 export function plugSpell(
   g: SimpleGame,
   playerId: string,
@@ -169,6 +197,26 @@ export function plugSpell(
   const card = getCard(g, playerId, cardIndex);
   const category = getCategory(card).toLowerCase();
   return { ...g, [`${category}SpellPlayer${playerId}`]: loadSpell(card) };
+}
+
+// TODO : Use only setters
+// TODO : Better handling of charge caracs.
+export function diminishChargeSpell(
+  g: SimpleGame,
+  playerId: string,
+  categoryName: SkillCategoryName
+): SimpleGame {
+  const spell = getSpell(g, playerId, categoryName);
+  console.log(
+    "Diminish charge for " + categoryName + " spell of player " + playerId
+  );
+  return {
+    ...g,
+    [`${categoryName.toLowerCase()}SpellPlayer${playerId}`]: {
+      ...spell,
+      charge: spell.charge ? spell.charge - 1 : undefined
+    }
+  };
 }
 
 // Active Action is the spell one if any, if not it's the skill one.
@@ -201,6 +249,6 @@ export function summon(
 }
 
 // Black Crystal Cell is identified by the BlackCrystalCellId.
-export function getBlackCrystalCellAvatarId(g: SimpleGame ): string | null {
+export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));
 }
