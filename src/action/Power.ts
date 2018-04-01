@@ -54,6 +54,7 @@ export function checkTarget(
 
 // Power factory
 export function loadPower(powerName: string): Power {
+  console.log("powerName: " + powerName);
   return PowerLib[powerName].power;
 }
 

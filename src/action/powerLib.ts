@@ -26,7 +26,7 @@ export const PowerLib: {
       return true;
     }
   },
-  Cristallize: {
+  Crystallize: {
     power: (g: SimpleGame, ctx: GameContext) => {
       const playerCell = getAvatarPosition(g, ctx.currentPlayer);
       const crystallizedCell: SimpleGame = setCellCrystallize(

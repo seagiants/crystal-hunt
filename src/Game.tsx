@@ -28,7 +28,7 @@ function initPlayerContext(playerId: string): PlayerContext {
     skills: [
       loadSkill("Move"),
       loadSkill("Draw"),
-      loadSkill("Cristallize"),
+      loadSkill("Crystallize"),
       loadSkill("Attack")
     ],
     selectedSkill: null,

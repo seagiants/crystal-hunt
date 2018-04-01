@@ -2,7 +2,7 @@ import { Skill, SkillCategory, Card } from "./type";
 
 export enum SkillName {
   Move = "Move",
-  Cristallize = "Cristallize",
+  Crystallize = "Crystallize",
   Attack = "Attack",
   Draw = "Draw"
 }
@@ -60,6 +60,17 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 4,
     powerName: "Summon"
+  },
+  GoldenShoes: {
+    name: "GoldenShoes",
+    type: ActionType.Enchantment,
+    skillCategory: SkillCategoryName.Dexterity,
+    isTargetRequired: false,
+    trigger: TriggerPhase.TurnEnd,
+    caracs: {      
+    },
+    symbol: 3,
+    powerName: "Crystallize"
   }
 };
 
@@ -74,12 +85,12 @@ export const SkillLib: { [key in SkillName]: Skill } = {
       speed: 1
     }
   },
-  Cristallize: {
-    name: SkillName.Cristallize,
+  Crystallize: {
+    name: SkillName.Crystallize,
     skillCategory: SkillCategoryName.Wisdom,
     symbol: 2,
     isTargetRequired: false,
-    powerName: "Cristallize",
+    powerName: "Crystallize",
     caracs: {
       quantity: 1
     }
