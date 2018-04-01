@@ -189,8 +189,6 @@ export function summon(
   caracs?: Caracs
 ): SimpleGame {
   // TODO : Better handling of the id, it's overloaded in the setter function.
-  console.log("in summon");
-  console.log(caracs);  
   const monster = initMonsterAvatar("NeverMind", cellId, caracs);
   const monsterAdded = addMonster(g, monster);
   const monsterPositionned = setCellAvatar(

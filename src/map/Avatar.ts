@@ -44,7 +44,6 @@ export function initMonsterAvatar(
     caracs !== undefined && caracs.attackValue !== undefined
       ? caracs.attackValue
       : 2;
-  console.log(attackValue);
   return {
     id: id,
     type: AvatarTypeName.Monster,
