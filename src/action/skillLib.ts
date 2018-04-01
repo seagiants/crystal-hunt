@@ -71,6 +71,18 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 3,
     powerName: "Crystallize"
+  },
+  Fireball: {
+    name: "Fireball",
+    type: ActionType.Spell,
+    skillCategory: SkillCategoryName.Strength,
+    isTargetRequired: true,
+    caracs: {
+      attackValue: 1,
+      attackRange: 5
+    },
+    symbol: 4,
+    powerName: "Attack"
   }
 };
 

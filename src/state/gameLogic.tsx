@@ -114,7 +114,8 @@ export function drawCards(g: SimpleGame, playerId: string): SimpleGame {
     loadCard("Sword"),
     loadCard("CrystalAffinity"),
     loadCard("SummonMonster"),
-    loadCard("GoldenShoes")
+    loadCard("GoldenShoes"),
+    loadCard("Fireball")
   ]);
 }
 

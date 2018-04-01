@@ -64,6 +64,8 @@ export interface Card extends Skill {
 export interface AttackCaracs extends Caracs {
   // Used to determine the attack damage.
   attackValue: number;
+  // Used to determine the attack range.
+  attackRange: number;
   [caracName: string]: number;
 }
 
