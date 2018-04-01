@@ -49,6 +49,17 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 3,
     powerName: "HealSelfOnCrystalized"
+  },
+  SummonMonster: {
+    name: "SummonMonster",
+    type: ActionType.Spell,
+    skillCategory: SkillCategoryName.Strength,
+    isTargetRequired: true,
+    caracs: {
+      attackValue: 2
+    },
+    symbol: 4,
+    powerName: "Summon"
   }
 };
 

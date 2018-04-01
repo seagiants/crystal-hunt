@@ -1,33 +1,27 @@
 import { SimpleGame } from "../types";
-import { SkillName } from "../action/skillLib";
-import { getAvatarPosition } from "./getters";
-import {  } from "../action/Card";
+import { getAvatarPosition, getMonsterCounter } from "./getters";
 import { Card } from "../action/type";
+import { SkillCategoryName } from "../action/skillLib";
+import { Avatar } from "../map/type";
 
-export function setSelectedSkill(
+export function setSelectedAction(
   G: SimpleGame,
-  skillName: SkillName | null,
+  categoryName: SkillCategoryName | null,
   playerId: string
 ): SimpleGame {
   return {
     ...G,
-    playersContext: {
-      ...G.playersContext,
-      [playerId]: {
-        ...G.playersContext[playerId],
-        selectedSkill: skillName
-      }
-    }
+    selectedAction: categoryName
   };
 }
 
+// TODO : Refactor, too much game logic for a setter
 export function setAvatarPosition(
   g: SimpleGame,
   avatarId: string,
   newPosition: string
 ): SimpleGame {
   const oldPosition: string = getAvatarPosition(g, avatarId);
-  console.log("oldPosition: " + oldPosition);
   return {
     ...g,
     // Setting the new player position
@@ -50,6 +44,27 @@ export function setAvatarPosition(
         avatar: avatarId
       }
     }
+  };
+}
+
+// TODO : Improve the id handling.
+export function addMonster(g: SimpleGame, avatar: Avatar): SimpleGame {
+  const id = getMonsterCounter(g) + 1;
+  return {
+    ...g,
+    monsterCounter: id,
+    avatars: [...g.avatars, { ...avatar, id: "M" + id.toString() }]
+  };
+}
+
+export function setCellAvatar(
+  g: SimpleGame,
+  cellId: string,
+  avatarId: string
+): SimpleGame {
+  return {
+    ...g,
+    map: { ...g.map, [cellId]: { ...g.map[cellId], avatar: avatarId } }
   };
 }
 
@@ -80,8 +95,7 @@ export function setHealth(
             ...avatar,
             caracs: {
               ...avatar.caracs,
-              healthCurrent:
-                value
+              healthCurrent: value
             }
           }
         : { ...avatar };

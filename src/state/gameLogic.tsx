@@ -1,16 +1,32 @@
-import { TriggerPhase, ActionType } from "../action/skillLib";
+import {
+  TriggerPhase,
+  ActionType,
+  SkillCategoryName
+} from "../action/skillLib";
 import { SimpleGame, GameContext } from "../types";
 import {
   getEnchantment,
   getEnchantmentTrigger,
   getHealthInit,
   getHealth,
-  getCard
+  getCard,
+  getCategory,
+  getSkillByCat,
+  getSpell,
+  getMonsterCounter
 } from "./getters";
 import { triggerPower } from "../action/Power";
-import { setHealth, setCards } from "./setters";
+import { setHealth, setCards, addMonster, setCellAvatar } from "./setters";
 import { Avatar } from "../map/type";
-import { loadCard, getCardType, loadEnchantment, loadEquipment } from "../action/Card";
+import {
+  loadCard,
+  getCardType,
+  loadEnchantment,
+  loadEquipment,
+  loadSpell
+} from "../action/Card";
+import { Skill, Spell } from "../action/type";
+import { initMonsterAvatar } from "../map/Avatar";
 
 // auto triggering enchantment logic
 // TODO : Handle several enchantment triggers
@@ -60,6 +76,7 @@ export function damage(
     : setHealth(g, avatarId, currentHealth - value);
 }
 
+// TODO : Refactor, don't access state directly, use setter only
 export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
   const deadMonsters: Array<Avatar> = g.avatars.filter(avatar => {
     return avatar.type === "Monster" && avatar.caracs.healthCurrent < 1;
@@ -93,12 +110,13 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
 export function drawCards(g: SimpleGame, playerId: string): SimpleGame {
   return setCards(g, playerId, [
     loadCard("Sword"),
-    loadCard("CrystalAffinity")
+    loadCard("CrystalAffinity"),
+    loadCard("SummonMonster")
   ]);
 }
 
 // Plug keyword : Plugging a card is based on its type.
-// Spell/Equipment are linked to the correspind slot of their category.
+// Spell/Equipment are linked to the corresponding slot of their category.
 // Enchantment are linked to the Intelligence Spell slot.
 export function plugCard(
   g: SimpleGame,
@@ -110,6 +128,8 @@ export function plugCard(
       return plugEquipment(g, playerId, cardIndex);
     case ActionType.Enchantment:
       return plugEnchantment(g, playerId, cardIndex);
+    case ActionType.Spell:
+      return plugSpell(g, playerId, cardIndex);
     default:
       return g;
   }
@@ -134,4 +154,43 @@ export function plugEquipment(
 ): SimpleGame {
   const card = getCard(g, playerId, cardIndex);
   return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(card) };
+}
+
+// Stored in the categorized spell slot of the player.
+export function plugSpell(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): SimpleGame {
+  const card = getCard(g, playerId, cardIndex);
+  const category = getCategory(card).toLowerCase();
+  return { ...g, [`${category}SpellPlayer${playerId}`]: loadSpell(card) };
+}
+
+// Active Action is the spell one if any, if not it's the skill one.
+export function getActiveAction(
+  g: SimpleGame,
+  playerId: string,
+  categoryName: SkillCategoryName
+): Skill | Spell {
+  const spell = g[`${categoryName!.toLowerCase()}SpellPlayer${playerId}`];
+  return spell !== null && spell !== undefined
+    ? getSpell(g, playerId, categoryName!)
+    : getSkillByCat(g, playerId, categoryName!);
+}
+
+export function summon(
+  g: SimpleGame,
+  monsterName: string,
+  cellId: string
+): SimpleGame {
+  // TODO : Better handling of the id, it's overloaded in the setter function.
+  const monster = initMonsterAvatar("NeverMind", cellId);
+  const monsterAdded = addMonster(g, monster);
+  const monsterPositionned = setCellAvatar(
+    monsterAdded,
+    cellId,
+    "M" + getMonsterCounter(monsterAdded).toString()
+  );
+  return monsterPositionned;
 }

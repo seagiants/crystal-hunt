@@ -4,7 +4,7 @@ import {
   SkillCategoryLib,
   ActionType
 } from "./skillLib";
-import { Card, SkillCategory, Equipment, Enchantment } from "./type";
+import { Card, SkillCategory, Equipment, Enchantment, Spell } from "./type";
 
 // Loaders for JSON data
 
@@ -35,6 +35,18 @@ export function loadEquipment(card: Card): Equipment {
     skillCategory: card.skillCategory,
     symbol: card.symbol,
     caracs: card.caracs
+  };
+}
+
+export function loadSpell(card: Card): Spell {
+  return {
+    name: card.name,
+    skillCategory: card.skillCategory,
+    symbol: card.symbol,
+    caracs: card.caracs,
+    powerName: card.powerName,
+    isTargetRequired: card.isTargetRequired,
+    charge: card.charge!
   };
 }
 

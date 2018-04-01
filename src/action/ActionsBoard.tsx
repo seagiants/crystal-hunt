@@ -14,7 +14,7 @@ export const ActionTile = (props: ActionTileProps) => {
         stroke="black"
         onClick={e => {
           e.preventDefault();
-          props.activateSkill(props.skill.name);
+          props.activateAction(props.skill.skillCategory);
           // props.endTurn();
         }}
       />
@@ -34,7 +34,7 @@ export const ActionsBoard = (props: TilesBoardProps) => {
           return (
             <ActionTile
               key={`ActionTile${idx}${props.playerId}`}
-              activateSkill={props.moves.activateSkill}
+              activateAction={props.moves.activateAction}
               endTurn={props.events.endTurn}              
               category={skillCategoryName}
               playerID={props.playerId}

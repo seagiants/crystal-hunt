@@ -1,15 +1,12 @@
 import { Power, CheckTarget, Caracs, AttackCaracs } from "./type";
 import { SimpleGame, GameContext } from "../types";
-import {
-  setCellCrystallize,
-  setAvatarPosition
-} from "../state/setters";
+import { setCellCrystallize, setAvatarPosition } from "../state/setters";
 import {
   getAvatarOnCell,
   getAvatarPosition,
   getCrystallized
 } from "../state/getters";
-import { damage, heal, drawCards } from "../state/gameLogic";
+import { damage, heal, drawCards, summon } from "../state/gameLogic";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
@@ -124,5 +121,24 @@ export const PowerLib: {
         : g;
     },
     check: () => true
+  },
+  Summon: {
+    power: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      const monsterSummoned = summon(g, "BasicMonster", targetId);
+      return monsterSummoned;
+    },
+    check: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      return getAvatarOnCell(g, targetId) === null;
+    }
   }
 };

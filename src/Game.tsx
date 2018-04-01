@@ -1,25 +1,25 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
 import { Game } from "boardgame.io/core";
-import { SkillName, TriggerPhase } from "./action/skillLib";
+import { TriggerPhase, SkillCategoryName } from "./action/skillLib";
 import { initMapSetup } from "./map/mapDefinitions";
 import {
-  getSkill,
-  getSelectedSkillName,
+  getSelectedActionCategory,
   getAvatarOnCell,
   getHealth,
   getCards
 } from "./state/getters";
-import {
-  setSelectedSkill,
-  setEndTurn,
-  setCards
-} from "./state/setters";
+import { setEndTurn, setCards, setSelectedAction } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
 import { triggerMonsterSkill } from "./map/Avatar";
 import { Avatar } from "./map/type";
-import { triggerEnchantments, plugCard, cleanDeadMonsters } from "./state/gameLogic";
+import {
+  triggerEnchantments,
+  plugCard,
+  cleanDeadMonsters,
+  getActiveAction
+} from "./state/gameLogic";
 // import { loadCard } from "./action/Card";
 
 function initPlayerContext(playerId: string): PlayerContext {
@@ -42,14 +42,17 @@ function initPlayerContext(playerId: string): PlayerContext {
 }
 
 const CrystalHunt = Game({
-  setup: () => {
-    // let map = basicMap;
-    // let avatars = [initPlayerAvatar("0"),initPlayerAvatar("1"),initMonsterAvatar("M2")];
+  setup: (): SimpleGame => {
+    // TODO : playersContext should be dropped and state flattened.
+    // TODO : dynamically set the monsterCounter.
     const basicSetup = initMapSetup();
     return {
       map: basicSetup.map,
       playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
-      avatars: basicSetup.basicAvatars
+      avatars: basicSetup.basicAvatars,
+      monsterCounter: 2,
+      endTurn: false,
+      selectedAction: null
     };
   },
   moves: {
@@ -62,49 +65,63 @@ const CrystalHunt = Game({
         - endTurn
         TODO : Log the action, to display to players.
         */
-      const selectedSkillName = getSelectedSkillName(G, ctx.currentPlayer);
-      const selectedSkill = getSkill(G, ctx.currentPlayer, selectedSkillName);
+      const selectedActionCategory = getSelectedActionCategory(
+        G,
+        ctx.currentPlayer
+      );
+      // Phase is active if selectedAction !== null.
+      // TODO : Explicit more ?
+      const selectedAction = getActiveAction(
+        G,
+        ctx.currentPlayer,
+        selectedActionCategory!
+      );
       const playerMoved = triggerPower(
-        selectedSkill,
+        selectedAction,
         G,
         ctx,
         toKey(cellXY[0], cellXY[1])
       );
-      const skillSaved: SimpleGame = setSelectedSkill(
+      const actionSaved: SimpleGame = setSelectedAction(
         playerMoved,
         null,
         ctx.currentPlayer
       );
-      const endTurn: SimpleGame = setEndTurn(skillSaved, true);
+      const endTurn: SimpleGame = setEndTurn(actionSaved, true);
       return endTurn;
     },
-    activateSkill: (G: SimpleGame, ctx: GameContext, skillName: SkillName) => {
-      /* activateSkill workflow :
+    activateAction: (
+      G: SimpleGame,
+      ctx: GameContext,
+      categoryName: SkillCategoryName
+    ) => {
+      /* activateAction workflow :
+        - Retrieve Active Action (Spell, if not Skill)
         - Check if TargetRequired, Select the skill and wait for target.
         - If not, Trigger the power,
         - If not Draw skill end turn (To refactor!).
         TODO : Preview the legal targets.
         TODO : Review endTurn workflow
       */
-      console.log("Activating " + skillName + " skill");
-      const skill = getSkill(G, ctx.currentPlayer, skillName);
-      if (skill.isTargetRequired) {
-        console.log("Skill " + skillName + " is selected");
-        // SelectedSkill is stored in the state.
-        const skillSaved: SimpleGame = setSelectedSkill(
+      const action = getActiveAction(G, ctx.currentPlayer, categoryName);
+      console.log("Activating " + categoryName);
+      if (action.isTargetRequired) {
+        console.log(action.name + " is selected");
+        // Corresponding category is stored in the state.
+        const skillSaved: SimpleGame = setSelectedAction(
           G,
-          skillName,
+          action.skillCategory,
           ctx.currentPlayer
         );
         return skillSaved;
       } else {
-        console.log("Skill " + skillName + " is triggered");
+        console.log(action.name + " is triggered");
         // State is modified by the power.
-        const powerTriggered = triggerPower(skill, G, ctx, "");
+        const powerTriggered = triggerPower(action, G, ctx, "");
         // EndTurn is triggered.
         const turnEnded = setEndTurn(powerTriggered, true);
         // Todo : Implement a better workflow
-        return skill.name === "Draw" ? powerTriggered : turnEnded;
+        return action.name === "Draw" ? powerTriggered : turnEnded;
       }
     },
     activateCard: (
@@ -167,20 +184,26 @@ const CrystalHunt = Game({
     },
     phases: [
       {
-        name: "Choose Skill",
-        allowedMoves: ["activateSkill"],
+        name: "Choose Action",
+        allowedMoves: ["activateAction"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
           return (
-            getSelectedSkillName(G, ctx.currentPlayer) !== null ||
+            getSelectedActionCategory(G, ctx.currentPlayer) !== null ||
             getCards(G, ctx.currentPlayer).length > 0
           );
+        },
+        onPhaseBegin: (G: SimpleGame, ctx: GameContext) => {
+          return G;
         }
       },
       {
         name: "Choose Cell",
         allowedMoves: ["activateCell"],
-        endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          return getSelectedSkillName(G, ctx.currentPlayer) === null;
+        endPhaseIf: (G: SimpleGame, ctx: GameContext): boolean => {
+          return (
+            getSelectedActionCategory(G, ctx.currentPlayer) === null ||
+            getCards(G, ctx.currentPlayer).length > 0
+          );
         }
       },
       {

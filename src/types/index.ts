@@ -1,4 +1,4 @@
-import { Skill, Caracs, Card, Equipment, Enchantment } from "../action/type";
+import { Skill, Caracs, Card, Equipment, Enchantment, Spell } from "../action/type";
 import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
 import { Avatar } from "../map/type";
@@ -7,13 +7,27 @@ import { Avatar } from "../map/type";
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
   playersContext: PlayersContextType;
-  equipmentPlayer0?: Equipment;
-  equipmentPlayer1?: Equipment;
-  enchantmentPlayer0?: Enchantment;
-  enchantmentPlayer1?: Enchantment;
+  selectedAction: SkillCategoryName | null;
   avatars: Array<Avatar>;
   map: MapDef;
   endTurn: boolean;
+  // Used for monster ids.
+  monsterCounter: number;
+  // equipment props
+  equipmentPlayer0?: Equipment;
+  equipmentPlayer1?: Equipment;
+  // enchantment props
+  enchantmentPlayer0?: Enchantment;
+  enchantmentPlayer1?: Enchantment;
+  // spell props
+  dexteritySpellPlayer0?: Spell;
+  intelligenceSpellPlayer0?: Spell;
+  wisdomSpellPlayer0?: Spell;
+  strengthSpellPlayer0?: Spell;
+  dexteritySpellPlayer1?: Spell;
+  intelligenceSpellPlayer1?: Spell;
+  wisdomSpellPlayer1?: Spell;
+  strengthSpellPlayer1?: Spell;  
 }
 
 export interface GameContext {
@@ -24,7 +38,7 @@ export interface GameContext {
 
 export interface Moves {
   activateCell(cellXY: number[]): object;
-  activateSkill(): object;
+  activateAction(): object;
   activateCard(): object;
 }
 
@@ -78,7 +92,7 @@ export interface ActionTileProps {
   equipment: Equipment;
   category: SkillCategoryName;
   playerID: string;
-  activateSkill(skill: string): object;
+  activateAction(categoryName: string): object;
   endTurn(): object;
 }
 

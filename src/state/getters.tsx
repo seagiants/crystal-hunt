@@ -1,14 +1,26 @@
 import { SimpleGame } from "../types";
-import { Skill, Caracs, Card, Equipment, Enchantment } from "../action/type";
-import { SkillName, TriggerPhase } from "../action/skillLib";
+import {
+  Skill,
+  Caracs,
+  Card,
+  Equipment,
+  Enchantment,
+  ACTIONTEMPLATE,
+  Spell
+} from "../action/type";
+import { TriggerPhase, SkillCategoryName } from "../action/skillLib";
 import { Cell, Avatar } from "../map/type";
 import { CellTypeName } from "../map/Cell";
 
-export function getSelectedSkillName(
+export function getSelectedActionCategory(
   g: SimpleGame,
   playerId: string
-): SkillName {
-  return g.playersContext[playerId].selectedSkill!;
+): SkillCategoryName | null {
+  return g.selectedAction;
+}
+
+export function getCategory(action: ACTIONTEMPLATE): SkillCategoryName {
+  return action.skillCategory;
 }
 
 export function getSkill(
@@ -19,6 +31,14 @@ export function getSkill(
   return g.playersContext[playerId].skills.filter(
     skill => skill.name === skillName
   )[0];
+}
+
+export function getSpell(
+  g: SimpleGame,
+  playerId: string,
+  categoryName: SkillCategoryName
+): Spell {
+  return g[`${categoryName.toLowerCase()}SpellPlayer${playerId}`];
 }
 
 export function getSkillByCat(
@@ -47,6 +67,10 @@ export function getAvatar(g: SimpleGame, avatarId: string): Avatar {
 
 export function getAvatarPosition(g: SimpleGame, avatarId: string): string {
   return getAvatar(g, avatarId).position;
+}
+
+export function getMonsterCounter(g: SimpleGame): number {
+  return g.monsterCounter;
 }
 
 export function getPlayerCaracs(g: SimpleGame, playerId: string): Caracs {

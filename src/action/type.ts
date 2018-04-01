@@ -50,9 +50,15 @@ export interface Enchantment extends ACTIONTEMPLATE {
   powerName: string;
 }
 
+// Spells are alternative skills, remplacing temporarely (based on charge value) the skill power.
+export interface Spell extends Skill {
+  charge: number;
+}
+
 export interface Card extends Skill {
   type: ActionType;
   trigger?: TriggerPhase;
+  charge?: number;
 }
 
 export interface AttackCaracs extends Caracs {

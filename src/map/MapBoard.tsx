@@ -1,10 +1,11 @@
 import * as React from "react";
 import { toKey } from "./Cell";
-import { getSelectedSkillName, getSkill } from "../state/getters";
-import { SkillName } from "../action/skillLib";
+import { getSelectedActionCategory } from "../state/getters";
+import { SkillCategoryName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
 import { SimpleGame, GameContext, Moves, Events } from "../types";
 import CellMap from "./MapCell";
+import { getActiveAction } from "../state/gameLogic";
 
 export interface MapBoardProps {
   G: SimpleGame;
@@ -15,14 +16,14 @@ export interface MapBoardProps {
 
 const MapBoard = (props: MapBoardProps) => {
   let isClickable: (x: number, y: number) => boolean;
-  const selectedSkill: SkillName | null = getSelectedSkillName(
+  const selectedAction: SkillCategoryName | null = getSelectedActionCategory(
     props.G,
     props.ctx.currentPlayer
   );
-  if (selectedSkill !== null) {
+  if (selectedAction !== null && selectedAction !== undefined) {
     isClickable = (x: number, y: number) =>
       checkTarget(
-        getSkill(props.G, props.ctx.currentPlayer, selectedSkill),
+        getActiveAction(props.G, props.ctx.currentPlayer, selectedAction),
         props.G,
         props.ctx,
         toKey(x, y)
