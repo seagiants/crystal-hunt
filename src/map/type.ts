@@ -5,7 +5,7 @@ import { AvatarTypeName } from "./Avatar";
 export interface Cell {
   type: CellTypeName;
   monster: boolean;
-  treasure: boolean;
+  trap: boolean;
   avatar: string | null;
   isCrystallized: boolean;
 }

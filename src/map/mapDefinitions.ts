@@ -10,7 +10,7 @@ function initCell(cellType: CellTypeName): Cell {
   return {
     type: cellType,
     monster: false,
-    treasure: false,
+    trap: false,
     avatar: null,
     isCrystallized: false
   };
@@ -31,9 +31,9 @@ const _longerMap: MapDef = {
   "1x2": initCell(CellTypeName.RoomCell),
   "2x0": { ...initCell(CellTypeName.RoomCell), avatar: "M2" },
   "3x0": initCell(CellTypeName.RoomCell),
-  "3x1": initCell(CellTypeName.RoomCell),
+  "3x1": { ...initCell(CellTypeName.RoomCell), trap: true },
   "3x2": initCell(CellTypeName.BlackCrystalCell),
-  "3x3": initCell(CellTypeName.RoomCell),
+  "3x3": { ...initCell(CellTypeName.RoomCell), trap: true },
   "3x4": initCell(CellTypeName.RoomCell),
   "4x4": initCell(CellTypeName.RoomCell),
   "5x4": initCell(CellTypeName.RoomCell),
@@ -46,7 +46,7 @@ const _longerMap: MapDef = {
 export function initMapSetup(): {
   map: MapDef;
   basicAvatars: Array<Avatar>;
-  blackCrystalCellId: string,
+  blackCrystalCellId: string;
 } {
   let basicAvatars = [
     initPlayerAvatar("0", "0x0"),

@@ -19,9 +19,9 @@ import {
   cleanDeadMonsters,
   getActiveAction,
   getBlackCrystalCellAvatarId,
-  cleanExhaustedSpell
+  cleanExhaustedSpell,
+  triggerTrap
 } from "./state/gameLogic";
-// import { loadCard } from "./action/Card";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
@@ -165,10 +165,14 @@ const CrystalHunt = Game({
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
-      // EndTurn Workflow : Clean deadMonsters, clean exhausted Spell, triggerEnchantments, reset EndTurn.
+      // EndTurn Workflow : 
+      // Clean deadMonsters
       const deadMonstersCleaned = cleanDeadMonsters(G);
       // Clean Exhausted Spell
-      const exhaustedSpellCleaned = cleanExhaustedSpell(deadMonstersCleaned, ctx.currentPlayer);
+      const exhaustedSpellCleaned = cleanExhaustedSpell(
+        deadMonstersCleaned,
+        ctx.currentPlayer
+      );
       // Trigger EndTurnEchantment
       const enchantmentTriggered = triggerEnchantments(
         exhaustedSpellCleaned,
@@ -176,8 +180,13 @@ const CrystalHunt = Game({
         ctx.currentPlayer,
         TriggerPhase.TurnEnd
       );
+      // Trigger Trap, should be Improved.
+      const trapTriggered = triggerTrap(
+        enchantmentTriggered,
+        ctx.currentPlayer
+      );
       // Reset EndTurnProp
-      return setEndTurn(enchantmentTriggered, false);
+      return setEndTurn(trapTriggered, false);
     },
     onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
       let monsters = G.avatars.filter(avatar => avatar.type === "Monster");

@@ -16,10 +16,18 @@ import {
   getSpell,
   getMonsterCounter,
   getBlackCrystalCellId,
-  getAvatarOnCell
+  getAvatarOnCell,
+  getAvatarPosition,
+  isTrapped
 } from "./getters";
 import { triggerPower } from "../action/Power";
-import { setHealth, setCards, addMonster, setCellAvatar } from "./setters";
+import {
+  setHealth,
+  setCards,
+  addMonster,
+  setCellAvatar,
+  addInfoMessage
+} from "./setters";
 import { Avatar } from "../map/type";
 import {
   loadCard,
@@ -251,4 +259,12 @@ export function summon(
 // Black Crystal Cell is identified by the BlackCrystalCellId.
 export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));
+}
+
+export function triggerTrap(g: SimpleGame, playerId: string): SimpleGame {
+  const cellId = getAvatarPosition(g, playerId);
+  const trap = isTrapped(g, cellId);
+  return trap
+    ? addInfoMessage(g, "Player" + playerId + " has been trapped, this punk...")
+    : g;
 }

@@ -133,6 +133,10 @@ export function getCrystallized(g: SimpleGame, cellId: string): boolean {
   return g.map[cellId].isCrystallized;
 }
 
+export function isTrapped(g: SimpleGame, cellId: string): boolean {
+  return g.map[cellId].trap;
+}
+
 export function getCards(g: SimpleGame, playerId: string): Array<Card> {
   return g.playersContext[playerId].cards;
 }
