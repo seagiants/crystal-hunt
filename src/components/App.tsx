@@ -9,13 +9,16 @@ const url =
     ? "localhost:7000"
     : "crystal-hunt.appspot.com";
 
+// const isDebugActive = process.env.NODE_ENV === "development";
+const isDebugActive = false;
+
 const App = Client({
   game: CrystalHunt,
   board: GameBoard,
   multiplayer: {
     server: url
   },
-  debug: process.env.NODE_ENV === "development"
+  debug: isDebugActive
 });
 
 export default App;

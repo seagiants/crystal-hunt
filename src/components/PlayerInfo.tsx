@@ -14,6 +14,9 @@ const getHealthBars = (health: number) =>
     </rect>
   ));
 
+const getTurnText = (yourID: string, currentPlayerID: string) =>
+  yourID === currentPlayerID ? "Your turn" : "Opponent's turn";
+
 const PlayerInfo = ({
   ID,
   currentPlayer,
@@ -26,9 +29,11 @@ const PlayerInfo = ({
   infos: Array<String>;
 }) => (
   <div>
-    <p>It is player#{currentPlayer} turn</p>
+    <p>{getTurnText(ID, currentPlayer)}</p>
     <p className="HPBar">
-      <svg>{getHealthBars(currentHealth)}</svg>
+      <svg width="200" height="60">
+        {getHealthBars(currentHealth)}
+      </svg>
     </p>
     <p className="Infos">Infos : {infos[infos.length - 1]}</p>
   </div>

@@ -15,7 +15,6 @@ export const ActionTile = (props: ActionTileProps) => {
         onClick={e => {
           e.preventDefault();
           props.activateAction(props.skill.skillCategory);
-          // props.endTurn();
         }}
       />
       <text x="10" y="50">
@@ -26,7 +25,7 @@ export const ActionTile = (props: ActionTileProps) => {
 };
 
 export const ActionsBoard = (props: TilesBoardProps) => {
-  // Render ActionTiles by Category, one for each CategoryName.      
+  // Render ActionTiles by Category, one for each CategoryName.
   return (
     <div>
       {Object.keys(SkillCategoryLib).map(
@@ -35,7 +34,7 @@ export const ActionsBoard = (props: TilesBoardProps) => {
             <ActionTile
               key={`ActionTile${idx}${props.playerId}`}
               activateAction={props.moves.activateAction}
-              endTurn={props.events.endTurn}              
+              endTurn={props.events.endTurn}
               category={skillCategoryName}
               playerID={props.playerId}
               skill={getSkillByCat(props.G, props.playerId, skillCategoryName)}
