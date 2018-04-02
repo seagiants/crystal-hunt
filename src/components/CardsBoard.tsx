@@ -6,16 +6,16 @@ import { getCards } from "../state/getters";
 
 export const CardTile = (props: CardTileProps) => {
   return (
-    <svg height="210" width="210">
+    <svg width="120" height="120">
       <rect
-        width="150"
-        height="200"
+        width="100"
+        height="120"
         style={{ fill: getColor(props.card) }}
         stroke="black"
         rx="20"
         ry="20"
         onClick={e => {
-          e.preventDefault();          
+          e.preventDefault();
           props.activateCard(props.index, props.playerId);
           // props.endTurn();
         }}
@@ -31,22 +31,20 @@ export const CardTile = (props: CardTileProps) => {
 };
 
 export const CardsBoard = (props: TilesBoardProps) => {
-  const cards: Array<Card> = getCards(props.G, props.playerId); 
+  const cards: Array<Card> = getCards(props.G, props.playerId);
   if (cards.length > 0) {
     return (
       <div>
-        {cards.map(
-          (card: Card, idx: number) => (
-            <CardTile
-              key={idx}
-              activateCard={props.moves.activateCard}
-              endTurn={props.events.endTurn}
-              card={card}
-              index={idx}
-              playerId={props.playerId}
-            />
-          )
-        )}
+        {cards.map((card: Card, idx: number) => (
+          <CardTile
+            key={idx}
+            activateCard={props.moves.activateCard}
+            endTurn={props.events.endTurn}
+            card={card}
+            index={idx}
+            playerId={props.playerId}
+          />
+        ))}
       </div>
     );
   } else {

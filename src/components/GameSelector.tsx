@@ -21,7 +21,7 @@ class GameSelector extends React.Component<
       selectedGameId: "",
       selectedPlayerId: ""
     };
-    // Binding is not allowed in JSX becuz of bad perfs
+    // Binding is not allowed in JSX becuz of bad perfs so we do it here
     this.handleGIDChange = this.handleGIDChange.bind(this);
     this.handlePIDChange = this.handlePIDChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

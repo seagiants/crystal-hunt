@@ -13,34 +13,38 @@ export const GameBoard = (props: GameBoardProps) => {
     return <div className="container">Player {props.ctx.gameover} wins!</div>;
   } else {
     return (
-      <div className="container">
-        <CardsBoard
-          G={props.G}
-          ctx={props.ctx}
-          moves={props.moves}
-          events={props.events}
-          playerId={props.playerID}
-        />
-        <PlayerInfo
-          ID={props.playerID}
-          currentPlayer={props.ctx.currentPlayer}
-          currentHealth={getHealth(props.G, props.playerID)}
-          infos={getInfos(props.G)}
-        />
-        <CurrentPhase currentPhase={props.ctx.phase} />
-        <MapBoard
-          G={props.G}
-          ctx={props.ctx}
-          moves={props.moves}
-          events={props.events}
-        />
-        <ActionsBoard
-          G={props.G}
-          ctx={props.ctx}
-          moves={props.moves}
-          events={props.events}
-          playerId={props.playerID}
-        />
+      <div>
+        <div id="main-container">
+          <PlayerInfo
+            ID={props.playerID}
+            currentPlayer={props.ctx.currentPlayer}
+            currentHealth={getHealth(props.G, props.playerID)}
+            infos={getInfos(props.G)}
+          />
+          <CurrentPhase currentPhase={props.ctx.phase} />
+          <MapBoard
+            G={props.G}
+            ctx={props.ctx}
+            moves={props.moves}
+            events={props.events}
+          />
+          <ActionsBoard
+            G={props.G}
+            ctx={props.ctx}
+            moves={props.moves}
+            events={props.events}
+            playerId={props.playerID}
+          />
+        </div>
+        <div id="card-container">
+          <CardsBoard
+            G={props.G}
+            ctx={props.ctx}
+            moves={props.moves}
+            events={props.events}
+            playerId={props.playerID}
+          />
+        </div>
       </div>
     );
   }
