@@ -37,28 +37,38 @@ export interface ACTIONTEMPLATE {
   caracs: Caracs;
 }
 
-export interface Skill extends ACTIONTEMPLATE {
-  isTargetRequired: boolean;
+// Interface for action with power
+export interface TRIGGERINGACTIONTEMPLATE extends ACTIONTEMPLATE {
+  isTargetRequired?: boolean;
+  trigger?: TriggerPhase;
   powerName: string;
+}
+
+export interface Skill extends TRIGGERINGACTIONTEMPLATE {
+  isTargetRequired: boolean;
 }
 
 export interface Equipment extends ACTIONTEMPLATE {}
 
 // Enchantment should be auto-trigger power, at start or end of turn, so no targetRequired
-export interface Enchantment extends ACTIONTEMPLATE {  
-  trigger: TriggerPhase;
-  powerName: string;
+export interface Enchantment extends TRIGGERINGACTIONTEMPLATE {  
+  trigger: TriggerPhase;  
 }
 
 // Spells are alternative skills, remplacing temporarely (based on charge value) the skill power.
-export interface Spell extends Skill {
+export interface Spell extends TRIGGERINGACTIONTEMPLATE {
+  isTargetRequired: boolean;
   charge: number;
 }
 
-export interface Card extends Skill {
+export interface Card extends TRIGGERINGACTIONTEMPLATE {
   type: ActionType;
-  trigger?: TriggerPhase;
   charge?: number;
+}
+
+export interface Decks {
+  // Makes it use an enum as index ??
+  [index: string]: Array<Card>;
 }
 
 export interface AttackCaracs extends Caracs {

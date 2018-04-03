@@ -1,4 +1,4 @@
-import { Skill, Caracs, Card, Equipment, Enchantment, Spell } from "../action/type";
+import { Skill, Caracs, Card, Equipment, Enchantment, Spell, Decks } from "../action/type";
 import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
 import { Avatar } from "../map/type";
@@ -17,6 +17,9 @@ export interface SimpleGame {
   blackCrystalCellId: string;
   // Used to display info to players
   infoMessages: Array<String>;
+  // Player's deck props
+  decksPlayer0: Decks;
+  decksPlayer1: Decks;
   // equipment props
   equipmentPlayer0?: Equipment;
   equipmentPlayer1?: Equipment;

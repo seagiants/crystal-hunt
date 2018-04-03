@@ -22,6 +22,7 @@ import {
   cleanExhaustedSpell,
   triggerTrap
 } from "./state/gameLogic";
+import { loadDecks } from "./action/Card";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
@@ -55,6 +56,8 @@ const CrystalHunt = Game({
       monsterCounter: 2,
       endTurn: false,
       selectedAction: null,
+      decksPlayer0: loadDecks(),
+      decksPlayer1: loadDecks(),
       infoMessages: ["Game started"]
     };
   },

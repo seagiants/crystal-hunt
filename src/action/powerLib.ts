@@ -67,6 +67,10 @@ export const PowerLib: {
       return avatar !== null && avatar.toString() !== ctx.currentPlayer;
     }
   },
+  CircularAttack: {
+    power: (g: SimpleGame) => g,
+    check: (g: SimpleGame) => true
+  },
   Draw: {
     power: (g: SimpleGame, ctx: GameContext) => {
       const cardsAdded = drawCards(g, ctx.currentPlayer);

@@ -4,13 +4,40 @@ import {
   SkillCategoryLib,
   ActionType
 } from "./skillLib";
-import { Card, SkillCategory, Equipment, Enchantment, Spell } from "./type";
+import {
+  Card,
+  SkillCategory,
+  Equipment,
+  Enchantment,
+  Spell,
+  Decks
+} from "./type";
 
 // Loaders for JSON data
 
 // Loader for Card
 export function loadCard(cardName: string): Card {
   return CardLib[cardName];
+}
+
+export function loadCards(skillCategory: SkillCategoryName): Array<Card> {
+  const test = Object.keys(CardLib).reduce(
+    (temp, prop) =>
+      CardLib[prop].skillCategory === skillCategory
+        ? [...temp, CardLib[prop]]
+        : temp,
+    []
+  );
+  return test;
+}
+
+export function loadDecks(): Decks {
+  return {
+    Dexterity: loadCards(SkillCategoryName.Dexterity),
+    Intelligence: loadCards(SkillCategoryName.Intelligence),
+    Wisdom: loadCards(SkillCategoryName.Wisdom),
+    Strength: loadCards(SkillCategoryName.Strength)
+  };
 }
 
 // Loader for CardCategory
@@ -45,7 +72,7 @@ export function loadSpell(card: Card): Spell {
     symbol: card.symbol,
     caracs: card.caracs,
     powerName: card.powerName,
-    isTargetRequired: card.isTargetRequired,
+    isTargetRequired: card.isTargetRequired!,
     charge: card.charge!
   };
 }
