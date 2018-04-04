@@ -20,7 +20,7 @@ export interface MapCellProps {
   moves: Moves;
 }
 
-// ------ ----- //
+// ----- Map concepts ----- //
 export interface Cell {
   type: CellTypeName;
   monster: boolean;

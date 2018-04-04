@@ -1,11 +1,11 @@
 import { toKey, CellTypeName } from "./Cell";
 import * as React from "react";
 import { SimpleGame } from "../types";
-import { getCellType, getAvatar, getCrystallized } from "../state/getters";
-import { Avatar, MapCellProps } from "./types";
+import { getCellType, getCrystallized } from "../state/getters";
+import { MapCellProps } from "./types";
 
 // ----- Utility functions ----- //
-const getAvatarDescription = (avatar: Avatar): string => {
+/* const getAvatarDescription = (avatar: Avatar): string => {
   switch (avatar.type) {
     case "Monster":
       return `A monster here with ${
@@ -17,6 +17,7 @@ const getAvatarDescription = (avatar: Avatar): string => {
       return "";
   }
 };
+*/
 
 const cssClass = (
   g: SimpleGame,
@@ -37,12 +38,33 @@ const cssClass = (
 
 const renderAvatar = (g: SimpleGame, x: number, y: number) => {
   const avatarId = g.map[toKey(x, y)].avatar;
-  return avatarId !== null ? (
-    <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
-      <title>{getAvatarDescription(getAvatar(g, avatarId))}</title>
-      {g.map[toKey(x, y)].avatar}
-    </text>
-  ) : null;
+  const getAvatarColor = (id: string) => {
+    if (id === "0") {
+      return "purple";
+    } else if (id === "1") {
+      return "cyan";
+    } else {
+      return "silver";
+    }
+  };
+  if (avatarId !== null) {
+    const computedPoints = `${x * 40 + 20},${y * 40 + 2} ${x * 40 + 2},${y *
+      40 +
+      38} ${x * 40 + 38},${y * 40 + 38}`;
+    return <polygon points={computedPoints} fill={getAvatarColor(avatarId)} />;
+  } else {
+    return null;
+  }
+};
+
+const blackCrystalText = (G: SimpleGame, x: number, y: number) => {
+  if (getCellType(G, toKey(x, y)) === CellTypeName.BlackCrystalCell) {
+    return (
+      <title>A rare crystal infused with some powerful black magic...</title>
+    );
+  } else {
+    return null;
+  }
 };
 
 // ----- Cell component ----- //
@@ -68,12 +90,7 @@ const MapCell = (props: MapCellProps) => {
         rx="10"
         ry="10"
       >
-        {getCellType(props.G, toKey(props.x, props.y)) ===
-        CellTypeName.BlackCrystalCell ? (
-          <title>
-            A rare crystal infused with some powerful black magic...
-          </title>
-        ) : null}
+        {blackCrystalText(props.G, props.x, props.y)}
         }
       </rect>
       {renderAvatar(props.G, props.x, props.y)}
