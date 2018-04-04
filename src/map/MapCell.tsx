@@ -1,18 +1,16 @@
-import { toKey } from "./Cell";
+import { toKey, CellTypeName } from "./Cell";
 import * as React from "react";
-import { Moves, SimpleGame, GameContext } from "../types";
+import { SimpleGame } from "../types";
 import { getCellType, getAvatar, getCrystallized } from "../state/getters";
-import { Avatar } from "./types";
+import { Avatar, MapCellProps } from "./types";
 
 // ----- Utility functions ----- //
 const getAvatarDescription = (avatar: Avatar): string => {
   switch (avatar.type) {
     case "Monster":
-      return (
-        "There's a monster there with " +
-        avatar.caracs.healthCurrent +
-        "HP ! Run you fool !"
-      );
+      return `A monster here with ${
+        avatar.caracs.healthCurrent
+      } HP! Run, you fool!`;
     case "Player":
       return "A fool";
     default:
@@ -22,7 +20,6 @@ const getAvatarDescription = (avatar: Avatar): string => {
 
 const cssClass = (
   g: SimpleGame,
-  ctx: GameContext,
   x: number,
   y: number,
   isClickable: boolean
@@ -49,14 +46,7 @@ const renderAvatar = (g: SimpleGame, x: number, y: number) => {
 };
 
 // ----- Cell component ----- //
-const MapCell = (props: {
-  G: SimpleGame;
-  ctx: GameContext;
-  x: number;
-  y: number;
-  isClickable: boolean;
-  moves: Moves;
-}) => {
+const MapCell = (props: MapCellProps) => {
   return (
     <g key={toKey(props.x, props.y)}>
       <rect
@@ -70,13 +60,7 @@ const MapCell = (props: {
                 e.preventDefault();
               }
         }
-        className={cssClass(
-          props.G,
-          props.ctx,
-          props.x,
-          props.y,
-          props.isClickable
-        )}
+        className={cssClass(props.G, props.x, props.y, props.isClickable)}
         x={props.x * 40}
         y={props.y * 40}
         width="40"
@@ -85,7 +69,7 @@ const MapCell = (props: {
         ry="10"
       >
         {getCellType(props.G, toKey(props.x, props.y)) ===
-        "BlackCrystalCell" ? (
+        CellTypeName.BlackCrystalCell ? (
           <title>
             A rare crystal infused with some powerful black magic...
           </title>
