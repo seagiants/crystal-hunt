@@ -1,4 +1,4 @@
-import { Avatar } from "./type";
+import { Avatar } from "./types";
 import { loadSkill } from "../action/Skill";
 import { SimpleGame, GameContext } from "../types";
 import {

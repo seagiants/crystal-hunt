@@ -2,7 +2,7 @@ import { toKey } from "./Cell";
 import * as React from "react";
 import { Moves, SimpleGame, GameContext } from "../types";
 import { getCellType, getAvatar, getCrystallized } from "../state/getters";
-import { Avatar } from "./type";
+import { Avatar } from "./types";
 
 // ----- Utility functions ----- //
 const getAvatarDescription = (avatar: Avatar): string => {

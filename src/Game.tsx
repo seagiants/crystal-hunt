@@ -12,7 +12,7 @@ import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey } from "./map/Cell";
 import { triggerMonsterSkill } from "./map/Avatar";
-import { Avatar } from "./map/type";
+import { Avatar } from "./map/types";
 import {
   triggerEnchantments,
   plugCard,
@@ -168,7 +168,7 @@ const CrystalHunt = Game({
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
-      // EndTurn Workflow : 
+      // EndTurn Workflow :
       // Clean deadMonsters
       const deadMonstersCleaned = cleanDeadMonsters(G);
       // Clean Exhausted Spell

@@ -2,7 +2,7 @@ import { SimpleGame } from "../types";
 import { getAvatarPosition, getMonsterCounter } from "./getters";
 import { Card } from "../action/type";
 import { SkillCategoryName } from "../action/skillLib";
-import { Avatar } from "../map/type";
+import { Avatar } from "../map/types";
 
 export function setSelectedAction(
   G: SimpleGame,

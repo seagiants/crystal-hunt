@@ -1,7 +1,15 @@
-import { Skill, Caracs, Card, Equipment, Enchantment, Spell, Decks } from "../action/type";
+import {
+  Skill,
+  Caracs,
+  Card,
+  Equipment,
+  Enchantment,
+  Spell,
+  Decks
+} from "../action/type";
 import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { MapDef } from "../map/mapDefinitions";
-import { Avatar } from "../map/type";
+import { Avatar } from "../map/types";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
@@ -34,7 +42,7 @@ export interface SimpleGame {
   dexteritySpellPlayer1?: Spell;
   intelligenceSpellPlayer1?: Spell;
   wisdomSpellPlayer1?: Spell;
-  strengthSpellPlayer1?: Spell;  
+  strengthSpellPlayer1?: Spell;
 }
 
 export interface GameContext {

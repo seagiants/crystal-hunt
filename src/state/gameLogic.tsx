@@ -31,7 +31,7 @@ import {
   addInfoMessage,
   setDeck
 } from "./setters";
-import { Avatar } from "../map/type";
+import { Avatar } from "../map/types";
 import {
   loadCard,
   getCardType,

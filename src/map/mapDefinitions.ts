@@ -1,5 +1,5 @@
 import { CellTypeName } from "./Cell";
-import { Cell, Avatar } from "./type";
+import { Cell, Avatar } from "./types";
 import { initPlayerAvatar, initMonsterAvatar } from "./Avatar";
 
 export interface MapDef {

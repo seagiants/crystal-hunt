@@ -3,17 +3,11 @@ import { toKey } from "./Cell";
 import { getSelectedActionCategory } from "../state/getters";
 import { SkillCategoryName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
-import { SimpleGame, GameContext, Moves, Events } from "../types";
 import MapCell from "./MapCell";
 import { getActiveAction } from "../state/gameLogic";
+import { MapBoardProps } from "./types";
 
-export interface MapBoardProps {
-  G: SimpleGame;
-  ctx: GameContext;
-  moves: Moves;
-  events: Events;
-}
-
+// ----- Component ----- //
 const MapBoard = (props: MapBoardProps) => {
   let isClickable: (x: number, y: number) => boolean;
   const selectedAction: SkillCategoryName | null = getSelectedActionCategory(
