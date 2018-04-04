@@ -1,6 +1,5 @@
-import { SimpleGame, GameContext } from "../types";
-import { getCellType, getCrystallized } from "../state/getters";
-import { PathMatrix } from "./type";
+import { SimpleGame } from "../types";
+import { PathMatrix } from "./types";
 
 export enum CellTypeName {
   RoomCell = "RoomCell",
@@ -12,22 +11,9 @@ export function toKey(x: number, y: number) {
   return `${x}x${y}`;
 }
 
-export function cssClass(
-  g: SimpleGame,
-  ctx: GameContext,
-  x: number,
-  y: number,
-  isClickable: boolean
-) {
-  // [Not]Clickable css class
-  const clickableClass: string = isClickable
-    ? "CellClickable "
-    : "CellNotClickable ";
-  // Type Class : Crystallized or CellType
-  const typeClass: string = getCrystallized(g, toKey(x, y))
-    ? "CrystallizedCell "
-    : getCellType(g, toKey(x, y));
-  return clickableClass + typeClass;
+export function toCoord(xXy: string): [number, number] {
+  const xy = xXy.split("x");
+  return [parseInt(xy[0], 10), parseInt(xy[1], 10)];
 }
 
 export function toPathMatrix(g: SimpleGame): PathMatrix {

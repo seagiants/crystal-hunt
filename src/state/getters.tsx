@@ -9,7 +9,7 @@ import {
   Spell
 } from "../action/type";
 import { TriggerPhase, SkillCategoryName } from "../action/skillLib";
-import { Cell, Avatar } from "../map/type";
+import { Cell, Avatar } from "../map/types";
 import { CellTypeName } from "../map/Cell";
 
 export function getSelectedActionCategory(
@@ -157,8 +157,6 @@ export function getDeck(
   return g[`decksPlayer${playerId}`][category];
 }
 
-export function getInfos(
-  g: SimpleGame
-): Array<String> {
+export function getInfos(g: SimpleGame): Array<String> {
   return g.infoMessages;
 }
