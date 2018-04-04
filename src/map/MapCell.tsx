@@ -4,6 +4,31 @@ import { Moves, SimpleGame, GameContext } from "../types";
 import { getCellType, getAvatar } from "../state/getters";
 import { Avatar } from "./type";
 
+function renderAvatar(g: SimpleGame, x: number, y: number) {
+  const avatarId = g.map[toKey(x, y)].avatar;
+  return avatarId !== null ? (
+    <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
+      <title>{getAvatarDescription(getAvatar(g, avatarId))}</title>
+      {g.map[toKey(x, y)].avatar}
+    </text>
+  ) : null;
+}
+
+function getAvatarDescription(avatar: Avatar): string {
+  switch (avatar.type) {
+    case "Monster":
+      return (
+        "There's a monster there with " +
+        avatar.caracs.healthCurrent +
+        "HP ! Run you fool !"
+      );
+    case "Player":
+      return "A fool";
+    default:
+      return "";
+  }
+}
+
 const MapCell = (props: {
   G: SimpleGame;
   ctx: GameContext;
@@ -50,30 +75,5 @@ const MapCell = (props: {
     </g>
   );
 };
-
-function renderAvatar(g: SimpleGame, x: number, y: number) {
-  const avatarId = g.map[toKey(x, y)].avatar;
-  return avatarId !== null ? (
-    <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
-      <title>{getAvatarDescription(getAvatar(g, avatarId))}</title>
-      {g.map[toKey(x, y)].avatar}
-    </text>
-  ) : null;
-}
-
-function getAvatarDescription(avatar: Avatar): string {
-  switch (avatar.type) {
-    case "Monster":
-      return (
-        "There's a monster there with " +
-        avatar.caracs.healthCurrent +
-        "HP ! Run you fool !"
-      );
-    case "Player":
-      return "A fool";
-    default:
-      return "";
-  }
-}
 
 export default MapCell;
