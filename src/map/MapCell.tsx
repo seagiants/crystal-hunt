@@ -1,10 +1,29 @@
-import { toKey, cssClass } from "./Cell";
+import { toKey } from "./Cell";
 import * as React from "react";
 import { Moves, SimpleGame, GameContext } from "../types";
 import { getCellType, getAvatar } from "../state/getters";
 import { Avatar } from "./type";
 
-function renderAvatar(g: SimpleGame, x: number, y: number) {
+// ----- Utility functions ----- //
+const cssClass = (
+  g: SimpleGame,
+  ctx: GameContext,
+  x: number,
+  y: number,
+  isClickable: boolean
+) => {
+  // [Not]Clickable css class
+  const clickableClass: string = isClickable
+    ? "CellClickable "
+    : "CellNotClickable ";
+  // Type Class : Crystallized or CellType
+  const typeClass: string = getCrystallized(g, toKey(x, y))
+    ? "CrystallizedCell "
+    : getCellType(g, toKey(x, y));
+  return clickableClass + typeClass;
+};
+
+const renderAvatar = (g: SimpleGame, x: number, y: number) => {
   const avatarId = g.map[toKey(x, y)].avatar;
   return avatarId !== null ? (
     <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
@@ -12,9 +31,9 @@ function renderAvatar(g: SimpleGame, x: number, y: number) {
       {g.map[toKey(x, y)].avatar}
     </text>
   ) : null;
-}
+};
 
-function getAvatarDescription(avatar: Avatar): string {
+const getAvatarDescription = (avatar: Avatar): string => {
   switch (avatar.type) {
     case "Monster":
       return (
@@ -27,8 +46,9 @@ function getAvatarDescription(avatar: Avatar): string {
     default:
       return "";
   }
-}
+};
 
+// ----- Cell component ----- //
 const MapCell = (props: {
   G: SimpleGame;
   ctx: GameContext;
@@ -45,7 +65,6 @@ const MapCell = (props: {
             ? e => {
                 e.preventDefault();
                 props.moves.activateCell([props.x, props.y]);
-                // props.events.endTurn();
               }
             : e => {
                 e.preventDefault();
