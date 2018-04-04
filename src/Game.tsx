@@ -10,7 +10,7 @@ import {
 import { setEndTurn, setCards, setSelectedAction } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
-import { toKey } from "./map/Cell";
+import { toKey, toPathMatrix } from "./map/Cell";
 import { triggerMonsterSkill } from "./map/Avatar";
 import { Avatar } from "./map/types";
 import {
@@ -60,7 +60,8 @@ const CrystalHunt = Game({
       selectedAction: null,
       decksPlayer0: loadDecks(),
       decksPlayer1: loadDecks(),
-      infoMessages: ["Game started"]
+      infoMessages: ["Game started"],
+      pathMatrix: []
     };
   },
   moves: {
@@ -199,7 +200,9 @@ const CrystalHunt = Game({
       // Each monster will trigger their skill then pass the state to the next.
       let reducer = (prevG: SimpleGame, currMonster: Avatar) =>
         triggerMonsterSkill(prevG, ctx, currMonster.id);
-      return monsters.reduce(reducer, tempG);
+      const monstersTriggered = monsters.reduce(reducer, tempG);
+      // Update pathMatrix.
+      return { ...monstersTriggered, pathMatrix: toPathMatrix(monstersTriggered) };
     },
     phases: [
       {
@@ -213,6 +216,10 @@ const CrystalHunt = Game({
         },
         onPhaseBegin: (G: SimpleGame, ctx: GameContext) => {
           return G;
+        },
+        onPhaseEnd: (G: SimpleGame, ctx: GameContext) => {
+          // Update the pathMatrix.
+          return { ...G, pathMatrix: toPathMatrix(G) };
         }
       },
       {

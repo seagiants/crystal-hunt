@@ -18,7 +18,6 @@ export interface MapCellProps {
   y: number;
   isClickable: boolean;
   moves: Moves;
-  pathMatrix: PathMatrix;
 }
 
 // ----- Map concepts ----- //

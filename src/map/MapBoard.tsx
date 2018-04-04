@@ -1,5 +1,5 @@
 import * as React from "react";
-import { toKey, toPathMatrix } from "./Cell";
+import { toKey } from "./Cell";
 import { getSelectedActionCategory } from "../state/getters";
 import { SkillCategoryName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
@@ -9,8 +9,7 @@ import { MapBoardProps } from "./types";
 
 // ----- Component ----- //
 const MapBoard = (props: MapBoardProps) => {
-  let isClickable: (x: number, y: number) => boolean;
-  const matrix = toPathMatrix(props.G);
+  let isClickable: (x: number, y: number) => boolean;  
   const selectedAction: SkillCategoryName | null = getSelectedActionCategory(
     props.G,
     props.ctx.currentPlayer
@@ -45,7 +44,6 @@ const MapBoard = (props: MapBoardProps) => {
               ctx={props.ctx}
               x={x}
               y={y}
-              pathMatrix={matrix}
               isClickable={isClickable(x, y)}
               moves={props.moves}
             />

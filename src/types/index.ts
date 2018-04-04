@@ -25,6 +25,8 @@ export interface SimpleGame {
   monsterCounter: number;
   // Used to setup easily the map.
   blackCrystalCellId: string;
+  // Used for pathFinding
+  pathMatrix: PathMatrix;
   // Used to display info to players
   infoMessages: Array<String>;
   // Player's deck props

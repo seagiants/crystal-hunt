@@ -7,6 +7,7 @@ import {
   getCrystallized
 } from "../state/getters";
 import { damage, heal, summon, drawEach } from "../state/gameLogic";
+import { findPath, toCoord } from "../map/Cell";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
@@ -23,7 +24,17 @@ export const PowerLib: {
       targetId: string,
       caracs: Caracs
     ): boolean => {
-      return true;
+      if (g.pathMatrix !== null) {
+        const path = findPath(
+          g.pathMatrix,
+          toCoord(getAvatarPosition(g, ctx.currentPlayer)),
+          toCoord(targetId)
+        );
+        // Path contains starting position.
+        return path.length !== 0 && path.length < caracs.moveRange + 2;
+      } else {
+        return false;
+      }
     }
   },
   Crystallize: {
@@ -64,6 +75,7 @@ export const PowerLib: {
       caracs: Caracs
     ): boolean => {
       const avatar = getAvatarOnCell(g, targetId);
+      console.log(avatar !== null && avatar.toString() !== ctx.currentPlayer);
       return avatar !== null && avatar.toString() !== ctx.currentPlayer;
     }
   },

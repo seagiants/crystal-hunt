@@ -1,11 +1,7 @@
-import { toKey, CellTypeName, findPath, toCoord } from "./Cell";
+import { toKey, CellTypeName } from "./Cell";
 import * as React from "react";
 import { SimpleGame } from "../types";
-import {
-  getCellType,
-  getCrystallized,
-  getAvatarPosition
-} from "../state/getters";
+import { getCellType, getCrystallized } from "../state/getters";
 import { MapCellProps, PathMatrix } from "./types";
 
 // ----- Utility functions ----- //
@@ -63,12 +59,7 @@ const renderAvatar = (
       38} ${x * 40 + 38},${y * 40 + 38}`;
     return <polygon points={computedPoints} fill={getAvatarColor(avatarId)} />;
   } else {
-    return (
-      <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
-        {findPath(matrix, toCoord(getAvatarPosition(g, playerId)), [x, y])
-          .length - 1}
-      </text>
-    );
+    return null;
   }
 };
 
@@ -112,7 +103,7 @@ const MapCell = (props: MapCellProps) => {
         props.G,
         props.x,
         props.y,
-        props.pathMatrix,
+        props.G.pathMatrix,
         props.ctx.currentPlayer
       )}
     </g>

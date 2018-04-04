@@ -36,7 +36,6 @@ export function findPath(
   let PF = require("pathfinding");
   let obj = new PF.Grid(matrix);
   let finder = new PF.AStarFinder();
-  console.log(start[0] + ":" + start[1] + " to " + end[0] + ":" + end[1]);
   let path = finder.findPath(start[0], start[1], end[0], end[1], obj);
   return path;
 }
