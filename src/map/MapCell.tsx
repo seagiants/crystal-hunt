@@ -4,7 +4,7 @@ import { Moves, SimpleGame, GameContext } from "../types";
 import { getCellType, getAvatar } from "../state/getters";
 import { Avatar } from "./type";
 
-const CellMap = (props: {
+const MapCell = (props: {
   G: SimpleGame;
   ctx: GameContext;
   x: number;
@@ -76,4 +76,4 @@ function getAvatarDescription(avatar: Avatar): string {
   }
 }
 
-export default CellMap;
+export default MapCell;

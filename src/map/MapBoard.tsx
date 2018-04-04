@@ -4,7 +4,7 @@ import { getSelectedActionCategory } from "../state/getters";
 import { SkillCategoryName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
 import { SimpleGame, GameContext, Moves, Events } from "../types";
-import CellMap from "./MapCell";
+import MapCell from "./MapCell";
 import { getActiveAction } from "../state/gameLogic";
 
 export interface MapBoardProps {
@@ -44,7 +44,7 @@ const MapBoard = (props: MapBoardProps) => {
       >
         {xys.map(([x, y]) => {
           return (
-            <CellMap
+            <MapCell
               key={toKey(x, y)}
               G={props.G}
               ctx={props.ctx}
