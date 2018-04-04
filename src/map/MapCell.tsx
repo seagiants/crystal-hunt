@@ -1,17 +1,10 @@
-import { toKey, cssClass } from "./Cell";
+import { toKey, cssClass, findPath } from "./Cell";
 import * as React from "react";
-import { Moves, SimpleGame, GameContext } from "../types";
+import { SimpleGame, CellProps } from "../types";
 import { getCellType, getAvatar } from "../state/getters";
-import { Avatar } from "./type";
+import { Avatar, PathMatrix } from "./type";
 
-const CellMap = (props: {
-  G: SimpleGame;
-  ctx: GameContext;
-  x: number;
-  y: number;
-  isClickable: boolean;
-  moves: Moves;
-}) => {
+const MapCell = (props: CellProps) => {
   return (
     <g key={toKey(props.x, props.y)}>
       <rect
@@ -46,19 +39,27 @@ const CellMap = (props: {
         ) : null}
         }
       </rect>
-      {renderAvatar(props.G, props.x, props.y)}
+      {renderAvatar(props.G, props.x, props.y, props.pathMatrix)}
     </g>
   );
 };
 
-function renderAvatar(g: SimpleGame, x: number, y: number) {
+function renderAvatar(g: SimpleGame, x: number, y: number, matrix: PathMatrix) {
   const avatarId = g.map[toKey(x, y)].avatar;
+  const path = findPath(matrix, [0, 0], [x, y]);
+  console.log(x + ":" + y);
+  console.log(path);
   return avatarId !== null ? (
     <text x={x * 40 + 10} y={y * 40 + 30} fill="white">
       <title>{getAvatarDescription(getAvatar(g, avatarId))}</title>
       {g.map[toKey(x, y)].avatar}
     </text>
-  ) : null;
+  ) : (
+    <text x={x * 40 + 10} y={y * 40 + 30} fill="blue">
+      <title>{`${x}:${y}`}</title>
+      {path.length - 1}
+    </text>
+  );
 }
 
 function getAvatarDescription(avatar: Avatar): string {
@@ -76,4 +77,4 @@ function getAvatarDescription(avatar: Avatar): string {
   }
 }
 
-export default CellMap;
+export default MapCell;

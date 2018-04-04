@@ -49,7 +49,9 @@ const CrystalHunt = Game({
     // TODO : dynamically set the monsterCounter.
     const basicSetup = initMapSetup();
     return {
-      map: basicSetup.map,
+      map: basicSetup.map.cells,
+      xMax: basicSetup.map.xMax,
+      yMax: basicSetup.map.yMax,
       playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
       avatars: basicSetup.basicAvatars,
       blackCrystalCellId: basicSetup.blackCrystalCellId,
@@ -168,7 +170,7 @@ const CrystalHunt = Game({
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
-      // EndTurn Workflow : 
+      // EndTurn Workflow :
       // Clean deadMonsters
       const deadMonstersCleaned = cleanDeadMonsters(G);
       // Clean Exhausted Spell

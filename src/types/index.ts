@@ -1,7 +1,7 @@
 import { Skill, Caracs, Card, Equipment, Enchantment, Spell, Decks } from "../action/type";
 import { SkillName, SkillCategoryName } from "../action/skillLib";
-import { MapDef } from "../map/mapDefinitions";
-import { Avatar } from "../map/type";
+import { CellsDef } from "../map/mapDefinitions";
+import { Avatar, PathMatrix } from "../map/type";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
@@ -9,7 +9,9 @@ export interface SimpleGame {
   playersContext: PlayersContextType;
   selectedAction: SkillCategoryName | null;
   avatars: Array<Avatar>;
-  map: MapDef;
+  map: CellsDef;
+  xMax: number;
+  yMax: number;
   endTurn: boolean;
   // Used for monster ids.
   monsterCounter: number;
@@ -79,12 +81,14 @@ export interface GameBoardProps extends ComponentProps {
 }
 
 export interface CellProps extends ComponentProps {
-  G: SimpleGame;
-  cell: number;
-  idx: number;
-  activateCell(index: number): object;
-  endTurn(): object;
-}
+    G: SimpleGame;
+    ctx: GameContext;
+    x: number;
+    y: number;
+    isClickable: boolean;
+    moves: Moves;
+    pathMatrix: PathMatrix;
+  }
 
 export interface TilesBoardProps {
   G: SimpleGame;

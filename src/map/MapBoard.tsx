@@ -1,11 +1,11 @@
 import * as React from "react";
-import { toKey } from "./Cell";
+import { toKey, toPathMatrix } from "./Cell";
 import { getSelectedActionCategory } from "../state/getters";
 import { SkillCategoryName } from "../action/skillLib";
 import { checkTarget } from "../action/Power";
 import { SimpleGame, GameContext, Moves, Events } from "../types";
-import CellMap from "./MapCell";
 import { getActiveAction } from "../state/gameLogic";
+import MapCell from "./MapCell";
 
 export interface MapBoardProps {
   G: SimpleGame;
@@ -16,6 +16,7 @@ export interface MapBoardProps {
 
 const MapBoard = (props: MapBoardProps) => {
   let isClickable: (x: number, y: number) => boolean;
+  const matrix = toPathMatrix(props.G);
   const selectedAction: SkillCategoryName | null = getSelectedActionCategory(
     props.G,
     props.ctx.currentPlayer
@@ -44,12 +45,13 @@ const MapBoard = (props: MapBoardProps) => {
       >
         {xys.map(([x, y]) => {
           return (
-            <CellMap
+            <MapCell
               key={toKey(x, y)}
               G={props.G}
               ctx={props.ctx}
               x={x}
               y={y}
+              pathMatrix={matrix}
               isClickable={isClickable(x, y)}
               moves={props.moves}
             />

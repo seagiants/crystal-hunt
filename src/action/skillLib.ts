@@ -96,7 +96,7 @@ export const SkillLib: { [key in SkillName]: Skill } = {
     isTargetRequired: true,
     powerName: "Move",
     caracs: {
-      speed: 1
+      moveRange: 1
     }
   },
   Crystallize: {

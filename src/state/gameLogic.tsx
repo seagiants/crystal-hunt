@@ -184,6 +184,7 @@ export function drawCard(
   }
 }
 
+// Draw 1 card per category's deck.
 export function drawEach(g: SimpleGame, playerId: string): SimpleGame {
   const cats = Object.keys(SkillCategoryLib);
   const cardsDrawed = cats.reduce(

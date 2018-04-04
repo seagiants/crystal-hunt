@@ -3,6 +3,12 @@ import { Cell, Avatar } from "./type";
 import { initPlayerAvatar, initMonsterAvatar } from "./Avatar";
 
 export interface MapDef {
+  cells: CellsDef;
+  xMax: number;
+  yMax: number;
+}
+
+export interface CellsDef {
   [propName: string]: Cell;
 }
 
@@ -17,29 +23,37 @@ function initCell(cellType: CellTypeName): Cell {
 }
 
 export const basicMap: MapDef = {
-  "0x0": { ...initCell(CellTypeName.RoomCell), avatar: "0" },
-  "1x0": { ...initCell(CellTypeName.RoomCell), avatar: "M2" },
-  "1x1": initCell(CellTypeName.BlackCrystalCell),
-  "1x2": initCell(CellTypeName.RoomCell),
-  "2x2": { ...initCell(CellTypeName.RoomCell), avatar: "1" }
+  xMax: 2,
+  yMax: 2,
+  cells: {
+    "0x0": { ...initCell(CellTypeName.RoomCell), avatar: "0" },
+    "1x0": { ...initCell(CellTypeName.RoomCell), avatar: "M2" },
+    "1x1": initCell(CellTypeName.BlackCrystalCell),
+    "1x2": initCell(CellTypeName.RoomCell),
+    "2x2": { ...initCell(CellTypeName.RoomCell), avatar: "1" }
+  }
 };
 
 const _longerMap: MapDef = {
-  "0x0": { ...initCell(CellTypeName.RoomCell), avatar: "0" },
-  "1x0": initCell(CellTypeName.RoomCell),
-  "1x1": initCell(CellTypeName.RoomCell),
-  "1x2": initCell(CellTypeName.RoomCell),
-  "2x0": { ...initCell(CellTypeName.RoomCell), avatar: "M2" },
-  "3x0": initCell(CellTypeName.RoomCell),
-  "3x1": { ...initCell(CellTypeName.RoomCell), trap: true },
-  "3x2": initCell(CellTypeName.BlackCrystalCell),
-  "3x3": { ...initCell(CellTypeName.RoomCell), trap: true },
-  "3x4": initCell(CellTypeName.RoomCell),
-  "4x4": initCell(CellTypeName.RoomCell),
-  "5x4": initCell(CellTypeName.RoomCell),
-  "5x3": initCell(CellTypeName.RoomCell),
-  "5x2": initCell(CellTypeName.RoomCell),
-  "6x4": { ...initCell(CellTypeName.RoomCell), avatar: "1" }
+  xMax: 6,
+  yMax: 4,
+  cells: {
+    "0x0": { ...initCell(CellTypeName.RoomCell), avatar: "0" },
+    "1x0": initCell(CellTypeName.RoomCell),
+    "1x1": initCell(CellTypeName.RoomCell),
+    "1x2": initCell(CellTypeName.RoomCell),
+    "2x0": { ...initCell(CellTypeName.RoomCell), avatar: "M2" },
+    "3x0": initCell(CellTypeName.RoomCell),
+    "3x1": { ...initCell(CellTypeName.RoomCell), trap: true },
+    "3x2": initCell(CellTypeName.BlackCrystalCell),
+    "3x3": { ...initCell(CellTypeName.RoomCell), trap: true },
+    "3x4": initCell(CellTypeName.RoomCell),
+    "4x4": initCell(CellTypeName.RoomCell),
+    "5x4": initCell(CellTypeName.RoomCell),
+    "5x3": initCell(CellTypeName.RoomCell),
+    "5x2": initCell(CellTypeName.RoomCell),
+    "6x4": { ...initCell(CellTypeName.RoomCell), avatar: "1" }
+  }
 };
 
 // TODO : Improve BlackCrsytalCell handle.

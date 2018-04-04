@@ -17,3 +17,6 @@ export interface Avatar {
   caracs: Caracs;
   skills: Array<Skill>;
 }
+
+type RowPathMatrix = Array<number>;
+export type PathMatrix = Array<RowPathMatrix>;
