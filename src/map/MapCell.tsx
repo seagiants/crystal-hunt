@@ -1,10 +1,25 @@
 import { toKey } from "./Cell";
 import * as React from "react";
 import { Moves, SimpleGame, GameContext } from "../types";
-import { getCellType, getAvatar } from "../state/getters";
+import { getCellType, getAvatar, getCrystallized } from "../state/getters";
 import { Avatar } from "./type";
 
 // ----- Utility functions ----- //
+const getAvatarDescription = (avatar: Avatar): string => {
+  switch (avatar.type) {
+    case "Monster":
+      return (
+        "There's a monster there with " +
+        avatar.caracs.healthCurrent +
+        "HP ! Run you fool !"
+      );
+    case "Player":
+      return "A fool";
+    default:
+      return "";
+  }
+};
+
 const cssClass = (
   g: SimpleGame,
   ctx: GameContext,
@@ -31,21 +46,6 @@ const renderAvatar = (g: SimpleGame, x: number, y: number) => {
       {g.map[toKey(x, y)].avatar}
     </text>
   ) : null;
-};
-
-const getAvatarDescription = (avatar: Avatar): string => {
-  switch (avatar.type) {
-    case "Monster":
-      return (
-        "There's a monster there with " +
-        avatar.caracs.healthCurrent +
-        "HP ! Run you fool !"
-      );
-    case "Player":
-      return "A fool";
-    default:
-      return "";
-  }
 };
 
 // ----- Cell component ----- //
@@ -86,7 +86,9 @@ const MapCell = (props: {
       >
         {getCellType(props.G, toKey(props.x, props.y)) ===
         "BlackCrystalCell" ? (
-          <title>This is the fucking black crystal !!</title>
+          <title>
+            A rare crystal infused with some powerful black magic...
+          </title>
         ) : null}
         }
       </rect>
