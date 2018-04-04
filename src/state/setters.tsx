@@ -124,3 +124,18 @@ export function setCards(
 export function addInfoMessage(g: SimpleGame, message: string): SimpleGame {
   return { ...g, infoMessages: [...g.infoMessages, message] };
 }
+
+export function setDeck(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName,
+  deck: Array<Card>
+): SimpleGame {
+  return {
+    ...g,
+    [`decksPlayer${playerId}`]: {
+      ...g[`decksPlayer${playerId}`],
+      [category]: deck
+    }
+  };
+}

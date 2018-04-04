@@ -6,7 +6,7 @@ import {
   getAvatarPosition,
   getCrystallized
 } from "../state/getters";
-import { damage, heal, drawCards, summon } from "../state/gameLogic";
+import { damage, heal, summon, drawEach } from "../state/gameLogic";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
@@ -73,8 +73,9 @@ export const PowerLib: {
   },
   Draw: {
     power: (g: SimpleGame, ctx: GameContext) => {
-      const cardsAdded = drawCards(g, ctx.currentPlayer);
-      return cardsAdded;
+      // const cardsAdded = drawCards(g, ctx.currentPlayer);
+      const cardsDrawed = drawEach(g, ctx.currentPlayer);
+      return cardsDrawed;
     },
     check: (
       g: SimpleGame,

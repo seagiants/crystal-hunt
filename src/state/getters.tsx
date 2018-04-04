@@ -149,6 +149,14 @@ export function getCard(
   return getCards(g, playerId)[cardIndex];
 }
 
+export function getDeck(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): Array<Card> {
+  return g[`decksPlayer${playerId}`][category];
+}
+
 export function getInfos(
   g: SimpleGame
 ): Array<String> {
