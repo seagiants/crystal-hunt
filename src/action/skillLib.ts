@@ -85,7 +85,18 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 4,
     powerName: "Attack"
-  }
+  },
+  SevenLeagueBoots: {
+    name: "SevenLeagueBoots",
+    type: ActionType.Equipment,
+    skillCategory: SkillCategoryName.Dexterity,
+    isTargetRequired: true,
+    caracs: {
+      moveRange: 2
+    },
+    symbol: 2,
+    powerName: "Move"
+  },
 };
 
 export const SkillLib: { [key in SkillName]: Skill } = {

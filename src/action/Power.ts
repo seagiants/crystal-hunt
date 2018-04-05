@@ -56,9 +56,14 @@ export function checkTarget(
   ctx: GameContext,
   targetId: string
 ): boolean {
-  const caracs = getAddedCaracs(
+  // Need a better implementation of addedCaracs.
+  let caracs = getAddedCaracs(
     getPlayerCaracs(g, ctx.currentPlayer),
     skill.caracs
+  );
+  caracs = getAddedCaracs(
+    caracs,
+    getEquipmentPlayerCaracs(g, ctx.currentPlayer)
   );
   return loadCheckTarget(skill.powerName)(g, ctx, targetId, caracs);
 }
