@@ -1,6 +1,8 @@
 import { SimpleGame } from "../types";
 import { PathMatrix } from "./types";
 
+let PF = require("pathfinding");
+
 export enum CellTypeName {
   RoomCell = "RoomCell",
   CrystalCell = "CrystalCell",
@@ -18,10 +20,10 @@ export function toCoord(xXy: string): [number, number] {
 
 export function toPathMatrix(g: SimpleGame): PathMatrix {
   let tempMatrix = [];
-  for (var _i = 0; _i < g.yMax + 1; _i++) {
+  for (var y = 0; y < g.yMax + 1; y++) {
     let tempRows = [];
-    for (var _j = 0; _j < g.xMax + 1; _j++) {
-      tempRows.push(g.map[toKey(_j, _i)] !== undefined ? 0 : 1);
+    for (var x = 0; x < g.xMax + 1; x++) {
+      tempRows.push(g.map[toKey(x, y)] !== undefined ? 0 : 1);
     }
     tempMatrix.push(tempRows);
   }
@@ -33,7 +35,6 @@ export function findPath(
   start: [number, number],
   end: [number, number]
 ): Array<[number, number]> {
-  let PF = require("pathfinding");
   let obj = new PF.Grid(matrix);
   let finder = new PF.AStarFinder();
   let path = finder.findPath(start[0], start[1], end[0], end[1], obj);
