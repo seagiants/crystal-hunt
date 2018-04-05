@@ -24,7 +24,9 @@ export function initPlayerAvatar(id: string, position: string): Avatar {
     caracs: {
       healthInit: 5,
       healthCurrent: 5,
-      attackValue: 1
+      attackValue: 1,
+      attackRange: 1,
+      moveRange: 1
     },
     skills: [loadSkill("Move"), loadSkill("Crystallize"), loadSkill("Attack")]
   };

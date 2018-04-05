@@ -37,7 +37,9 @@ function initPlayerContext(playerId: string): PlayerContext {
     caracs: {
       healthInit: 5,
       healthCurrent: 5,
-      attackValue: 1
+      attackValue: 1,
+      attackRange: 1,
+      moveRange: 1
     },
     cards: []
   };
@@ -202,7 +204,10 @@ const CrystalHunt = Game({
         triggerMonsterSkill(prevG, ctx, currMonster.id);
       const monstersTriggered = monsters.reduce(reducer, tempG);
       // Update pathMatrix.
-      return { ...monstersTriggered, pathMatrix: toPathMatrix(monstersTriggered) };
+      return {
+        ...monstersTriggered,
+        pathMatrix: toPathMatrix(monstersTriggered)
+      };
     },
     phases: [
       {
@@ -224,7 +229,7 @@ const CrystalHunt = Game({
       },
       {
         name: "Choose Cell",
-        allowedMoves: ["activateCell"],
+        allowedMoves: ["activateCell", "activateAction"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext): boolean => {
           return (
             getSelectedActionCategory(G, ctx.currentPlayer) === null ||

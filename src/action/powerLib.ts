@@ -75,8 +75,18 @@ export const PowerLib: {
       caracs: Caracs
     ): boolean => {
       const avatar = getAvatarOnCell(g, targetId);
+      const path = findPath(
+        g.pathMatrix,
+        toCoord(getAvatarPosition(g, ctx.currentPlayer)),
+        toCoord(targetId)
+      );
       console.log(avatar !== null && avatar.toString() !== ctx.currentPlayer);
-      return avatar !== null && avatar.toString() !== ctx.currentPlayer;
+      return (
+        avatar !== null &&
+        avatar.toString() !== ctx.currentPlayer &&
+        path.length !== 0 &&
+        path.length < caracs.attackRange + 2
+      );
     }
   },
   CircularAttack: {
