@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import GameSelector from "./components/GameSelector";
+import Main from "./components/Main";
 import Header from "./components/Header";
 import "./index.css";
 
@@ -10,7 +10,7 @@ console.log(randomId);
 ReactDOM.render(
   <div>
     <Header />
-    <GameSelector />
+    <Main />
   </div>,
   document.getElementById("root") as HTMLElement
 );
