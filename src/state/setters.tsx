@@ -1,6 +1,5 @@
 import { SimpleGame } from "../types";
 import { getAvatarPosition, getMonsterCounter } from "./getters";
-import { Card } from "../action/type";
 import { SkillCategoryName } from "../action/skillLib";
 import { Avatar } from "../map/types";
 
@@ -104,38 +103,6 @@ export function setHealth(
   return newState;
 }
 
-export function setCards(
-  g: SimpleGame,
-  playerId: string,
-  cards: Array<Card>
-): SimpleGame {
-  return {
-    ...g,
-    playersContext: {
-      ...g.playersContext,
-      [playerId]: {
-        ...g.playersContext[playerId],
-        cards: cards
-      }
-    }
-  };
-}
-
 export function addInfoMessage(g: SimpleGame, message: string): SimpleGame {
   return { ...g, infoMessages: [...g.infoMessages, message] };
-}
-
-export function setDeck(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName,
-  deck: Array<Card>
-): SimpleGame {
-  return {
-    ...g,
-    [`decksPlayer${playerId}`]: {
-      ...g[`decksPlayer${playerId}`],
-      [category]: deck
-    }
-  };
 }

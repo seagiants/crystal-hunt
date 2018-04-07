@@ -1,4 +1,4 @@
-import { SkillCategoryName, ActionType, TriggerPhase } from "./skillLib";
+import { SkillCategoryName, TriggerPhase } from "./skillLib";
 import { SimpleGame, GameContext } from "../types";
 
 /*
@@ -59,16 +59,6 @@ export interface Enchantment extends TRIGGERINGACTIONTEMPLATE {
 export interface Spell extends TRIGGERINGACTIONTEMPLATE {
   isTargetRequired: boolean;
   charge: number;
-}
-
-export interface Card extends TRIGGERINGACTIONTEMPLATE {
-  type: ActionType;
-  charge?: number;
-}
-
-export interface Decks {
-  // Makes it use an enum as index ??
-  [index: string]: Array<Card>;
 }
 
 export interface AttackCaracs extends Caracs {

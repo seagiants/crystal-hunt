@@ -2,7 +2,6 @@ import { SimpleGame } from "../types";
 import {
   Skill,
   Caracs,
-  Card,
   Equipment,
   Enchantment,
   ACTIONTEMPLATE,
@@ -135,26 +134,6 @@ export function getCrystallized(g: SimpleGame, cellId: string): boolean {
 
 export function isTrapped(g: SimpleGame, cellId: string): boolean {
   return g.map[cellId].trap;
-}
-
-export function getCards(g: SimpleGame, playerId: string): Array<Card> {
-  return g.playersContext[playerId].cards;
-}
-
-export function getCard(
-  g: SimpleGame,
-  playerId: string,
-  cardIndex: number
-): Card {
-  return getCards(g, playerId)[cardIndex];
-}
-
-export function getDeck(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName
-): Array<Card> {
-  return g[`decksPlayer${playerId}`][category];
 }
 
 export function getInfos(g: SimpleGame): Array<String> {

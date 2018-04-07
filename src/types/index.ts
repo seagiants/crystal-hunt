@@ -1,15 +1,14 @@
 import {
   Skill,
   Caracs,
-  Card,
   Equipment,
   Enchantment,
-  Spell,
-  Decks
+  Spell
 } from "../action/type";
 import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { CellsDef } from "../map/mapDefinitions";
 import { Avatar, PathMatrix } from "../map/types";
+import { Decks, Card } from "../cards/types";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
