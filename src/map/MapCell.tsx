@@ -73,21 +73,23 @@ const blackCrystalText = (G: SimpleGame, x: number, y: number) => {
   }
 };
 
+const clickHandler = (e: React.MouseEvent<SVGElement>, props: MapCellProps) => {
+  console.dir(e);
+  console.dir(props);
+  if (props.isClickable) {
+    e.preventDefault();
+    props.moves.activateCell([props.x, props.y]);
+  } else {
+    e.preventDefault();
+  }
+};
+
 // ----- Cell component ----- //
 const MapCell = (props: MapCellProps) => {
   return (
     <g key={toKey(props.x, props.y)}>
       <rect
-        onClick={
-          props.isClickable
-            ? e => {
-                e.preventDefault();
-                props.moves.activateCell([props.x, props.y]);
-              }
-            : e => {
-                e.preventDefault();
-              }
-        }
+        onClick={e => clickHandler(e, props)}
         className={cssClass(props.G, props.x, props.y, props.isClickable)}
         x={props.x * 40}
         y={props.y * 40}

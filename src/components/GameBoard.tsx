@@ -8,6 +8,25 @@ import "../index.css";
 import { getHealth, getInfos } from "../state/getters";
 import { CardsBoard } from "../cards/CardsBoard";
 
+// ----- Utils
+const getActionBoard = (props: GameBoardProps) => {
+  console.log("player is active:", props.isActive);
+  if (props.isActive) {
+    return (
+      <ActionsBoard
+        G={props.G}
+        ctx={props.ctx}
+        moves={props.moves}
+        events={props.events}
+        playerId={props.playerID}
+      />
+    );
+  } else {
+    return <div>no action board for you =P</div>;
+  }
+};
+
+// ----- Component
 export const GameBoard = (props: GameBoardProps) => {
   if (props.ctx.gameover !== undefined) {
     return <div className="container">Player {props.ctx.gameover} wins!</div>;
@@ -28,13 +47,7 @@ export const GameBoard = (props: GameBoardProps) => {
             moves={props.moves}
             events={props.events}
           />
-          <ActionsBoard
-            G={props.G}
-            ctx={props.ctx}
-            moves={props.moves}
-            events={props.events}
-            playerId={props.playerID}
-          />
+          {getActionBoard(props)}
         </div>
         <div id="card-container">
           <CardsBoard
