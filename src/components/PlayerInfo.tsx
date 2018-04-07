@@ -1,5 +1,10 @@
 import * as React from "react";
 
+const style = {
+  flexGrow: 1,
+  flexShrink: 2
+};
+
 const getHealthBars = (health: number) =>
   Array.from({ length: health }, (v, k) => k).map(k => (
     <rect
@@ -17,6 +22,7 @@ const getHealthBars = (health: number) =>
 const getTurnText = (yourID: string, currentPlayerID: string) =>
   yourID === currentPlayerID ? "Your turn" : "Opponent's turn";
 
+// ------ Component
 const PlayerInfo = ({
   ID,
   currentPlayer,
@@ -28,7 +34,7 @@ const PlayerInfo = ({
   currentHealth: number;
   infos: Array<String>;
 }) => (
-  <div>
+  <div style={style}>
     <p>{getTurnText(ID, currentPlayer)}</p>
     <p className="HPBar">
       <svg width="200" height="60">

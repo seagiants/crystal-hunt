@@ -9,7 +9,7 @@ interface GameSelectorProps {
 }
 
 const GameSelector = (props: GameSelectorProps) => (
-  <div>
+  <div className="main-container">
     <div>Select a game</div>
     <div>
       <form onSubmit={props.handleSubmit}>

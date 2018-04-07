@@ -7,9 +7,14 @@ import MapCell from "./MapCell";
 import { getActiveAction } from "../state/gameLogic";
 import { MapBoardProps } from "./types";
 
+const style = {
+  flexGrow: 10,
+  flexShrink: 0.5
+};
+
 // ----- Component ----- //
 const MapBoard = (props: MapBoardProps) => {
-  let isClickable: (x: number, y: number) => boolean;  
+  let isClickable: (x: number, y: number) => boolean;
   const selectedAction: SkillCategoryName | null = getSelectedActionCategory(
     props.G,
     props.ctx.currentPlayer
@@ -29,7 +34,7 @@ const MapBoard = (props: MapBoardProps) => {
     .map(xy => xy.split("x"))
     .map(xy => xy.map(z => parseInt(z, 10)));
   return (
-    <div>
+    <div style={style}>
       <svg
         width="600"
         height="400"

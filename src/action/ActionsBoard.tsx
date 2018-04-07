@@ -4,6 +4,12 @@ import { TilesBoardProps, ActionTileProps } from "../types";
 import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
 import { getEquipment, getSkillByCat } from "../state/getters";
 
+const style = {
+  flexGrow: 1,
+  flexShrink: 2
+};
+
+// ----- Components
 export const ActionTile = (props: ActionTileProps) => {
   return (
     <svg width="130" height="130">
@@ -27,7 +33,7 @@ export const ActionTile = (props: ActionTileProps) => {
 export const ActionsBoard = (props: TilesBoardProps) => {
   // Render ActionTiles by Category, one for each CategoryName.
   return (
-    <div>
+    <div style={style}>
       {Object.keys(SkillCategoryLib).map(
         (skillCategoryName: SkillCategoryName, idx: number) => {
           return (

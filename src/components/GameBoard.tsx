@@ -33,7 +33,7 @@ export const GameBoard = (props: GameBoardProps) => {
   } else {
     return (
       <div>
-        <div id="main-container">
+        <div className="main-container">
           <PlayerInfo
             ID={props.playerID}
             currentPlayer={props.ctx.currentPlayer}
@@ -49,7 +49,7 @@ export const GameBoard = (props: GameBoardProps) => {
           />
           {getActionBoard(props)}
         </div>
-        <div id="card-container">
+        <div className="card-container">
           <CardsBoard
             G={props.G}
             ctx={props.ctx}

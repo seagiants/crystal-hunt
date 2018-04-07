@@ -1,5 +1,5 @@
 import * as React from "react";
-import App from "./App";
+import CrystalHuntClient from "./CrystalHuntClient";
 import GameSelector from "./GameSelector";
 
 interface GameSelectorProps {}
@@ -58,7 +58,7 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
     );
     let gameComponent = (
       <div>
-        <App
+        <CrystalHuntClient
           gameID={this.state.selectedGameId}
           playerID={this.state.selectedPlayerId}
         />

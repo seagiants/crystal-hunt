@@ -6,7 +6,7 @@ body {
   font-family: "Press Start 2P", cursive;
 }
 
-#main-container {
+.main-container {
   display: flex;
   flex-direction: row;
   justify-content: center;

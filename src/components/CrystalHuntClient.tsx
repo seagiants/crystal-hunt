@@ -12,7 +12,7 @@ const url =
 // const isDebugActive = process.env.NODE_ENV === "development";
 const isDebugActive = false;
 
-const App = Client({
+const CrystalHuntClient = Client({
   game: CrystalHunt,
   board: GameBoard,
   multiplayer: {
@@ -21,4 +21,4 @@ const App = Client({
   debug: isDebugActive
 });
 
-export default App;
+export default CrystalHuntClient;
