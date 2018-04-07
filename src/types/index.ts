@@ -56,7 +56,7 @@ export interface GameContext {
 
 export interface Moves {
   activateCell(cellXY: number[]): object;
-  activateAction(): object;
+  activateAction(category: SkillCategoryName): object;
   activateCard(): object;
 }
 

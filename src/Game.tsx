@@ -19,7 +19,8 @@ import {
   triggerTrap
 } from "./state/gameLogic";
 import { loadDecks } from "./cards/Card";
-import { setCards, getCards } from "./cards/stateAccessors";
+import { getCards } from "./cards/stateAccessors";
+import { discardCards } from "./cards/gameLogic";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
@@ -144,7 +145,7 @@ const CrystalHunt = Game({
          - EndTurn is triggered.
       */
       const cardPlugged = plugCard(G, playerId, cardIndex);
-      const cardsCleaned = setCards(cardPlugged, playerId, []);
+      const cardsCleaned = discardCards(cardPlugged, playerId);
       const turnEnded = setEndTurn(cardsCleaned, true);
       return turnEnded;
     }

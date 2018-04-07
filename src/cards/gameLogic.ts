@@ -3,9 +3,9 @@ import { SkillCategoryName, SkillCategoryLib } from "../action/skillLib";
 import { setDeck, setCards, getCards, getDeck } from "../cards/stateAccessors";
 import { loadCard } from "./Card";
 import { Card } from "./types";
+import { getCategory } from "../state/getters";
 
 // Draw key words : Replace cards of a player with full new cards.
-// TODO : Correctly implements deck mechanism.
 export function drawCards(g: SimpleGame, playerId: string): SimpleGame {
   return setCards(g, playerId, [
     loadCard("Sword"),
@@ -31,15 +31,59 @@ export function drawCard(
     cards.push(card);
     // Setting it
     const cardDrawed = setCards(g, playerId, cards);
-    // Putting the card at last in the deck.
+    // Removing the card from the deck.
     let newDeck = deck.slice(1);
-    newDeck.push(card);
     const deckUpdated = setDeck(cardDrawed, playerId, category, newDeck);
     return deckUpdated;
   } else {
     console.log("No more cards to draw in " + category + " deck.");
     return g;
   }
+}
+
+// Discard a card based on its hand index and putting it at the end of the corresponding deck.
+export function discardCard(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): SimpleGame {
+  const hand = getCards(g, playerId);
+  const card = hand[cardIndex];
+  const category = getCategory(card);
+  // Put the card at the end of the deck.
+  const newDeck: Array<Card> = [...getDeck(g, playerId, category), card];
+  const deckSetted = setDeck(g, playerId, category, newDeck);
+  // Removing it from the hand
+  const newHand: Array<Card> = hand.filter(
+    (current, index) => index !== cardIndex
+  );
+  const handUpdated: SimpleGame = setCards(deckSetted, playerId, newHand);
+  return handUpdated;
+}
+
+// Discard all the cards
+export function discardCards(g: SimpleGame, playerId: string): SimpleGame {
+  // For each card in hand, discard it.
+  const cardsDiscarded = getCards(g, playerId).reduce(
+    (newG, card, index) => {
+      // Always discarding the first card, as it's reducing.
+      return discardCard(newG, playerId, 0);
+    },
+    { ...g }
+  );
+  return cardsDiscarded;
+}
+
+// Recycling a card, is discarding it and drawing one from the same category deck.
+export function recycleCard(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): SimpleGame {
+  const cardDiscarded = discardCard(g, playerId, cardIndex);
+  const category = getCategory(getCards(g, playerId)[cardIndex]);
+  const cardDrawed = drawCard(cardDiscarded, playerId, category);
+  return cardDrawed;
 }
 
 // Draw 1 card per category's deck.
