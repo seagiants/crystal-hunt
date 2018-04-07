@@ -6,7 +6,7 @@ import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";
 import "../index.css";
 import { getHealth, getInfos } from "../state/getters";
-import { CardsBoard } from "./CardsBoard";
+import { CardsBoard } from "../cards/CardsBoard";
 
 // ----- Utils
 const getActionBoard = (props: GameBoardProps) => {

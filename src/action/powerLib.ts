@@ -6,8 +6,9 @@ import {
   getAvatarPosition,
   getCrystallized
 } from "../state/getters";
-import { damage, heal, summon, drawEach } from "../state/gameLogic";
+import { damage, heal, summon } from "../state/gameLogic";
 import { findPath, toCoord } from "../map/Cell";
+import { drawEach } from "../cards/gameLogic";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }

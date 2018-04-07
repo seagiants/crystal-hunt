@@ -3,15 +3,9 @@ import {
   CardLib,
   SkillCategoryLib,
   ActionType
-} from "./skillLib";
-import {
-  Card,
-  SkillCategory,
-  Equipment,
-  Enchantment,
-  Spell,
-  Decks
-} from "./type";
+} from "../action/skillLib";
+import { SkillCategory, Equipment, Enchantment, Spell } from "../action/type";
+import { Card, Decks } from "./types";
 
 // Loaders for JSON data
 

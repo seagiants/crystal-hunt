@@ -1,5 +1,6 @@
 import { SkillCategoryName, SkillLib, SkillCategoryLib } from "./skillLib";
-import { Skill, SkillCategory, Card } from "./type";
+import { Skill, SkillCategory } from "./type";
+import { Card } from "../cards/types";
 
 // Loaders for JSON data
 

@@ -1,4 +1,5 @@
-import { Skill, SkillCategory, Card } from "./type";
+import { Skill, SkillCategory } from "./type";
+import { Card } from "../cards/types";
 
 export enum SkillName {
   Move = "Move",

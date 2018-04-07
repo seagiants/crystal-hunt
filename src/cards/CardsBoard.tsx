@@ -1,8 +1,8 @@
 import * as React from "react";
 import { getColor } from "../action/Skill";
 import { CardTileProps, TilesBoardProps } from "../types";
-import { Card } from "../action/type";
-import { getCards } from "../state/getters";
+import { Card } from "./types";
+import { getCards } from "./stateAccessors";
 
 export const CardTile = (props: CardTileProps) => {
   return (

@@ -2,12 +2,8 @@ import { SimpleGame, GameContext, PlayerContext } from "./types/index";
 import { Game } from "boardgame.io/core";
 import { TriggerPhase, SkillCategoryName } from "./action/skillLib";
 import { initMapSetup } from "./map/mapDefinitions";
-import {
-  getSelectedActionCategory,
-  getHealth,
-  getCards
-} from "./state/getters";
-import { setEndTurn, setCards, setSelectedAction } from "./state/setters";
+import { getSelectedActionCategory, getHealth } from "./state/getters";
+import { setEndTurn, setSelectedAction } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey, toPathMatrix } from "./map/Cell";
@@ -22,7 +18,8 @@ import {
   cleanExhaustedSpell,
   triggerTrap
 } from "./state/gameLogic";
-import { loadDecks } from "./action/Card";
+import { loadDecks } from "./cards/Card";
+import { setCards, getCards } from "./cards/stateAccessors";
 
 function initPlayerContext(playerId: string): PlayerContext {
   return {
