@@ -88,17 +88,18 @@ export interface GameBoardProps extends ComponentProps {
   moves: Moves;
   events: Events;
   playerID: string;
+  isActive: boolean;
 }
 
 export interface CellProps extends ComponentProps {
-    G: SimpleGame;
-    ctx: GameContext;
-    x: number;
-    y: number;
-    isClickable: boolean;
-    moves: Moves;
-    pathMatrix: PathMatrix;
-  }
+  G: SimpleGame;
+  ctx: GameContext;
+  x: number;
+  y: number;
+  isClickable: boolean;
+  moves: Moves;
+  pathMatrix: PathMatrix;
+}
 
 export interface TilesBoardProps {
   G: SimpleGame;
