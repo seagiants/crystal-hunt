@@ -153,7 +153,7 @@ const CrystalHunt = Game({
         // EndTurn is triggered.
         const turnEnded = setEndTurn(powerTriggered, true);
         // Todo : Implement a better workflow
-        return action.name === "Draw" ? powerTriggered : turnEnded;
+        return action.name === "Draw" || action.name === "MentalExplosion" ? powerTriggered : turnEnded;
       }
     },
     activateCard: (

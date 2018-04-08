@@ -58,7 +58,7 @@ export const CardLib: { [key: string]: Card } = {
     isTargetRequired: true,
     charge: 2,
     caracs: {
-      attackValue: 3,
+      attackValue: 3
     },
     symbol: 4,
     powerName: "Summon"
@@ -69,8 +69,7 @@ export const CardLib: { [key: string]: Card } = {
     skillCategory: SkillCategoryName.Dexterity,
     isTargetRequired: false,
     trigger: TriggerPhase.TurnEnd,
-    caracs: {      
-    },
+    caracs: {},
     symbol: 3,
     powerName: "Crystallize"
   },
@@ -98,6 +97,17 @@ export const CardLib: { [key: string]: Card } = {
     symbol: 2,
     powerName: "Move"
   },
+  MentalExplosion: {
+    name: "MentalExplosion",
+    type: ActionType.Spell,
+    skillCategory: SkillCategoryName.Intelligence,
+    isTargetRequired: false,
+    caracs: {
+      charge: 2
+    },
+    symbol: 2,
+    powerName: "DoubleDraw"
+  }
 };
 
 export const SkillLib: { [key in SkillName]: Skill } = {
@@ -165,7 +175,7 @@ export const SkillCategoryLib: { [key in SkillCategoryName]: SkillCategory } = {
   Strength: {
     name: SkillCategoryName.Strength,
     color: "#ff0005",
-    clickedColor: "#ff5050",    
+    clickedColor: "#ff5050",
     exhaustedColor: "gray"
   }
 };

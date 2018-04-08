@@ -168,5 +168,19 @@ export const PowerLib: {
     ) => {
       return getAvatarOnCell(g, targetId) === null;
     }
+  },
+  DoubleDraw: {
+    power: (g: SimpleGame, ctx: GameContext) => {
+      // const cardsAdded = drawCards(g, ctx.currentPlayer);
+      const cardsDrawed = drawEach(g, ctx.currentPlayer);
+      const cardsDrawed2 = drawEach(cardsDrawed, ctx.currentPlayer);
+      return cardsDrawed2;
+    },
+    check: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ): boolean => true
   }
 };
