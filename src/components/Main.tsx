@@ -47,7 +47,7 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
   }
 
   render() {
-    let selectionComponent = (
+    const selectionComponent = (
       <GameSelector
         handleSubmit={this.handleSubmit}
         handleGIDChange={this.handleGIDChange}
@@ -56,7 +56,7 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
         inProgressPlayerId={this.state.inProgressPlayerId}
       />
     );
-    let gameComponent = (
+    const gameComponent = (
       <div>
         <CrystalHuntClient
           gameID={this.state.selectedGameId}

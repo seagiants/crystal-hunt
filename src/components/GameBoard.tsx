@@ -1,6 +1,7 @@
 import * as React from "react";
 import { GameBoardProps } from "../types/index";
 import { ActionsBoard } from "../action/ActionsBoard";
+import MutedActionBoard from "../action/MutedActionBoard";
 import PlayerInfo from "./PlayerInfo";
 import CurrentPhase from "./CurrentPhase";
 import MapBoard from "../map/MapBoard";
@@ -22,7 +23,15 @@ const getActionBoard = (props: GameBoardProps) => {
       />
     );
   } else {
-    return <div>no action board for you =P</div>;
+    return (
+      <MutedActionBoard
+        G={props.G}
+        ctx={props.ctx}
+        moves={props.moves}
+        events={props.events}
+        playerId={props.playerID}
+      />
+    );
   }
 };
 
