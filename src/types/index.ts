@@ -114,6 +114,7 @@ export interface TilesBoardProps {
 }
 
 export interface ActionTileProps {
+  g: SimpleGame;
   skill: Skill;
   equipment: Equipment;
   status: ActionTileStatus;

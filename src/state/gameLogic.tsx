@@ -17,14 +17,17 @@ import {
   getBlackCrystalCellId,
   getAvatarOnCell,
   getAvatarPosition,
-  isTrapped
+  isTrapped,
+  getActionFlow,
+  getCategories
 } from "./getters";
 import { triggerPower } from "../action/Power";
 import {
   setHealth,
   addMonster,
   setCellAvatar,
-  addInfoMessage
+  addInfoMessage,
+  setActionFlow
 } from "./setters";
 import { Avatar } from "../map/types";
 import {
@@ -33,7 +36,13 @@ import {
   loadEquipment,
   loadSpell
 } from "../cards/Card";
-import { Skill, Spell, Caracs } from "../action/type";
+import {
+  Skill,
+  Spell,
+  Caracs,
+  ActionFlow,
+  ActionTileStatus
+} from "../action/type";
 import { initMonsterAvatar } from "../map/Avatar";
 import { getCard } from "../cards/stateAccessors";
 
@@ -245,6 +254,78 @@ export function summon(
 // Black Crystal Cell is identified by the BlackCrystalCellId.
 export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));
+}
+
+// Refreshing Action Status is :
+// diminishing its exhaustCounter, switching clicked -> exhausted, exhausted && 0 -> avalaible
+export function updateActionStatus(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): SimpleGame {
+  const actionFlow: ActionFlow = getActionFlow(g, playerId, category);
+  let status: ActionTileStatus;
+  switch (actionFlow.status) {
+    case ActionTileStatus.Clicked:
+      status = ActionTileStatus.Exhausted;
+      break;
+    case ActionTileStatus.Exhausted:
+      status =
+        actionFlow.exhaustCounter === 0
+          ? ActionTileStatus.Avalaible
+          : ActionTileStatus.Exhausted;
+      break;
+    default:
+      status = ActionTileStatus.Avalaible;
+      break;
+  }
+  // Diminshing exhausted counter after status check to handle correctly avalaible vs exhausted.
+  const exhaustCounter =
+    actionFlow.exhaustCounter > 0 ? actionFlow.exhaustCounter-- : 0;
+  return setActionFlow(g, playerId, category, {
+    ...actionFlow,
+    status: status,
+    exhaustCounter: exhaustCounter
+  });
+}
+
+// Refreshing all actions Status
+export function updateActionsStatus(
+  g: SimpleGame,
+  playerId: string
+): SimpleGame {
+  return Object.keys(SkillCategoryName).reduce(
+    (tempG, currCat) =>
+      updateActionStatus(tempG, playerId, SkillCategoryName[currCat]),
+    { ...g }
+  );
+}
+
+// Switch the status of the current clicked tile, and restore the status of the previous one
+export function setActionClicked(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): SimpleGame {
+  const tempG = getCategories().reduce(
+    (prevG, currCat) => {
+      const actionFlow = getActionFlow(g, playerId, currCat);
+      // If currCat === category (clicked tile) or status = clicked (previous clicked tile) => update
+      return currCat === category ||
+        actionFlow.status === ActionTileStatus.Clicked
+        ? setActionFlow(prevG, playerId, currCat, {
+            ...actionFlow,
+            status:
+              // If Clicked, then Avalaible, nor Clicked (was the clicked one case)
+              actionFlow.status === ActionTileStatus.Clicked
+                ? ActionTileStatus.Avalaible
+                : ActionTileStatus.Clicked
+          })
+        : prevG;
+    },
+    { ...g }
+  );
+  return tempG;
 }
 
 export function triggerTrap(g: SimpleGame, playerId: string): SimpleGame {

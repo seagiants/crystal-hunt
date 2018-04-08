@@ -6,9 +6,14 @@ import {
   Enchantment,
   ACTIONTEMPLATE,
   Spell,
-  ActionTileStatus
+  ActionTileStatus,
+  ActionFlow
 } from "../action/type";
-import { TriggerPhase, SkillCategoryName } from "../action/skillLib";
+import {
+  TriggerPhase,
+  SkillCategoryName,
+  SkillCategoryLib
+} from "../action/skillLib";
 import { Cell, Avatar } from "../map/types";
 import { CellTypeName } from "../map/Cell";
 
@@ -146,5 +151,17 @@ export function getActionStatus(
   playerId: string,
   category: SkillCategoryName
 ): ActionTileStatus {
-  return g[`actionsFlowPlayer${playerId}`][category].status;
+  return getActionFlow(g, playerId, category).status;
+}
+
+export function getActionFlow(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): ActionFlow {
+  return g[`actionsFlowPlayer${playerId}`][category];
+}
+
+export function getCategories(): Array<SkillCategoryName> {
+  return Object.keys(SkillCategoryLib).map(cat => SkillCategoryName[cat]);
 }

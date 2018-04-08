@@ -2,6 +2,7 @@ import { SimpleGame } from "../types";
 import { getAvatarPosition, getMonsterCounter } from "./getters";
 import { SkillCategoryName } from "../action/skillLib";
 import { Avatar } from "../map/types";
+import { ActionFlow } from "../action/type";
 
 export function setSelectedAction(
   G: SimpleGame,
@@ -105,4 +106,19 @@ export function setHealth(
 
 export function addInfoMessage(g: SimpleGame, message: string): SimpleGame {
   return { ...g, infoMessages: [...g.infoMessages, message] };
+}
+
+export function setActionFlow(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName,
+  actionFlow: ActionFlow
+): SimpleGame {
+  return {
+    ...g,
+    [`actionsFlowPlayer${playerId}`]: {
+      ...g[`actionsFlowPlayer${playerId}`],
+      [category]: actionFlow
+    }
+  };
 }

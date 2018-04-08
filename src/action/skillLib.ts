@@ -146,18 +146,26 @@ export const SkillLib: { [key in SkillName]: Skill } = {
 export const SkillCategoryLib: { [key in SkillCategoryName]: SkillCategory } = {
   Dexterity: {
     name: SkillCategoryName.Dexterity,
-    color: "green"
+    color: "#009933",
+    clickedColor: "#66ff66",
+    exhaustedColor: "gray"
   },
   Intelligence: {
     name: SkillCategoryName.Intelligence,
-    color: "blue"
+    color: "#0000ff",
+    clickedColor: "#3399ff",
+    exhaustedColor: "gray"
   },
   Wisdom: {
     name: SkillCategoryName.Wisdom,
-    color: "yellow"
+    color: "#ffff00",
+    clickedColor: "#ffff99",
+    exhaustedColor: "gray"
   },
   Strength: {
     name: SkillCategoryName.Strength,
-    color: "red"
+    color: "#ff0005",
+    clickedColor: "#ff5050",    
+    exhaustedColor: "gray"
   }
 };

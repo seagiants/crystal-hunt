@@ -1,5 +1,5 @@
 import { SkillCategoryName, SkillLib, SkillCategoryLib } from "./skillLib";
-import { Skill, SkillCategory } from "./type";
+import { Skill, SkillCategory, ActionTileStatus } from "./type";
 import { Card } from "../cards/types";
 
 // Loaders for JSON data
@@ -17,6 +17,21 @@ export function loadSkillCategory(
 }
 
 // Used to get the color of a Skill
-export function getColor(element: Skill | Card): string {
-  return loadSkillCategory(element.skillCategory).color;
+export function getColor(
+  element: Skill | Card,
+  status?: ActionTileStatus
+): string {
+  const skillCat = loadSkillCategory(element.skillCategory);
+  switch (status) {
+    case undefined:
+      return skillCat.color;
+    case ActionTileStatus.Avalaible:
+      return skillCat.color;
+    case ActionTileStatus.Clicked:
+      return skillCat.clickedColor;
+    case ActionTileStatus.Exhausted:
+      return skillCat.exhaustedColor;
+    default:
+      return skillCat.color;
+  }
 }

@@ -27,6 +27,8 @@ export interface Caracs {
 export interface SkillCategory {
   name: SkillCategoryName;
   color: string;
+  clickedColor: string;
+  exhaustedColor: string;
 }
 
 // Abstract interface, to group up common props between actions
@@ -100,4 +102,5 @@ export type ActionsFlow = { [key in SkillCategoryName]: ActionFlow };
 
 export interface ActionFlow {
   status: ActionTileStatus;
+  exhaustCounter: number;
 }

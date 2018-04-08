@@ -16,7 +16,9 @@ import {
   getActiveAction,
   getBlackCrystalCellAvatarId,
   cleanExhaustedSpell,
-  triggerTrap
+  triggerTrap,
+  updateActionsStatus,
+  setActionClicked
 } from "./state/gameLogic";
 import { loadDecks } from "./cards/Card";
 import { getCards } from "./cards/stateAccessors";
@@ -48,7 +50,8 @@ function initPlayerContext(playerId: string): PlayerContext {
 // Todo : Refactor
 function initActionsFlow(): ActionsFlow {
   const initActionFlow = (): ActionFlow => ({
-    status: ActionTileStatus.Avalaible
+    status: ActionTileStatus.Avalaible,
+    exhaustCounter: 0
   });
   return {
     Dexterity: initActionFlow(),
@@ -123,6 +126,7 @@ const CrystalHunt = Game({
     ) => {
       /* activateAction workflow :
         - Retrieve Active Action (Spell, if not Skill)
+        - Mark Action Tile as clicked,
         - Check if TargetRequired, Select the skill and wait for target.
         - If not, Trigger the power,
         - If not Draw skill end turn (To refactor!).
@@ -131,19 +135,21 @@ const CrystalHunt = Game({
       */
       const action = getActiveAction(G, ctx.currentPlayer, categoryName);
       console.log("Activating " + categoryName);
+      // Corresponding ActionTile is marked as clicked
+      const actionClicked = setActionClicked(G, ctx.currentPlayer, categoryName);
       if (action.isTargetRequired) {
         console.log(action.name + " is selected");
         // Corresponding category is stored in the state.
         const skillSaved: SimpleGame = setSelectedAction(
-          G,
+          actionClicked,
           action.skillCategory,
           ctx.currentPlayer
-        );
+        );        
         return skillSaved;
       } else {
         console.log(action.name + " is triggered");
         // State is modified by the power.
-        const powerTriggered = triggerPower(action, G, ctx, "");
+        const powerTriggered = triggerPower(action, actionClicked, ctx, "");
         // EndTurn is triggered.
         const turnEnded = setEndTurn(powerTriggered, true);
         // Todo : Implement a better workflow
@@ -189,8 +195,10 @@ const CrystalHunt = Game({
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
       // EndTurn Workflow :
+      // Deal with ActionStatus
+      const actionStatusUpdated = updateActionsStatus(G, ctx.currentPlayer);
       // Clean deadMonsters
-      const deadMonstersCleaned = cleanDeadMonsters(G);
+      const deadMonstersCleaned = cleanDeadMonsters(actionStatusUpdated);
       // Clean Exhausted Spell
       const exhaustedSpellCleaned = cleanExhaustedSpell(
         deadMonstersCleaned,

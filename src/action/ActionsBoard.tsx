@@ -16,7 +16,12 @@ export const ActionTile = (props: ActionTileProps) => {
       <rect
         width="100"
         height="100"
-        style={{ fill: getColor(props.skill) }}
+        style={{
+          fill: getColor(
+            props.skill,
+            getActionStatus(props.g, props.playerID, props.category)
+          )
+        }}
         stroke="black"
         onClick={e => {
           e.preventDefault();
@@ -39,6 +44,7 @@ export const ActionsBoard = (props: TilesBoardProps) => {
           return (
             <ActionTile
               key={`ActionTile${idx}${props.playerId}`}
+              g={props.G}
               activateAction={props.moves.activateAction}
               endTurn={props.events.endTurn}
               category={skillCategoryName}
