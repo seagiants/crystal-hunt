@@ -5,7 +5,8 @@ import {
   Equipment,
   Enchantment,
   ACTIONTEMPLATE,
-  Spell
+  Spell,
+  ActionTileStatus
 } from "../action/type";
 import { TriggerPhase, SkillCategoryName } from "../action/skillLib";
 import { Cell, Avatar } from "../map/types";
@@ -138,4 +139,12 @@ export function isTrapped(g: SimpleGame, cellId: string): boolean {
 
 export function getInfos(g: SimpleGame): Array<String> {
   return g.infoMessages;
+}
+
+export function getActionStatus(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): ActionTileStatus {
+  return g[`actionsFlowPlayer${playerId}`][category].status;
 }

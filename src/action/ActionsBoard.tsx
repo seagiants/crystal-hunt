@@ -2,7 +2,7 @@ import * as React from "react";
 import { getColor } from "./Skill";
 import { TilesBoardProps, ActionTileProps } from "../types";
 import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
-import { getEquipment, getSkillByCat } from "../state/getters";
+import { getEquipment, getSkillByCat, getActionStatus } from "../state/getters";
 
 const style = {
   flexGrow: 1,
@@ -45,6 +45,11 @@ export const ActionsBoard = (props: TilesBoardProps) => {
               playerID={props.playerId}
               skill={getSkillByCat(props.G, props.playerId, skillCategoryName)}
               equipment={getEquipment(
+                props.G,
+                props.playerId,
+                skillCategoryName
+              )}
+              status={getActionStatus(
                 props.G,
                 props.playerId,
                 skillCategoryName

@@ -1,4 +1,4 @@
-import { Power, CheckTarget, Caracs, AttackCaracs } from "./type";
+import { Power, CheckTarget, Caracs, AttackCaracs, MoveCaracs } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import { setCellCrystallize, setAvatarPosition } from "../state/setters";
 import {
@@ -23,7 +23,7 @@ export const PowerLib: {
       g: SimpleGame,
       ctx: GameContext,
       targetId: string,
-      caracs: Caracs
+      caracs: MoveCaracs
     ): boolean => {
       if (g.pathMatrix !== null) {
         const path = findPath(
@@ -32,7 +32,7 @@ export const PowerLib: {
           toCoord(targetId)
         );
         // Path contains starting position.
-        return path.length !== 0 && path.length < caracs.moveRange + 2;
+        return path.length !== 0 && path.length <= caracs.moveRange + 1;
       } else {
         return false;
       }

@@ -51,8 +51,8 @@ export interface Skill extends TRIGGERINGACTIONTEMPLATE {
 export interface Equipment extends ACTIONTEMPLATE {}
 
 // Enchantment should be auto-trigger power, at start or end of turn, so no targetRequired
-export interface Enchantment extends TRIGGERINGACTIONTEMPLATE {  
-  trigger: TriggerPhase;  
+export interface Enchantment extends TRIGGERINGACTIONTEMPLATE {
+  trigger: TriggerPhase;
 }
 
 // Spells are alternative skills, remplacing temporarely (based on charge value) the skill power.
@@ -69,6 +69,12 @@ export interface AttackCaracs extends Caracs {
   [caracName: string]: number;
 }
 
+export interface MoveCaracs extends Caracs {
+  // Used to determine the movement capacity.
+  moveRange: number;
+  [caracName: string]: number;
+}
+
 export interface HealCaracs extends Caracs {
   // Used to determine the health points to restore.
   healValue: number;
@@ -82,4 +88,16 @@ export interface CheckTarget {
     targetId: string,
     powerCaracs: Caracs
   ): boolean;
+}
+
+export enum ActionTileStatus {
+  Clicked = "Clicked",
+  Exhausted = "Exhausted",
+  Avalaible = "Avalaible"
+}
+
+export type ActionsFlow = { [key in SkillCategoryName]: ActionFlow };
+
+export interface ActionFlow {
+  status: ActionTileStatus;
 }

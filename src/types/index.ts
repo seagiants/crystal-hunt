@@ -3,7 +3,9 @@ import {
   Caracs,
   Equipment,
   Enchantment,
-  Spell
+  Spell,
+  ActionTileStatus,
+  ActionsFlow
 } from "../action/type";
 import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { CellsDef } from "../map/mapDefinitions";
@@ -31,6 +33,9 @@ export interface SimpleGame {
   // Player's deck props
   decksPlayer0: Decks;
   decksPlayer1: Decks;
+  // Player's actions props
+  actionsFlowPlayer0: ActionsFlow;
+  actionsFlowPlayer1: ActionsFlow;
   // equipment props
   equipmentPlayer0?: Equipment;
   equipmentPlayer1?: Equipment;
@@ -111,17 +116,10 @@ export interface TilesBoardProps {
 export interface ActionTileProps {
   skill: Skill;
   equipment: Equipment;
+  status: ActionTileStatus;
   category: SkillCategoryName;
   playerID: string;
   activateAction(categoryName: string): object;
-  endTurn(): object;
-}
-
-export interface CardTileProps {
-  card: Card;
-  index: number;
-  playerId: string;
-  activateCard(cardIndex: number, playerId: string): object;
   endTurn(): object;
 }
 

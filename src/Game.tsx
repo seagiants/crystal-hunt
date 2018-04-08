@@ -21,7 +21,9 @@ import {
 import { loadDecks } from "./cards/Card";
 import { getCards } from "./cards/stateAccessors";
 import { discardCards } from "./cards/gameLogic";
+import { ActionTileStatus, ActionsFlow, ActionFlow } from "./action/type";
 
+// Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
@@ -43,6 +45,19 @@ function initPlayerContext(playerId: string): PlayerContext {
   };
 }
 
+// Todo : Refactor
+function initActionsFlow(): ActionsFlow {
+  const initActionFlow = (): ActionFlow => ({
+    status: ActionTileStatus.Avalaible
+  });
+  return {
+    Dexterity: initActionFlow(),
+    Intelligence: initActionFlow(),
+    Wisdom: initActionFlow(),
+    Strength: initActionFlow()
+  };
+}
+
 const CrystalHunt = Game({
   setup: (): SimpleGame => {
     // TODO : playersContext should be dropped and state flattened.
@@ -60,6 +75,8 @@ const CrystalHunt = Game({
       selectedAction: null,
       decksPlayer0: loadDecks(),
       decksPlayer1: loadDecks(),
+      actionsFlowPlayer0: initActionsFlow(),
+      actionsFlowPlayer1: initActionsFlow(),
       infoMessages: ["Game started"],
       pathMatrix: []
     };
