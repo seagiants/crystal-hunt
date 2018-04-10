@@ -1,13 +1,17 @@
 import { Power, CheckTarget, Caracs, AttackCaracs, MoveCaracs } from "./type";
 import { SimpleGame, GameContext } from "../types";
-import { setCellCrystallize, setAvatarPosition } from "../state/setters";
+import {
+  setCellCrystallize,
+  setAvatarPosition,
+  setIsTrapped
+} from "../state/setters";
 import {
   getAvatarOnCell,
   getAvatarPosition,
   getCrystallized
 } from "../state/getters";
-import { damage, heal, summon, triggerTrap } from "../state/gameLogic";
-import { findPath, toCoord, toKey } from "../map/Cell";
+import { damage, heal, summon, checkTraps } from "../state/gameLogic";
+import { findPath, toCoord } from "../map/Cell";
 import { drawEach } from "../cards/gameLogic";
 
 export const PowerLib: {
@@ -21,11 +25,9 @@ export const PowerLib: {
         toCoord(getAvatarPosition(g, ctx.currentPlayer)),
         toCoord(targetId)
       );
-      const trapsTriggered = path.reduce(
-        (tempG, currCell) =>
-          triggerTrap(g, ctx.currentPlayer, toKey(currCell[0], currCell[1])),
-        { ...g }
-      );
+      // Trigger traps on the way.
+      const trapsTriggered = checkTraps(g, ctx.currentPlayer, path);
+      // Move the avatar.
       const playerMoved = setAvatarPosition(
         trapsTriggered,
         ctx.currentPlayer,
@@ -183,6 +185,7 @@ export const PowerLib: {
       return getAvatarOnCell(g, targetId) === null;
     }
   },
+  // TODO : Refactor, should be a custom Draw power.
   DoubleDraw: {
     power: (g: SimpleGame, ctx: GameContext) => {
       // const cardsAdded = drawCards(g, ctx.currentPlayer);
@@ -196,5 +199,18 @@ export const PowerLib: {
       targetId: string,
       caracs: Caracs
     ): boolean => true
+  },
+  TrapACell: {
+    power: (g: SimpleGame, ctx: GameContext, targetId: string) => {
+      return setIsTrapped(g, targetId, true);
+    },
+    check: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      return getAvatarOnCell(g, targetId) === null ? true : false;
+    }
   }
 };

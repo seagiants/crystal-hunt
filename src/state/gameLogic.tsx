@@ -45,6 +45,7 @@ import {
 } from "../action/type";
 import { initMonsterAvatar } from "../map/Avatar";
 import { getCard } from "../cards/stateAccessors";
+import { toKey } from "../map/Cell";
 
 // auto triggering enchantment logic
 // TODO : Handle several enchantment triggers
@@ -257,7 +258,7 @@ export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
 }
 
 // Refreshing Action Status is :
-// diminishing its exhaustCounter, switching clicked -> exhausted, exhausted && 0 -> avalaible
+// switching clicked -> exhausted, exhausted && 0 -> avalaible then diminishing its exhaustCounter
 export function updateActionStatus(
   g: SimpleGame,
   playerId: string,
@@ -281,7 +282,7 @@ export function updateActionStatus(
   }
   // Diminshing exhausted counter after status check to handle correctly avalaible vs exhausted.
   const exhaustCounter =
-    actionFlow.exhaustCounter > 0 ? actionFlow.exhaustCounter-- : 0;
+    actionFlow.exhaustCounter > 0 ? actionFlow.exhaustCounter - 1 : 0;
   return setActionFlow(g, playerId, category, {
     ...actionFlow,
     status: status,
@@ -329,7 +330,11 @@ export function setActionClicked(
 }
 
 // Check if a cell is trapped, if trigger the trapp (exhaust Dext + 3 & info).
-export function triggerTrap(g: SimpleGame, playerId: string, cellId: string): SimpleGame {  
+export function triggerTrap(
+  g: SimpleGame,
+  playerId: string,
+  cellId: string
+): SimpleGame {
   if (isTrapped(g, cellId)) {
     // +3 exhaust to Dexterity
     const trappedPlayer = upExhaustCounter(
@@ -338,12 +343,26 @@ export function triggerTrap(g: SimpleGame, playerId: string, cellId: string): Si
       SkillCategoryName.Dexterity,
       3
     );
-    // Add a fundy message
+    // Add a funky message
     return addInfoMessage(
       trappedPlayer,
-      "Player" + playerId + " has been trapped, this punk..."
+      "Player" + playerId + " has been trapped on " + cellId + ", this punk..."
     );
   } else {
     return g;
   }
+}
+
+export function checkTraps(
+  g: SimpleGame,
+  playerId: string,
+  path: [number, number][]
+) {
+  const movePath = path.filter((curr, index) => index !== 0);
+  const trapsTriggered = movePath.reduce(
+    (tempG, currCell) =>
+      triggerTrap(tempG, playerId, toKey(currCell[0], currCell[1])),
+    { ...g }
+  );
+  return trapsTriggered;
 }

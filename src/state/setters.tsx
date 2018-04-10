@@ -149,3 +149,14 @@ export function upExhaustCounter(
     getActionFlow(g, playerId, category).exhaustCounter + addedValue
   );
 }
+
+export function setIsTrapped(
+  g: SimpleGame,
+  cellId: string,
+  isTrapped: boolean
+): SimpleGame {
+  return {
+    ...g,
+    map: { ...g.map, [cellId]: { ...g.map[cellId], trap: isTrapped } }
+  };
+}

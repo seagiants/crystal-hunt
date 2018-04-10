@@ -107,6 +107,17 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 2,
     powerName: "DoubleDraw"
+  },
+  SetATrickyTrap: {
+    name: "SetATrickyTrap",
+    type: ActionType.Spell,
+    skillCategory: SkillCategoryName.Dexterity,
+    isTargetRequired: true,
+    caracs: {
+      charge: 1
+    },
+    symbol: 2,
+    powerName: "TrapACell"
   }
 };
 
