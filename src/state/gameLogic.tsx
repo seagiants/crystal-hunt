@@ -27,7 +27,8 @@ import {
   addMonster,
   setCellAvatar,
   addInfoMessage,
-  setActionFlow
+  setActionFlow,
+  upExhaustCounter
 } from "./setters";
 import { Avatar } from "../map/types";
 import {
@@ -330,8 +331,18 @@ export function setActionClicked(
 
 export function triggerTrap(g: SimpleGame, playerId: string): SimpleGame {
   const cellId = getAvatarPosition(g, playerId);
-  const trap = isTrapped(g, cellId);
-  return trap
-    ? addInfoMessage(g, "Player" + playerId + " has been trapped, this punk...")
-    : g;
+  if (isTrapped(g, cellId)) {
+    const trappedPlayer = upExhaustCounter(
+      g,
+      playerId,
+      SkillCategoryName.Dexterity,
+      3
+    );
+    return addInfoMessage(
+      trappedPlayer,
+      "Player" + playerId + " has been trapped, this punk..."
+    );
+  } else {
+    return g;
+  }
 }

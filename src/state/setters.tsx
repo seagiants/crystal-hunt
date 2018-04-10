@@ -1,5 +1,5 @@
 import { SimpleGame } from "../types";
-import { getAvatarPosition, getMonsterCounter } from "./getters";
+import { getAvatarPosition, getMonsterCounter, getActionFlow } from "./getters";
 import { SkillCategoryName } from "../action/skillLib";
 import { Avatar } from "../map/types";
 import { ActionFlow } from "../action/type";
@@ -121,4 +121,31 @@ export function setActionFlow(
       [category]: actionFlow
     }
   };
+}
+
+export function setExhaustCounter(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName,
+  newValue: number
+): SimpleGame {
+  const actionFlow = getActionFlow(g, playerId, category);
+  return setActionFlow(g, playerId, category, {
+    ...actionFlow,
+    exhaustCounter: newValue
+  });
+}
+
+export function upExhaustCounter(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName,
+  addedValue: number
+): SimpleGame {
+  return setExhaustCounter(
+    g,
+    playerId,
+    category,
+    getActionFlow(g, playerId, category).exhaustCounter + addedValue
+  );
 }
