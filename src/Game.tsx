@@ -136,7 +136,11 @@ const CrystalHunt = Game({
       const action = getActiveAction(G, ctx.currentPlayer, categoryName);
       console.log("Activating " + categoryName);
       // Corresponding ActionTile is marked as clicked
-      const actionClicked = setActionClicked(G, ctx.currentPlayer, categoryName);
+      const actionClicked = setActionClicked(
+        G,
+        ctx.currentPlayer,
+        categoryName
+      );
       if (action.isTargetRequired) {
         console.log(action.name + " is selected");
         // Corresponding category is stored in the state.
@@ -144,16 +148,17 @@ const CrystalHunt = Game({
           actionClicked,
           action.skillCategory,
           ctx.currentPlayer
-        );        
+        );
         return skillSaved;
       } else {
         console.log(action.name + " is triggered");
         // State is modified by the power.
         const powerTriggered = triggerPower(action, actionClicked, ctx, "");
-        // EndTurn is triggered.
-        const turnEnded = setEndTurn(powerTriggered, true);
+        // EndTurn is triggered if no card is drawn.
         // Todo : Implement a better workflow
-        return action.name === "Draw" || action.name === "MentalExplosion" ? powerTriggered : turnEnded;
+        return getCards(powerTriggered, ctx.currentPlayer).length > 0
+          ? powerTriggered
+          : setEndTurn(powerTriggered, true);
       }
     },
     activateCard: (
