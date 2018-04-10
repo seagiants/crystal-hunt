@@ -6,8 +6,8 @@ import {
   getAvatarPosition,
   getCrystallized
 } from "../state/getters";
-import { damage, heal, summon } from "../state/gameLogic";
-import { findPath, toCoord } from "../map/Cell";
+import { damage, heal, summon, triggerTrap } from "../state/gameLogic";
+import { findPath, toCoord, toKey } from "../map/Cell";
 import { drawEach } from "../cards/gameLogic";
 
 export const PowerLib: {
@@ -15,9 +15,23 @@ export const PowerLib: {
 } = {
   Move: {
     power: (g: SimpleGame, ctx: GameContext, targetId: string): SimpleGame => {
-      let newG = setAvatarPosition(g, ctx.currentPlayer, targetId);
       console.log("Try to move");
-      return newG;
+      const path = findPath(
+        g.pathMatrix,
+        toCoord(getAvatarPosition(g, ctx.currentPlayer)),
+        toCoord(targetId)
+      );
+      const trapsTriggered = path.reduce(
+        (tempG, currCell) =>
+          triggerTrap(g, ctx.currentPlayer, toKey(currCell[0], currCell[1])),
+        { ...g }
+      );
+      const playerMoved = setAvatarPosition(
+        trapsTriggered,
+        ctx.currentPlayer,
+        targetId
+      );
+      return playerMoved;
     },
     check: (
       g: SimpleGame,

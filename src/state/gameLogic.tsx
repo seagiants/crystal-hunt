@@ -16,7 +16,6 @@ import {
   getMonsterCounter,
   getBlackCrystalCellId,
   getAvatarOnCell,
-  getAvatarPosition,
   isTrapped,
   getActionFlow,
   getCategories
@@ -329,15 +328,17 @@ export function setActionClicked(
   return tempG;
 }
 
-export function triggerTrap(g: SimpleGame, playerId: string): SimpleGame {
-  const cellId = getAvatarPosition(g, playerId);
+// Check if a cell is trapped, if trigger the trapp (exhaust Dext + 3 & info).
+export function triggerTrap(g: SimpleGame, playerId: string, cellId: string): SimpleGame {  
   if (isTrapped(g, cellId)) {
+    // +3 exhaust to Dexterity
     const trappedPlayer = upExhaustCounter(
       g,
       playerId,
       SkillCategoryName.Dexterity,
       3
     );
+    // Add a fundy message
     return addInfoMessage(
       trappedPlayer,
       "Player" + playerId + " has been trapped, this punk..."
