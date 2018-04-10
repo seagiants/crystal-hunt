@@ -3,10 +3,22 @@ import { getColor } from "./Skill";
 import { TilesBoardProps, ActionTileProps } from "../types";
 import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
 import { getEquipment, getSkillByCat, getActionStatus } from "../state/getters";
+import { ActionTileStatus } from "./type";
 
 const style = {
   flexGrow: 1,
   flexShrink: 2
+};
+
+const clickHandler = (e: React.MouseEvent<SVGElement>, props: ActionTileProps) => {
+  console.dir(e);
+  console.dir(props);
+  if (getActionStatus(props.g, props.playerID, props.category) !== ActionTileStatus.Exhausted) {
+    e.preventDefault();
+    props.activateAction(props.skill.skillCategory);
+  } else {
+    e.preventDefault();
+  }  
 };
 
 // ----- Components
@@ -23,10 +35,7 @@ export const ActionTile = (props: ActionTileProps) => {
           )
         }}
         stroke="black"
-        onClick={e => {
-          e.preventDefault();
-          props.activateAction(props.skill.skillCategory);
-        }}
+        onClick={e => clickHandler(e, props)}
       />
       <text x="10" y="50">
         {props.skill.name}
