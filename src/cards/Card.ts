@@ -55,6 +55,30 @@ export function getCardType(card: Card): ActionType {
   return card.type;
 }
 
+// A card name follow the pattern ThisIsACard
+// We want to extract each word from this.
+export const splitCardName = (name: string): string[] => {
+  const parts: string[] = [];
+  const splitted = name.split("");
+  const separators: number[] = [];
+  for (let i in splitted) {
+    if (splitted[i] === splitted[i].toUpperCase()) {
+      separators.push(parseInt(i, 10));
+    }
+  }
+  let pos = 0;
+  for (let sep of separators) {
+    if (sep !== 0) {
+      parts.push(name.substring(pos, sep));
+      pos = sep;
+    }
+    if (separators.indexOf(sep) === separators.length - 1) {
+      parts.push(name.substring(sep, splitted.length));
+    }
+  }
+  return parts;
+};
+
 export function loadEquipment(card: Card): Equipment {
   return {
     name: card.name,

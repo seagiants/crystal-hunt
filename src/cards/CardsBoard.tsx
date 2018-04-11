@@ -3,6 +3,7 @@ import { getColor } from "../action/Skill";
 import { TilesBoardProps } from "../types";
 import { CardTileProps, Card } from "./types";
 import { getCards } from "./stateAccessors";
+import { splitCardName } from "./Card";
 
 export const CardTile = (props: CardTileProps) => {
   return (
@@ -20,12 +21,20 @@ export const CardTile = (props: CardTileProps) => {
           // props.endTurn();
         }}
       />
-      <text x="35" y="50">
-        Card
-      </text>
-      <text x="10" y="110" fontSize="12">
-        {props.card.name}
-      </text>
+      {splitCardName(props.card.name).map((name, i) => {
+        console.log("card name", name);
+        return (
+          <text
+            x="10"
+            y={(20 * (i + 1)).toString()}
+            fontSize="10"
+            key={`${name}-${i}`}
+          >
+            {name}
+          </text>
+        );
+      })}
+      {}
     </svg>
   );
 };
