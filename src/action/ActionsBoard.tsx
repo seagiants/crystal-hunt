@@ -4,6 +4,7 @@ import { TilesBoardProps, ActionTileProps } from "../types";
 import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
 import { getEquipment, getSkillByCat, getActionStatus } from "../state/getters";
 import { ActionTileStatus } from "./type";
+import { getActiveAction } from "../state/gameLogic";
 
 const style = {
   flexGrow: 1,
@@ -36,7 +37,7 @@ export const ActionTile = (props: ActionTileProps) => {
         onClick={e => clickHandler(e, props)}
       />
       <text x="10" y="50">
-        {props.skill.name}
+        {getActiveAction(props.g, props.playerID, props.category).name}
       </text>
     </svg>
   );
