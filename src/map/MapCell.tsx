@@ -74,8 +74,6 @@ const blackCrystalText = (G: SimpleGame, x: number, y: number) => {
 };
 
 const clickHandler = (e: React.MouseEvent<SVGElement>, props: MapCellProps) => {
-  console.dir(e);
-  console.dir(props);
   if (props.isClickable) {
     e.preventDefault();
     props.moves.activateCell([props.x, props.y]);
