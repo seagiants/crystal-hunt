@@ -33,8 +33,9 @@ export const CardLib: { [key: string]: Card } = {
     type: ActionType.Equipment,
     skillCategory: SkillCategoryName.Strength,
     isTargetRequired: true,
+    upgradeName: "SwordOfPower",
     caracs: {
-      attackValue: 2
+      attackValue: 1
     },
     symbol: 2,
     powerName: "Attack"
@@ -107,6 +108,42 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 2,
     powerName: "DoubleDraw"
+  },
+  SetATrickyTrap: {
+    name: "SetATrickyTrap",
+    type: ActionType.Spell,
+    skillCategory: SkillCategoryName.Dexterity,
+    isTargetRequired: true,
+    caracs: {
+      charge: 1
+    },
+    symbol: 2,
+    powerName: "TrapACell"
+  },
+  CrystalFiiiiiz: {
+    name: "CrystalFiiiiiz",
+    type: ActionType.Enchantment,
+    skillCategory: SkillCategoryName.Wisdom,
+    isTargetRequired: false,
+    trigger: TriggerPhase.TurnEnd,
+    caracs: {},
+    symbol: 2,
+    powerName: "RefreshActionOnCrystal"
+  }
+};
+
+export const UpgradeLib: { [key: string]: Card } = {
+  SwordOfPower: {
+    name: "SwordOfPower",
+    type: ActionType.Equipment,
+    skillCategory: SkillCategoryName.Strength,
+    isTargetRequired: true,
+    upgradeName: "SwordOfPower",
+    caracs: {
+      attackValue: 3
+    },
+    symbol: 2,
+    powerName: "Attack"
   }
 };
 

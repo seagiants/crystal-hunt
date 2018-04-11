@@ -2,7 +2,8 @@ import {
   SkillCategoryName,
   CardLib,
   SkillCategoryLib,
-  ActionType
+  ActionType,
+  UpgradeLib
 } from "../action/skillLib";
 import { SkillCategory, Equipment, Enchantment, Spell } from "../action/type";
 import { Card, Decks } from "./types";
@@ -12,6 +13,10 @@ import { Card, Decks } from "./types";
 // Loader for Card
 export function loadCard(cardName: string): Card {
   return CardLib[cardName];
+}
+
+export function loadUpgrade(card: Card): Card {
+  return UpgradeLib[card.upgradeName!];
 }
 
 export function loadCards(skillCategory: SkillCategoryName): Array<Card> {

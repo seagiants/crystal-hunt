@@ -11,8 +11,6 @@ const style = {
 };
 
 const clickHandler = (e: React.MouseEvent<SVGElement>, props: ActionTileProps) => {
-  console.dir(e);
-  console.dir(props);
   if (getActionStatus(props.g, props.playerID, props.category) !== ActionTileStatus.Exhausted) {
     e.preventDefault();
     props.activateAction(props.skill.skillCategory);

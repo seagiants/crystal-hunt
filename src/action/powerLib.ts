@@ -1,12 +1,23 @@
 import { Power, CheckTarget, Caracs, AttackCaracs, MoveCaracs } from "./type";
 import { SimpleGame, GameContext } from "../types";
-import { setCellCrystallize, setAvatarPosition } from "../state/setters";
+import {
+  setCellCrystallize,
+  setAvatarPosition,
+  setIsTrapped
+} from "../state/setters";
 import {
   getAvatarOnCell,
   getAvatarPosition,
-  getCrystallized
+  getCrystallized,
+  getCategories
 } from "../state/getters";
-import { damage, heal, summon } from "../state/gameLogic";
+import {
+  damage,
+  heal,
+  summon,
+  checkTraps,
+  refreshAction
+} from "../state/gameLogic";
 import { findPath, toCoord } from "../map/Cell";
 import { drawEach } from "../cards/gameLogic";
 
@@ -15,9 +26,21 @@ export const PowerLib: {
 } = {
   Move: {
     power: (g: SimpleGame, ctx: GameContext, targetId: string): SimpleGame => {
-      let newG = setAvatarPosition(g, ctx.currentPlayer, targetId);
       console.log("Try to move");
-      return newG;
+      const path = findPath(
+        g.pathMatrix,
+        toCoord(getAvatarPosition(g, ctx.currentPlayer)),
+        toCoord(targetId)
+      );
+      // Trigger traps on the way.
+      const trapsTriggered = checkTraps(g, ctx.currentPlayer, path);
+      // Move the avatar.
+      const playerMoved = setAvatarPosition(
+        trapsTriggered,
+        ctx.currentPlayer,
+        targetId
+      );
+      return playerMoved;
     },
     check: (
       g: SimpleGame,
@@ -81,7 +104,6 @@ export const PowerLib: {
         toCoord(getAvatarPosition(g, ctx.currentPlayer)),
         toCoord(targetId)
       );
-      console.log(avatar !== null && avatar.toString() !== ctx.currentPlayer);
       return (
         avatar !== null &&
         avatar.toString() !== ctx.currentPlayer &&
@@ -169,6 +191,7 @@ export const PowerLib: {
       return getAvatarOnCell(g, targetId) === null;
     }
   },
+  // TODO : Refactor, should be a custom Draw power.
   DoubleDraw: {
     power: (g: SimpleGame, ctx: GameContext) => {
       // const cardsAdded = drawCards(g, ctx.currentPlayer);
@@ -182,5 +205,36 @@ export const PowerLib: {
       targetId: string,
       caracs: Caracs
     ): boolean => true
+  },
+  TrapACell: {
+    power: (g: SimpleGame, ctx: GameContext, targetId: string) => {
+      return setIsTrapped(g, targetId, true);
+    },
+    check: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      return getAvatarOnCell(g, targetId) === null ? true : false;
+    }
+  },
+  RefreshActionOnCrystal: {
+    power: (g: SimpleGame, ctx: GameContext, targetId: string) => {
+      // Check if on crystalized.
+      // Todo To refactor
+      const cellId = getAvatarPosition(g, targetId);
+      const isTriggered = getCrystallized(g, cellId);
+      // Set exhaustCounter to 0 for each Action if target player onCrystallized.
+      if (isTriggered) {
+        return getCategories().reduce(
+          (prevG, currCat) => refreshAction(prevG, targetId, currCat),
+          { ...g }
+        );
+      } else {
+        return g;
+      }
+    },
+    check: (g: SimpleGame, ctx: GameContext, targetId) => true
   }
 };

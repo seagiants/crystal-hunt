@@ -16,10 +16,12 @@ import {
   getMonsterCounter,
   getBlackCrystalCellId,
   getAvatarOnCell,
-  getAvatarPosition,
   isTrapped,
   getActionFlow,
-  getCategories
+  getCategories,
+  getCrystallized,
+  getAvatarPosition,
+  hasUpgrade
 } from "./getters";
 import { triggerPower } from "../action/Power";
 import {
@@ -27,14 +29,18 @@ import {
   addMonster,
   setCellAvatar,
   addInfoMessage,
-  setActionFlow
+  setActionFlow,
+  upExhaustCounter,
+  setExhaustCounter,
+  setActionStatus
 } from "./setters";
 import { Avatar } from "../map/types";
 import {
   getCardType,
   loadEnchantment,
   loadEquipment,
-  loadSpell
+  loadSpell,
+  loadUpgrade
 } from "../cards/Card";
 import {
   Skill,
@@ -45,6 +51,7 @@ import {
 } from "../action/type";
 import { initMonsterAvatar } from "../map/Avatar";
 import { getCard } from "../cards/stateAccessors";
+import { toKey } from "../map/Cell";
 
 // auto triggering enchantment logic
 // TODO : Handle several enchantment triggers
@@ -55,8 +62,11 @@ export function triggerEnchantments(
   triggerValue: TriggerPhase
 ): SimpleGame {
   const enchantment = getEnchantment(G, playerId, "NoCategory");
+  console.log(enchantment);
   const trigger = getEnchantmentTrigger(G, playerId, "NoCategory");
+  console.log(trigger);
   // Trigger enchantment based on trigger value.
+  // Target is always current player
   const enchantmentTriggered: SimpleGame =
     enchantment !== undefined && trigger === TriggerPhase.TurnEnd
       ? triggerPower(
@@ -187,8 +197,11 @@ export function plugEquipment(
   playerId: string,
   cardIndex: number
 ): SimpleGame {
+  // Equipment condition to upgrade is being on crystallized when equipped.
   const card = getCard(g, playerId, cardIndex);
-  return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(card) };
+  const isUpgraded = getCrystallized(g, getAvatarPosition(g, playerId)) && hasUpgrade(card);
+  const loadedCard = isUpgraded ? loadUpgrade(card) : card;
+  return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(loadedCard) };
 }
 
 // TODO: Stored in the categorized spell slot of the player.
@@ -256,8 +269,23 @@ export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));
 }
 
-// Refreshing Action Status is :
-// diminishing its exhaustCounter, switching clicked -> exhausted, exhausted && 0 -> avalaible
+// Refreshing Action : Set to Avalaible & exhaustCounter = 0
+export function refreshAction(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): SimpleGame {
+  const refreshExhaustCounter = setExhaustCounter(g, playerId, category, 0);
+  return setActionStatus(
+    refreshExhaustCounter,
+    playerId,
+    category,
+    ActionTileStatus.Avalaible
+  );
+}
+
+// Updating Action Status is :
+// switching clicked -> exhausted, exhausted && 0 -> avalaible then diminishing its exhaustCounter
 export function updateActionStatus(
   g: SimpleGame,
   playerId: string,
@@ -281,7 +309,7 @@ export function updateActionStatus(
   }
   // Diminshing exhausted counter after status check to handle correctly avalaible vs exhausted.
   const exhaustCounter =
-    actionFlow.exhaustCounter > 0 ? actionFlow.exhaustCounter-- : 0;
+    actionFlow.exhaustCounter > 0 ? actionFlow.exhaustCounter - 1 : 0;
   return setActionFlow(g, playerId, category, {
     ...actionFlow,
     status: status,
@@ -328,10 +356,40 @@ export function setActionClicked(
   return tempG;
 }
 
-export function triggerTrap(g: SimpleGame, playerId: string): SimpleGame {
-  const cellId = getAvatarPosition(g, playerId);
-  const trap = isTrapped(g, cellId);
-  return trap
-    ? addInfoMessage(g, "Player" + playerId + " has been trapped, this punk...")
-    : g;
+// Check if a cell is trapped, if trigger the trapp (exhaust Dext + 3 & info).
+export function triggerTrap(
+  g: SimpleGame,
+  playerId: string,
+  cellId: string
+): SimpleGame {
+  if (isTrapped(g, cellId)) {
+    // +3 exhaust to Dexterity
+    const trappedPlayer = upExhaustCounter(
+      g,
+      playerId,
+      SkillCategoryName.Dexterity,
+      3
+    );
+    // Add a funky message
+    return addInfoMessage(
+      trappedPlayer,
+      "Player" + playerId + " has been trapped on " + cellId + ", this punk..."
+    );
+  } else {
+    return g;
+  }
+}
+
+export function checkTraps(
+  g: SimpleGame,
+  playerId: string,
+  path: [number, number][]
+) {
+  const movePath = path.filter((curr, index) => index !== 0);
+  const trapsTriggered = movePath.reduce(
+    (tempG, currCell) =>
+      triggerTrap(tempG, playerId, toKey(currCell[0], currCell[1])),
+    { ...g }
+  );
+  return trapsTriggered;
 }

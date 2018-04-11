@@ -16,6 +16,7 @@ import {
 } from "../action/skillLib";
 import { Cell, Avatar } from "../map/types";
 import { CellTypeName } from "../map/Cell";
+import { Card } from "../cards/types";
 
 export function getSelectedActionCategory(
   g: SimpleGame,
@@ -80,6 +81,10 @@ export function getMonsterCounter(g: SimpleGame): number {
 
 export function getPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
   return getAvatar(g, playerId).caracs;
+}
+
+export function hasUpgrade(card: Card): boolean {
+  return card.upgradeName !== undefined;
 }
 
 export function getEquipment(
