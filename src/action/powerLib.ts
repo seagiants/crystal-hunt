@@ -8,9 +8,16 @@ import {
 import {
   getAvatarOnCell,
   getAvatarPosition,
-  getCrystallized
+  getCrystallized,
+  getCategories
 } from "../state/getters";
-import { damage, heal, summon, checkTraps } from "../state/gameLogic";
+import {
+  damage,
+  heal,
+  summon,
+  checkTraps,
+  refreshAction
+} from "../state/gameLogic";
 import { findPath, toCoord } from "../map/Cell";
 import { drawEach } from "../cards/gameLogic";
 
@@ -212,5 +219,23 @@ export const PowerLib: {
     ) => {
       return getAvatarOnCell(g, targetId) === null ? true : false;
     }
+  },
+  RefreshActionOnCrystal: {
+    power: (g: SimpleGame, ctx: GameContext, targetId: string) => {
+      // Check if on crystalized.
+      // Todo To refactor
+      const cellId = getAvatarPosition(g, targetId);
+      const isTriggered = getCrystallized(g, cellId);
+      // Set exhaustCounter to 0 for each Action if target player onCrystallized.
+      if (isTriggered) {
+        return getCategories().reduce(
+          (prevG, currCat) => refreshAction(prevG, targetId, currCat),
+          { ...g }
+        );
+      } else {
+        return g;
+      }
+    },
+    check: (g: SimpleGame, ctx: GameContext, targetId) => true
   }
 };

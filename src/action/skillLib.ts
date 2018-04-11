@@ -118,6 +118,16 @@ export const CardLib: { [key: string]: Card } = {
     },
     symbol: 2,
     powerName: "TrapACell"
+  },
+  CrystalFiiiiiz: {
+    name: "CrystalFiiiiiz",
+    type: ActionType.Enchantment,
+    skillCategory: SkillCategoryName.Wisdom,
+    isTargetRequired: false,
+    trigger: TriggerPhase.TurnEnd,
+    caracs: {},
+    symbol: 2,
+    powerName: "RefreshActionOnCrystal"
   }
 };
 

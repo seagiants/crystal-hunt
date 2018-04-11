@@ -27,7 +27,9 @@ import {
   setCellAvatar,
   addInfoMessage,
   setActionFlow,
-  upExhaustCounter
+  upExhaustCounter,
+  setExhaustCounter,
+  setActionStatus
 } from "./setters";
 import { Avatar } from "../map/types";
 import {
@@ -56,8 +58,11 @@ export function triggerEnchantments(
   triggerValue: TriggerPhase
 ): SimpleGame {
   const enchantment = getEnchantment(G, playerId, "NoCategory");
+  console.log(enchantment);  
   const trigger = getEnchantmentTrigger(G, playerId, "NoCategory");
+  console.log(trigger);
   // Trigger enchantment based on trigger value.
+  // Target is always current player
   const enchantmentTriggered: SimpleGame =
     enchantment !== undefined && trigger === TriggerPhase.TurnEnd
       ? triggerPower(
@@ -257,7 +262,22 @@ export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));
 }
 
-// Refreshing Action Status is :
+// Refreshing Action : Set to Avalaible & exhaustCounter = 0
+export function refreshAction(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): SimpleGame {
+  const refreshExhaustCounter = setExhaustCounter(g, playerId, category, 0);
+  return setActionStatus(
+    refreshExhaustCounter,
+    playerId,
+    category,
+    ActionTileStatus.Avalaible
+  );
+}
+
+// Updating Action Status is :
 // switching clicked -> exhausted, exhausted && 0 -> avalaible then diminishing its exhaustCounter
 export function updateActionStatus(
   g: SimpleGame,

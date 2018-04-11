@@ -2,7 +2,7 @@ import { SimpleGame } from "../types";
 import { getAvatarPosition, getMonsterCounter, getActionFlow } from "./getters";
 import { SkillCategoryName } from "../action/skillLib";
 import { Avatar } from "../map/types";
-import { ActionFlow } from "../action/type";
+import { ActionFlow, ActionTileStatus } from "../action/type";
 
 export function setSelectedAction(
   G: SimpleGame,
@@ -121,6 +121,19 @@ export function setActionFlow(
       [category]: actionFlow
     }
   };
+}
+
+export function setActionStatus(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName,
+  status: ActionTileStatus
+): SimpleGame {
+  const actionFlow = getActionFlow(g, playerId, category);
+  return setActionFlow(g, playerId, category, {
+    ...actionFlow,
+    status: status
+  });
 }
 
 export function setExhaustCounter(

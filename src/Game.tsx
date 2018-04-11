@@ -199,8 +199,18 @@ const CrystalHunt = Game({
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
       // EndTurn Workflow :
+      // Trigger EndTurnEchantment
+      const enchantmentTriggered = triggerEnchantments(
+        G,
+        ctx,
+        ctx.currentPlayer,
+        TriggerPhase.TurnEnd
+      );
       // Deal with ActionStatus
-      const actionStatusUpdated = updateActionsStatus(G, ctx.currentPlayer);
+      const actionStatusUpdated = updateActionsStatus(
+        enchantmentTriggered,
+        ctx.currentPlayer
+      );
       // Clean Phase, to refactor ??
       // Clean deadMonsters
       const deadMonstersCleaned = cleanDeadMonsters(actionStatusUpdated);
@@ -209,17 +219,8 @@ const CrystalHunt = Game({
         deadMonstersCleaned,
         ctx.currentPlayer
       );
-
-      // End Clean Phase
-      // Trigger EndTurnEchantment
-      const enchantmentTriggered = triggerEnchantments(
-        exhaustedSpellCleaned,
-        ctx,
-        ctx.currentPlayer,
-        TriggerPhase.TurnEnd
-      );
       // Reset EndTurnProp
-      return setEndTurn(enchantmentTriggered, false);
+      return setEndTurn(exhaustedSpellCleaned, false);
     },
     onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
       let monsters = G.avatars.filter(avatar => avatar.type === "Monster");

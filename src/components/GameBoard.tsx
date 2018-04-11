@@ -11,7 +11,7 @@ import { CardsBoard } from "../cards/CardsBoard";
 
 // ----- Utils
 const getActionBoard = (props: GameBoardProps) => {
-  console.log("player is active:", props.isActive);
+  // console.log("player is active:", props.isActive);
   if (props.isActive) {
     return (
       <ActionsBoard
