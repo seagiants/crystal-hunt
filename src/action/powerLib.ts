@@ -104,7 +104,6 @@ export const PowerLib: {
         toCoord(getAvatarPosition(g, ctx.currentPlayer)),
         toCoord(targetId)
       );
-      console.log(avatar !== null && avatar.toString() !== ctx.currentPlayer);
       return (
         avatar !== null &&
         avatar.toString() !== ctx.currentPlayer &&

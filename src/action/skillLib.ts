@@ -33,8 +33,9 @@ export const CardLib: { [key: string]: Card } = {
     type: ActionType.Equipment,
     skillCategory: SkillCategoryName.Strength,
     isTargetRequired: true,
+    upgradeName: "SwordOfPower",
     caracs: {
-      attackValue: 2
+      attackValue: 1
     },
     symbol: 2,
     powerName: "Attack"
@@ -128,6 +129,21 @@ export const CardLib: { [key: string]: Card } = {
     caracs: {},
     symbol: 2,
     powerName: "RefreshActionOnCrystal"
+  }
+};
+
+export const UpgradeLib: { [key: string]: Card } = {
+  SwordOfPower: {
+    name: "SwordOfPower",
+    type: ActionType.Equipment,
+    skillCategory: SkillCategoryName.Strength,
+    isTargetRequired: true,
+    upgradeName: "SwordOfPower",
+    caracs: {
+      attackValue: 3
+    },
+    symbol: 2,
+    powerName: "Attack"
   }
 };
 

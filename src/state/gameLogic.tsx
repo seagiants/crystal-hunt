@@ -18,7 +18,10 @@ import {
   getAvatarOnCell,
   isTrapped,
   getActionFlow,
-  getCategories
+  getCategories,
+  getCrystallized,
+  getAvatarPosition,
+  hasUpgrade
 } from "./getters";
 import { triggerPower } from "../action/Power";
 import {
@@ -36,7 +39,8 @@ import {
   getCardType,
   loadEnchantment,
   loadEquipment,
-  loadSpell
+  loadSpell,
+  loadUpgrade
 } from "../cards/Card";
 import {
   Skill,
@@ -58,7 +62,7 @@ export function triggerEnchantments(
   triggerValue: TriggerPhase
 ): SimpleGame {
   const enchantment = getEnchantment(G, playerId, "NoCategory");
-  console.log(enchantment);  
+  console.log(enchantment);
   const trigger = getEnchantmentTrigger(G, playerId, "NoCategory");
   console.log(trigger);
   // Trigger enchantment based on trigger value.
@@ -193,8 +197,11 @@ export function plugEquipment(
   playerId: string,
   cardIndex: number
 ): SimpleGame {
+  // Equipment condition to upgrade is being on crystallized when equipped.
   const card = getCard(g, playerId, cardIndex);
-  return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(card) };
+  const isUpgraded = getCrystallized(g, getAvatarPosition(g, playerId)) && hasUpgrade(card);
+  const loadedCard = isUpgraded ? loadUpgrade(card) : card;
+  return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(loadedCard) };
 }
 
 // TODO: Stored in the categorized spell slot of the player.

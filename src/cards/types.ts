@@ -4,6 +4,7 @@ import { TRIGGERINGACTIONTEMPLATE } from "../action/type";
 export interface Card extends TRIGGERINGACTIONTEMPLATE {
   type: ActionType;
   charge?: number;
+  upgradeName?: string;
 }
 
 export interface Decks {

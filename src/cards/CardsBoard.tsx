@@ -23,7 +23,7 @@ export const CardTile = (props: CardTileProps) => {
       <text x="35" y="50">
         Card
       </text>
-      <text x="25" y="120">
+      <text x="10" y="110" fontSize="12">
         {props.card.name}
       </text>
     </svg>
