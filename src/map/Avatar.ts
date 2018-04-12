@@ -64,23 +64,41 @@ export function triggerMonsterSkill(
   ctx: GameContext,
   monsterId: string
 ): SimpleGame {
+  console.log(
+    "Monster " +
+      monsterId +
+      " is triggering on player " +
+      ctx.currentPlayer +
+      " turn."
+  );
   const currentMonsterPosition: string = getAvatarPosition(g, monsterId);
   const xy = currentMonsterPosition.split("x");
   const caracs = getAvatar(g, monsterId).caracs;
   // TODO : Make it in a cleaner way
-  let neighbourCell: Array<String> = [];
+  let neighbourCell: Array<string> = [];
   neighbourCell.push(toKey(parseInt(xy[0], 10), parseInt(xy[1], 10) + 1));
   neighbourCell.push(toKey(parseInt(xy[0], 10), parseInt(xy[1], 10) - 1));
   neighbourCell.push(toKey(parseInt(xy[0], 10) + 1, parseInt(xy[1], 10)));
   neighbourCell.push(toKey(parseInt(xy[0], 10) - 1, parseInt(xy[1], 10)));
-  let tempState: SimpleGame = { ...g };
-  neighbourCell.forEach((cellId: string) => {
-    if (
-      getCell(g, cellId) !== undefined &&
-      getAvatarOnCell(g, cellId) !== null
-    ) {
-      tempState = loadPower("Attack")(g, ctx, cellId, caracs);
-    }
-  });
-  return tempState;
+  const monsterTriggered = neighbourCell.reduce(
+    (prevG, currCellId) => {
+      console.log(currCellId);
+      console.log("Test");
+      console.log(getCell(prevG, currCellId));
+      getCell(prevG, currCellId)
+        ? console.log(getAvatarOnCell(prevG, currCellId))
+        : console.log();
+      if (
+        getCell(prevG, currCellId) !== undefined &&
+        getAvatarOnCell(prevG, currCellId) !== null
+      ) {
+        console.log("Monster " + monsterId + " is attacking " + currCellId);
+        return loadPower("Attack")(prevG, ctx, currCellId, caracs);
+      } else {
+        return prevG;
+      }
+    },
+    { ...g }
+  );
+  return monsterTriggered;
 }

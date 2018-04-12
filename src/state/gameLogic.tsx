@@ -62,9 +62,7 @@ export function triggerEnchantments(
   triggerValue: TriggerPhase
 ): SimpleGame {
   const enchantment = getEnchantment(G, playerId, "NoCategory");
-  console.log(enchantment);
   const trigger = getEnchantmentTrigger(G, playerId, "NoCategory");
-  console.log(trigger);
   // Trigger enchantment based on trigger value.
   // Target is always current player
   const enchantmentTriggered: SimpleGame =
