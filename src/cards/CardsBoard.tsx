@@ -9,8 +9,8 @@ export const CardTile = (props: CardTileProps) => {
   return (
     <svg width="120" height="120">
       <rect
-        width="100"
-        height="120"
+        width="120"
+        height="140"
         style={{ fill: getColor(props.card) }}
         stroke="black"
         rx="20"
@@ -22,19 +22,22 @@ export const CardTile = (props: CardTileProps) => {
         }}
       />
       {splitCardName(props.card.name).map((name, i) => {
-        console.log("card name", name);
         return (
           <text
             x="10"
             y={(20 * (i + 1)).toString()}
-            fontSize="10"
+            fontSize="8"
             key={`${name}-${i}`}
           >
             {name}
           </text>
         );
       })}
-      {}
+      <text x="10" y="100" fontSize="8">
+        {Object.keys(props.card.caracs).map(
+          x => `${x}: ${props.card.caracs[x]}`
+        )}
+      </text>
     </svg>
   );
 };
