@@ -48,7 +48,7 @@ export const PowerLib: {
       targetId: string,
       caracs: MoveCaracs
     ): boolean => {
-      if (g.pathMatrix !== null) {
+      if (g.pathMatrix !== null && getAvatarOnCell(g, targetId) === null) {
         const path = findPath(
           g.pathMatrix,
           toCoord(getAvatarPosition(g, ctx.currentPlayer)),
