@@ -324,7 +324,8 @@ export function updateActionsStatus(
 ): SimpleGame {
   return Object.keys(SkillCategoryName).reduce(
     (tempG, currCat) =>
-      updateActionStatus(tempG, playerId, SkillCategoryName[currCat]),
+      // updateActionStatus(tempG, playerId, SkillCategoryName[currCat]),
+      refreshAction(tempG, playerId, SkillCategoryName[currCat]),
     { ...g }
   );
 }

@@ -116,7 +116,11 @@ const CrystalHunt = Game({
         null,
         ctx.currentPlayer
       );
-      const actionFinalized: SimpleGame = finalizeAction(actionSaved, ctx.currentPlayer, selectedActionCategory!);
+      const actionFinalized: SimpleGame = finalizeAction(
+        actionSaved,
+        ctx.currentPlayer,
+        selectedActionCategory!
+      );
       return actionFinalized;
     },
     activateAction: (
@@ -173,7 +177,13 @@ const CrystalHunt = Game({
       */
       const cardPlugged = plugCard(G, playerId, cardIndex);
       const cardsCleaned = discardCards(cardPlugged, playerId);
-      const actionFinalized = finalizeAction(cardsCleaned, playerId, getSelectedActionCategory(G, playerId)!);
+      // TODO : Enhance, static Intelligence ref,
+      // buggy if other case than just an Intelligence Action could trigger "Pick a Card phase"
+      const actionFinalized = finalizeAction(
+        cardsCleaned,
+        playerId,
+        SkillCategoryName.Intelligence
+      );
       return actionFinalized;
     }
   },
