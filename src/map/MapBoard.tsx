@@ -8,8 +8,7 @@ import { getActiveAction } from "../state/gameLogic";
 import { MapBoardProps } from "./types";
 
 const style = {
-  flexGrow: 10,
-  flexShrink: 0.5
+  width: "70%"
 };
 
 // ----- Component ----- //

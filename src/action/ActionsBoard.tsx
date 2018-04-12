@@ -7,17 +7,22 @@ import { ActionTileStatus } from "./type";
 import { getActiveAction } from "../state/gameLogic";
 
 const style = {
-  flexGrow: 1,
-  flexShrink: 2
+  width: "10%"
 };
 
-const clickHandler = (e: React.MouseEvent<SVGElement>, props: ActionTileProps) => {
-  if (getActionStatus(props.g, props.playerID, props.category) === ActionTileStatus.Avalaible) {
+const clickHandler = (
+  e: React.MouseEvent<SVGElement>,
+  props: ActionTileProps
+) => {
+  if (
+    getActionStatus(props.g, props.playerID, props.category) ===
+    ActionTileStatus.Avalaible
+  ) {
     e.preventDefault();
     props.activateAction(props.skill.skillCategory);
   } else {
     e.preventDefault();
-  }  
+  }
 };
 
 // ----- Components

@@ -1,8 +1,7 @@
 import * as React from "react";
 
 const style = {
-  flexGrow: 1,
-  flexShrink: 2
+  width: "10%"
 };
 
 const CurrentPhase = ({ currentPhase }: { currentPhase: string }) => {

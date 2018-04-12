@@ -5,8 +5,7 @@ import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
 import { getSkillByCat } from "../state/getters";
 
 const style = {
-  flexGrow: 1,
-  flexShrink: 2
+  width: "10%"
 };
 
 interface MutedActionTileProps {

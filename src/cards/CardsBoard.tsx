@@ -7,9 +7,9 @@ import { splitCardName } from "./Card";
 
 export const CardTile = (props: CardTileProps) => {
   return (
-    <svg width="120" height="120">
+    <svg width="120" height="140">
       <rect
-        width="120"
+        width="110"
         height="140"
         style={{ fill: getColor(props.card) }}
         stroke="black"
@@ -18,26 +18,25 @@ export const CardTile = (props: CardTileProps) => {
         onClick={e => {
           e.preventDefault();
           props.activateCard(props.index, props.playerId);
-          // props.endTurn();
         }}
       />
       {splitCardName(props.card.name).map((name, i) => {
         return (
           <text
-            x="10"
-            y={(20 * (i + 1)).toString()}
-            fontSize="8"
             key={`${name}-${i}`}
+            x="10"
+            y={(15 * (i + 1)).toString()}
+            fontSize="8"
           >
             {name}
           </text>
         );
       })}
-      <text x="10" y="100" fontSize="8">
-        {Object.keys(props.card.caracs).map(
-          x => `${x}: ${props.card.caracs[x]}`
-        )}
-      </text>
+      {Object.keys(props.card.caracs).map((c, i) => (
+        <text x="10" y={80 + (i + 1) * 10} fontSize="7">
+          {`${c}: ${props.card.caracs[c]}`}
+        </text>
+      ))}
     </svg>
   );
 };
@@ -46,7 +45,7 @@ export const CardsBoard = (props: TilesBoardProps) => {
   const cards: Array<Card> = getCards(props.G, props.playerId);
   if (cards.length > 0) {
     return (
-      <div>
+      <div className="card-container">
         {cards.map((card: Card, idx: number) => (
           <CardTile
             key={idx}

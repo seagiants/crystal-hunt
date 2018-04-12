@@ -58,15 +58,13 @@ export const GameBoard = (props: GameBoardProps) => {
           />
           {getActionBoard(props)}
         </div>
-        <div className="card-container">
-          <CardsBoard
-            G={props.G}
-            ctx={props.ctx}
-            moves={props.moves}
-            events={props.events}
-            playerId={props.playerID}
-          />
-        </div>
+        <CardsBoard
+          G={props.G}
+          ctx={props.ctx}
+          moves={props.moves}
+          events={props.events}
+          playerId={props.playerID}
+        />
       </div>
     );
   }
