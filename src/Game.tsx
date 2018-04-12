@@ -3,7 +3,7 @@ import { Game } from "boardgame.io/core";
 import { TriggerPhase, SkillCategoryName } from "./action/skillLib";
 import { initMapSetup } from "./map/mapDefinitions";
 import { getSelectedActionCategory, getHealth } from "./state/getters";
-import { setEndTurn, setSelectedAction } from "./state/setters";
+import { setSelectedAction, resetActionCount } from "./state/setters";
 import { loadSkill } from "./action/Skill";
 import { triggerPower } from "./action/Power";
 import { toKey, toPathMatrix } from "./map/Cell";
@@ -17,7 +17,8 @@ import {
   getBlackCrystalCellAvatarId,
   cleanExhaustedSpell,
   updateActionsStatus,
-  setActionClicked
+  setActionClicked,
+  finalizeAction
 } from "./state/gameLogic";
 import { loadDecks } from "./cards/Card";
 import { getCards } from "./cards/stateAccessors";
@@ -73,7 +74,7 @@ const CrystalHunt = Game({
       avatars: basicSetup.basicAvatars,
       blackCrystalCellId: basicSetup.blackCrystalCellId,
       monsterCounter: 2,
-      endTurn: false,
+      actionCount: 0,
       selectedAction: null,
       decksPlayer0: loadDecks(),
       decksPlayer1: loadDecks(),
@@ -115,8 +116,8 @@ const CrystalHunt = Game({
         null,
         ctx.currentPlayer
       );
-      const endTurn: SimpleGame = setEndTurn(actionSaved, true);
-      return endTurn;
+      const actionFinalized: SimpleGame = finalizeAction(actionSaved, ctx.currentPlayer, selectedActionCategory!);
+      return actionFinalized;
     },
     activateAction: (
       G: SimpleGame,
@@ -128,8 +129,7 @@ const CrystalHunt = Game({
         - Mark Action Tile as clicked,
         - Check if TargetRequired, Select the skill and wait for target.
         - If not, Trigger the power,
-        - If not Draw skill end turn (To refactor!).
-        TODO : Preview the legal targets.
+        - If not Cards end turn (To refactor!).
         TODO : Review endTurn workflow
       */
       const action = getActiveAction(G, ctx.currentPlayer, categoryName);
@@ -153,11 +153,11 @@ const CrystalHunt = Game({
         console.log(action.name + " is triggered");
         // State is modified by the power.
         const powerTriggered = triggerPower(action, actionClicked, ctx, "");
-        // EndTurn is triggered if no card is drawn.
+        // ActionCount is finalized if no card is drawn.
         // Todo : Implement a better workflow
         return getCards(powerTriggered, ctx.currentPlayer).length > 0
           ? powerTriggered
-          : setEndTurn(powerTriggered, true);
+          : finalizeAction(powerTriggered, ctx.currentPlayer, categoryName);
       }
     },
     activateCard: (
@@ -173,8 +173,8 @@ const CrystalHunt = Game({
       */
       const cardPlugged = plugCard(G, playerId, cardIndex);
       const cardsCleaned = discardCards(cardPlugged, playerId);
-      const turnEnded = setEndTurn(cardsCleaned, true);
-      return turnEnded;
+      const actionFinalized = finalizeAction(cardsCleaned, playerId, getSelectedActionCategory(G, playerId)!);
+      return actionFinalized;
     }
   },
 
@@ -196,7 +196,7 @@ const CrystalHunt = Game({
       }
       return;
     },
-    endTurnIf: (G: SimpleGame, ctx: GameContext) => G.endTurn,
+    endTurnIf: (G: SimpleGame, ctx: GameContext) => G.actionCount >= 2,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
       // EndTurn Workflow :
       // Trigger EndTurnEchantment
@@ -219,8 +219,8 @@ const CrystalHunt = Game({
         deadMonstersCleaned,
         ctx.currentPlayer
       );
-      // Reset EndTurnProp
-      return setEndTurn(exhaustedSpellCleaned, false);
+      // Reset ActionCount Prop
+      return resetActionCount(exhaustedSpellCleaned);
     },
     onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
       let monsters = G.avatars.filter(avatar => avatar.type === "Monster");

@@ -32,7 +32,9 @@ import {
   setActionFlow,
   upExhaustCounter,
   setExhaustCounter,
-  setActionStatus
+  setActionStatus,
+  upActionCount,
+  setSelectedAction
 } from "./setters";
 import { Avatar } from "../map/types";
 import {
@@ -352,6 +354,15 @@ export function setActionClicked(
     { ...g }
   );
   return tempG;
+}
+// Finalizing an Action : Up action Counter, set Action Tile to exhausted, clean saved Action
+export function finalizeAction(g: SimpleGame, playerId: string, category: SkillCategoryName): SimpleGame {
+  // Up Action counter
+  const actionCounted = upActionCount(g);
+  // Exhaust used Action
+  const actionExhausted = setActionStatus(actionCounted, playerId, category, ActionTileStatus.Exhausted);
+  // Clean saved action
+  return setSelectedAction(actionExhausted, null, playerId);
 }
 
 // Check if a cell is trapped, if trigger the trapp (exhaust Dext + 3 & info).

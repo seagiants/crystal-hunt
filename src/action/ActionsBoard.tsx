@@ -12,7 +12,7 @@ const style = {
 };
 
 const clickHandler = (e: React.MouseEvent<SVGElement>, props: ActionTileProps) => {
-  if (getActionStatus(props.g, props.playerID, props.category) !== ActionTileStatus.Exhausted) {
+  if (getActionStatus(props.g, props.playerID, props.category) === ActionTileStatus.Avalaible) {
     e.preventDefault();
     props.activateAction(props.skill.skillCategory);
   } else {

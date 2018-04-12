@@ -21,7 +21,7 @@ export interface SimpleGame {
   map: CellsDef;
   xMax: number;
   yMax: number;
-  endTurn: boolean;
+  actionCount: number;
   // Used for monster ids.
   monsterCounter: number;
   // Used to setup easily the map.

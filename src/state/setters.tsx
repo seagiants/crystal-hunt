@@ -78,8 +78,12 @@ export function setCellCrystallize(
   return temp;
 }
 
-export function setEndTurn(g: SimpleGame, value: boolean): SimpleGame {
-  return { ...g, endTurn: value };
+export function upActionCount(g: SimpleGame): SimpleGame {
+  return { ...g, actionCount: g.actionCount + 1 };
+}
+
+export function resetActionCount(g: SimpleGame): SimpleGame {
+  return { ...g, actionCount: 0 };
 }
 
 export function setHealth(
