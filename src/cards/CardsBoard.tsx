@@ -7,7 +7,7 @@ import { splitCardName } from "./Card";
 
 export const CardTile = (props: CardTileProps) => {
   return (
-    <svg width="120" height="140">
+    <svg width="120" height="140" key={props.index}>
       <rect
         width="110"
         height="140"
@@ -33,7 +33,7 @@ export const CardTile = (props: CardTileProps) => {
         );
       })}
       {Object.keys(props.card.caracs).map((c, i) => (
-        <text x="10" y={80 + (i + 1) * 10} fontSize="7">
+        <text key={i} x="10" y={80 + (i + 1) * 10} fontSize="7">
           {`${c}: ${props.card.caracs[c]}`}
         </text>
       ))}
