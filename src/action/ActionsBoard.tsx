@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as Mousetrap from "mousetrap";
 import { getColor } from "./Skill";
 import { TilesBoardProps, ActionTileProps } from "../types";
 import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
@@ -10,23 +11,32 @@ const style = {
   width: "10%"
 };
 
-const clickHandler = (
-  e: React.MouseEvent<SVGElement>,
-  props: ActionTileProps
-) => {
+const actionActivationHandler = (props: ActionTileProps) => {
   if (
     getActionStatus(props.g, props.playerID, props.category) ===
     ActionTileStatus.Avalaible
   ) {
-    e.preventDefault();
     props.activateAction(props.skill.skillCategory);
-  } else {
-    e.preventDefault();
   }
+};
+
+const clickHandler = (
+  e: React.MouseEvent<SVGElement>,
+  props: ActionTileProps
+) => {
+  e.preventDefault();
+  actionActivationHandler(props);
 };
 
 // ----- Components
 export const ActionTile = (props: ActionTileProps) => {
+  const shortcut = props.skill.name.substring(0, 1).toLowerCase();
+  console.log(shortcut);
+  // Binding to keys
+  Mousetrap.bind(`a ${shortcut}`, thing => {
+    console.log(`shortcut ${shortcut} for action ${props.skill.name}`);
+    actionActivationHandler(props);
+  });
   return (
     <svg width="130" height="130">
       <rect

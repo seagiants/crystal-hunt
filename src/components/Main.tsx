@@ -30,16 +30,11 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
   }
 
   handlePIDChange(event: React.FormEvent<HTMLSelectElement>) {
-    console.log(event.currentTarget.value);
     this.setState({ inProgressPlayerId: event.currentTarget.value });
   }
 
   handleSubmit(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();
-    console.log(
-      this.state.inProgressPlayerId,
-      typeof this.state.inProgressPlayerId
-    );
     this.setState({
       selectedGameId: this.state.inProgressGameId,
       selectedPlayerId: this.state.inProgressPlayerId

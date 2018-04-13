@@ -82,12 +82,6 @@ export function triggerMonsterSkill(
   neighbourCell.push(toKey(parseInt(xy[0], 10) - 1, parseInt(xy[1], 10)));
   const monsterTriggered = neighbourCell.reduce(
     (prevG, currCellId) => {
-      console.log(currCellId);
-      console.log("Test");
-      console.log(getCell(prevG, currCellId));
-      getCell(prevG, currCellId)
-        ? console.log(getAvatarOnCell(prevG, currCellId))
-        : console.log();
       if (
         getCell(prevG, currCellId) !== undefined &&
         getAvatarOnCell(prevG, currCellId) !== null
