@@ -11,8 +11,10 @@
     "typescript": "^2.7.2"
   },
   "dependencies": {
+    "@types/mousetrap": "^1.6.0",
     "boardgame.io": "^0.20.0",
     "koa-static": "^4.0.2",
+    "mousetrap": "^1.6.1",
     "pathfinding": "^0.4.18",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"

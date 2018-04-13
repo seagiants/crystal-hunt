@@ -10,23 +10,29 @@ interface GameSelectorProps {
 
 const GameSelector = (props: GameSelectorProps) => (
   <div className="main-container">
-    <div>Select a game</div>
     <div>
+      <div>Select a game</div>
       <form onSubmit={props.handleSubmit}>
-        <input
-          type="text"
-          placeholder="gameId"
-          value={props.inProgressGameId}
-          onChange={props.handleGIDChange}
-        />
-        <select
-          value={props.inProgressPlayerId}
-          onChange={props.handlePIDChange}
-        >
-          <option value="O">zero</option>
-          <option value="1">one</option>
-        </select>
-        <input type="submit" value="Submit" />
+        <div>
+          <input
+            type="text"
+            placeholder="gameId"
+            value={props.inProgressGameId}
+            onChange={props.handleGIDChange}
+          />
+        </div>
+        <div>
+          <select
+            value={props.inProgressPlayerId}
+            onChange={props.handlePIDChange}
+          >
+            <option value="O">zero</option>
+            <option value="1">one</option>
+          </select>
+        </div>
+        <div>
+          <input type="submit" value="Submit" />
+        </div>
       </form>
     </div>
   </div>
