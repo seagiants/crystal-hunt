@@ -12,7 +12,7 @@ export interface CellsDef {
   [propName: string]: Cell;
 }
 
-function initCell(cellType: CellTypeName): Cell {
+export const initCell = (cellType: CellTypeName): Cell => {
   return {
     type: cellType,
     monster: false,
@@ -20,7 +20,7 @@ function initCell(cellType: CellTypeName): Cell {
     avatar: null,
     isCrystallized: false
   };
-}
+};
 
 export const basicMap: MapDef = {
   xMax: 2,
