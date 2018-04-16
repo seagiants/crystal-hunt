@@ -48,7 +48,7 @@ const _longerMap: MapDef = {
     "3x2": initCell(CellTypeName.BlackCrystalCell),
     "3x3": { ...initCell(CellTypeName.RoomCell), trap: true },
     "3x4": initCell(CellTypeName.RoomCell),
-    "4x4": initCell(CellTypeName.RoomCell),
+    "4x4": { ...initCell(CellTypeName.RoomCell), avatar: "M3" },
     "5x4": initCell(CellTypeName.RoomCell),
     "5x3": initCell(CellTypeName.RoomCell),
     "5x2": initCell(CellTypeName.RoomCell),
@@ -65,7 +65,8 @@ export function initMapSetup(): {
   let basicAvatars = [
     initPlayerAvatar("0", "0x0"),
     initPlayerAvatar("1", "6x4"),
-    initMonsterAvatar("M2", "2x0")
+    initMonsterAvatar("M2", "2x0"),
+    initMonsterAvatar("M3", "4x4")
   ];
   return {
     map: _longerMap,
