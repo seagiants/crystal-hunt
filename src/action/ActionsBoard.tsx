@@ -31,7 +31,7 @@ const clickHandler = (
 // ----- Components
 export const ActionTile = (props: ActionTileProps) => {
   const shortcut = props.skill.name.substring(0, 1).toLowerCase();
-  console.log(shortcut);
+  // console.log(shortcut);
   // Binding to keys
   Mousetrap.bind(`a ${shortcut}`, thing => {
     console.log(`shortcut ${shortcut} for action ${props.skill.name}`);

@@ -29,7 +29,12 @@ import {
 } from "../state/gameLogic";
 import { findPath, toCoord } from "../map/Cell";
 import { drawEach } from "../cards/gameLogic";
-import { loadCard, loadUpgrade, loadEquipment } from "../cards/Card";
+import {
+  loadCard,
+  loadUpgrade,
+  loadEquipment,
+  loadEnchantment
+} from "../cards/Card";
 import { getBasicSkill } from "./Skill";
 
 export const PowerLib: {
@@ -282,6 +287,43 @@ export const PowerLib: {
           ...equipped.playersContext,
           [ctx.currentPlayer]: {
             ...equipped.playersContext[ctx.currentPlayer],
+            skills: basicSkills
+          }
+        }
+      };
+      return basicSkillreturned;
+    },
+    check: () => true
+  },
+  // TODO : Refactor using correct setter/getter, need a refactor of Skills & PlayersContext state handling first.
+  // TODO: Make it plugs on categorized prop (aka enchantmentStrengthPlayer, or enchantmentDexterityPlayer)
+  Enchant: {
+    power: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      powerCaracs: Caracs
+    ) => {
+      const cardName = getSkillByCat(g, ctx.currentPlayer, targetId).toEquip!;
+      const card = loadCard(cardName);
+      const enchanted = {
+        ...g,
+        [`enchantmentPlayer${ctx.currentPlayer}`]: loadEnchantment(card)
+      };
+      const basicSkills: Array<Skill> = enchanted.playersContext[
+        ctx.currentPlayer
+      ].skills.map(
+        skill =>
+          skill.skillCategory === card.skillCategory
+            ? getBasicSkill(card.skillCategory)
+            : skill
+      );
+      const basicSkillreturned: SimpleGame = {
+        ...enchanted,
+        playersContext: {
+          ...enchanted.playersContext,
+          [ctx.currentPlayer]: {
+            ...enchanted.playersContext[ctx.currentPlayer],
             skills: basicSkills
           }
         }

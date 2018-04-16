@@ -34,7 +34,7 @@ import {
   setSelectedAction
 } from "./setters";
 import { Avatar } from "../map/types";
-import { getCardType, loadEnchantment, loadSpell } from "../cards/Card";
+import { getCardType, loadSpell } from "../cards/Card";
 import {
   Skill,
   Spell,
@@ -179,7 +179,33 @@ export function plugEnchantment(
   cardIndex: number
 ): SimpleGame {
   const card = getCard(g, playerId, cardIndex);
-  return { ...g, [`enchantmentPlayer${playerId}`]: loadEnchantment(card) };
+  const Enchant: Skill = {
+    name: "Enchant",
+    skillCategory: SkillCategoryName.Wisdom,
+    isTargetRequired: false,
+    symbol: 3,
+    toEquip: card.name,
+    caracs: {},
+    powerName: "Enchant"
+  };
+  const enchantSkill: Array<Skill> = g.playersContext[playerId].skills.map(
+    skill =>
+      skill.skillCategory === SkillCategoryName.Wisdom ? Enchant : skill
+  );
+  const withEnchantSkill: SimpleGame = {
+    ...g,
+    playersContext: {
+      ...g.playersContext,
+      [playerId]: {
+        ...g.playersContext[playerId],
+        skills: enchantSkill
+      }
+    }
+  };
+  return withEnchantSkill;
+
+  // const card = getCard(g, playerId, cardIndex);
+  // return { ...g, [`enchantmentPlayer${playerId}`]: loadEnchantment(card) };
 }
 
 // TODO : Refactor using correct setter/getter but need a refactor on Skills & PlayersContext state handling first.

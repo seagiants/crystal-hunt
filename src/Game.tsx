@@ -157,9 +157,6 @@ const CrystalHunt = Game({
         console.log(action.name + " is triggered");
         // State is modified by the power.
         // By default, the triggered category is given as target (aka isTargetRequired = false)
-        console.log(action);
-        console.log(actionClicked);
-        console.log(action.skillCategory);
         const powerTriggered = triggerPower(
           action,
           actionClicked,
