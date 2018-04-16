@@ -48,10 +48,11 @@ export interface TRIGGERINGACTIONTEMPLATE extends ACTIONTEMPLATE {
 
 export interface Skill extends TRIGGERINGACTIONTEMPLATE {
   isTargetRequired: boolean;
+  toEquip?: string;
 }
 
 export interface Equipment extends ACTIONTEMPLATE {
-  upgradeName?: string; 
+  upgradeName?: string;
 }
 
 // Enchantment should be auto-trigger power, at start or end of turn, so no targetRequired

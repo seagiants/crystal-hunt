@@ -1,4 +1,11 @@
-import { Power, CheckTarget, Caracs, AttackCaracs, MoveCaracs } from "./type";
+import {
+  Power,
+  CheckTarget,
+  Caracs,
+  AttackCaracs,
+  MoveCaracs,
+  Skill
+} from "./type";
 import { SimpleGame, GameContext } from "../types";
 import {
   setCellCrystallize,
@@ -9,7 +16,9 @@ import {
   getAvatarOnCell,
   getAvatarPosition,
   getCrystallized,
-  getCategories
+  getCategories,
+  hasUpgrade,
+  getSkillByCat
 } from "../state/getters";
 import {
   damage,
@@ -20,6 +29,8 @@ import {
 } from "../state/gameLogic";
 import { findPath, toCoord } from "../map/Cell";
 import { drawEach } from "../cards/gameLogic";
+import { loadCard, loadUpgrade, loadEquipment } from "../cards/Card";
+import { getBasicSkill } from "./Skill";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
@@ -236,5 +247,47 @@ export const PowerLib: {
       }
     },
     check: (g: SimpleGame, ctx: GameContext, targetId) => true
+  },
+  // TODO : Refactor using correct setter/getter, need a refactor of Skills & PlayersContext state handling first.
+  // TODO: Make it plugs on categorized prop (aka equipmentStrengthPlayer, or equipmentDexterityPlayer)
+  Equip: {
+    power: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      powerCaracs: Caracs
+    ) => {
+      const cardName = getSkillByCat(g, ctx.currentPlayer, targetId).toEquip!;
+      const card = loadCard(cardName);
+      // Equipment condition to upgrade is being on crystallized when equipped.
+      const isUpgraded =
+        getCrystallized(g, getAvatarPosition(g, ctx.currentPlayer)) &&
+        hasUpgrade(card);
+      const loadedCard = isUpgraded ? loadUpgrade(card) : card;
+      const equipped = {
+        ...g,
+        [`equipmentPlayer${ctx.currentPlayer}`]: loadEquipment(loadedCard)
+      };
+      const basicSkills: Array<Skill> = equipped.playersContext[
+        ctx.currentPlayer
+      ].skills.map(
+        skill =>
+          skill.skillCategory === card.skillCategory
+            ? getBasicSkill(card.skillCategory)
+            : skill
+      );
+      const basicSkillreturned: SimpleGame = {
+        ...equipped,
+        playersContext: {
+          ...equipped.playersContext,
+          [ctx.currentPlayer]: {
+            ...equipped.playersContext[ctx.currentPlayer],
+            skills: basicSkills
+          }
+        }
+      };
+      return basicSkillreturned;
+    },
+    check: () => true
   }
 };

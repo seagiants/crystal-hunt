@@ -1,4 +1,4 @@
-import { SkillCategoryName, SkillLib, SkillCategoryLib } from "./skillLib";
+import { SkillCategoryName, BasicSkillLib, SkillCategoryLib } from "./skillLib";
 import { Skill, SkillCategory, ActionTileStatus } from "./type";
 import { Card } from "../cards/types";
 
@@ -6,7 +6,7 @@ import { Card } from "../cards/types";
 
 // Loader for Skill
 export function loadSkill(skillName: string): Skill {
-  return SkillLib[skillName];
+  return BasicSkillLib[skillName];
 }
 
 // Loader for SkillCategory
@@ -34,4 +34,15 @@ export function getColor(
     default:
       return skillCat.color;
   }
+}
+
+export function getBasicSkill(category: SkillCategoryName): Skill {
+  let basicSkill: Skill;
+  Object.keys(BasicSkillLib).forEach((skillName: string) => {
+    const currSkill: Skill = BasicSkillLib[skillName];
+    if (currSkill.skillCategory === category) {
+      basicSkill = { ...currSkill };
+    }
+  });
+  return basicSkill!;
 }

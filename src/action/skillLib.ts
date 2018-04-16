@@ -147,7 +147,7 @@ export const UpgradeLib: { [key: string]: Card } = {
   }
 };
 
-export const SkillLib: { [key in SkillName]: Skill } = {
+export const BasicSkillLib: { [key in SkillName]: Skill } = {
   Move: {
     name: SkillName.Move,
     skillCategory: SkillCategoryName.Dexterity,

@@ -156,7 +156,16 @@ const CrystalHunt = Game({
       } else {
         console.log(action.name + " is triggered");
         // State is modified by the power.
-        const powerTriggered = triggerPower(action, actionClicked, ctx, "");
+        // By default, the triggered category is given as target (aka isTargetRequired = false)
+        console.log(action);
+        console.log(actionClicked);
+        console.log(action.skillCategory);
+        const powerTriggered = triggerPower(
+          action,
+          actionClicked,
+          ctx,
+          action.skillCategory
+        );
         // ActionCount is finalized if no card is drawn.
         // Todo : Implement a better workflow
         return getCards(powerTriggered, ctx.currentPlayer).length > 0

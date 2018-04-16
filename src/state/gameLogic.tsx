@@ -18,10 +18,7 @@ import {
   getAvatarOnCell,
   isTrapped,
   getActionFlow,
-  getCategories,
-  getCrystallized,
-  getAvatarPosition,
-  hasUpgrade
+  getCategories
 } from "./getters";
 import { triggerPower } from "../action/Power";
 import {
@@ -37,13 +34,7 @@ import {
   setSelectedAction
 } from "./setters";
 import { Avatar } from "../map/types";
-import {
-  getCardType,
-  loadEnchantment,
-  loadEquipment,
-  loadSpell,
-  loadUpgrade
-} from "../cards/Card";
+import { getCardType, loadEnchantment, loadSpell } from "../cards/Card";
 import {
   Skill,
   Spell,
@@ -191,17 +182,36 @@ export function plugEnchantment(
   return { ...g, [`enchantmentPlayer${playerId}`]: loadEnchantment(card) };
 }
 
-// TODO: Make it plugs on categorized prop (aka equipmentStrengthPlayer, or equipmentDexterityPlayer)
+// TODO : Refactor using correct setter/getter but need a refactor on Skills & PlayersContext state handling first.
 export function plugEquipment(
   g: SimpleGame,
   playerId: string,
   cardIndex: number
 ): SimpleGame {
-  // Equipment condition to upgrade is being on crystallized when equipped.
   const card = getCard(g, playerId, cardIndex);
-  const isUpgraded = getCrystallized(g, getAvatarPosition(g, playerId)) && hasUpgrade(card);
-  const loadedCard = isUpgraded ? loadUpgrade(card) : card;
-  return { ...g, [`equipmentPlayer${playerId}`]: loadEquipment(loadedCard) };
+  const Equip: Skill = {
+    name: "Equip",
+    skillCategory: card.skillCategory,
+    isTargetRequired: false,
+    symbol: 3,
+    toEquip: card.name,
+    caracs: {},
+    powerName: "Equip"
+  };
+  const equipSkill: Array<Skill> = g.playersContext[playerId].skills.map(
+    skill => (skill.skillCategory === card.skillCategory ? Equip : skill)
+  );
+  const withEquipSkill: SimpleGame = {
+    ...g,
+    playersContext: {
+      ...g.playersContext,
+      [playerId]: {
+        ...g.playersContext[playerId],
+        skills: equipSkill
+      }
+    }
+  };
+  return withEquipSkill;
 }
 
 // TODO: Stored in the categorized spell slot of the player.
@@ -357,11 +367,20 @@ export function setActionClicked(
   return tempG;
 }
 // Finalizing an Action : Up action Counter, set Action Tile to exhausted, clean saved Action
-export function finalizeAction(g: SimpleGame, playerId: string, category: SkillCategoryName): SimpleGame {
+export function finalizeAction(
+  g: SimpleGame,
+  playerId: string,
+  category: SkillCategoryName
+): SimpleGame {
   // Up Action counter
   const actionCounted = upActionCount(g);
   // Exhaust used Action
-  const actionExhausted = setActionStatus(actionCounted, playerId, category, ActionTileStatus.Exhausted);
+  const actionExhausted = setActionStatus(
+    actionCounted,
+    playerId,
+    category,
+    ActionTileStatus.Exhausted
+  );
   // Clean saved action
   return setSelectedAction(actionExhausted, null, playerId);
 }

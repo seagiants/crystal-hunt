@@ -10,7 +10,7 @@ const url =
     : "crystal-hunt.appspot.com";
 
 // const isDebugActive = process.env.NODE_ENV === "development";
-const isDebugActive = false;
+const isDebugActive = true;
 
 const CrystalHuntClient = Client({
   game: CrystalHunt,
