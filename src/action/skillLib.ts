@@ -103,9 +103,8 @@ export const CardLib: { [key: string]: Card } = {
     type: ActionType.Spell,
     skillCategory: SkillCategoryName.Intelligence,
     isTargetRequired: false,
-    caracs: {
-      charge: 2
-    },
+    charge: 2,
+    caracs: {},
     symbol: 2,
     powerName: "DoubleDraw"
   },
@@ -114,9 +113,8 @@ export const CardLib: { [key: string]: Card } = {
     type: ActionType.Spell,
     skillCategory: SkillCategoryName.Dexterity,
     isTargetRequired: true,
-    caracs: {
-      charge: 1
-    },
+    charge: 1,
+    caracs: {},
     symbol: 2,
     powerName: "TrapACell"
   },

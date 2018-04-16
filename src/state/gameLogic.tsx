@@ -260,13 +260,21 @@ export function diminishChargeSpell(
 ): SimpleGame {
   const spell = getSpell(g, playerId, categoryName);
   console.log(
-    "Diminish charge for " + categoryName + " spell of player " + playerId
+    "Diminish charge for " +
+      categoryName +
+      " spell of player " +
+      playerId +
+      "to " +
+      spell.charge !==
+    undefined
+      ? spell.charge - 1
+      : undefined
   );
   return {
     ...g,
     [`${categoryName.toLowerCase()}SpellPlayer${playerId}`]: {
       ...spell,
-      charge: spell.charge ? spell.charge - 1 : undefined
+      charge: spell.charge !== undefined ? spell.charge - 1 : undefined
     }
   };
 }

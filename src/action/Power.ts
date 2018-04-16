@@ -37,10 +37,9 @@ export function triggerPower(
   );
   const infoMessage: string = action.powerName + " is trigerred on " + targetId;
   const withInfo: SimpleGame = addInfoMessage(g, infoMessage);
-  const chargeDimished =
-    action.caracs.charge !== undefined
-      ? diminishChargeSpell(withInfo, ctx.currentPlayer, action.skillCategory)
-      : withInfo;
+  const chargeDimished = (<Spell>action).charge
+    ? diminishChargeSpell(withInfo, ctx.currentPlayer, action.skillCategory)
+    : withInfo;
   return loadPower(action.powerName)(
     chargeDimished,
     ctx,
