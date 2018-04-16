@@ -331,7 +331,10 @@ export function updateActionStatus(
   let status: ActionTileStatus;
   switch (actionFlow.status) {
     case ActionTileStatus.Clicked:
-      status = ActionTileStatus.Exhausted;
+      status =
+        g.actionCount === 0
+          ? ActionTileStatus.Exhausted
+          : ActionTileStatus.Avalaible;
       break;
     case ActionTileStatus.Exhausted:
       status =
@@ -360,8 +363,8 @@ export function updateActionsStatus(
 ): SimpleGame {
   return Object.keys(SkillCategoryName).reduce(
     (tempG, currCat) =>
-      // updateActionStatus(tempG, playerId, SkillCategoryName[currCat]),
-      refreshAction(tempG, playerId, SkillCategoryName[currCat]),
+      updateActionStatus(tempG, playerId, SkillCategoryName[currCat]),
+    // refreshAction(tempG, playerId, SkillCategoryName[currCat]),
     { ...g }
   );
 }
