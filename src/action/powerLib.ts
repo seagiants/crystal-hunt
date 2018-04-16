@@ -36,6 +36,7 @@ import {
   loadEnchantment
 } from "../cards/Card";
 import { getBasicSkill } from "./Skill";
+import { SkillCategoryName } from "./skillLib";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
@@ -314,8 +315,8 @@ export const PowerLib: {
         ctx.currentPlayer
       ].skills.map(
         skill =>
-          skill.skillCategory === card.skillCategory
-            ? getBasicSkill(card.skillCategory)
+          skill.skillCategory === SkillCategoryName.Wisdom
+            ? getBasicSkill(SkillCategoryName.Wisdom)
             : skill
       );
       const basicSkillreturned: SimpleGame = {
