@@ -35,5 +35,6 @@ describe("mapMaker", () => {
     const withBC = mapMaker(STRUCT_WITH_BLACK);
     const bcCell = withBC.cells["1x1"];
     expect(bcCell.type).toEqual("BlackCrystalCell");
+    expect(withBC.blackCrystalCellXY).toEqual("1x1");
   });
 });

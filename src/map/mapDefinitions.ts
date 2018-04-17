@@ -6,6 +6,7 @@ export interface MapDef {
   cells: CellsDef;
   xMax: number;
   yMax: number;
+  blackCrystalCellXY: string;
 }
 
 export interface CellsDef {
@@ -31,12 +32,14 @@ export const basicMap: MapDef = {
     "1x1": initCell(CellTypeName.BlackCrystalCell),
     "1x2": initCell(CellTypeName.RoomCell),
     "2x2": { ...initCell(CellTypeName.RoomCell), avatar: "1" }
-  }
+  },
+  blackCrystalCellXY: "1x1"
 };
 
 const _longerMap: MapDef = {
   xMax: 6,
   yMax: 4,
+  blackCrystalCellXY: "3x2",
   cells: {
     "0x0": { ...initCell(CellTypeName.RoomCell), avatar: "0" },
     "1x0": initCell(CellTypeName.RoomCell),
@@ -71,6 +74,6 @@ export function initMapSetup(): {
   return {
     map: _longerMap,
     basicAvatars: basicAvatars,
-    blackCrystalCellId: "3x2"
+    blackCrystalCellId: _longerMap.blackCrystalCellXY
   };
 }
