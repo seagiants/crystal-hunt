@@ -9,6 +9,8 @@ const parseCell = (cell: string) => {
   let constructedCell = null;
   if (room === "R") {
     constructedCell = initCell(CellTypeName.RoomCell);
+  } else if (room === "B") {
+    constructedCell = initCell(CellTypeName.BlackCrystalCell);
   }
   if (avatar !== "-") {
     constructedCell = { ...constructedCell, avatar: avatar };
@@ -19,17 +21,21 @@ const parseCell = (cell: string) => {
   return constructedCell;
 };
 
+/* Parse a map struct and create cells */
 const parseStruct = (struct: MapStruct) => {
   let cells = {};
   struct.forEach((row, i) => {
     row.forEach((el, j) => {
-      const k = toKey(i, j);
-      cells[k] = parseCell(el);
+      const c = parseCell(el);
+      if (c !== null) {
+        cells[toKey(i, j)] = c;
+      }
     });
   });
   return cells;
 };
 
+/* Create a mapDefinition from a map struct */
 export const mapMaker = (mapStruct: MapStruct): MapDef => {
   const y = mapStruct.length;
   const x = mapStruct[0].length;
