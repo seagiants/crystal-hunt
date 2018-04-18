@@ -86,6 +86,12 @@ export interface HealCaracs extends Caracs {
   [caracName: string]: number;
 }
 
+export interface DrawCaracs extends Caracs {
+  // Used to determine the number of drawn cards.
+  drawNumber: number;
+  [caracName: string]: number;
+}
+
 export interface CheckTarget {
   (
     G: SimpleGame,

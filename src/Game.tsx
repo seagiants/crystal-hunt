@@ -20,7 +20,7 @@ import {
   setActionClicked,
   finalizeAction
 } from "./state/gameLogic";
-import { loadDecks } from "./cards/Card";
+import { loadDeck } from "./cards/Card";
 import { getCards } from "./cards/stateAccessors";
 import { discardCards } from "./cards/gameLogic";
 import { ActionTileStatus, ActionsFlow, ActionFlow } from "./action/type";
@@ -41,7 +41,8 @@ function initPlayerContext(playerId: string): PlayerContext {
       healthCurrent: 5,
       attackValue: 1,
       attackRange: 1,
-      moveRange: 1
+      moveRange: 1,
+      drawNumber: 3
     },
     cards: []
   };
@@ -76,8 +77,8 @@ const CrystalHunt = Game({
       monsterCounter: 2,
       actionCount: 0,
       selectedAction: null,
-      decksPlayer0: loadDecks(),
-      decksPlayer1: loadDecks(),
+      decksPlayer0: loadDeck(),
+      decksPlayer1: loadDeck(),
       actionsFlowPlayer0: initActionsFlow(),
       actionsFlowPlayer1: initActionsFlow(),
       infoMessages: ["Game started"],

@@ -7,16 +7,10 @@ export interface Card extends TRIGGERINGACTIONTEMPLATE {
   upgradeName?: string;
 }
 
-export interface Decks {
-  // Makes it use an enum as index ??
-  [index: string]: Array<Card>;
-}
-
 export interface CardTileProps {
-    card: Card;
-    index: number;
-    playerId: string;
-    activateCard(cardIndex: number, playerId: string): object;
-    endTurn(): object;
-  }
-  
+  card: Card;
+  index: number;
+  playerId: string;
+  activateCard(cardIndex: number, playerId: string): object;
+  endTurn(): object;
+}

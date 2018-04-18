@@ -10,7 +10,7 @@ import {
 import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { CellsDef } from "../map/mapDefinitions";
 import { Avatar, PathMatrix } from "../map/types";
-import { Decks, Card } from "../cards/types";
+import { Card } from "../cards/types";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
@@ -31,8 +31,8 @@ export interface SimpleGame {
   // Used to display info to players
   infoMessages: Array<String>;
   // Player's deck props
-  decksPlayer0: Decks;
-  decksPlayer1: Decks;
+  decksPlayer0: Array<Card>;
+  decksPlayer1: Array<Card>;
   // Player's actions props
   actionsFlowPlayer0: ActionsFlow;
   actionsFlowPlayer1: ActionsFlow;

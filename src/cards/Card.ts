@@ -6,7 +6,7 @@ import {
   UpgradeLib
 } from "../action/skillLib";
 import { SkillCategory, Equipment, Enchantment, Spell } from "../action/type";
-import { Card, Decks } from "./types";
+import { Card } from "./types";
 
 // Loaders for JSON data
 
@@ -36,7 +36,7 @@ export function shuffle<T>(array: T[]): T[] {
   }
   return array;
 }
-
+/*
 export function loadCards(skillCategory: SkillCategoryName): Array<Card> {
   const test = Object.keys(CardLib).reduce(
     (temp, prop) =>
@@ -55,6 +55,15 @@ export function loadDecks(): Decks {
     Wisdom: loadCards(SkillCategoryName.Wisdom),
     Strength: loadCards(SkillCategoryName.Strength)
   };
+}
+*/
+
+export function loadDeck(): Array<Card> {
+  const rawDeck = Object.keys(CardLib).reduce(
+    (temp, prop) => [...temp, CardLib[prop]],
+    []
+  );
+  return shuffle(rawDeck);
 }
 
 // Loader for CardCategory
