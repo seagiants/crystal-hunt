@@ -4,7 +4,8 @@ import {
   Caracs,
   AttackCaracs,
   MoveCaracs,
-  Skill
+  Skill,
+  DrawCaracs
 } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import {
@@ -28,7 +29,7 @@ import {
   refreshAction
 } from "../state/gameLogic";
 import { findPath, toCoord } from "../map/Cell";
-import { drawEach } from "../cards/gameLogic";
+import { drawEach, draw } from "../cards/gameLogic";
 import {
   loadCard,
   loadUpgrade,
@@ -134,9 +135,14 @@ export const PowerLib: {
     check: (g: SimpleGame) => true
   },
   Draw: {
-    power: (g: SimpleGame, ctx: GameContext) => {
+    power: (
+      g: SimpleGame,
+      ctx: GameContext,
+      targetId: string,
+      caracs: DrawCaracs
+    ) => {
       // const cardsAdded = drawCards(g, ctx.currentPlayer);
-      const cardsDrawed = drawEach(g, ctx.currentPlayer);
+      const cardsDrawed = draw(g, ctx.currentPlayer, caracs.drawNumber);
       return cardsDrawed;
     },
     check: (

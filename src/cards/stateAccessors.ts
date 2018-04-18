@@ -1,5 +1,4 @@
 import { SimpleGame } from "../types";
-import { SkillCategoryName } from "../action/skillLib";
 import { Card } from "./types";
 
 export function setCards(
@@ -22,15 +21,11 @@ export function setCards(
 export function setDeck(
   g: SimpleGame,
   playerId: string,
-  category: SkillCategoryName,
   deck: Array<Card>
 ): SimpleGame {
   return {
     ...g,
-    [`decksPlayer${playerId}`]: {
-      ...g[`decksPlayer${playerId}`],
-      [category]: deck
-    }
+    [`decksPlayer${playerId}`]: deck
   };
 }
 
@@ -46,10 +41,6 @@ export function getCard(
   return getCards(g, playerId)[cardIndex];
 }
 
-export function getDeck(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName
-): Array<Card> {
-  return g[`decksPlayer${playerId}`][category];
+export function getDeck(g: SimpleGame, playerId: string): Array<Card> {
+  return g[`decksPlayer${playerId}`];
 }
