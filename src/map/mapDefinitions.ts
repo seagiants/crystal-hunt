@@ -1,12 +1,13 @@
 import { CellTypeName } from "./Cell";
 import { Cell, Avatar } from "./types";
-import { initPlayerAvatar, initMonsterAvatar } from "./Avatar";
+import { mapMaker } from "./mapMaker";
 
 export interface MapDef {
   cells: CellsDef;
   xMax: number;
   yMax: number;
   blackCrystalCellXY: string;
+  avatars: Array<Avatar>;
 }
 
 export interface CellsDef {
@@ -23,6 +24,7 @@ export const initCell = (cellType: CellTypeName): Cell => {
   };
 };
 
+/*
 export const basicMap: MapDef = {
   xMax: 2,
   yMax: 2,
@@ -58,6 +60,16 @@ const _longerMap: MapDef = {
     "6x4": { ...initCell(CellTypeName.RoomCell), avatar: "1" }
   }
 };
+*/
+
+// prettier-ignore
+const firstMapStruct = [
+  ["R0-", "R--", "R--"],
+  ["R--", "R--", "R--"],
+  ["R--", "B--", "R--"],
+  ["R--", "R--", "R--"],
+  ["R--", "R--", "R1-"]
+];
 
 // TODO : Improve BlackCrsytalCell handle.
 export function initMapSetup(): {
@@ -65,15 +77,10 @@ export function initMapSetup(): {
   basicAvatars: Array<Avatar>;
   blackCrystalCellId: string;
 } {
-  let basicAvatars = [
-    initPlayerAvatar("0", "0x0"),
-    initPlayerAvatar("1", "6x4"),
-    initMonsterAvatar("M2", "2x0"),
-    initMonsterAvatar("M3", "4x4")
-  ];
+  const firstMapDef = mapMaker(firstMapStruct);
   return {
-    map: _longerMap,
-    basicAvatars: basicAvatars,
-    blackCrystalCellId: _longerMap.blackCrystalCellXY
+    map: firstMapDef,
+    basicAvatars: firstMapDef.avatars,
+    blackCrystalCellId: firstMapDef.blackCrystalCellXY
   };
 }

@@ -37,4 +37,9 @@ describe("mapMaker", () => {
     expect(bcCell.type).toEqual("BlackCrystalCell");
     expect(withBC.blackCrystalCellXY).toEqual("1x1");
   });
+  it("should create the avatar array", () => {
+    const basicMapDef = mapMaker(BASIC_STRUCT);
+    expect(basicMapDef.avatars).not.toBeNull();
+    expect(basicMapDef.avatars[3].id).toEqual("1");
+  });
 });
