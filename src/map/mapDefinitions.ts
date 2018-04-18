@@ -65,9 +65,9 @@ const _longerMap: MapDef = {
 // prettier-ignore
 const firstMapStruct = [
   ["R0-", "R--", "R--"],
-  ["R--", "R--", "R--"],
+  ["---", "R--", "R--"],
   ["R--", "B--", "R--"],
-  ["R--", "R--", "R--"],
+  ["R--", "R--", "---"],
   ["R--", "R--", "R1-"]
 ];
 

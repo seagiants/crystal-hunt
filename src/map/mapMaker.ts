@@ -86,8 +86,8 @@ const createAvatarArray = (cells: { string?: Cell }): Array<Avatar> => {
 
 /* Create a map definition from a map struct */
 export const mapMaker = (mapStruct: MapStruct): MapDef => {
-  const y = mapStruct.length;
-  const x = mapStruct[0].length;
+  const y = mapStruct[0].length;
+  const x = mapStruct.length;
   const cells = parseStruct(mapStruct);
   return {
     xMax: x,
