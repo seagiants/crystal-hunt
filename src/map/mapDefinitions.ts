@@ -33,6 +33,15 @@ const firstMapStruct = [
   ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
 ];
 
+// prettier-ignore
+const verticalStruct = [
+  ["R0-", "---"],
+  ["R--", "R--"],
+  ["---", "R1-"]
+];
+
+console.dir(verticalStruct);
+
 // TODO : Improve BlackCrsytalCell handle.
 export function initMapSetup(): {
   map: MapDef;
