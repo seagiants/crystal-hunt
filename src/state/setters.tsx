@@ -1,12 +1,11 @@
 import { SimpleGame } from "../types";
-import { getAvatarPosition, getMonsterCounter, getActionFlow } from "./getters";
-import { SkillCategoryName } from "../action/skillLib";
+import { getAvatarPosition, getMonsterCounter } from "./getters";
 import { Avatar } from "../map/types";
-import { ActionFlow, ActionTileStatus } from "../action/type";
+import { ActionCategoryName } from "../action/Action";
 
 export function setSelectedAction(
   G: SimpleGame,
-  categoryName: SkillCategoryName | null,
+  categoryName: ActionCategoryName | null,
   playerId: string
 ): SimpleGame {
   return {
@@ -53,7 +52,7 @@ export function addMonster(g: SimpleGame, avatar: Avatar): SimpleGame {
   return {
     ...g,
     monsterCounter: id,
-    avatars: [...g.avatars, { ...avatar, id: "M" + id.toString() }]
+    avatars: [...g.avatars, { ...avatar }]
   };
 }
 
@@ -76,14 +75,6 @@ export function setCellCrystallize(
   let temp = { ...g };
   temp.map[cellId].isCrystallized = isCrystallized;
   return temp;
-}
-
-export function upActionCount(g: SimpleGame): SimpleGame {
-  return { ...g, actionCount: g.actionCount + 1 };
-}
-
-export function resetActionCount(g: SimpleGame): SimpleGame {
-  return { ...g, actionCount: 0 };
 }
 
 export function setHealth(
@@ -110,61 +101,6 @@ export function setHealth(
 
 export function addInfoMessage(g: SimpleGame, message: string): SimpleGame {
   return { ...g, infoMessages: [...g.infoMessages, message] };
-}
-
-export function setActionFlow(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName,
-  actionFlow: ActionFlow
-): SimpleGame {
-  return {
-    ...g,
-    [`actionsFlowPlayer${playerId}`]: {
-      ...g[`actionsFlowPlayer${playerId}`],
-      [category]: actionFlow
-    }
-  };
-}
-
-export function setActionStatus(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName,
-  status: ActionTileStatus
-): SimpleGame {
-  const actionFlow = getActionFlow(g, playerId, category);
-  return setActionFlow(g, playerId, category, {
-    ...actionFlow,
-    status: status
-  });
-}
-
-export function setExhaustCounter(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName,
-  newValue: number
-): SimpleGame {
-  const actionFlow = getActionFlow(g, playerId, category);
-  return setActionFlow(g, playerId, category, {
-    ...actionFlow,
-    exhaustCounter: newValue
-  });
-}
-
-export function upExhaustCounter(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName,
-  addedValue: number
-): SimpleGame {
-  return setExhaustCounter(
-    g,
-    playerId,
-    category,
-    getActionFlow(g, playerId, category).exhaustCounter + addedValue
-  );
 }
 
 export function setIsTrapped(

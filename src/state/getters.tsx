@@ -1,34 +1,23 @@
 import { SimpleGame } from "../types";
-import {
-  Skill,
-  Caracs,
-  Equipment,
-  Enchantment,
-  ACTIONTEMPLATE,
-  Spell,
-  ActionTileStatus,
-  ActionFlow
-} from "../action/type";
-import {
-  TriggerPhase,
-  SkillCategoryName,
-  SkillCategoryLib
-} from "../action/skillLib";
+import { Equipment, Enchantment, ACTIONTEMPLATE, Spell } from "../old/type";
+import { TriggerPhase } from "../old/skillLib";
 import { Cell, Avatar } from "../map/types";
 import { CellTypeName } from "../map/Cell";
-import { Card } from "../cards/types";
+import { Card } from "../cards/Card";
+import { Caracs, ActionCategoryName } from "../action/Action";
+import { ActionCategoryLib } from "../action/actionLib";
 
 export function getSelectedActionCategory(
   g: SimpleGame,
   playerId: string
-): SkillCategoryName | null {
+): ActionCategoryName | null {
   return g.selectedAction;
 }
 
-export function getCategory(action: ACTIONTEMPLATE): SkillCategoryName {
-  return action.skillCategory;
+export function getCategory(action: ACTIONTEMPLATE): ActionCategoryName {
+  return action.abilityCategory;
 }
-
+/*
 export function getSkill(
   g: SimpleGame,
   playerId: string,
@@ -38,25 +27,25 @@ export function getSkill(
     skill => skill.name === skillName
   )[0];
 }
-
+*/
 export function getSpell(
   g: SimpleGame,
   playerId: string,
-  categoryName: SkillCategoryName
+  categoryName: ActionCategoryName
 ): Spell {
   return g[`${categoryName.toLowerCase()}SpellPlayer${playerId}`];
 }
-
+/*
 export function getSkillByCat(
   g: SimpleGame,
   playerId: string,
-  skillCategoryName: string
+  abilityCategoryName: string
 ): Skill {
   return g.playersContext[playerId].skills.filter(
-    skill => skill.skillCategory === skillCategoryName
+    skill => skill.abilityCategory === abilityCategoryName
   )[0];
 }
-
+*/
 export function getHealth(g: SimpleGame, avatarId: string): number {
   return g.avatars.filter(avatar => avatar.id === avatarId)[0].caracs
     .healthCurrent;
@@ -151,22 +140,6 @@ export function getInfos(g: SimpleGame): Array<String> {
   return g.infoMessages;
 }
 
-export function getActionStatus(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName
-): ActionTileStatus {
-  return getActionFlow(g, playerId, category).status;
-}
-
-export function getActionFlow(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName
-): ActionFlow {
-  return g[`actionsFlowPlayer${playerId}`][category];
-}
-
-export function getCategories(): Array<SkillCategoryName> {
-  return Object.keys(SkillCategoryLib).map(cat => SkillCategoryName[cat]);
+export function getCategories(): Array<ActionCategoryName> {
+  return Object.keys(ActionCategoryLib).map(cat => ActionCategoryName[cat]);
 }

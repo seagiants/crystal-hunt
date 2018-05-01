@@ -1,12 +1,13 @@
-import { SkillCategoryName, TriggerPhase } from "./skillLib";
+import { TriggerPhase } from "./skillLib";
 import { SimpleGame, GameContext } from "../types";
+import { Caracs, ActionCategoryName } from "../action/Action";
 
 /*
 Model for Action implementation.
   * Power : functions that transform the state based on caracs and target.
   * Caracs : key/value objects used to customize power effect.
   * Skill : objects that associates power with specific caracs.
-  * SkillCategory : Category name associated with a color.
+  * ActionCategory : Category name associated with a color.
 */
 
 export interface Power {
@@ -18,23 +19,10 @@ export interface Power {
   ): SimpleGame;
 }
 
-// Correspond to key/value pairs for game elements (player, monster, skill, spell) caracteristics.
-// Caracteristics are tagged name assiociated with some game logic.
-export interface Caracs {
-  [caracName: string]: number;
-}
-
-export interface SkillCategory {
-  name: SkillCategoryName;
-  color: string;
-  clickedColor: string;
-  exhaustedColor: string;
-}
-
 // Abstract interface, to group up common props between actions
 export interface ACTIONTEMPLATE {
   name: string; // Action name, used to describe the action
-  skillCategory: SkillCategoryName; // Dext,Stren,Intell,Wisd, To be renamed.
+  abilityCategory: ActionCategoryName; // Dext,Stren,Intell,Wisd, To be renamed.
   symbol: number;
   caracs: Caracs;
 }
@@ -106,10 +94,12 @@ export enum ActionTileStatus {
   Exhausted = "Exhausted",
   Avalaible = "Avalaible"
 }
-
-export type ActionsFlow = { [key in SkillCategoryName]: ActionFlow };
+/*
+export type ActionsFlow = { [key in ActionCategoryName]: ActionFlow };
 
 export interface ActionFlow {
+  actionCategory: ActionCategoryName;
   status: ActionTileStatus;
   exhaustCounter: number;
 }
+*/

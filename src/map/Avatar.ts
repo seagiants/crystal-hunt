@@ -1,15 +1,5 @@
 import { Avatar } from "./types";
-import { loadSkill } from "../action/Skill";
-import { SimpleGame, GameContext } from "../types";
-import {
-  getAvatarPosition,
-  getAvatarOnCell,
-  getAvatar,
-  getCell
-} from "../state/getters";
-import { toKey } from "./Cell";
-import { loadPower } from "../action/Power";
-import { Caracs } from "../action/type";
+import { Caracs } from "../action/Action";
 
 export enum AvatarTypeName {
   Player = "Player",
@@ -28,8 +18,7 @@ export function initPlayerAvatar(id: string, position: string): Avatar {
       attackRange: 1,
       moveRange: 1,
       drawNumber: 3
-    },
-    skills: [loadSkill("Move"), loadSkill("Crystallize"), loadSkill("Attack")]
+    }
   };
 }
 
@@ -54,11 +43,10 @@ export function initMonsterAvatar(
     caracs: {
       healthCurrent: healthCurrent,
       attackValue: attackValue
-    },
-    skills: [loadSkill("Attack")]
+    }
   };
 }
-
+/*
 // First implem' with monster attacks every player next to it.
 export function triggerMonsterSkill(
   g: SimpleGame,
@@ -97,3 +85,4 @@ export function triggerMonsterSkill(
   );
   return monsterTriggered;
 }
+*/

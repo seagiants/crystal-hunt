@@ -1,12 +1,15 @@
-import { Caracs, Skill, Power, CheckTarget, Enchantment, Spell } from "./type";
+/*
+import { Skill, Power, CheckTarget, Enchantment, Spell } from "./type";
 import { SimpleGame, GameContext } from "../types";
 import { getPlayerCaracs, getEquipmentPlayerCaracs } from "../state/getters";
 import { PowerLib } from "./powerLib";
 import { addInfoMessage } from "../state/setters";
 import { diminishChargeSpell } from "../state/gameLogic";
-
+import { Caracs } from "../action/Action";
+*/
 /* ****************************** Power API *********************** */
 // Used to get all added caracs of a power.
+/*
 export function getAddedCaracs(caracs1: Caracs, caracs2: Caracs): Caracs {
   let newCaracs: Caracs = { ...caracs1 };
   Object.keys(caracs2).forEach(carac => {
@@ -38,7 +41,7 @@ export function triggerPower(
   const infoMessage: string = action.powerName + " is trigerred on " + targetId;
   const withInfo: SimpleGame = addInfoMessage(g, infoMessage);
   const chargeDimished = (<Spell>action).charge
-    ? diminishChargeSpell(withInfo, ctx.currentPlayer, action.skillCategory)
+    ? diminishChargeSpell(withInfo, ctx.currentPlayer, action.abilityCategory)
     : withInfo;
   return loadPower(action.powerName)(
     chargeDimished,
@@ -47,7 +50,7 @@ export function triggerPower(
     caracsWithEquipments
   );
 }
-
+/*
 // Used to check if a target (cellId) is a valid targer for a power (aka powerName)
 export function checkTarget(
   skill: Skill,
@@ -66,10 +69,10 @@ export function checkTarget(
   );
   return loadCheckTarget(skill.powerName)(g, ctx, targetId, caracs);
 }
-
+*/
 /* ***************** Technical functions for API ************************* */
 // Factories for power related functions.
-
+/*
 // Power factory
 export function loadPower(powerName: string): Power {
   return PowerLib[powerName].power;
@@ -79,3 +82,4 @@ export function loadPower(powerName: string): Power {
 function loadCheckTarget(powerName: string): CheckTarget {
   return PowerLib[powerName].check;
 }
+*/

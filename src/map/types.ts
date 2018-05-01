@@ -1,7 +1,7 @@
 import { CellTypeName } from "./Cell";
-import { Caracs, Skill } from "../action/type";
 import { AvatarTypeName } from "./Avatar";
 import { SimpleGame, GameContext, Moves, Events } from "../types";
+import { Caracs } from "../action/Action";
 
 // ---- Components props interfaces ----- //
 export interface MapBoardProps {
@@ -34,7 +34,6 @@ export interface Avatar {
   type: AvatarTypeName;
   position: string;
   caracs: Caracs;
-  skills: Array<Skill>;
 }
 
 type RowPathMatrix = Array<number>;

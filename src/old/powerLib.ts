@@ -1,7 +1,7 @@
+/* 
 import {
   Power,
   CheckTarget,
-  Caracs,
   AttackCaracs,
   MoveCaracs,
   Skill,
@@ -18,8 +18,7 @@ import {
   getAvatarPosition,
   getCrystallized,
   getCategories,
-  hasUpgrade,
-  getSkillByCat
+  hasUpgrade
 } from "../state/getters";
 import {
   damage,
@@ -29,7 +28,7 @@ import {
   refreshAction
 } from "../state/gameLogic";
 import { findPath, toCoord } from "../map/Cell";
-import { drawEach, draw } from "../cards/gameLogic";
+import { drawEach, draw } from "../cards/cardLogic";
 import {
   loadCard,
   loadUpgrade,
@@ -37,7 +36,8 @@ import {
   loadEnchantment
 } from "../cards/Card";
 import { getBasicSkill } from "./Skill";
-import { SkillCategoryName } from "./skillLib";
+import { ActionCategoryName } from "./skillLib";
+import { Caracs } from "../action/Action";
 
 export const PowerLib: {
   [key in string]: { power: Power; check: CheckTarget }
@@ -284,8 +284,8 @@ export const PowerLib: {
         ctx.currentPlayer
       ].skills.map(
         skill =>
-          skill.skillCategory === card.skillCategory
-            ? getBasicSkill(card.skillCategory)
+          skill.abilityCategory === card.abilityCategory
+            ? getBasicSkill(card.abilityCategory)
             : skill
       );
       const basicSkillreturned: SimpleGame = {
@@ -321,8 +321,8 @@ export const PowerLib: {
         ctx.currentPlayer
       ].skills.map(
         skill =>
-          skill.skillCategory === SkillCategoryName.Wisdom
-            ? getBasicSkill(SkillCategoryName.Wisdom)
+          skill.abilityCategory === ActionCategoryName.Wisdom
+            ? getBasicSkill(ActionCategoryName.Wisdom)
             : skill
       );
       const basicSkillreturned: SimpleGame = {
@@ -340,3 +340,4 @@ export const PowerLib: {
     check: () => true
   }
 };
+*/

@@ -1,21 +1,30 @@
+import { CardLib } from "./cardLib";
 import {
-  SkillCategoryName,
-  CardLib,
-  SkillCategoryLib,
-  ActionType,
-  UpgradeLib
-} from "../action/skillLib";
-import { SkillCategory, Equipment, Enchantment, Spell } from "../action/type";
-import { Card } from "./types";
+  ActionTemplate,
+  CardTypeName,
+  ActionCategoryName,
+  ActionCategory
+} from "../action/Action";
+import { UpgradeLib } from "../action/ability/abilityLib";
+import { ActionCategoryLib } from "../action/actionLib";
 
-// Loaders for JSON data
+/** Defining Card based upon ActionTemplate,
+ * adding a optional charge counter (for spell only ??)
+ * and optional upgradeName (equipment only ?? Spell ??)
+ */
+export interface Card extends ActionTemplate {
+  charge?: number;
+  upgradeName?: string;
+}
+
+export type CardLibrairy = { [key in string]: Card };
 
 // Loader for Card
 export function loadCard(cardName: string): Card {
   return CardLib[cardName];
 }
 
-export function loadUpgrade(card: Card): Card {
+export function loadUpgrade(card: Card): ActionTemplate {
   return UpgradeLib[card.upgradeName!];
 }
 
@@ -37,10 +46,10 @@ export function shuffle<T>(array: T[]): T[] {
   return array;
 }
 /*
-export function loadCards(skillCategory: SkillCategoryName): Array<Card> {
+export function loadCards(abilityCategory: ActionCategoryName): Array<Card> {
   const test = Object.keys(CardLib).reduce(
     (temp, prop) =>
-      CardLib[prop].skillCategory === skillCategory
+      CardLib[prop].abilityCategory === abilityCategory
         ? [...temp, CardLib[prop]]
         : temp,
     []
@@ -50,10 +59,10 @@ export function loadCards(skillCategory: SkillCategoryName): Array<Card> {
 
 export function loadDecks(): Decks {
   return {
-    Dexterity: loadCards(SkillCategoryName.Dexterity),
-    Intelligence: loadCards(SkillCategoryName.Intelligence),
-    Wisdom: loadCards(SkillCategoryName.Wisdom),
-    Strength: loadCards(SkillCategoryName.Strength)
+    Dexterity: loadCards(ActionCategoryName.Dexterity),
+    Intelligence: loadCards(ActionCategoryName.Intelligence),
+    Wisdom: loadCards(ActionCategoryName.Wisdom),
+    Strength: loadCards(ActionCategoryName.Strength)
   };
 }
 */
@@ -68,18 +77,18 @@ export function loadDeck(): Array<Card> {
 
 // Loader for CardCategory
 export function loadCardCategory(
-  cardCategoryName: SkillCategoryName
-): SkillCategory {
-  return SkillCategoryLib[cardCategoryName];
+  cardCategoryName: ActionCategoryName
+): ActionCategory {
+  return ActionCategoryLib[cardCategoryName];
 }
 
 // Used to get the color of a Card
-export function getColor(card: Card): string {
-  return loadCardCategory(card.skillCategory).color;
+export function getCardColor(card: Card): string {
+  return loadCardCategory(card.abilityCategory).color;
 }
 
-export function getCardType(card: Card): ActionType {
-  return card.type;
+export function getCardType(card: Card): CardTypeName {
+  return card.cardType;
 }
 
 // A card name follow the pattern ThisIsACard
@@ -105,12 +114,11 @@ export const splitCardName = (name: string): string[] => {
   }
   return parts;
 };
-
+/*
 export function loadEquipment(card: Card): Equipment {
   return {
     name: card.name,
-    skillCategory: card.skillCategory,
-    symbol: card.symbol,
+    abilityCategory: card.abilityCategory,
     caracs: card.caracs
   };
 }
@@ -118,7 +126,7 @@ export function loadEquipment(card: Card): Equipment {
 export function loadSpell(card: Card): Spell {
   return {
     name: card.name,
-    skillCategory: card.skillCategory,
+    abilityCategory: card.abilityCategory,
     symbol: card.symbol,
     caracs: card.caracs,
     powerName: card.powerName,
@@ -130,10 +138,11 @@ export function loadSpell(card: Card): Spell {
 export function loadEnchantment(card: Card): Enchantment {
   return {
     name: card.name,
-    skillCategory: card.skillCategory,
+    abilityCategory: card.abilityCategory,
     symbol: card.symbol,
     caracs: card.caracs,
     powerName: card.powerName,
     trigger: card.trigger!
   };
 }
+*/

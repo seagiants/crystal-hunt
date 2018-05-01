@@ -19,8 +19,4 @@ describe("initPlayerAvatar", () => {
     };
     expect(avatar.caracs).toEqual(initCaracs);
   });
-  it("should create skills", () => {
-    const avatar = initPlayerAvatar("0", "0x0");
-    expect(avatar.skills).not.toBeNull();
-  });
 });

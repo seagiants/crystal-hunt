@@ -1,6 +1,3 @@
-import { Skill, SkillCategory } from "./type";
-import { Card } from "../cards/types";
-
 export enum SkillName {
   Move = "Move",
   Crystallize = "Crystallize",
@@ -8,30 +5,24 @@ export enum SkillName {
   Draw = "Draw"
 }
 
-export enum SkillCategoryName {
-  Dexterity = "Dexterity",
-  Intelligence = "Intelligence",
-  Wisdom = "Wisdom",
-  Strength = "Strength"
-}
-
+/*
 export enum ActionType {
   Spell = "Spell",
   Skill = "Skill",
   Equipment = "Equipment",
   Enchantment = "Enchantment"
 }
-
+*/
 export enum TriggerPhase {
   TurnStart = "TurnStart",
   TurnEnd = "TurnEnd"
 }
-
+/*
 export const CardLib: { [key: string]: Card } = {
   Sword: {
     name: "Sword",
     type: ActionType.Equipment,
-    skillCategory: SkillCategoryName.Strength,
+    abilityCategory: ActionCategoryName.Strength,
     isTargetRequired: true,
     upgradeName: "SwordOfPower",
     caracs: {
@@ -43,7 +34,7 @@ export const CardLib: { [key: string]: Card } = {
   CrystalAffinity: {
     name: "CrystalAffinity",
     type: ActionType.Enchantment,
-    skillCategory: SkillCategoryName.Wisdom,
+    abilityCategory: ActionCategoryName.Wisdom,
     isTargetRequired: false,
     trigger: TriggerPhase.TurnEnd,
     caracs: {
@@ -55,7 +46,7 @@ export const CardLib: { [key: string]: Card } = {
   SummonMonster: {
     name: "SummonMonster",
     type: ActionType.Spell,
-    skillCategory: SkillCategoryName.Strength,
+    abilityCategory: ActionCategoryName.Strength,
     isTargetRequired: true,
     charge: 2,
     caracs: {
@@ -67,7 +58,7 @@ export const CardLib: { [key: string]: Card } = {
   GoldenShoes: {
     name: "GoldenShoes",
     type: ActionType.Enchantment,
-    skillCategory: SkillCategoryName.Dexterity,
+    abilityCategory: ActionCategoryName.Dexterity,
     isTargetRequired: false,
     trigger: TriggerPhase.TurnEnd,
     caracs: {},
@@ -77,7 +68,7 @@ export const CardLib: { [key: string]: Card } = {
   Fireball: {
     name: "Fireball",
     type: ActionType.Spell,
-    skillCategory: SkillCategoryName.Strength,
+    abilityCategory: ActionCategoryName.Strength,
     isTargetRequired: true,
     charge: 2,
     caracs: {
@@ -90,7 +81,7 @@ export const CardLib: { [key: string]: Card } = {
   SevenLeagueBoots: {
     name: "SevenLeagueBoots",
     type: ActionType.Equipment,
-    skillCategory: SkillCategoryName.Dexterity,
+    abilityCategory: ActionCategoryName.Dexterity,
     isTargetRequired: true,
     caracs: {
       moveRange: 2
@@ -101,7 +92,7 @@ export const CardLib: { [key: string]: Card } = {
   MentalExplosion: {
     name: "MentalExplosion",
     type: ActionType.Spell,
-    skillCategory: SkillCategoryName.Intelligence,
+    abilityCategory: ActionCategoryName.Intelligence,
     isTargetRequired: false,
     charge: 2,
     caracs: {},
@@ -111,7 +102,7 @@ export const CardLib: { [key: string]: Card } = {
   SetATrickyTrap: {
     name: "SetATrickyTrap",
     type: ActionType.Spell,
-    skillCategory: SkillCategoryName.Dexterity,
+    abilityCategory: ActionCategoryName.Dexterity,
     isTargetRequired: true,
     charge: 1,
     caracs: {},
@@ -121,7 +112,7 @@ export const CardLib: { [key: string]: Card } = {
   CrystalFiiiiiz: {
     name: "CrystalFiiiiiz",
     type: ActionType.Enchantment,
-    skillCategory: SkillCategoryName.Wisdom,
+    abilityCategory: ActionCategoryName.Wisdom,
     isTargetRequired: false,
     trigger: TriggerPhase.TurnEnd,
     caracs: {},
@@ -134,7 +125,7 @@ export const UpgradeLib: { [key: string]: Card } = {
   SwordOfPower: {
     name: "SwordOfPower",
     type: ActionType.Equipment,
-    skillCategory: SkillCategoryName.Strength,
+    abilityCategory: ActionCategoryName.Strength,
     isTargetRequired: true,
     upgradeName: "SwordOfPower",
     caracs: {
@@ -148,7 +139,7 @@ export const UpgradeLib: { [key: string]: Card } = {
 export const BasicSkillLib: { [key in SkillName]: Skill } = {
   Move: {
     name: SkillName.Move,
-    skillCategory: SkillCategoryName.Dexterity,
+    abilityCategory: ActionCategoryName.Dexterity,
     symbol: 1,
     isTargetRequired: true,
     powerName: "Move",
@@ -158,7 +149,7 @@ export const BasicSkillLib: { [key in SkillName]: Skill } = {
   },
   Crystallize: {
     name: SkillName.Crystallize,
-    skillCategory: SkillCategoryName.Wisdom,
+    abilityCategory: ActionCategoryName.Wisdom,
     symbol: 2,
     isTargetRequired: false,
     powerName: "Crystallize",
@@ -168,7 +159,7 @@ export const BasicSkillLib: { [key in SkillName]: Skill } = {
   },
   Attack: {
     name: SkillName.Attack,
-    skillCategory: SkillCategoryName.Strength,
+    abilityCategory: ActionCategoryName.Strength,
     symbol: 3,
     isTargetRequired: true,
     powerName: "Attack",
@@ -178,7 +169,7 @@ export const BasicSkillLib: { [key in SkillName]: Skill } = {
   },
   Draw: {
     name: SkillName.Draw,
-    skillCategory: SkillCategoryName.Intelligence,
+    abilityCategory: ActionCategoryName.Intelligence,
     symbol: 3,
     isTargetRequired: false,
     powerName: "Draw",
@@ -187,30 +178,4 @@ export const BasicSkillLib: { [key in SkillName]: Skill } = {
     }
   }
 };
-
-export const SkillCategoryLib: { [key in SkillCategoryName]: SkillCategory } = {
-  Dexterity: {
-    name: SkillCategoryName.Dexterity,
-    color: "#009933",
-    clickedColor: "#66ff66",
-    exhaustedColor: "gray"
-  },
-  Intelligence: {
-    name: SkillCategoryName.Intelligence,
-    color: "#0000ff",
-    clickedColor: "#3399ff",
-    exhaustedColor: "gray"
-  },
-  Wisdom: {
-    name: SkillCategoryName.Wisdom,
-    color: "#ffff00",
-    clickedColor: "#ffff99",
-    exhaustedColor: "gray"
-  },
-  Strength: {
-    name: SkillCategoryName.Strength,
-    color: "#ff0005",
-    clickedColor: "#ff5050",
-    exhaustedColor: "gray"
-  }
-};
+*/

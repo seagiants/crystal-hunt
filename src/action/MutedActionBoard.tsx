@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Skill } from "./type";
 import { TilesBoardProps } from "../types";
-import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
-import { getSkillByCat } from "../state/getters";
+import { Action, ActionCategoryName } from "./Action";
+import { getActiveAction } from "../action/actionLogic";
+import { ActionCategoryLib } from "./actionLib";
 
 const style = {
   width: "10%"
 };
 
 interface MutedActionTileProps {
-  skill: Skill;
+  action: Action;
 }
 
 const MutedActionTile = (props: MutedActionTileProps) => {
@@ -24,7 +24,7 @@ const MutedActionTile = (props: MutedActionTileProps) => {
         stroke="black"
       />
       <text x="10" y="50">
-        {props.skill.name}
+        {props.action.name}
       </text>
     </svg>
   );
@@ -34,12 +34,16 @@ const MutedActionsBoard = (props: TilesBoardProps) => {
   // Render ActionTiles by Category, one for each CategoryName.
   return (
     <div style={style}>
-      {Object.keys(SkillCategoryLib).map(
-        (skillCategoryName: SkillCategoryName, idx: number) => {
+      {Object.keys(ActionCategoryLib).map(
+        (abilityCategoryName: ActionCategoryName, idx: number) => {
           return (
             <MutedActionTile
               key={`ActionTile${idx}${props.playerId}`}
-              skill={getSkillByCat(props.G, props.playerId, skillCategoryName)}
+              action={getActiveAction(
+                props.G,
+                props.playerId,
+                abilityCategoryName
+              )}
             />
           );
         }

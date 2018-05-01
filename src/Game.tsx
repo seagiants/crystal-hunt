@@ -1,64 +1,58 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
 import { Game } from "boardgame.io/core";
-import { TriggerPhase, SkillCategoryName } from "./action/skillLib";
+import { TriggerPhase } from "./old/skillLib";
 import { initMapSetup } from "./map/mapDefinitions";
 import { getSelectedActionCategory, getHealth } from "./state/getters";
-import { setSelectedAction, resetActionCount } from "./state/setters";
-import { loadSkill } from "./action/Skill";
-import { triggerPower } from "./action/Power";
+import { setSelectedAction } from "./state/setters";
 import { toKey, toPathMatrix } from "./map/Cell";
-import { triggerMonsterSkill } from "./map/Avatar";
-import { Avatar } from "./map/types";
 import {
-  triggerEnchantments,
-  plugCard,
   cleanDeadMonsters,
-  getActiveAction,
   getBlackCrystalCellAvatarId,
-  cleanExhaustedSpell,
   updateActionsStatus,
   setActionClicked,
-  finalizeAction
+  cleanDeadAction
 } from "./state/gameLogic";
 import { loadDeck } from "./cards/Card";
 import { getCards } from "./cards/stateAccessors";
-import { discardCards } from "./cards/gameLogic";
-import { ActionTileStatus, ActionsFlow, ActionFlow } from "./action/type";
+import { discardCards, plugCard } from "./cards/cardLogic";
+import { ActionTileStatus } from "./old/type";
+import {
+  loadBasicActions,
+  resetActionCount,
+  upActionCount
+} from "./action/actionStateHandling";
+import { ActionsFlow, ActionFlow, ActionCategoryName } from "./action/Action";
+import {
+  getActiveAction,
+  triggerAction,
+  isTargetRequired,
+  autoTarget,
+  exhaustAction,
+  autoTriggerActions
+} from "./action/actionLogic";
 
 // Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
   return {
     playerID: playerId,
-    skills: [
-      loadSkill("Move"),
-      loadSkill("Draw"),
-      loadSkill("Crystallize"),
-      loadSkill("Attack")
-    ],
-    selectedSkill: null,
-    caracs: {
-      healthInit: 5,
-      healthCurrent: 5,
-      attackValue: 1,
-      attackRange: 1,
-      moveRange: 1,
-      drawNumber: 3
-    },
-    cards: []
+    actions: loadBasicActions(playerId),
+    cards: [],
+    actionFlows: initActionsFlow()
   };
 }
 
 // Todo : Refactor
 function initActionsFlow(): ActionsFlow {
-  const initActionFlow = (): ActionFlow => ({
+  const initActionFlow = (category: ActionCategoryName): ActionFlow => ({
     status: ActionTileStatus.Avalaible,
+    actionCategory: category,
     exhaustCounter: 0
   });
   return {
-    Dexterity: initActionFlow(),
-    Intelligence: initActionFlow(),
-    Wisdom: initActionFlow(),
-    Strength: initActionFlow()
+    Dexterity: initActionFlow(ActionCategoryName.Dexterity),
+    Intelligence: initActionFlow(ActionCategoryName.Intelligence),
+    Wisdom: initActionFlow(ActionCategoryName.Wisdom),
+    Strength: initActionFlow(ActionCategoryName.Strength)
   };
 }
 
@@ -71,7 +65,7 @@ const CrystalHunt = Game({
       map: basicSetup.map.cells,
       xMax: basicSetup.map.xMax,
       yMax: basicSetup.map.yMax,
-      playersContext: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
+      players: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
       avatars: basicSetup.basicAvatars,
       blackCrystalCellId: basicSetup.blackCrystalCellId,
       monsterCounter: 2,
@@ -79,8 +73,6 @@ const CrystalHunt = Game({
       selectedAction: null,
       decksPlayer0: loadDeck(),
       decksPlayer1: loadDeck(),
-      actionsFlowPlayer0: initActionsFlow(),
-      actionsFlowPlayer1: initActionsFlow(),
       infoMessages: ["Game started"],
       pathMatrix: []
     };
@@ -89,12 +81,11 @@ const CrystalHunt = Game({
     // it seems that G and ctx are injected
     activateCell: (G: SimpleGame, ctx: GameContext, cellXY: number[]) => {
       /* activateCell Workflow :
-        - Retrieve Skill (TODO : failover if no skill)
-        - Trigger Skill (TODO : check prior conditions)
-        - Unselect skill
+        - Retrieve Action (TODO : failover if no skill)
+        - If action, Trigger Action (TODO : check prior conditions)
+        - Unselect Action
         - endTurn
-        TODO : Log the action, to display to players.
-        */
+      */
       const selectedActionCategory = getSelectedActionCategory(
         G,
         ctx.currentPlayer
@@ -106,37 +97,42 @@ const CrystalHunt = Game({
         ctx.currentPlayer,
         selectedActionCategory!
       );
-      const playerMoved = triggerPower(
-        selectedAction,
-        G,
-        ctx,
-        toKey(cellXY[0], cellXY[1])
-      );
-      const actionSaved: SimpleGame = setSelectedAction(
-        playerMoved,
+      // The failover is probably useless as
+      const actionTriggered =
+        selectedAction !== null && selectedAction !== undefined
+          ? triggerAction(
+              G,
+              selectedAction,
+              ctx.currentPlayer,
+              toKey(cellXY[0], cellXY[1])
+            )
+          : G;
+      const actionUnsaved: SimpleGame = setSelectedAction(
+        actionTriggered,
         null,
         ctx.currentPlayer
       );
-      const actionFinalized: SimpleGame = finalizeAction(
-        actionSaved,
+      const actionFinalized: SimpleGame = exhaustAction(
+        actionUnsaved,
         ctx.currentPlayer,
-        selectedActionCategory!
+        selectedAction
       );
       return actionFinalized;
     },
     activateAction: (
       G: SimpleGame,
       ctx: GameContext,
-      categoryName: SkillCategoryName
+      categoryName: ActionCategoryName
     ) => {
       /* activateAction workflow :
-        - Retrieve Active Action (Spell, if not Skill)
+        - Retrieve Active Action (Spell, if not, Equipment)
         - Mark Action Tile as clicked,
-        - Check if TargetRequired, Select the skill and wait for target.
-        - If not, Trigger the power,
-        - If not Cards end turn (To refactor!).
+        - Check if TargetRequired, Select the Action and wait for target.
+        - If not, Trigger the ability,
+        - If action is final, action is counted.
         TODO : Review endTurn workflow
       */
+      // Retrieving active Action.
       const action = getActiveAction(G, ctx.currentPlayer, categoryName);
       console.log("Activating " + categoryName);
       // Corresponding ActionTile is marked as clicked
@@ -145,30 +141,35 @@ const CrystalHunt = Game({
         ctx.currentPlayer,
         categoryName
       );
-      if (action.isTargetRequired) {
-        console.log(action.name + " is selected");
+      // Check if a target is required before triggering action.
+      if (isTargetRequired(action)) {
         // Corresponding category is stored in the state.
-        const skillSaved: SimpleGame = setSelectedAction(
+        const actionSaved: SimpleGame = setSelectedAction(
           actionClicked,
-          action.skillCategory,
+          action.abilityCategory,
           ctx.currentPlayer
         );
-        return skillSaved;
+        console.log(action.name + " is selected");
+        return actionSaved;
       } else {
-        console.log(action.name + " is triggered");
         // State is modified by the power.
+        // Then Action is exhausted.
         // By default, the triggered category is given as target (aka isTargetRequired = false)
-        const powerTriggered = triggerPower(
-          action,
+        const actionTriggered = triggerAction(
           actionClicked,
-          ctx,
-          action.skillCategory
+          action,
+          ctx.currentPlayer,
+          autoTarget(action)
         );
+        console.log(action.name + " is triggered");
         // ActionCount is finalized if no card is drawn.
         // Todo : Implement a better workflow
-        return getCards(powerTriggered, ctx.currentPlayer).length > 0
-          ? powerTriggered
-          : finalizeAction(powerTriggered, ctx.currentPlayer, categoryName);
+        const actionExhausted = exhaustAction(
+          actionTriggered,
+          ctx.currentPlayer,
+          action
+        );
+        return actionExhausted;
       }
     },
     activateCard: (
@@ -184,14 +185,9 @@ const CrystalHunt = Game({
       */
       const cardPlugged = plugCard(G, playerId, cardIndex);
       const cardsCleaned = discardCards(cardPlugged, playerId);
-      // TODO : Enhance, static Intelligence ref,
-      // buggy if other case than just an Intelligence Action could trigger "Pick a Card phase"
-      const actionFinalized = finalizeAction(
-        cardsCleaned,
-        playerId,
-        SkillCategoryName.Intelligence
-      );
-      return actionFinalized;
+      // When picking card, one action is counted.
+      const actionCounted = upActionCount(cardsCleaned);
+      return actionCounted;
     }
   },
 
@@ -216,23 +212,22 @@ const CrystalHunt = Game({
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.actionCount >= 2,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
       // EndTurn Workflow :
-      // Trigger EndTurnEchantment
-      const enchantmentTriggered = triggerEnchantments(
+      // Trigger EndTurn Actions
+      const endTurnActionsTriggered = autoTriggerActions(
         G,
-        ctx,
         ctx.currentPlayer,
         TriggerPhase.TurnEnd
       );
       // Deal with ActionStatus
       const actionStatusUpdated = updateActionsStatus(
-        enchantmentTriggered,
+        endTurnActionsTriggered,
         ctx.currentPlayer
       );
       // Clean Phase, to refactor ??
       // Clean deadMonsters
       const deadMonstersCleaned = cleanDeadMonsters(actionStatusUpdated);
       // Clean Exhausted Spell
-      const exhaustedSpellCleaned = cleanExhaustedSpell(
+      const exhaustedSpellCleaned = cleanDeadAction(
         deadMonstersCleaned,
         ctx.currentPlayer
       );
@@ -240,16 +235,10 @@ const CrystalHunt = Game({
       return resetActionCount(exhaustedSpellCleaned);
     },
     onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
-      let monsters = G.avatars.filter(avatar => avatar.type === "Monster");
-      let tempG = { ...G };
-      // Each monster will trigger their skill then pass the state to the next.
-      let reducer = (prevG: SimpleGame, currMonster: Avatar) =>
-        triggerMonsterSkill(prevG, ctx, currMonster.id);
-      const monstersTriggered = monsters.reduce(reducer, tempG);
       // Update pathMatrix.
       return {
-        ...monstersTriggered,
-        pathMatrix: toPathMatrix(monstersTriggered)
+        ...G,
+        pathMatrix: toPathMatrix(G)
       };
     },
     phases: [
