@@ -4,6 +4,8 @@ import {
   ActionLib,
   ActionCategory
 } from "./Action";
+import { SimpleGame } from "../types";
+import { initAction } from "./actionStateHandling";
 
 export const ActionCategoryLib: {
   [key in ActionCategoryName]: ActionCategory
@@ -67,6 +69,7 @@ export const BasicActionLib: ActionLib = {
     abilityCategory: ActionCategoryName.Intelligence,
     cardType: CardTypeName.Equipment,
     abilityId: "Draw",
+    isFinal: false,
     abilityCaracs: {
       drawCards: 3
     }
@@ -95,3 +98,13 @@ export const UpgradeLib: ActionLib = {
     abilityId: "Attack"
   }
 };
+
+/** Load monster action based on a actionName and a monsterId. */
+export function loadActionMonster(
+  g: SimpleGame,
+  monsterId: string,
+  actionName: string
+) {
+  const template = MonsterActionLib[actionName];
+  return initAction(template, monsterId, "monster");
+}

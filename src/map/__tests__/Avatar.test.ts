@@ -14,6 +14,7 @@ describe("initPlayerAvatar", () => {
       healthInit: 5,
       healthCurrent: 5,
       attackValue: 1,
+      drawNumber: 3,
       attackRange: 1,
       moveRange: 1
     };

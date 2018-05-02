@@ -1,6 +1,6 @@
 import { Caracs } from "../../action/Action";
 import { SimpleGame } from "../../types";
-import { loadAbilityChecker, loadAbilityReducer } from "./Ability";
+import { loadAbilityReducer, loadAbilityChecker } from "./abilityLib";
 
 /** Used to trigger an ability. */
 export function triggerAbility(

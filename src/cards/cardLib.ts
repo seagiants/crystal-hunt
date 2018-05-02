@@ -1,6 +1,7 @@
-import { TriggerPhase } from "../old/skillLib";
-import { ActionCategoryName, CardTypeName } from "../action/Action";
+import { ActionCategoryName, CardTypeName, Action } from "../action/Action";
 import { CardLibrairy } from "./Card";
+import { SimpleGame, TriggerPhase } from "../types";
+import { initAction } from "../action/actionStateHandling";
 
 export const CardLib: CardLibrairy = {
   CrystalAffinity: {
@@ -88,3 +89,14 @@ export const CardLib: CardLibrairy = {
     abilityId: "RefreshActionOnCrystal"
   }
 };
+
+/** ************** Loaders ************************ */
+/** Load Action for a player based on a card's name */
+export function loadActionFromTemplate(
+  g: SimpleGame,
+  avatarId: string,
+  cardName: string
+): Action {
+  const template = CardLib[cardName];
+  return initAction(template, avatarId, "default");
+}

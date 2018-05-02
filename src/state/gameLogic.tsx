@@ -1,4 +1,4 @@
-import { SimpleGame } from "../types";
+import { SimpleGame, TriggerPhase } from "../types";
 import {
   getHealthInit,
   getHealth,
@@ -32,11 +32,10 @@ import {
   ActionFlow,
   Caracs,
   ActionCategoryName,
-  loadActionMonster,
   Action
 } from "../action/Action";
 import { setNewAction } from "../action/actionLogic";
-import { TriggerPhase } from "../old/skillLib";
+import { loadActionMonster } from "../action/actionLib";
 
 // auto triggering enchantment logic
 // TODO : Handle several enchantment triggers

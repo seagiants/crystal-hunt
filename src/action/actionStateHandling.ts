@@ -105,7 +105,7 @@ export function getActionFlow(
   playerId: string,
   category: ActionCategoryName
 ): ActionFlow {
-  return g[`actionsFlowPlayer${playerId}`][category];
+  return g.players[playerId].actionFlows[category];
 }
 
 /** **************     Setters        ************** */
@@ -142,13 +142,10 @@ export function setActionFlow(
   category: ActionCategoryName,
   actionFlow: ActionFlow
 ): SimpleGame {
-  return {
-    ...g,
-    [`actionsFlowPlayer${playerId}`]: {
-      ...g[`actionsFlowPlayer${playerId}`],
-      [category]: actionFlow
-    }
-  };
+  const context = getPlayerContext(g, playerId);
+  const af = context.actionFlows;
+  const newAf = { ...af, [category]: actionFlow };
+  return setPlayerContext(g, playerId, { ...context, actionFlows: newAf });
 }
 
 export function setActionStatus(

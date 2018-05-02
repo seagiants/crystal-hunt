@@ -96,6 +96,11 @@ export interface PlayerCaracs extends Caracs {
   attackValue: number;
 }
 
+export enum TriggerPhase {
+  TurnStart = "TurnStart",
+  TurnEnd = "TurnEnd"
+}
+
 export interface PlayerContext {
   playerID: string;
   actions: Array<Action>;

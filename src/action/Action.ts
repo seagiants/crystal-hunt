@@ -1,9 +1,5 @@
 import { TriggerPhase } from "../old/skillLib";
 import { ActionTileStatus } from "../old/type";
-import { SimpleGame } from "../types";
-import { CardLib } from "../cards/cardLib";
-import { initAction } from "./actionStateHandling";
-import { MonsterActionLib } from "./actionLib";
 
 export enum ActionCategoryName {
   Dexterity = "Dexterity",
@@ -68,25 +64,4 @@ export interface ActionFlow {
   actionCategory: ActionCategoryName;
   status: ActionTileStatus;
   exhaustCounter: number;
-}
-
-/** ************** Loaders ************************ */
-/** Load Action for a player based on a card's name */
-export function loadActionFromTemplate(
-  g: SimpleGame,
-  avatarId: string,
-  cardName: string
-): Action {
-  const template = CardLib[cardName];
-  return initAction(template, avatarId, "default");
-}
-
-/** Load monster action based on a actionName and a monsterId. */
-export function loadActionMonster(
-  g: SimpleGame,
-  monsterId: string,
-  actionName: string
-) {
-  const template = MonsterActionLib[actionName];
-  return initAction(template, monsterId, "monster");
 }

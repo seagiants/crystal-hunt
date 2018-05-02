@@ -2,8 +2,7 @@ import {
   AbilityReducer,
   AbilityChecker,
   Ability,
-  AbilityTypeName,
-  loadAbilityReducer
+  AbilityTypeName
 } from "./Ability";
 import { MoveCaracs, AttackCaracs, DrawCaracs } from "../../old/type";
 import {
@@ -34,6 +33,12 @@ import {
   setIsTrapped
 } from "../../state/setters";
 import { draw } from "../../cards/cardLogic";
+import {
+  loadActionFromTemplate,
+  getAllActions,
+  setActions
+} from "../actionStateHandling";
+import { setNewAction } from "../actionLogic";
 
 export const AbilityLib: {
   [key in string]: {
@@ -377,6 +382,28 @@ export const AbilityLib: {
       }
     },
     check: (g: SimpleGame, avatarId: string, targetId) => true
+  },
+  Equip: {
+    ability: {
+      id: "Equip",
+      isTargetRequired: false,
+      abilityType: AbilityTypeName.Physical
+    },
+    power: (
+      g: SimpleGame,
+      avatarId: string,
+      targetId: string,
+      caracs: Caracs
+    ) => {
+      const action = loadActionFromTemplate(g, avatarId, targetId);
+      const newActions = setNewAction(
+        getAllActions(g, avatarId),
+        action,
+        avatarId
+      );
+      return setActions(g, avatarId, newActions);
+    },
+    check: () => true
   }
   // TODO : Refactor using correct setter/getter, need a refactor of Skills & PlayersContext state handling first.
   // TODO: Make it plugs on categorized prop (aka equipmentStrengthPlayer, or equipmentDexterityPlayer)
@@ -470,3 +497,17 @@ export const UpgradeLib: { [key: string]: ActionTemplate } = {
     abilityId: "Attack"
   }
 };
+
+export function loadAbility(abilityId: string): Ability {
+  return AbilityLib[abilityId].ability;
+}
+
+/** Retrieving the ability reducer function corresponding to the ability name/id (same??) */
+export function loadAbilityReducer(abilityId: string): AbilityReducer {
+  return AbilityLib[abilityId].power;
+}
+
+/** Retrieving the ability checker function corresponding to the ability name/id (same??) */
+export function loadAbilityChecker(abilityId: string): AbilityChecker {
+  return AbilityLib[abilityId].check;
+}

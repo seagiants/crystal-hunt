@@ -1,5 +1,4 @@
 import { SimpleGame } from "../../types";
-import { AbilityLib } from "./abilityLib";
 import {
   Caracs,
   ActionCategoryName,
@@ -32,20 +31,6 @@ export type AbilityChecker = (
   targetId: string,
   caracs: Caracs
 ) => boolean;
-
-export function loadAbility(abilityId: string): Ability {
-  return AbilityLib[abilityId].ability;
-}
-
-/** Retrieving the ability reducer function corresponding to the ability name/id (same??) */
-export function loadAbilityReducer(abilityId: string): AbilityReducer {
-  return AbilityLib[abilityId].power;
-}
-
-/** Retrieving the ability checker function corresponding to the ability name/id (same??) */
-export function loadAbilityChecker(abilityId: string): AbilityChecker {
-  return AbilityLib[abilityId].check;
-}
 
 /** Loading an ability from lib based on its name. */
 export function loadActionCategory(

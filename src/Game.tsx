@@ -1,6 +1,5 @@
 import { SimpleGame, GameContext, PlayerContext } from "./types/index";
 import { Game } from "boardgame.io/core";
-import { TriggerPhase } from "./old/skillLib";
 import { initMapSetup } from "./map/mapDefinitions";
 import { getSelectedActionCategory, getHealth } from "./state/getters";
 import { setSelectedAction } from "./state/setters";
@@ -56,27 +55,29 @@ function initActionsFlow(): ActionsFlow {
   };
 }
 
+export const setupGame = (): SimpleGame => {
+  // TODO : playersContext should be dropped and state flattened.
+  // TODO : dynamically set the monsterCounter.
+  const basicSetup = initMapSetup();
+  return {
+    map: basicSetup.map.cells,
+    xMax: basicSetup.map.xMax,
+    yMax: basicSetup.map.yMax,
+    players: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
+    avatars: basicSetup.basicAvatars,
+    blackCrystalCellId: basicSetup.blackCrystalCellId,
+    monsterCounter: 2,
+    actionCount: 0,
+    selectedAction: null,
+    decksPlayer0: loadDeck(),
+    decksPlayer1: loadDeck(),
+    infoMessages: ["Game started"],
+    pathMatrix: []
+  };
+};
+
 const CrystalHunt = Game({
-  setup: (): SimpleGame => {
-    // TODO : playersContext should be dropped and state flattened.
-    // TODO : dynamically set the monsterCounter.
-    const basicSetup = initMapSetup();
-    return {
-      map: basicSetup.map.cells,
-      xMax: basicSetup.map.xMax,
-      yMax: basicSetup.map.yMax,
-      players: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
-      avatars: basicSetup.basicAvatars,
-      blackCrystalCellId: basicSetup.blackCrystalCellId,
-      monsterCounter: 2,
-      actionCount: 0,
-      selectedAction: null,
-      decksPlayer0: loadDeck(),
-      decksPlayer1: loadDeck(),
-      infoMessages: ["Game started"],
-      pathMatrix: []
-    };
-  },
+  setup: (): SimpleGame => setupGame(),
   moves: {
     // it seems that G and ctx are injected
     activateCell: (G: SimpleGame, ctx: GameContext, cellXY: number[]) => {

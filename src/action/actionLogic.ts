@@ -5,13 +5,13 @@ import {
   upActionCount,
   setActionStatus
 } from "./actionStateHandling";
-import { SimpleGame } from "../types";
-import { TriggerPhase } from "../old/skillLib";
+import { SimpleGame, TriggerPhase } from "../types";
 import { Action, CardTypeName, Caracs, ActionCategoryName } from "./Action";
 import { addInfoMessage } from "../state/setters";
 import { ActionTileStatus } from "../old/type";
 import { triggerAbility, checkAbilityTarget } from "./ability/abilityLogic";
-import { loadActionCategory, loadAbility } from "./ability/Ability";
+import { loadActionCategory } from "./ability/Ability";
+import { loadAbility } from "./ability/abilityLib";
 
 // Used to get the color of a Skill
 export function getActionColor(
@@ -88,7 +88,7 @@ export function setNewAction(
   } else {
     const withoutOldAction = actions.filter(
       currentAction =>
-        currentAction.abilityCategory !== action.abilityCategory &&
+        currentAction.abilityCategory !== action.abilityCategory ||
         currentAction.cardType !== action.cardType
     );
     return [...withoutOldAction, action];
@@ -213,7 +213,7 @@ export function exhaustAction(g: SimpleGame, playerId: string, action: Action) {
   );
   // Up Action counter if action is final
   const actionCounted =
-    action.isFinal !== undefined && action.isFinal !== false
+    action.isFinal !== false
       ? upActionCount(exhaustActionTile)
       : exhaustActionTile;
   return actionCounted;
