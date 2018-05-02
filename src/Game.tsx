@@ -1,4 +1,9 @@
-import { SimpleGame, GameContext, PlayerContext } from "./types/index";
+import {
+  SimpleGame,
+  GameContext,
+  PlayerContext,
+  TriggerPhase
+} from "./types/index";
 import { Game } from "boardgame.io/core";
 import { initMapSetup } from "./map/mapDefinitions";
 import { getSelectedActionCategory, getHealth } from "./state/getters";

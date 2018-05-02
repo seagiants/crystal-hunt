@@ -13,10 +13,6 @@ export enum ActionType {
   Enchantment = "Enchantment"
 }
 */
-export enum TriggerPhase {
-  TurnStart = "TurnStart",
-  TurnEnd = "TurnEnd"
-}
 /*
 export const CardLib: { [key: string]: Card } = {
   Sword: {
