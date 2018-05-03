@@ -55,7 +55,7 @@ describe("basic action workflow", () => {
     expect(af.exhaustCounter).toEqual(0);
     expect(af.status).toEqual(ActionTileStatus.Avalaible);
   });
-  it("When setted new value of status should be exhausted", () => {
+  it("After set to Exhausted, new value of status should be exhausted", () => {
     const b = setActionStatus(
       g,
       PLAYER_ID,
@@ -78,9 +78,7 @@ describe("basic action workflow", () => {
     const action3 = getAllActions(g, PLAYER_ID).map(
       (current, index) => (index === 0 ? { ...current, charge: 0 } : current)
     );
-    expect(action3[0].charge).toEqual(0);
     const gWithDeadAction = setActions(g, PLAYER_ID, action3);
-    expect(getAllActions(gWithDeadAction, PLAYER_ID)[0].charge).toEqual(0);
     const gAfterCleaned = cleanDeadAction(gWithDeadAction, PLAYER_ID);
     expect(getAllActions(gAfterCleaned, PLAYER_ID).length).toEqual(3);
   });
