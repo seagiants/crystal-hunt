@@ -4,9 +4,15 @@ import {
   getActionStatus,
   setActionStatus,
   getActionFlow,
-  upActionCount
+  upActionCount,
+  setActions
 } from "../actionStateHandling";
-import { getActionColor, exhaustAction, triggerAction } from "../actionLogic";
+import {
+  getActionColor,
+  exhaustAction,
+  triggerAction,
+  cleanDeadAction
+} from "../actionLogic";
 import { ActionTileStatus } from "../../old/type";
 import { setupGame } from "../../Game";
 import { ActionCategoryName } from "../Action";
@@ -67,6 +73,16 @@ describe("basic action workflow", () => {
     const c = getActionStatus(b, PLAYER_ID, CATEGORY);
     expect(c).toEqual(ActionTileStatus.Exhausted);
     expect(b.actionCount).toEqual(1);
+  });
+  it("When action charge < 1, action should be cleaned", () => {
+    const action3 = getAllActions(g, PLAYER_ID).map(
+      (current, index) => (index === 0 ? { ...current, charge: 0 } : current)
+    );
+    expect(action3[0].charge).toEqual(0);
+    const gWithDeadAction = setActions(g, PLAYER_ID, action3);
+    expect(getAllActions(gWithDeadAction, PLAYER_ID)[0].charge).toEqual(0);
+    const gAfterCleaned = cleanDeadAction(gWithDeadAction, PLAYER_ID);
+    expect(getAllActions(gAfterCleaned, PLAYER_ID).length).toEqual(3);
   });
 });
 

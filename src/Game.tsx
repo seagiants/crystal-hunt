@@ -13,8 +13,7 @@ import {
   cleanDeadMonsters,
   getBlackCrystalCellAvatarId,
   updateActionsStatus,
-  setActionClicked,
-  cleanDeadAction
+  setActionClicked
 } from "./state/gameLogic";
 import { loadDeck } from "./cards/Card";
 import { getCards } from "./cards/stateAccessors";
@@ -27,6 +26,7 @@ import {
 } from "./action/actionStateHandling";
 import { ActionsFlow, ActionFlow, ActionCategoryName } from "./action/Action";
 import {
+  cleanDeadAction,
   getActiveAction,
   triggerAction,
   isTargetRequired,

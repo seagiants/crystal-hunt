@@ -3,7 +3,8 @@ import {
   getAvatarCaracs,
   setActionCharge,
   upActionCount,
-  setActionStatus
+  setActionStatus,
+  setActions
 } from "./actionStateHandling";
 import { SimpleGame, TriggerPhase } from "../types";
 import { Action, CardTypeName, Caracs, ActionCategoryName } from "./Action";
@@ -206,6 +207,16 @@ export function getActionCaracs(
   const avatarCaracs = getAvatarCaracs(g, avatarId);
   const actionCaracs = action.abilityCaracs;
   return addCaracs(avatarCaracs, actionCaracs);
+}
+
+/** Clean Actions with a charge < 1 */
+export function cleanDeadAction(g: SimpleGame, playerId: string): SimpleGame {
+  // Clean an action if its charge < 1.
+  const actionsCleaned = getAllActions(g, playerId).filter(
+    currentAction =>
+      currentAction.charge !== undefined ? currentAction.charge > 0 : true
+  );
+  return setActions(g, playerId, actionsCleaned);
 }
 
 /** Used to add caracs

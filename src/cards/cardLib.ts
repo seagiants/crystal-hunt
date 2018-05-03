@@ -69,6 +69,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Spell,
     abilityCategory: ActionCategoryName.Intelligence,
     charge: 2,
+    isFinal: false,
     abilityCaracs: {},
     abilityId: "DoubleDraw"
   },
