@@ -16,15 +16,19 @@ import {
   setActionClicked
 } from "./state/gameLogic";
 import { loadDeck } from "./cards/Card";
-import { getCards } from "./cards/stateAccessors";
+import { getCards } from "./cards/cardStateHandling";
 import { discardCards, plugCard } from "./cards/cardLogic";
-import { ActionTileStatus } from "./old/type";
 import {
   loadBasicActions,
   resetActionCount,
   upActionCount
 } from "./action/actionStateHandling";
-import { ActionsFlow, ActionFlow, ActionCategoryName } from "./action/Action";
+import {
+  ActionsFlow,
+  ActionFlow,
+  ActionCategoryName,
+  ActionTileStatus
+} from "./action/Action";
 import {
   cleanDeadAction,
   getActiveAction,
@@ -64,7 +68,7 @@ export const setupGame = (): SimpleGame => {
   // TODO : playersContext should be dropped and state flattened.
   // TODO : dynamically set the monsterCounter.
   const basicSetup = initMapSetup();
-  return {
+  const newG = {
     map: basicSetup.map.cells,
     xMax: basicSetup.map.xMax,
     yMax: basicSetup.map.yMax,
@@ -79,6 +83,7 @@ export const setupGame = (): SimpleGame => {
     infoMessages: ["Game started"],
     pathMatrix: []
   };
+  return newG;
 };
 
 const CrystalHunt = Game({

@@ -3,8 +3,7 @@ import * as Mousetrap from "mousetrap";
 
 import { TilesBoardProps, SimpleGame } from "../types";
 import { getActiveAction, getActionColor } from "../action/actionLogic";
-import { ActionTileStatus } from "../old/type";
-import { Action, ActionCategoryName } from "./Action";
+import { Action, ActionCategoryName, ActionTileStatus } from "./Action";
 import { ActionCategoryLib } from "./actionLib";
 import { getActionStatus } from "./actionStateHandling";
 

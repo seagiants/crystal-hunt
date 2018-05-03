@@ -5,11 +5,11 @@ import {
   ActionTemplate,
   CardTypeName,
   ActionCategoryName,
-  ActionFlow
+  ActionFlow,
+  ActionTileStatus
 } from "./Action";
 import { CardLib } from "./../cards/cardLib";
 import { getAvatar } from "../state/getters";
-import { ActionTileStatus } from "../old/type";
 import { BasicActionLib } from "./actionLib";
 
 /** ****************** Loaders ********************************* */

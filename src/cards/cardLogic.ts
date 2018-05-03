@@ -5,7 +5,7 @@ import {
   getCards,
   getDeck,
   getCard
-} from "../cards/stateAccessors";
+} from "../cards/cardStateHandling";
 import { Card, getCardType } from "./Card";
 import { CardTypeName, Action, ActionCategoryName } from "../action/Action";
 import {

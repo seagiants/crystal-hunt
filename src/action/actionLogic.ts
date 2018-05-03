@@ -7,9 +7,14 @@ import {
   setActions
 } from "./actionStateHandling";
 import { SimpleGame, TriggerPhase } from "../types";
-import { Action, CardTypeName, Caracs, ActionCategoryName } from "./Action";
+import {
+  Action,
+  CardTypeName,
+  Caracs,
+  ActionCategoryName,
+  ActionTileStatus
+} from "./Action";
 import { addInfoMessage } from "../state/setters";
-import { ActionTileStatus } from "../old/type";
 import { triggerAbility, checkAbilityTarget } from "./ability/abilityLogic";
 import { loadActionCategory } from "./ability/Ability";
 import { loadAbility } from "./ability/abilityLib";

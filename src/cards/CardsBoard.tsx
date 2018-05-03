@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TilesBoardProps } from "../types";
-import { getCards } from "./stateAccessors";
+import { getCards } from "./cardStateHandling";
 import { Card, splitCardName, getCardColor } from "./Card";
 
 export interface CardTileProps {

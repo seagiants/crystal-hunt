@@ -4,6 +4,7 @@ import { CellTypeName } from "../map/Cell";
 import { Card } from "../cards/Card";
 import { Caracs, ActionCategoryName, Action } from "../action/Action";
 import { ActionCategoryLib } from "../action/actionLib";
+import { AvatarTypeName } from "../map/Avatar";
 
 export function getSelectedActionCategory(
   g: SimpleGame,
@@ -53,6 +54,10 @@ export function getAvatar(g: SimpleGame, avatarId: string): Avatar {
 
 export function getAvatarPosition(g: SimpleGame, avatarId: string): string {
   return getAvatar(g, avatarId).position;
+}
+
+export function getMonsters(g: SimpleGame): Array<Avatar> {
+  return g.avatars.filter(current => current.type === AvatarTypeName.Monster);
 }
 
 export function getMonsterCounter(g: SimpleGame): number {

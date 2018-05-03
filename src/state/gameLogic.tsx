@@ -15,7 +15,6 @@ import {
   addInfoMessage
 } from "./setters";
 import { Avatar } from "../map/types";
-import { ActionTileStatus } from "../old/type";
 import { initMonsterAvatar } from "../map/Avatar";
 import { toKey } from "../map/Cell";
 import {
@@ -31,7 +30,8 @@ import {
   ActionFlow,
   Caracs,
   ActionCategoryName,
-  Action
+  Action,
+  ActionTileStatus
 } from "../action/Action";
 import { setNewAction } from "../action/actionLogic";
 import { loadActionMonster } from "../action/actionLib";

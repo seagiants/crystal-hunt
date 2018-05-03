@@ -13,10 +13,9 @@ import {
   triggerAction,
   cleanDeadAction
 } from "../actionLogic";
-import { ActionTileStatus } from "../../old/type";
 import { setupGame } from "../../Game";
-import { ActionCategoryName } from "../Action";
-import { getCards } from "../../cards/stateAccessors";
+import { ActionCategoryName, ActionTileStatus } from "../Action";
+import { getCards } from "../../cards/cardStateHandling";
 
 const PLAYER_ID = "0";
 const CATEGORY = ActionCategoryName.Dexterity;

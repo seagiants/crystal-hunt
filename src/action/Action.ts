@@ -1,4 +1,3 @@
-import { ActionTileStatus } from "../old/type";
 import { TriggerPhase } from "../types";
 
 export enum ActionCategoryName {
@@ -56,6 +55,12 @@ export enum CardTypeName {
   Spell = "Spell",
   Equipment = "Equipment",
   Enchantment = "Enchantment"
+}
+
+export enum ActionTileStatus {
+  Clicked = "Clicked",
+  Exhausted = "Exhausted",
+  Avalaible = "Avalaible"
 }
 
 export type ActionsFlow = { [key in ActionCategoryName]: ActionFlow };

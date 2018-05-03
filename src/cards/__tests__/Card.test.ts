@@ -1,6 +1,6 @@
 import { splitCardName } from "../Card";
 import { setupGame } from "../../Game";
-import { getDeck, setCards } from "../stateAccessors";
+import { getDeck, setCards } from "../cardStateHandling";
 import { CardTypeName } from "../../action/Action";
 import { plugCard } from "../cardLogic";
 import { getAllActions } from "../../action/actionStateHandling";
