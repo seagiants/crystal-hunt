@@ -32,6 +32,32 @@ export type AbilityChecker = (
   caracs: Caracs
 ) => boolean;
 
+export interface AttackCaracs extends Caracs {
+  // Used to determine the attack damage.
+  attackValue: number;
+  // Used to determine the attack range.
+  attackRange: number;
+  [caracName: string]: number;
+}
+
+export interface MoveCaracs extends Caracs {
+  // Used to determine the movement capacity.
+  moveRange: number;
+  [caracName: string]: number;
+}
+
+export interface HealCaracs extends Caracs {
+  // Used to determine the health points to restore.
+  healValue: number;
+  [caracName: string]: number;
+}
+
+export interface DrawCaracs extends Caracs {
+  // Used to determine the number of drawn cards.
+  drawNumber: number;
+  [caracName: string]: number;
+}
+
 /** Loading an ability from lib based on its name. */
 export function loadActionCategory(
   abilityCategoryName: ActionCategoryName

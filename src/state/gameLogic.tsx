@@ -2,7 +2,6 @@ import { SimpleGame, TriggerPhase } from "../types";
 import {
   getHealthInit,
   getHealth,
-  getSpell,
   getMonsterCounter,
   getBlackCrystalCellId,
   getAvatarOnCell,
@@ -225,7 +224,7 @@ export function plugSpell(
   return { ...g, [`${category}SpellPlayer${playerId}`]: loadSpell(card) };
 }
 */
-
+/*
 // TODO : Use only setters
 // TODO : Better handling of charge caracs.
 export function diminishChargeSpell(
@@ -253,7 +252,7 @@ export function diminishChargeSpell(
     }
   };
 }
-
+*/
 /*
 // Active Action is the spell one if any, if not it's the skill one.
 export function getActiveAction(

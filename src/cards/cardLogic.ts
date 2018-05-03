@@ -52,7 +52,7 @@ export function plugEnchantment(
     avatarId: playerId,
     abilityCategory: ActionCategoryName.Intelligence,
     abilityCaracs: {},
-    abilityId: "Enchant"
+    abilityId: "Equip"
   };
   const withEnchantActions = setNewAction(
     getAllActions(g, playerId),

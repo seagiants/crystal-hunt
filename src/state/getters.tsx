@@ -1,10 +1,8 @@
 import { SimpleGame } from "../types";
-import { Equipment, Enchantment, ACTIONTEMPLATE, Spell } from "../old/type";
-import { TriggerPhase } from "../old/skillLib";
 import { Cell, Avatar } from "../map/types";
 import { CellTypeName } from "../map/Cell";
 import { Card } from "../cards/Card";
-import { Caracs, ActionCategoryName } from "../action/Action";
+import { Caracs, ActionCategoryName, Action } from "../action/Action";
 import { ActionCategoryLib } from "../action/actionLib";
 
 export function getSelectedActionCategory(
@@ -14,7 +12,7 @@ export function getSelectedActionCategory(
   return g.selectedAction;
 }
 
-export function getCategory(action: ACTIONTEMPLATE): ActionCategoryName {
+export function getCategory(action: Action): ActionCategoryName {
   return action.abilityCategory;
 }
 /*
@@ -28,13 +26,6 @@ export function getSkill(
   )[0];
 }
 */
-export function getSpell(
-  g: SimpleGame,
-  playerId: string,
-  categoryName: ActionCategoryName
-): Spell {
-  return g[`${categoryName.toLowerCase()}SpellPlayer${playerId}`];
-}
 /*
 export function getSkillByCat(
   g: SimpleGame,
@@ -75,7 +66,7 @@ export function getPlayerCaracs(g: SimpleGame, playerId: string): Caracs {
 export function hasUpgrade(card: Card): boolean {
   return card.upgradeName !== undefined;
 }
-
+/*
 export function getEquipment(
   g: SimpleGame,
   playerId: string,
@@ -110,7 +101,7 @@ export function getEnchantmentTrigger(
     ? g[`enchantmentPlayer${playerId}`].trigger
     : null;
 }
-
+*/
 // TODO : Should be Cell method, or Cell class is useless.
 export function getAvatarOnCell(g: SimpleGame, cellId: string): string | null {
   return g.map[cellId].avatar;

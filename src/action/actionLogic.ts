@@ -183,27 +183,6 @@ export function autoTarget(action: Action): string | undefined {
   return action.autoTarget;
 }
 
-// Finalizing an Action : Up action Counter, set Action Tile to exhausted, clean saved Action
-/*
-export function finalizeAction(
-  g: SimpleGame,
-  playerId: string,
-  category: ActionCategoryName
-): SimpleGame {
-  // Up Action counter if action is final
-  const actionCounted = upActionCount(g);
-  // Exhaust used Action
-  const actionExhausted = setActionStatus(
-    actionCounted,
-    playerId,
-    category,
-    ActionTileStatus.Exhausted
-  );
-  // Clean saved action
-  return setSelectedAction(actionExhausted, null, playerId);
-}
-*/
-
 export function exhaustAction(g: SimpleGame, playerId: string, action: Action) {
   const exhaustActionTile = setActionStatus(
     g,

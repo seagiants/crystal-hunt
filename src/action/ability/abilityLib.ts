@@ -2,9 +2,11 @@ import {
   AbilityReducer,
   AbilityChecker,
   Ability,
-  AbilityTypeName
+  AbilityTypeName,
+  MoveCaracs,
+  AttackCaracs,
+  DrawCaracs
 } from "./Ability";
-import { MoveCaracs, AttackCaracs, DrawCaracs } from "../../old/type";
 import {
   Caracs,
   ActionTemplate,
@@ -318,7 +320,7 @@ export const AbilityLib: {
   DoubleDraw: {
     ability: {
       id: "DoubleDraw",
-      isTargetRequired: true,
+      isTargetRequired: false,
       abilityType: AbilityTypeName.Physical
     },
     power: (

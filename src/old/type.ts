@@ -1,6 +1,5 @@
-import { TriggerPhase } from "./skillLib";
 import { SimpleGame, GameContext } from "../types";
-import { Caracs, ActionCategoryName } from "../action/Action";
+import { Caracs } from "../action/Action";
 
 /*
 Model for Action implementation.
@@ -9,7 +8,7 @@ Model for Action implementation.
   * Skill : objects that associates power with specific caracs.
   * ActionCategory : Category name associated with a color.
 */
-
+/*
 export interface Power {
   (
     G: SimpleGame,
@@ -79,7 +78,7 @@ export interface DrawCaracs extends Caracs {
   drawNumber: number;
   [caracName: string]: number;
 }
-
+*/
 export interface CheckTarget {
   (
     G: SimpleGame,

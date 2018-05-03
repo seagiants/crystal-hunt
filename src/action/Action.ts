@@ -1,5 +1,5 @@
-import { TriggerPhase } from "../old/skillLib";
 import { ActionTileStatus } from "../old/type";
+import { TriggerPhase } from "../types";
 
 export enum ActionCategoryName {
   Dexterity = "Dexterity",
