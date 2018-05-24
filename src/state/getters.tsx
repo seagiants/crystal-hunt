@@ -1,10 +1,10 @@
 import { SimpleGame } from "../types";
-import { Cell, Avatar } from "../map/types";
+import { Cell } from "../map/types";
 import { CellTypeName } from "../map/Cell";
 import { Card } from "../cards/Card";
 import { Caracs, ActionCategoryName, Action } from "../action/Action";
 import { ActionCategoryLib } from "../action/actionLib";
-import { AvatarTypeName } from "../map/Avatar";
+import { AvatarTypeName, Avatar } from "../avatar/Avatar";
 
 export function getSelectedActionCategory(
   g: SimpleGame,

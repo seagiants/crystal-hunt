@@ -8,7 +8,7 @@ export const CardLib: CardLibrairy = {
     name: "CrystalAffinity",
     abilityCategory: ActionCategoryName.Wisdom,
     cardType: CardTypeName.Enchantment,
-    trigger: TriggerPhase.TurnEnd,
+    triggerPhase: TriggerPhase.TurnEnd,
     abilityCaracs: {
       healValue: 1
     },
@@ -40,7 +40,7 @@ export const CardLib: CardLibrairy = {
     name: "GoldenShoes",
     cardType: CardTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Dexterity,
-    trigger: TriggerPhase.TurnEnd,
+    triggerPhase: TriggerPhase.TurnEnd,
     abilityCaracs: {},
     abilityId: "Crystallize"
   },
@@ -70,8 +70,10 @@ export const CardLib: CardLibrairy = {
     abilityCategory: ActionCategoryName.Intelligence,
     charge: 2,
     isFinal: false,
-    abilityCaracs: {},
-    abilityId: "DoubleDraw"
+    abilityCaracs: {
+      drawNumber: 3
+    },
+    abilityId: "Draw"
   },
   SetATrickyTrap: {
     name: "SetATrickyTrap",
@@ -85,7 +87,7 @@ export const CardLib: CardLibrairy = {
     name: "CrystalFiiiiiz",
     cardType: CardTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Wisdom,
-    trigger: TriggerPhase.TurnEnd,
+    triggerPhase: TriggerPhase.TurnEnd,
     abilityCaracs: {},
     abilityId: "RefreshActionOnCrystal"
   }

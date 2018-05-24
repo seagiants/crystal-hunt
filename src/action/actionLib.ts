@@ -47,10 +47,10 @@ export const BasicActionLib: ActionLib = {
     }
   },
   Crystallize: {
-    name: "Crystallize",
+    name: "Crystalize",
     cardType: CardTypeName.Equipment,
     abilityCategory: ActionCategoryName.Wisdom,
-    abilityId: "Crystallize",
+    abilityId: "Crystalize",
     abilityCaracs: {
       quantity: 1
     }

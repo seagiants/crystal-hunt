@@ -15,9 +15,10 @@ import {
   ActionTileStatus
 } from "./Action";
 import { addInfoMessage } from "../state/setters";
-import { triggerAbility, checkAbilityTarget } from "./ability/abilityLogic";
 import { loadActionCategory } from "./ability/Ability";
 import { loadAbility } from "./ability/abilityLib";
+import { loadAbilityReducer } from "./ability/abilityTrigger";
+import { loadAbilityChecker } from "./ability/abilityCheck";
 
 // Used to get the color of a Skill
 export function getActionColor(
@@ -104,12 +105,12 @@ export function setNewAction(
 export function autoTriggerActions(
   g: SimpleGame,
   playerId: string,
-  trigger: TriggerPhase
+  triggerPhase: TriggerPhase
 ): SimpleGame {
   // In auto triggering, default target is player.
   const targetId = playerId;
   const actionsToTrigger = getAllActions(g, playerId).filter(
-    current => current.trigger === trigger
+    current => current.triggerPhase === triggerPhase
   );
   const actionsTriggered = actionsToTrigger.reduce(
     (tempG, current) => triggerAction(tempG, current, playerId, targetId),
@@ -148,10 +149,9 @@ export function triggerAction(
       ? setActionCharge(withInfo, avatarId, action.id, action.charge - 1)
       : withInfo;
   // Trigger ability
-  return triggerAbility(
+  return loadAbilityReducer(loadAbility(action.abilityId).trigger)(
     chargeDiminished,
     avatarId,
-    action.abilityId,
     _targetId!,
     actionCaracs
   );
@@ -170,18 +170,15 @@ export function checkActionTarget(
 ): boolean {
   // Retrieving caracs.
   const actionCaracs = getActionCaracs(g, avatarId, action);
+  const test = loadAbility(action.abilityId).isTargetRequired;
   // Trigger ability
-  return checkAbilityTarget(
-    g,
-    avatarId,
-    action.abilityId,
-    targetId,
-    actionCaracs
-  );
+  return test
+    ? loadAbilityChecker(test!)(g, avatarId, targetId, actionCaracs)
+    : true;
 }
 
 /** Is an action requiring a target. */
-export function isTargetRequired(action: Action): boolean {
+export function isTargetRequired(action: Action): false | string {
   return loadAbility(action.abilityId).isTargetRequired;
 }
 

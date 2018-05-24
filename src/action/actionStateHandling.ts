@@ -11,18 +11,27 @@ import {
 import { CardLib } from "./../cards/cardLib";
 import { getAvatar } from "../state/getters";
 import { BasicActionLib } from "./actionLib";
+import { AbilityLib } from "./ability/abilityLib";
 
 /** ****************** Loaders ********************************* */
 
 /** Load basic Actions for a player based on a basic action librairy */
 export function loadBasicActions(avatarId: string): Array<Action> {
-  return Object.keys(BasicActionLib).map(cat => ({
-    ...BasicActionLib[cat],
-    id: `basic${cat}${avatarId}`,
-    avatarId: avatarId,
-    status: ActionTileStatus.Avalaible,
-    exhaustCounter: 0
-  }));
+  return Object.keys(BasicActionLib).map(cat => {
+    const abilityName = BasicActionLib[cat].name;
+    console.log(abilityName);
+    const ability = AbilityLib[abilityName];
+    return {
+      ...BasicActionLib[cat],
+      id: `basic${cat}${avatarId}`,
+      avatarId: avatarId,
+      status: ActionTileStatus.Avalaible,
+      exhaustCounter: 0,
+      abilityType: ability.abilityType,
+      isTargetRequired: ability.isTargetRequired,
+      trigger: ability.trigger
+    };
+  });
 }
 
 /** Load Action for a player based on a card's name */

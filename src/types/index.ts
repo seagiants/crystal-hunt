@@ -1,8 +1,9 @@
 import { CellsDef } from "../map/mapDefinitions";
-import { Avatar, PathMatrix } from "../map/types";
+import { PathMatrix } from "../map/types";
 import { Caracs, Action, ActionCategoryName } from "../action/Action";
 import { ActionsFlow } from "../action/Action";
 import { Card } from "../cards/Card";
+import { Avatar } from "../avatar/Avatar";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts

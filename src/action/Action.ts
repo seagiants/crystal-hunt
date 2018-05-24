@@ -28,7 +28,7 @@ export interface ActionTemplate {
   /** Used for spell use count. */
   charge?: number;
   /** Used for enchantment trigger phase. */
-  trigger?: TriggerPhase;
+  triggerPhase?: TriggerPhase;
   /** Used to identify the upgrade name (cardName) */
   upgradeName?: string;
 }

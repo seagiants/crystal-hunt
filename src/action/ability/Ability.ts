@@ -8,9 +8,9 @@ import { ActionCategoryLib } from "../actionLib";
 
 /** Giving the ability id, used to retrieve ability functions (as reducer or checker) and describes ability workFlow */
 export interface Ability {
-  id: string;
-  isTargetRequired: boolean; // Used to handle the triggerAbility workflow.
   abilityType: AbilityTypeName; // Magical/Physical, used to retrieve the corresponding caracs when triggering ability.
+  isTargetRequired: false | CheckName;
+  trigger: TriggerName;
 }
 
 export enum AbilityTypeName {
@@ -18,13 +18,51 @@ export enum AbilityTypeName {
   Physical = "Physical"
 }
 
-export type AbilityReducer = (
+export enum TriggerName {
+  move = "move",
+  crystalize = "crystalize",
+  attack = "attack",
+  draw = "draw",
+  heal = "heal",
+  summon = "summon",
+  trapACell = "trapACell",
+  equip = "equip",
+  enchant = "enchant",
+  refreshAction = "refreshAction",
+  circularAttack = "circularAttack"
+}
+
+export enum CheckName {
+  checkMovePath = "checkMovePath",
+  isEmpty = "isEmpty",
+  hasAvatar = "hasAvatar",
+  checkAttackPath = "checkAttackPath"
+}
+
+/*
+export interface triggerParams {
+  g: SimpleGame;
+  avatarId: string;
+  targetId: string;
+  caracs: Caracs;
+}
+*/
+
+export type AbilityTrigger = (
   g: SimpleGame,
   avatarId: string,
   targetId: string,
   caracs: Caracs
 ) => SimpleGame;
 
+/*
+export interface checkParams {
+  g: SimpleGame;
+  avatarId: string;
+  targetId: string;
+  caracs: Caracs;
+}
+*/
 export type AbilityChecker = (
   g: SimpleGame,
   avatarId: string,

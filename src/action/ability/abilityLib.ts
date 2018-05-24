@@ -1,51 +1,15 @@
+import { Ability, AbilityTypeName, TriggerName, CheckName } from "./Ability";
 import {
-  AbilityReducer,
-  AbilityChecker,
-  Ability,
-  AbilityTypeName,
-  MoveCaracs,
-  AttackCaracs,
-  DrawCaracs
-} from "./Ability";
-import {
-  Caracs,
   ActionTemplate,
   CardTypeName,
   ActionCategoryName
 } from "../../action/Action";
-import { SimpleGame } from "../../types";
-import { findPath, toCoord, toKey } from "../../map/Cell";
-import {
-  getAvatarPosition,
-  getAvatarOnCell,
-  getCrystallized,
-  getCategories,
-  getCell
-} from "../../state/getters";
-import {
-  checkTraps,
-  damage,
-  heal,
-  summon,
-  refreshAction
-} from "../../state/gameLogic";
-import {
-  setAvatarPosition,
-  setCellCrystallize,
-  setIsTrapped
-} from "../../state/setters";
-import { draw } from "../../cards/cardLogic";
-import {
-  loadActionFromTemplate,
-  getAllActions,
-  setActions
-} from "../actionStateHandling";
-import { setNewAction } from "../actionLogic";
 
-export const AbilityLib: {
+/*
+export const AbilityLibOld: {
   [key in string]: {
     ability: Ability;
-    power: AbilityReducer;
+    power: AbilityTrigger;
     check: AbilityChecker;
   }
 } = {
@@ -484,7 +448,71 @@ export const AbilityLib: {
       return basicSkillreturned;
     },
     check: () => true
-  }*/
+  }
+};
+*/
+
+export const AbilityLib: { [key in string]: Ability } = {
+  Move: {
+    // id: "Move",
+    isTargetRequired: CheckName.checkMovePath,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.move
+  },
+  Crystalize: {
+    // id: "Crystalize",
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Magical,
+    trigger: TriggerName.crystalize
+  },
+  Attack: {
+    // id: "Attack",
+    isTargetRequired: CheckName.checkAttackPath,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.attack
+  },
+  CircularAttack: {
+    // id: "CircularAttack",
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.circularAttack
+  },
+  Draw: {
+    // id: "Draw",
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.draw
+  },
+  Heal: {
+    // id: "Heal",
+    isTargetRequired: CheckName.hasAvatar,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.heal
+  },
+  Summon: {
+    // id: "Summon",
+    isTargetRequired: CheckName.isEmpty,
+    abilityType: AbilityTypeName.Magical,
+    trigger: TriggerName.summon
+  },
+  TrapACell: {
+    // id: "TrapACell",
+    isTargetRequired: CheckName.isEmpty,
+    abilityType: AbilityTypeName.Magical,
+    trigger: TriggerName.trapACell
+  },
+  RefreshActionOnCrystal: {
+    // id: "RefreshActionOnCrystal",
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Magical,
+    trigger: TriggerName.refreshAction
+  },
+  Equip: {
+    // id: "Equip",
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.equip
+  }
 };
 
 export const UpgradeLib: { [key: string]: ActionTemplate } = {
@@ -501,15 +529,18 @@ export const UpgradeLib: { [key: string]: ActionTemplate } = {
 };
 
 export function loadAbility(abilityId: string): Ability {
-  return AbilityLib[abilityId].ability;
+  return AbilityLib[abilityId];
 }
 
 /** Retrieving the ability reducer function corresponding to the ability name/id (same??) */
-export function loadAbilityReducer(abilityId: string): AbilityReducer {
+/*
+export function loadAbilityReducer(abilityId: string): AbilityTrigger {
   return AbilityLib[abilityId].power;
 }
-
+*/
 /** Retrieving the ability checker function corresponding to the ability name/id (same??) */
+/*
 export function loadAbilityChecker(abilityId: string): AbilityChecker {
   return AbilityLib[abilityId].check;
 }
+*/

@@ -1,25 +1,15 @@
-import { SimpleGame, TriggerPhase } from "../types";
+import { SimpleGame } from "../types";
 import {
-  getHealthInit,
   getHealth,
-  getMonsterCounter,
   getBlackCrystalCellId,
   getAvatarOnCell,
   isTrapped,
   getCategories
 } from "./getters";
-import {
-  setHealth,
-  addMonster,
-  setCellAvatar,
-  addInfoMessage
-} from "./setters";
-import { Avatar } from "../map/types";
-import { initMonsterAvatar } from "../map/Avatar";
+import { setHealth, addInfoMessage } from "./setters";
+import { Avatar } from "../avatar/Avatar";
 import { toKey } from "../map/Cell";
 import {
-  getAllActions,
-  setActions,
   setExhaustCounter,
   setActionStatus,
   getActionFlow,
@@ -28,39 +18,11 @@ import {
 } from "../action/actionStateHandling";
 import {
   ActionFlow,
-  Caracs,
   ActionCategoryName,
-  Action,
   ActionTileStatus
 } from "../action/Action";
-import { setNewAction } from "../action/actionLogic";
-import { loadActionMonster } from "../action/actionLib";
 
-// auto triggering enchantment logic
-// TODO : Handle several enchantment triggers
-/* 
-export function triggerEnchantments(
-  G: SimpleGame,
-  ctx: GameContext,
-  playerId: string,
-  triggerValue: TriggerPhase
-): SimpleGame {
-  const enchantment = getEnchantment(G, playerId, "NoCategory");
-  const trigger = getEnchantmentTrigger(G, playerId, "NoCategory");
-  // Trigger enchantment based on trigger value.
-  // Target is always current player
-  const enchantmentTriggered: SimpleGame =
-    enchantment !== undefined && trigger === TriggerPhase.TurnEnd
-      ? triggerPower(
-          getEnchantment(G, playerId, "NoCategory"),
-          G,
-          ctx,
-          playerId
-        )
-      : G;
-  return enchantmentTriggered;
-}
-*/
+/*
 // Heal key word : Adding value to health, max by healthInit
 export function heal(
   g: SimpleGame,
@@ -73,7 +35,7 @@ export function heal(
     ? setHealth(g, avatarId, currentHealth + value)
     : setHealth(g, avatarId, max);
 }
-
+*/
 // Damage key word : substracting value to health, min by 0.
 export function damage(
   g: SimpleGame,
@@ -81,8 +43,9 @@ export function damage(
   value: number
 ): SimpleGame {
   const currentHealth = getHealth(g, avatarId);
-  return currentHealth - value < 0
-    ? setHealth(g, avatarId, 0)
+  // If health go 0 (or under), return a cleanedMonster state.
+  return currentHealth - value <= 0
+    ? cleanDeadMonsters(setHealth(g, avatarId, 0))
     : setHealth(g, avatarId, currentHealth - value);
 }
 
@@ -118,7 +81,7 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
 export function generateMonsterId(g: SimpleGame, monsterName: string) {
   return `M${g.monsterCounter + 1}`;
 }
-
+/*
 export function summon(
   g: SimpleGame,
   monsterName: string,
@@ -147,7 +110,7 @@ export function summon(
   const actionAdded = setActions(monsterPositionned, playerId, newActions);
   return actionAdded;
 }
-
+*/
 // Black Crystal Cell is identified by the BlackCrystalCellId.
 export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));

@@ -1,7 +1,5 @@
 import { CellTypeName } from "./Cell";
-import { AvatarTypeName } from "./Avatar";
 import { SimpleGame, GameContext, Moves, Events } from "../types";
-import { Caracs } from "../action/Action";
 
 // ---- Components props interfaces ----- //
 export interface MapBoardProps {
@@ -27,13 +25,6 @@ export interface Cell {
   trap: boolean;
   avatar: string | null;
   isCrystallized: boolean;
-}
-
-export interface Avatar {
-  id: string;
-  type: AvatarTypeName;
-  position: string;
-  caracs: Caracs;
 }
 
 type RowPathMatrix = Array<number>;

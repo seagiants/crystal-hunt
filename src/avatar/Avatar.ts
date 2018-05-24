@@ -1,9 +1,15 @@
-import { Avatar } from "./types";
 import { Caracs } from "../action/Action";
 
 export enum AvatarTypeName {
   Player = "Player",
   Monster = "Monster"
+}
+
+export interface Avatar {
+  id: string;
+  type: AvatarTypeName;
+  position: string;
+  caracs: Caracs;
 }
 
 export function initPlayerAvatar(id: string, position: string): Avatar {

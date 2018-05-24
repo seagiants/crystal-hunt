@@ -177,6 +177,7 @@ export function drawEach(g: SimpleGame, playerId: string): SimpleGame {
   return cardsDrawed;
 }
 */
+/*
 export function draw(
   g: SimpleGame,
   playerId: string,
@@ -190,3 +191,4 @@ export function draw(
   }
   return newG;
 }
+*/
