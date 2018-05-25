@@ -1,23 +1,17 @@
-import { initPlayerAvatar } from "../Avatar";
+import { initPlayerAvatar, RaceName, defaultCaracs } from "../Avatar";
 
 /* ---> use describe() for a block of tests,
  for example all tests for a given function */
 describe("initPlayerAvatar", () => {
   // --> use it() for specific unit test
   it("should correctly type as player", () => {
-    const avatar = initPlayerAvatar("0", "0x0");
+    const avatar = initPlayerAvatar("0", "0x0", RaceName.Human);
     expect(avatar.type).toBe("Player");
   });
   it("should return correctly initialized caracs values", () => {
-    const avatar = initPlayerAvatar("0", "0x0");
-    const initCaracs = {
-      healthInit: 5,
-      healthCurrent: 5,
-      attackValue: 1,
-      drawNumber: 3,
-      attackRange: 1,
-      moveRange: 1
-    };
+    const avatar = initPlayerAvatar("0", "0x0", RaceName.Human);
+    let initCaracs = defaultCaracs;
+    initCaracs.drawNumber = 4;
     expect(avatar.caracs).toEqual(initCaracs);
   });
 });

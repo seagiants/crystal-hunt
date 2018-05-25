@@ -26,11 +26,20 @@ export const initCell = (cellType: CellTypeName): Cell => {
 };
 
 // prettier-ignore
-const firstMapStruct = [
+/* const firstMapStruct = [
   ["R0-", "R--", "R--", "R--", "R--", "R--", "R--"],
   ["R--", "---", "---", "R--", "---", "---", "---"],
   ["R--", "R--", "R--", "B--", "R--", "R--", "R--"],
   ["---", "---", "---", "R--", "---", "---", "R--"],
+  ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
+];
+*/
+// prettier-ignore
+const bibiMapStruct = [
+  ["R0-", "R--", "R--", "R--", "R--", "R--", "R--"],
+  ["R--", "---", "---", "---", "---", "---", "---"],
+  ["R--", "R--", "R--", "B--", "R--", "R--", "R--"],
+  ["---", "---", "---", "---", "---", "---", "R--"],
   ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
 ];
 
@@ -40,7 +49,7 @@ export function initMapSetup(): {
   basicAvatars: Array<Avatar>;
   blackCrystalCellId: string;
 } {
-  const firstMapDef = mapMaker(firstMapStruct);
+  const firstMapDef = mapMaker(bibiMapStruct);
   return {
     map: firstMapDef,
     basicAvatars: firstMapDef.avatars,

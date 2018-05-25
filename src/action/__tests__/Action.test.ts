@@ -16,6 +16,7 @@ import {
 import { setupGame } from "../../Game";
 import { ActionCategoryName, ActionTileStatus } from "../Action";
 import { getCards } from "../../cards/cardStateHandling";
+import { getAvatar } from "../../state/getters";
 
 const PLAYER_ID = "0";
 const CATEGORY = ActionCategoryName.Dexterity;
@@ -91,7 +92,8 @@ describe("Action workflow for draw action", () => {
   const newG = triggerAction(g, drawAction, PLAYER_ID);
   it("when triggered draw, player should have cards equal to drawNumber", () => {
     const cards = getCards(newG, PLAYER_ID);
-    expect(cards.length).toEqual(3);
+    const player = getAvatar(g, PLAYER_ID);
+    expect(cards.length).toEqual(player.caracs.drawNumber);
   });
   it("when exhausting after draw, action count should'nt be increased", () => {
     const newG2 = exhaustAction(g, PLAYER_ID, drawAction);
