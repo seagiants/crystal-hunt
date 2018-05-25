@@ -1,6 +1,7 @@
 import { MapDef, initCell, CellsDef } from "./mapDefinitions";
 import { CellTypeName, toKey } from "./Cell";
-import { Cell } from "./types";
+import { Cell, Avatar } from "./types";
+import { initPlayerAvatar, initMonsterAvatar } from "./Avatar";
 
 type MapStruct = Array<Array<string>>;
 
@@ -42,6 +43,7 @@ const parseStruct = (struct: MapStruct): CellsDef => {
     });
   });
   // for typescript handling the empty object case
+  // FIXME use initCell function
   if (cells === {}) {
     return { xxx: EMPTY_CELL };
   } else {
@@ -49,6 +51,7 @@ const parseStruct = (struct: MapStruct): CellsDef => {
   }
 };
 
+/* Find the x and y of the black crystal cell */
 const getBlackCrystalXY = (cells: { string?: Cell }): string => {
   let xy = "";
   for (const key of Object.keys(cells)) {
@@ -59,15 +62,38 @@ const getBlackCrystalXY = (cells: { string?: Cell }): string => {
   return xy;
 };
 
-/* Create a mapDefinition from a map struct */
+const initAvatarFromCell = (key: string, cell: Cell) => {
+  if (cell.avatar === "0") {
+    return initPlayerAvatar("0", key);
+  } else if (cell.avatar === "1") {
+    return initPlayerAvatar("1", key);
+  } else {
+    return initMonsterAvatar("M", key);
+  }
+};
+
+const createAvatarArray = (cells: { string?: Cell }): Array<Avatar> => {
+  const keys = Object.keys(cells);
+  const avatars = keys
+    .map(key => [key, cells[key]])
+    .filter(tuple => tuple[1].avatar !== null)
+    .reduce(
+      (acc, tuple) => [...acc, initAvatarFromCell(tuple[0], tuple[1])],
+      []
+    );
+  return avatars;
+};
+
+/* Create a map definition from a map struct */
 export const mapMaker = (mapStruct: MapStruct): MapDef => {
-  const y = mapStruct.length;
-  const x = mapStruct[0].length;
+  const y = mapStruct[0].length;
+  const x = mapStruct.length;
   const cells = parseStruct(mapStruct);
   return {
     xMax: x,
     yMax: y,
     cells: cells,
-    blackCrystalCellXY: getBlackCrystalXY(cells)
+    blackCrystalCellXY: getBlackCrystalXY(cells),
+    avatars: createAvatarArray(cells)
   };
 };
