@@ -1,7 +1,7 @@
 import { MapDef, initCell, CellsDef } from "./mapDefinitions";
 import { CellTypeName, toKey } from "./Cell";
-import { Cell, Avatar } from "./types";
-import { initPlayerAvatar, initMonsterAvatar } from "./Avatar";
+import { Cell } from "./types";
+import { initPlayerAvatar, initMonsterAvatar, Avatar } from "../avatar/Avatar";
 
 type MapStruct = Array<Array<string>>;
 
