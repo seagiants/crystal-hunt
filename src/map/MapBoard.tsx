@@ -1,11 +1,10 @@
 import * as React from "react";
 import { toKey } from "./Cell";
 import { getSelectedActionCategory } from "../state/getters";
-import { SkillCategoryName } from "../action/skillLib";
-import { checkTarget } from "../action/Power";
 import MapCell from "./MapCell";
-import { getActiveAction } from "../state/gameLogic";
+import { getActiveAction, checkActionTarget } from "../action/actionLogic";
 import { MapBoardProps } from "./types";
+import { ActionCategoryName } from "../action/Action";
 
 const style = {
   width: "70%"
@@ -14,16 +13,16 @@ const style = {
 // ----- Component ----- //
 const MapBoard = (props: MapBoardProps) => {
   let isClickable: (x: number, y: number) => boolean;
-  const selectedAction: SkillCategoryName | null = getSelectedActionCategory(
+  const selectedAction: ActionCategoryName | null = getSelectedActionCategory(
     props.G,
     props.ctx.currentPlayer
   );
   if (selectedAction !== null && selectedAction !== undefined) {
     isClickable = (x: number, y: number) =>
-      checkTarget(
-        getActiveAction(props.G, props.ctx.currentPlayer, selectedAction),
+      checkActionTarget(
         props.G,
-        props.ctx,
+        props.ctx.currentPlayer,
+        getActiveAction(props.G, props.ctx.currentPlayer, selectedAction),
         toKey(x, y)
       );
   } else {

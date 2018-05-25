@@ -1,21 +1,19 @@
 import { SimpleGame } from "../types";
-import { Card } from "./types";
+import {
+  setPlayerContext,
+  getPlayerContext
+} from "../action/actionStateHandling";
+import { Card } from "./Card";
 
 export function setCards(
   g: SimpleGame,
   playerId: string,
   cards: Array<Card>
 ): SimpleGame {
-  return {
-    ...g,
-    playersContext: {
-      ...g.playersContext,
-      [playerId]: {
-        ...g.playersContext[playerId],
-        cards: cards
-      }
-    }
-  };
+  return setPlayerContext(g, playerId, {
+    ...getPlayerContext(g, playerId),
+    cards: cards
+  });
 }
 
 export function setDeck(
@@ -30,7 +28,7 @@ export function setDeck(
 }
 
 export function getCards(g: SimpleGame, playerId: string): Array<Card> {
-  return g.playersContext[playerId].cards;
+  return g.players[playerId].cards;
 }
 
 export function getCard(

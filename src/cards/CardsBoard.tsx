@@ -1,9 +1,15 @@
 import * as React from "react";
-import { getColor } from "../action/Skill";
 import { TilesBoardProps } from "../types";
-import { CardTileProps, Card } from "./types";
-import { getCards } from "./stateAccessors";
-import { splitCardName } from "./Card";
+import { getCards } from "./cardStateHandling";
+import { Card, splitCardName, getCardColor } from "./Card";
+
+export interface CardTileProps {
+  card: Card;
+  index: number;
+  playerId: string;
+  activateCard(cardIndex: number, playerId: string): object;
+  endTurn(): object;
+}
 
 export const CardTile = (props: CardTileProps) => {
   return (
@@ -11,7 +17,7 @@ export const CardTile = (props: CardTileProps) => {
       <rect
         width="110"
         height="140"
-        style={{ fill: getColor(props.card) }}
+        style={{ fill: getCardColor(props.card) }}
         stroke="black"
         rx="20"
         ry="20"
@@ -32,9 +38,9 @@ export const CardTile = (props: CardTileProps) => {
           </text>
         );
       })}
-      {Object.keys(props.card.caracs).map((c, i) => (
+      {Object.keys(props.card.abilityCaracs).map((carac, i) => (
         <text key={i} x="10" y={80 + (i + 1) * 10} fontSize="7">
-          {`${c}: ${props.card.caracs[c]}`}
+          {`${carac}: ${props.card.abilityCaracs[carac]}`}
         </text>
       ))}
     </svg>
