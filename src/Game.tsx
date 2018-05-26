@@ -78,8 +78,8 @@ export const setupGame = (): SimpleGame => {
     monsterCounter: 2,
     actionCount: 0,
     selectedAction: null,
-    decksPlayer0: loadDeck(),
-    decksPlayer1: loadDeck(),
+    decksPlayer0: loadDeck(basicSetup.basicAvatars[0].class2),
+    decksPlayer1: loadDeck(basicSetup.basicAvatars[1].class2),
     infoMessages: ["Game started"],
     pathMatrix: []
   };

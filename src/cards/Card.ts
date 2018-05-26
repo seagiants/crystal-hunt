@@ -7,6 +7,8 @@ import {
 } from "../action/Action";
 import { UpgradeLib } from "../action/ability/abilityLib";
 import { ActionCategoryLib } from "../action/actionLib";
+import { Class2Name } from "../avatar/Avatar";
+import { class2Lib } from "../avatar/class2Lib";
 
 /** Defining Card based upon ActionTemplate,
  * adding a optional charge counter (for spell only ??)
@@ -67,11 +69,19 @@ export function loadDecks(): Decks {
 }
 */
 
-export function loadDeck(): Array<Card> {
-  const rawDeck = Object.keys(CardLib).reduce(
-    (temp, prop) => [...temp, CardLib[prop]],
-    []
-  );
+export function loadDeck(class2: Class2Name): Array<Card> {
+  const cardsList = class2Lib[class2];
+  console.log("Test: " + cardsList);
+  const reducer = (temp: Array<Card>, prop: string, index: number) => {
+    const card = CardLib[prop];
+    if (card !== undefined) {
+      return [...temp, CardLib[prop]];
+    } else {
+      console.log("Card " + prop + " can't be loaded");
+      return temp;
+    }
+  };
+  const rawDeck = cardsList.reduce(reducer, []);
   return shuffle(rawDeck);
 }
 

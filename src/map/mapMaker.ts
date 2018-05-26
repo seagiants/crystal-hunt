@@ -5,7 +5,8 @@ import {
   initPlayerAvatar,
   initMonsterAvatar,
   Avatar,
-  RaceName
+  RaceName,
+  Class2Name
 } from "../avatar/Avatar";
 
 type MapStruct = Array<Array<string>>;
@@ -69,9 +70,9 @@ const getBlackCrystalXY = (cells: { string?: Cell }): string => {
 
 const initAvatarFromCell = (key: string, cell: Cell) => {
   if (cell.avatar === "0") {
-    return initPlayerAvatar("0", key, RaceName.Human);
+    return initPlayerAvatar("0", key, RaceName.Human, Class2Name.Mage);
   } else if (cell.avatar === "1") {
-    return initPlayerAvatar("1", key, RaceName.Orc);
+    return initPlayerAvatar("1", key, RaceName.Orc, Class2Name.Warrior);
   } else {
     return initMonsterAvatar("M", key);
   }
