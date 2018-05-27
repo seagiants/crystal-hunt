@@ -21,20 +21,28 @@ const getHealthBars = (health: number) =>
 const getTurnText = (yourID: string, currentPlayerID: string) =>
   yourID === currentPlayerID ? "Your turn" : "Opponent's turn";
 
+const getAvatarText = (currentRace: string, currentClass2: string) =>
+  currentRace + "/" + currentClass2;
+
 // ------ Component
 const PlayerInfo = ({
   ID,
   currentPlayer,
   currentHealth,
+  currentRace,
+  currentClass2,
   infos
 }: {
   ID: string;
   currentPlayer: string;
   currentHealth: number;
+  currentRace: string;
+  currentClass2: string;
   infos: Array<String>;
 }) => (
   <div style={style}>
     <p>{getTurnText(ID, currentPlayer)}</p>
+    <p>{getAvatarText(currentRace, currentClass2)}</p>
     <p className="HPBar">
       <svg width="200" height="60">
         {getHealthBars(currentHealth)}
