@@ -71,7 +71,6 @@ export function loadDecks(): Decks {
 
 export function loadDeck(class2: Class2Name): Array<Card> {
   const cardsList = class2Lib[class2];
-  console.log("Test: " + cardsList);
   const reducer = (temp: Array<Card>, prop: string, index: number) => {
     const card = CardLib[prop];
     if (card !== undefined) {

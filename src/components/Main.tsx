@@ -6,8 +6,10 @@ interface GameSelectorProps {}
 interface GameSelectorState {
   inProgressGameId: string;
   inProgressPlayerId: string;
+  inProgressRaceName: string;
   selectedGameId: string;
   selectedPlayerId: string;
+  selectedRaceName: string;
 }
 
 class Main extends React.Component<GameSelectorProps, GameSelectorState> {
@@ -16,12 +18,15 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
     this.state = {
       inProgressGameId: "foo",
       inProgressPlayerId: "0",
+      inProgressRaceName: "",
       selectedGameId: "",
-      selectedPlayerId: ""
+      selectedPlayerId: "",
+      selectedRaceName: ""
     };
     // Binding is not allowed in JSX becuz of bad perfs so we do it here
     this.handleGIDChange = this.handleGIDChange.bind(this);
     this.handlePIDChange = this.handlePIDChange.bind(this);
+    this.handleRNChange = this.handleRNChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -33,11 +38,16 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
     this.setState({ inProgressPlayerId: event.currentTarget.value });
   }
 
+  handleRNChange(event: React.FormEvent<HTMLSelectElement>) {
+    this.setState({ inProgressRaceName: event.currentTarget.value });
+  }
+
   handleSubmit(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();
     this.setState({
       selectedGameId: this.state.inProgressGameId,
-      selectedPlayerId: this.state.inProgressPlayerId
+      selectedPlayerId: this.state.inProgressPlayerId,
+      selectedRaceName: this.state.inProgressRaceName
     });
   }
 
@@ -47,8 +57,10 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
         handleSubmit={this.handleSubmit}
         handleGIDChange={this.handleGIDChange}
         handlePIDChange={this.handlePIDChange}
+        handleRNChange={this.handleRNChange}
         inProgressGameId={this.state.inProgressGameId}
         inProgressPlayerId={this.state.inProgressPlayerId}
+        inProgressRaceName={this.state.inProgressRaceName}
       />
     );
     const gameComponent = (
@@ -56,6 +68,7 @@ class Main extends React.Component<GameSelectorProps, GameSelectorState> {
         <CrystalHuntClient
           gameID={this.state.selectedGameId}
           playerID={this.state.selectedPlayerId}
+          raceName={this.state.selectedRaceName}
         />
       </div>
     );

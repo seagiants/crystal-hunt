@@ -90,6 +90,47 @@ export const CardLib: CardLibrairy = {
     triggerPhase: TriggerPhase.TurnEnd,
     abilityCaracs: {},
     abilityId: "RefreshActionOnCrystal"
+  },
+  Regeneration: {
+    name: "Regeneration",
+    cardType: CardTypeName.Enchantment,
+    abilityCategory: ActionCategoryName.Strength,
+    triggerPhase: TriggerPhase.TurnEnd,
+    abilityCaracs: {
+      healValue: 1
+    },
+    abilityId: "Heal"
+  },
+  FireAura: {
+    name: "FireAura",
+    cardType: CardTypeName.Enchantment,
+    abilityCategory: ActionCategoryName.Strength,
+    triggerPhase: TriggerPhase.TurnEnd,
+    abilityCaracs: {
+      attackValue: 1
+    },
+    abilityId: "CircularAttack"
+  },
+  Axe: {
+    name: "Axe",
+    cardType: CardTypeName.Equipment,
+    abilityCategory: ActionCategoryName.Strength,
+    abilityCaracs: {
+      attackValue: 2
+    },
+    abilityId: "CircularAttack",
+    isFinal: true
+  },
+  HealingPotion: {
+    name: "HealingPotion",
+    cardType: CardTypeName.Spell,
+    abilityCategory: ActionCategoryName.Wisdom,
+    charge: 1,
+    abilityCaracs: {
+      healValue: 3
+    },
+    abilityId: "Heal",
+    isFinal: true
   }
 };
 
