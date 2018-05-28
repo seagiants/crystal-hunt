@@ -29,14 +29,16 @@ export enum TriggerName {
   equip = "equip",
   enchant = "enchant",
   refreshAction = "refreshAction",
-  circularAttack = "circularAttack"
+  circularAttack = "circularAttack",
+  push = "push"
 }
 
 export enum CheckName {
   checkMovePath = "checkMovePath",
   isEmpty = "isEmpty",
   hasAvatar = "hasAvatar",
-  checkAttackPath = "checkAttackPath"
+  checkAttackPath = "checkAttackPath",
+  checkPushPath = "checkPushPath"
 }
 
 /*

@@ -68,6 +68,8 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
     };
   });
   const notOnCellAnymore = tempG;
+  // Clean action : TODO
+
   // Clean dead monsters from Avatars.
   const noDeadOnAvatars: SimpleGame = {
     ...notOnCellAnymore,

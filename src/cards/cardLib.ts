@@ -141,6 +141,13 @@ export const CardLib: CardLibrairy = {
     },
     abilityId: "Heal",
     isFinal: true
+  },
+  ShoesOfTheGiants: {
+    name: "ShoesOfTheGiants",
+    cardType: CardTypeName.Equipment,
+    abilityCategory: ActionCategoryName.Dexterity,
+    abilityCaracs: {},
+    abilityId: "Push"
   }
 };
 

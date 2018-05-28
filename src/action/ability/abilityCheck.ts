@@ -13,6 +13,7 @@ export const hasAvatar: AbilityChecker = (
   return getAvatarOnCell(g, targetId) !== null;
 };
 
+// Finding a path with target cell free
 export const checkMovePath: AbilityChecker = (
   g: SimpleGame,
   avatarId: string,
@@ -32,6 +33,7 @@ export const checkMovePath: AbilityChecker = (
   }
 };
 
+// Finding a path with target cell occupied
 export const checkAttackPath: AbilityChecker = (
   g: SimpleGame,
   avatarId: string,
@@ -46,6 +48,26 @@ export const checkAttackPath: AbilityChecker = (
     );
     // Path contains starting position.
     return path.length !== 0 && path.length <= caracs.attackRange + 1;
+  } else {
+    return false;
+  }
+};
+
+// Finding path without checking target (could be free or occupied)
+export const checkPushPath: AbilityChecker = (
+  g: SimpleGame,
+  avatarId: string,
+  targetId: string,
+  caracs: MoveCaracs
+): boolean => {
+  if (g.pathMatrix !== null) {
+    const path = findPath(
+      g.pathMatrix,
+      toCoord(getAvatarPosition(g, avatarId)),
+      toCoord(targetId)
+    );
+    // Path contains starting position.
+    return path.length !== 0 && path.length <= caracs.moveRange + 1;
   } else {
     return false;
   }
@@ -70,6 +92,8 @@ export function loadAbilityChecker(checkName: CheckName): AbilityChecker {
       return checkMovePath;
     case CheckName.checkAttackPath:
       return checkAttackPath;
+    case CheckName.checkPushPath:
+      return checkPushPath;
     default:
       console.log(
         "Ability Checker : " + checkName + " not plugged or implemented"

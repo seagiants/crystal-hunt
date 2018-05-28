@@ -9,7 +9,7 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "SummonMonster",
     "CrystalAffinity",
     "Regeneration",
-    "GoldenShoes"
+    "ShoesOfTheGiants"
   ],
   Mage: ["SummonMonster", "Fireball", "MentalExplosion", "CrystalAffinity"],
   Assassin: ["SummonMonster", "Fireball", "MentalExplosion", "CrystalAffinity"],

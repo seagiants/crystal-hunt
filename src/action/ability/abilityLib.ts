@@ -517,6 +517,11 @@ export const AbilityLib: { [key in string]: Ability } = {
     isTargetRequired: false,
     abilityType: AbilityTypeName.Magical,
     trigger: TriggerName.enchant
+  },
+  Push: {
+    isTargetRequired: CheckName.checkPushPath,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.push
   }
 };
 

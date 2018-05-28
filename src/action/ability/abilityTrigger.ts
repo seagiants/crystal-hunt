@@ -41,6 +41,7 @@ import { setNewAction } from "../actionLogic";
 import { drawCard } from "../../cards/cardLogic";
 import { initMonsterAvatar } from "../../avatar/Avatar";
 import { loadActionMonster } from "../actionLib";
+import { getBehindCell } from "../../map/mapLogic";
 
 export const move: AbilityTrigger = (
   g: SimpleGame,
@@ -148,7 +149,7 @@ export const summon: AbilityTrigger = (
   caracs: Caracs
 ) => {
   const monsterId = generateMonsterId(g, "BasicMonster");
-  const monster = initMonsterAvatar(monsterId, targetId, caracs);
+  const monster = initMonsterAvatar(monsterId, targetId);
   const monsterAdded = addMonster(g, monster);
   const monsterPositionned = setCellAvatar(
     monsterAdded,
@@ -223,6 +224,45 @@ export const enchant: AbilityTrigger = (
   return setActions(g, avatarId, newActions);
 };
 
+/** push
+ * - push&damage in a line an avatar, if avatar behind it's damaged
+ * - move to the pushedCell if empty
+ */
+export const push: AbilityTrigger = (
+  g: SimpleGame,
+  avatarId: string,
+  targetId: string,
+  caracs: Caracs
+) => {
+  const avatarToPush = getAvatarOnCell(g, targetId);
+  // Checking if an avatar is on targetCell, if not just move.
+  if (avatarToPush === undefined || avatarToPush === null) {
+    return move(g, avatarId, targetId, caracs);
+  }
+  // Avatar on target is damaged.
+  const avatarDamaged = damage(g, avatarToPush, 1);
+  const sourceId = getAvatarPosition(g, avatarId);
+  const cellToPush = getBehindCell(g, sourceId, targetId);
+  // If no cell to push, ends.
+  if (cellToPush === null) {
+    return avatarDamaged;
+  }
+  const avatarOnPush = getAvatarOnCell(avatarDamaged, cellToPush);
+  // Checking if avatar on cell behind, if damage avatar behind, if not move pushedAvatar and pusher.
+  if (avatarOnPush !== undefined && avatarOnPush !== null) {
+    // Avatar behind target is damaged
+    const avatarOnPushDamaged = damage(avatarDamaged, avatarOnPush, 1);
+    return avatarOnPushDamaged;
+    // Move both, pusher and pushed.
+  } else {
+    const avatarPushed = move(avatarDamaged, avatarToPush, cellToPush, {
+      moveRange: 1
+    });
+    const playerMoved = move(avatarPushed, avatarId, targetId, caracs);
+    return playerMoved;
+  }
+};
+
 export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
   switch (triggerName) {
     case TriggerName.move:
@@ -247,6 +287,8 @@ export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
       return refreshAction;
     case TriggerName.circularAttack:
       return circularAttack;
+    case TriggerName.push:
+      return push;
     default:
       console.log(triggerName + " not supported");
       return (g: SimpleGame) => g;

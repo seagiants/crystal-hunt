@@ -50,7 +50,7 @@ export function plugEnchantment(
     charge: 1,
     autoTarget: card.name,
     avatarId: playerId,
-    abilityCategory: ActionCategoryName.Intelligence,
+    abilityCategory: ActionCategoryName.Wisdom,
     abilityCaracs: {},
     abilityId: "Enchant"
   };
