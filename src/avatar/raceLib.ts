@@ -1,16 +1,32 @@
 import { Caracs } from "../action/Action";
 import { RaceName } from "./Avatar";
 
-export const raceLib: { [key in RaceName]: Caracs } = {
+export interface Race {
+  caracs: Caracs;
+  color: string;
+}
+export const raceLib: { [key in RaceName]: Race } = {
   Human: {
-    drawNumber: 1
+    caracs: {
+      drawNumber: 1
+    },
+    color: "blue"
   },
   Orc: {
-    healthInit: 1,
-    healthCurrent: 1
+    caracs: {
+      healthInit: 1,
+      healthCurrent: 1
+    },
+    color: "red"
   },
   Elve: {
-    attackRange: 1
+    caracs: {
+      attackRange: 1
+    },
+    color: "green"
   },
-  Monster: {}
+  Monster: {
+    caracs: {},
+    color: "silver"
+  }
 };

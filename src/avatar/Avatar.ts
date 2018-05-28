@@ -60,7 +60,7 @@ export function initPlayerAvatar(
     class2: class2,
     type: AvatarTypeName.Player,
     position: position,
-    caracs: addCaracs(defaultCaracs, raceLib[race])
+    caracs: addCaracs(defaultCaracs, raceLib[race].caracs)
   };
 }
 

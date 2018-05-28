@@ -4,6 +4,7 @@ import { SimpleGame } from "../types";
 import { getCellType, getCrystallized, getAvatar } from "../state/getters";
 import { MapCellProps, PathMatrix } from "./types";
 import { AvatarTypeName } from "../avatar/Avatar";
+import { raceLib } from "../avatar/raceLib";
 
 // ----- Utility functions ----- //
 /* const getAvatarDescription = (avatar: Avatar): string => {
@@ -45,15 +46,6 @@ const renderAvatar = (
   playerId: string
 ) => {
   const avatarId = g.map[toKey(x, y)].avatar;
-  const getAvatarColor = (id: string) => {
-    if (id === "0") {
-      return "purple";
-    } else if (id === "1") {
-      return "cyan";
-    } else {
-      return "silver";
-    }
-  };
   if (avatarId !== null) {
     const avatar = getAvatar(g, avatarId);
     const computedPoints = `${x * 40 + 20},${y * 40 + 2} ${x * 40 + 2},${y *
@@ -66,7 +58,7 @@ const renderAvatar = (
     const textColor = avatar.type === AvatarTypeName.Player ? "black" : "red";
     return (
       <g>
-        <polygon points={computedPoints} fill={getAvatarColor(avatarId)} />
+        <polygon points={computedPoints} fill={raceLib[avatar.race].color} />
         <text x={x * 40 + 15} y={y * 40 + 35} fill={textColor}>
           {text}
         </text>
