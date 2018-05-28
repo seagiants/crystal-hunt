@@ -58,12 +58,7 @@ export function initMapSetup(): {
   basicAvatars: Array<Avatar>;
   blackCrystalCellId: string;
 } {
-<<<<<<< HEAD
-  const firstMapDef = mapMaker(firstMapStruct);
-  console.log("map def", firstMapDef);
-=======
   const firstMapDef = mapMaker(bibiMapStruct);
->>>>>>> e945d28906b88119c7ef89b915c0cd6fa404e08e
   return {
     map: firstMapDef,
     basicAvatars: firstMapDef.avatars,
