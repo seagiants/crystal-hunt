@@ -8,6 +8,8 @@ import MapBoard from "../map/MapBoard";
 import "../index.css";
 import { getHealth, getInfos, getAvatar } from "../state/getters";
 import { CardsBoard } from "../cards/CardsBoard";
+import { TriggersList } from "../action/TriggersList";
+import { getAutoTriggerActions } from "../action/actionStateHandling";
 
 // ----- Utils
 const getActionBoard = (props: GameBoardProps) => {
@@ -57,6 +59,9 @@ export const GameBoard = (props: GameBoardProps) => {
             ctx={props.ctx}
             moves={props.moves}
             events={props.events}
+          />
+          <TriggersList
+            actions={getAutoTriggerActions(props.G, props.playerID)}
           />
           {getActionBoard(props)}
         </div>
