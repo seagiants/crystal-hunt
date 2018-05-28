@@ -1,8 +1,9 @@
 import { toKey, CellTypeName } from "./Cell";
 import * as React from "react";
 import { SimpleGame } from "../types";
-import { getCellType, getCrystallized } from "../state/getters";
+import { getCellType, getCrystallized, getAvatar } from "../state/getters";
 import { MapCellProps, PathMatrix } from "./types";
+import { AvatarTypeName } from "../avatar/Avatar";
 
 // ----- Utility functions ----- //
 /* const getAvatarDescription = (avatar: Avatar): string => {
@@ -54,10 +55,23 @@ const renderAvatar = (
     }
   };
   if (avatarId !== null) {
+    const avatar = getAvatar(g, avatarId);
     const computedPoints = `${x * 40 + 20},${y * 40 + 2} ${x * 40 + 2},${y *
       40 +
       38} ${x * 40 + 38},${y * 40 + 38}`;
-    return <polygon points={computedPoints} fill={getAvatarColor(avatarId)} />;
+    const text =
+      avatar.type === AvatarTypeName.Player
+        ? avatarId
+        : avatar.caracs.healthCurrent;
+    const textColor = avatar.type === AvatarTypeName.Player ? "black" : "red";
+    return (
+      <g>
+        <polygon points={computedPoints} fill={getAvatarColor(avatarId)} />
+        <text x={x * 40 + 15} y={y * 40 + 35} fill={textColor}>
+          {text}
+        </text>
+      </g>
+    );
   } else {
     return null;
   }

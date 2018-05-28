@@ -6,7 +6,7 @@ export const raceLib: { [key in RaceName]: Caracs } = {
     drawNumber: 1
   },
   Orc: {
-    healtInit: 1,
+    healthInit: 1,
     healthCurrent: 1
   },
   Elve: {
