@@ -29,9 +29,9 @@ export const initCell = (cellType: CellTypeName): Cell => {
 /* const firstMapStruct = [
   ["R0-", "R--", "R--", "R--", "R--", "R--", "R--"],
   ["R--", "---", "---", "R--", "---", "---", "---"],
-  ["R--", "R--", "R--", "B--", "R--", "R--", "R--"],
+  ["R--", "RM-", "R--", "B--", "R--", "RM-", "R--"],
   ["---", "---", "---", "R--", "---", "---", "R--"],
-  ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
+  ["R--", "R--", "R--", "RM-", "R--", "R--", "R1-"]
 ];
 */
 // prettier-ignore
@@ -42,6 +42,15 @@ const bibiMapStruct = [
   ["---", "---", "---", "---", "---", "---", "R--"],
   ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
 ];
+
+// prettier-ignore
+const verticalStruct = [
+  ["R0-", "---"],
+  ["R--", "R--"],
+  ["---", "R1-"]
+];
+
+console.dir(verticalStruct);
 
 // TODO : Improve BlackCrsytalCell handle.
 export function initMapSetup(): {
