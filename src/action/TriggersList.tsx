@@ -4,13 +4,13 @@ import * as React from "react";
 // ----- Components
 export const TriggersList = (props: { actions: Array<Action> }) => {
   return (
-    <p>
-      {"Trigger list : "}
+    <div>
+      <p>{"Trigger list : "}</p>
       <ul>
         {props.actions.map((current, index) => (
           <li key={"trigListid" + index + current.avatarId}>{current.name}</li>
         ))}
       </ul>
-    </p>
+    </div>
   );
 };

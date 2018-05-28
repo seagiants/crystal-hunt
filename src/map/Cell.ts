@@ -1,5 +1,6 @@
 import { SimpleGame } from "../types";
 import { PathMatrix } from "./types";
+import { getAvatarOnCell } from "../state/getters";
 
 let PF = require("pathfinding");
 
@@ -18,15 +19,35 @@ export function toCoord(xXy: string): [number, number] {
   return [parseInt(xy[0], 10), parseInt(xy[1], 10)];
 }
 
-export function toPathMatrix(g: SimpleGame): PathMatrix {
+// Build a squared pathMatrix with 0/1, where 0 is a pathable cell, 1 is for cells with not pathable obstacles.
+// @flyingOnPath is to tell if avatar are obstacles
+// @targetCellId is to tell if obstacles should be ignored on targetCell (default is no)
+export function toPathMatrix(
+  g: SimpleGame,
+  flyingOnPath: boolean = false
+): PathMatrix {
   let tempMatrix = [];
+  // Return 1 if cell is a 'wall', 0 if not.
+  const isWall = (g2: SimpleGame, cellId: string): 0 | 1 => {
+    // If cell doesn't exist, equivalent to wall => 1.
+    if (g2.map[cellId] === undefined) {
+      return 1;
+    }
+    // If flyingOnPath, doesn't consider obstacles.
+    if (flyingOnPath) {
+      return 0;
+    }
+    // If not flyingOnPath, check if cell is Empty, if not is a wall => 1.
+    return getAvatarOnCell(g2, cellId) === null ? 0 : 1;
+  };
   for (var y = 0; y < g.yMax + 1; y++) {
     let tempRows = [];
     for (var x = 0; x < g.xMax + 1; x++) {
-      tempRows.push(g.map[toKey(x, y)] !== undefined ? 0 : 1);
+      tempRows.push(isWall(g, toKey(x, y)));
     }
     tempMatrix.push(tempRows);
   }
+  console.log(tempMatrix);
   return tempMatrix;
 }
 

@@ -16,7 +16,7 @@ import {
   AutoTargetKey
 } from "./Action";
 import { addInfoMessage } from "../state/setters";
-import { loadActionCategory } from "./ability/Ability";
+import { loadActionCategory, CheckName } from "./ability/Ability";
 import { loadAbility } from "./ability/abilityLib";
 import { loadAbilityReducer } from "./ability/abilityTrigger";
 import { loadAbilityChecker } from "./ability/abilityCheck";
@@ -207,7 +207,7 @@ export function checkActionTarget(
 }
 
 /** Is an action requiring a target. */
-export function isTargetRequired(action: Action): false | string {
+export function isTargetRequired(action: Action): false | CheckName {
   return loadAbility(action.abilityId).isTargetRequired;
 }
 
@@ -235,8 +235,13 @@ export function getActionCaracs(
   avatarId: string,
   action: Action
 ) {
-  const avatarCaracs = getAvatarCaracs(g, avatarId);
   const actionCaracs = action.abilityCaracs;
+  // For Enchantment, Avatar caracs are not added.
+  if (action.cardType === CardTypeName.Enchantment) {
+    return actionCaracs;
+  }
+  // For others, Avatar caracs are retrieved
+  const avatarCaracs = getAvatarCaracs(g, avatarId);
   return addCaracs(avatarCaracs, actionCaracs);
 }
 

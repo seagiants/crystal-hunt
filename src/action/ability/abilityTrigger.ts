@@ -50,6 +50,7 @@ export const move: AbilityTrigger = (
   caracs: Caracs
 ) => {
   console.log("Try to move");
+  // Refactor Trap workflow... pathMatrix if flying ?...
   const path = findPath(
     g.pathMatrix,
     toCoord(getAvatarPosition(g, avatarId)),

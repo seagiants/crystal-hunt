@@ -38,6 +38,7 @@ import {
   exhaustAction,
   autoTriggerActions
 } from "./action/actionLogic";
+import { CheckName } from "./action/ability/Ability";
 
 // Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
@@ -153,15 +154,41 @@ const CrystalHunt = Game({
         categoryName
       );
       // Check if a target is required before triggering action.
-      if (isTargetRequired(action)) {
+      const check = isTargetRequired(action);
+      if (check) {
+        console.log("Check :");
+        console.log(check);
         // Corresponding category is stored in the state.
         const actionSaved: SimpleGame = setSelectedAction(
           actionClicked,
           action.abilityCategory,
           ctx.currentPlayer
         );
+        const setNewPathMatrix = (
+          g: SimpleGame,
+          checkPath: CheckName
+        ): SimpleGame => {
+          switch (checkPath) {
+            case CheckName.checkMovePath:
+              console.log(11);
+              return { ...g, pathMatrix: toPathMatrix(g, false) };
+            case CheckName.checkAttackPath:
+              console.log(22);
+              return { ...g, pathMatrix: toPathMatrix(g, false) };
+            case CheckName.checkFlyingPath:
+              console.log(33);
+              return { ...g, pathMatrix: toPathMatrix(g, true) };
+            case CheckName.checkPushPath:
+              console.log(44);
+              return { ...g, pathMatrix: toPathMatrix(g, false) };
+            default:
+              console.log(55);
+              return g;
+          }
+        };
         console.log(action.name + " is selected");
-        return actionSaved;
+        // If a target is required, a newPathMatrix is eventually calculated based on the triggerName
+        return setNewPathMatrix(actionSaved, check);
       } else {
         // State is modified by the power.
         // Then Action is exhausted.
@@ -245,13 +272,6 @@ const CrystalHunt = Game({
       // Reset ActionCount Prop
       return resetActionCount(exhaustedSpellCleaned);
     },
-    onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
-      // Update pathMatrix.
-      return {
-        ...G,
-        pathMatrix: toPathMatrix(G)
-      };
-    },
     phases: [
       {
         name: "Choose Action",
@@ -264,10 +284,6 @@ const CrystalHunt = Game({
         },
         onPhaseBegin: (G: SimpleGame, ctx: GameContext) => {
           return G;
-        },
-        onPhaseEnd: (G: SimpleGame, ctx: GameContext) => {
-          // Update the pathMatrix.
-          return { ...G, pathMatrix: toPathMatrix(G) };
         }
       },
       {

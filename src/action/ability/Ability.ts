@@ -38,7 +38,8 @@ export enum CheckName {
   isEmpty = "isEmpty",
   hasAvatar = "hasAvatar",
   checkAttackPath = "checkAttackPath",
-  checkPushPath = "checkPushPath"
+  checkPushPath = "checkPushPath",
+  checkFlyingPath = "checkFlyingPath"
 }
 
 /*

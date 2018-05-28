@@ -148,6 +148,15 @@ export const CardLib: CardLibrairy = {
     abilityCategory: ActionCategoryName.Dexterity,
     abilityCaracs: {},
     abilityId: "Push"
+  },
+  NikeRMax: {
+    name: "NikeRMax",
+    cardType: CardTypeName.Equipment,
+    abilityCategory: ActionCategoryName.Dexterity,
+    abilityCaracs: {
+      moveRange: 1
+    },
+    abilityId: "Fly"
   }
 };
 
