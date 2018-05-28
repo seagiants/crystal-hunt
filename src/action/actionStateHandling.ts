@@ -66,6 +66,16 @@ export function getAction(
   )[0];
 }
 
+/** Retrieve action with a triggerPhase */
+export function getAutoTriggerActions(
+  g: SimpleGame,
+  playerId: string
+): Array<Action> {
+  return getAllActions(g, playerId).filter(
+    current => current.triggerPhase !== undefined
+  );
+}
+
 /** Retrieve Spell action, should be only one per category */
 export function getSpellAction(
   g: SimpleGame,

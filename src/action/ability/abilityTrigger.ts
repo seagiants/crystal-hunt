@@ -212,6 +212,17 @@ export const equip: AbilityTrigger = (
   return setActions(g, avatarId, newActions);
 };
 
+export const enchant: AbilityTrigger = (
+  g: SimpleGame,
+  avatarId: string,
+  targetId: string,
+  caracs: Caracs
+) => {
+  const action = loadActionFromTemplate(g, avatarId, targetId);
+  const newActions = setNewAction(getAllActions(g, avatarId), action, avatarId);
+  return setActions(g, avatarId, newActions);
+};
+
 export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
   switch (triggerName) {
     case TriggerName.move:
@@ -231,9 +242,7 @@ export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
     case TriggerName.equip:
       return equip;
     case TriggerName.enchant:
-      // return enchant;
-      console.log("Enchant To do");
-      return (g: SimpleGame) => g;
+      return enchant;
     case TriggerName.refreshAction:
       return refreshAction;
     case TriggerName.circularAttack:

@@ -3,7 +3,8 @@ import {
   ActionTemplate,
   CardTypeName,
   ActionCategoryName,
-  ActionCategory
+  ActionCategory,
+  AutoTargetKey
 } from "../action/Action";
 import { UpgradeLib } from "../action/ability/abilityLib";
 import { ActionCategoryLib } from "../action/actionLib";
@@ -12,11 +13,13 @@ import { class2Lib } from "../avatar/class2Lib";
 
 /** Defining Card based upon ActionTemplate,
  * adding a optional charge counter (for spell only ??)
- * and optional upgradeName (equipment only ?? Spell ??)
+ * optional upgradeName (equipment only ?? Spell ??)
+ * optional autoTarget (enchantment only ?? Spell ??)
  */
 export interface Card extends ActionTemplate {
   charge?: number;
   upgradeName?: string;
+  autoTarget?: AutoTargetKey;
 }
 
 export type CardLibrairy = { [key in string]: Card };
@@ -47,27 +50,6 @@ export function shuffle<T>(array: T[]): T[] {
   }
   return array;
 }
-/*
-export function loadCards(abilityCategory: ActionCategoryName): Array<Card> {
-  const test = Object.keys(CardLib).reduce(
-    (temp, prop) =>
-      CardLib[prop].abilityCategory === abilityCategory
-        ? [...temp, CardLib[prop]]
-        : temp,
-    []
-  );
-  return shuffle(test);
-}
-
-export function loadDecks(): Decks {
-  return {
-    Dexterity: loadCards(ActionCategoryName.Dexterity),
-    Intelligence: loadCards(ActionCategoryName.Intelligence),
-    Wisdom: loadCards(ActionCategoryName.Wisdom),
-    Strength: loadCards(ActionCategoryName.Strength)
-  };
-}
-*/
 
 export function loadDeck(class2: Class2Name): Array<Card> {
   const cardsList = class2Lib[class2];
@@ -123,35 +105,3 @@ export const splitCardName = (name: string): string[] => {
   }
   return parts;
 };
-/*
-export function loadEquipment(card: Card): Equipment {
-  return {
-    name: card.name,
-    abilityCategory: card.abilityCategory,
-    caracs: card.caracs
-  };
-}
-
-export function loadSpell(card: Card): Spell {
-  return {
-    name: card.name,
-    abilityCategory: card.abilityCategory,
-    symbol: card.symbol,
-    caracs: card.caracs,
-    powerName: card.powerName,
-    isTargetRequired: card.isTargetRequired!,
-    charge: card.charge!
-  };
-}
-
-export function loadEnchantment(card: Card): Enchantment {
-  return {
-    name: card.name,
-    abilityCategory: card.abilityCategory,
-    symbol: card.symbol,
-    caracs: card.caracs,
-    powerName: card.powerName,
-    trigger: card.trigger!
-  };
-}
-*/

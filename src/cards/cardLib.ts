@@ -1,4 +1,9 @@
-import { ActionCategoryName, CardTypeName, Action } from "../action/Action";
+import {
+  ActionCategoryName,
+  CardTypeName,
+  Action,
+  AutoTargetKey
+} from "../action/Action";
 import { CardLibrairy } from "./Card";
 import { SimpleGame, TriggerPhase } from "../types";
 import { initAction } from "../action/actionStateHandling";
@@ -9,11 +14,12 @@ export const CardLib: CardLibrairy = {
     abilityCategory: ActionCategoryName.Wisdom,
     cardType: CardTypeName.Enchantment,
     triggerPhase: TriggerPhase.TurnEnd,
+    autoTarget: AutoTargetKey.Self,
     abilityCaracs: {
       healValue: 1
     },
-    isFinal: true,
-    abilityId: "HealSelfOnCrystalized"
+    isFinal: false,
+    abilityId: "Heal"
   },
   Sword: {
     name: "Sword",
@@ -96,9 +102,11 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Strength,
     triggerPhase: TriggerPhase.TurnEnd,
+    isFinal: false,
     abilityCaracs: {
       healValue: 1
     },
+    autoTarget: AutoTargetKey.Self,
     abilityId: "Heal"
   },
   FireAura: {
@@ -106,6 +114,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Strength,
     triggerPhase: TriggerPhase.TurnEnd,
+    isFinal: false,
     abilityCaracs: {
       attackValue: 1
     },
@@ -126,6 +135,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Spell,
     abilityCategory: ActionCategoryName.Wisdom,
     charge: 1,
+    autoTarget: AutoTargetKey.Self,
     abilityCaracs: {
       healValue: 3
     },

@@ -512,6 +512,11 @@ export const AbilityLib: { [key in string]: Ability } = {
     isTargetRequired: false,
     abilityType: AbilityTypeName.Physical,
     trigger: TriggerName.equip
+  },
+  Enchant: {
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Magical,
+    trigger: TriggerName.enchant
   }
 };
 

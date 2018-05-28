@@ -12,7 +12,8 @@ import {
   CardTypeName,
   Caracs,
   ActionCategoryName,
-  ActionTileStatus
+  ActionTileStatus,
+  AutoTargetKey
 } from "./Action";
 import { addInfoMessage } from "../state/setters";
 import { loadActionCategory } from "./ability/Ability";
@@ -102,18 +103,46 @@ export function setNewAction(
   }
 }
 
+/**
+ * Retrieving a target automatically :
+ *  - if any, targetId is returned
+ *  - if not, action's autoTargetField is used
+ */
+export function retrieveTarget(
+  g: SimpleGame,
+  avatarId: string,
+  action: Action,
+  targetId?: string
+): string {
+  if (targetId !== undefined && targetId !== null) {
+    return targetId;
+  }
+  if (action.autoTarget !== undefined && action.autoTarget !== null) {
+    // Handling autoTarget key words
+    switch (action.autoTarget) {
+      case AutoTargetKey.Self:
+        return avatarId;
+      default:
+        return action.autoTarget;
+    }
+  }
+  return avatarId;
+}
+
 export function autoTriggerActions(
   g: SimpleGame,
   playerId: string,
   triggerPhase: TriggerPhase
 ): SimpleGame {
   // In auto triggering, default target is player.
-  const targetId = playerId;
   const actionsToTrigger = getAllActions(g, playerId).filter(
     current => current.triggerPhase === triggerPhase
   );
   const actionsTriggered = actionsToTrigger.reduce(
-    (tempG, current) => triggerAction(tempG, current, playerId, targetId),
+    (tempG, current) => {
+      const targetId = retrieveTarget(tempG, playerId, current);
+      return triggerAction(tempG, current, playerId, targetId);
+    },
     { ...g }
   );
   return actionsTriggered;

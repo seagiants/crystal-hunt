@@ -33,13 +33,16 @@ export interface ActionTemplate {
   upgradeName?: string;
 }
 
+export enum AutoTargetKey {
+  Self = "Self"
+}
 export interface Action extends ActionTemplate {
   /** Actions are identified to store or retrieve the trigger. */
   id: string;
   /** Id of the the owner of the action. */
   avatarId: string;
   /** For specific action as enchant and equip, it's an "auto-target" field */
-  autoTarget?: string;
+  autoTarget?: AutoTargetKey | string;
 }
 
 /** Correspond to key/value pairs for game elements (player, monster, skill, spell) caracteristics.
