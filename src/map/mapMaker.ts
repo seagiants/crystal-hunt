@@ -34,8 +34,8 @@ const parseCell = (cell: string) => {
 /* Parse a map struct and create cells */
 const parseStruct = (struct: MapStruct): CellsDef => {
   let cells = {};
-  struct.forEach((row, i) => {
-    row.forEach((el, j) => {
+  struct.forEach((row, j) => {
+    row.forEach((el, i) => {
       const c = parseCell(el);
       if (c !== null) {
         cells[toKey(i, j)] = c;
@@ -86,8 +86,8 @@ const createAvatarArray = (cells: { string?: Cell }): Array<Avatar> => {
 
 /* Create a map definition from a map struct */
 export const mapMaker = (mapStruct: MapStruct): MapDef => {
-  const y = mapStruct[0].length;
-  const x = mapStruct.length;
+  const y = mapStruct.length;
+  const x = mapStruct[0].length;
   const cells = parseStruct(mapStruct);
   return {
     xMax: x,

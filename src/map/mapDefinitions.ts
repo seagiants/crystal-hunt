@@ -26,11 +26,11 @@ export const initCell = (cellType: CellTypeName): Cell => {
 
 // prettier-ignore
 const firstMapStruct = [
-  ["R0-", "R--", "R--", "R--", "R--", "R--", "R--"],
+  ["R0-", "R--", "R--", "RM-", "R--", "R--", "R--"],
   ["R--", "---", "---", "R--", "---", "---", "---"],
-  ["R--", "R--", "R--", "B--", "R--", "R--", "R--"],
+  ["R--", "RM-", "R--", "B--", "R--", "RM-", "R--"],
   ["---", "---", "---", "R--", "---", "---", "R--"],
-  ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
+  ["R--", "R--", "R--", "RM-", "R--", "R--", "R1-"]
 ];
 
 // prettier-ignore
@@ -49,6 +49,7 @@ export function initMapSetup(): {
   blackCrystalCellId: string;
 } {
   const firstMapDef = mapMaker(firstMapStruct);
+  console.log("map def", firstMapDef);
   return {
     map: firstMapDef,
     basicAvatars: firstMapDef.avatars,
