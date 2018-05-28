@@ -1,6 +1,7 @@
 import { CellTypeName } from "./Cell";
-import { Cell, Avatar } from "./types";
+import { Cell } from "./types";
 import { mapMaker } from "./mapMaker";
+import { Avatar } from "../avatar/Avatar";
 
 export interface MapDef {
   cells: CellsDef;
@@ -25,12 +26,21 @@ export const initCell = (cellType: CellTypeName): Cell => {
 };
 
 // prettier-ignore
-const firstMapStruct = [
-  ["R0-", "R--", "R--", "RM-", "R--", "R--", "R--"],
+/* const firstMapStruct = [
+  ["R0-", "R--", "R--", "R--", "R--", "R--", "R--"],
   ["R--", "---", "---", "R--", "---", "---", "---"],
   ["R--", "RM-", "R--", "B--", "R--", "RM-", "R--"],
   ["---", "---", "---", "R--", "---", "---", "R--"],
   ["R--", "R--", "R--", "RM-", "R--", "R--", "R1-"]
+];
+*/
+// prettier-ignore
+const bibiMapStruct = [
+  ["R0-", "R--", "R--", "R--", "R--", "R--", "R--"],
+  ["R--", "---", "---", "---", "---", "---", "---"],
+  ["R--", "R--", "R--", "B--", "R--", "R--", "R--"],
+  ["---", "---", "---", "---", "---", "---", "R--"],
+  ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
 ];
 
 // prettier-ignore
@@ -48,8 +58,12 @@ export function initMapSetup(): {
   basicAvatars: Array<Avatar>;
   blackCrystalCellId: string;
 } {
+<<<<<<< HEAD
   const firstMapDef = mapMaker(firstMapStruct);
   console.log("map def", firstMapDef);
+=======
+  const firstMapDef = mapMaker(bibiMapStruct);
+>>>>>>> e945d28906b88119c7ef89b915c0cd6fa404e08e
   return {
     map: firstMapDef,
     basicAvatars: firstMapDef.avatars,

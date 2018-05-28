@@ -1,22 +1,32 @@
 import * as React from "react";
 import * as Mousetrap from "mousetrap";
-import { getColor } from "./Skill";
-import { TilesBoardProps, ActionTileProps } from "../types";
-import { SkillCategoryLib, SkillCategoryName } from "./skillLib";
-import { getEquipment, getSkillByCat, getActionStatus } from "../state/getters";
-import { ActionTileStatus } from "./type";
-import { getActiveAction } from "../state/gameLogic";
+
+import { TilesBoardProps, SimpleGame } from "../types";
+import { getActiveAction, getActionColor } from "../action/actionLogic";
+import { Action, ActionCategoryName, ActionTileStatus } from "./Action";
+import { ActionCategoryLib } from "./actionLib";
+import { getActionStatus } from "./actionStateHandling";
 
 const style = {
   width: "10%"
 };
+
+export interface ActionTileProps {
+  g: SimpleGame;
+  action: Action;
+  status: ActionTileStatus;
+  category: ActionCategoryName;
+  playerID: string;
+  activateAction(categoryName: string): object;
+  endTurn(): object;
+}
 
 const actionActivationHandler = (props: ActionTileProps) => {
   if (
     getActionStatus(props.g, props.playerID, props.category) ===
     ActionTileStatus.Avalaible
   ) {
-    props.activateAction(props.skill.skillCategory);
+    props.activateAction(props.action.abilityCategory);
   }
 };
 
@@ -30,11 +40,11 @@ const clickHandler = (
 
 // ----- Components
 export const ActionTile = (props: ActionTileProps) => {
-  const shortcut = props.skill.name.substring(0, 1).toLowerCase();
+  const shortcut = props.action.name.substring(0, 1).toLowerCase();
   // console.log(shortcut);
   // Binding to keys
   Mousetrap.bind(`a ${shortcut}`, thing => {
-    console.log(`shortcut ${shortcut} for action ${props.skill.name}`);
+    console.log(`shortcut ${shortcut} for action ${props.action.name}`);
     actionActivationHandler(props);
   });
   return (
@@ -43,8 +53,8 @@ export const ActionTile = (props: ActionTileProps) => {
         width="100"
         height="100"
         style={{
-          fill: getColor(
-            props.skill,
+          fill: getActionColor(
+            props.action,
             getActionStatus(props.g, props.playerID, props.category)
           )
         }}
@@ -62,26 +72,25 @@ export const ActionsBoard = (props: TilesBoardProps) => {
   // Render ActionTiles by Category, one for each CategoryName.
   return (
     <div style={style}>
-      {Object.keys(SkillCategoryLib).map(
-        (skillCategoryName: SkillCategoryName, idx: number) => {
+      {Object.keys(ActionCategoryLib).map(
+        (abilityCategoryName: ActionCategoryName, idx: number) => {
           return (
             <ActionTile
               key={`ActionTile${idx}${props.playerId}`}
               g={props.G}
               activateAction={props.moves.activateAction}
               endTurn={props.events.endTurn}
-              category={skillCategoryName}
+              category={abilityCategoryName}
               playerID={props.playerId}
-              skill={getSkillByCat(props.G, props.playerId, skillCategoryName)}
-              equipment={getEquipment(
+              action={getActiveAction(
                 props.G,
                 props.playerId,
-                skillCategoryName
+                abilityCategoryName
               )}
               status={getActionStatus(
                 props.G,
                 props.playerId,
-                skillCategoryName
+                abilityCategoryName
               )}
             />
           );

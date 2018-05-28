@@ -1,75 +1,28 @@
+import { SimpleGame } from "../types";
 import {
-  TriggerPhase,
-  ActionType,
-  SkillCategoryName,
-  SkillCategoryLib
-} from "../action/skillLib";
-import { SimpleGame, GameContext } from "../types";
-import {
-  getEnchantment,
-  getEnchantmentTrigger,
-  getHealthInit,
   getHealth,
-  getCategory,
-  getSkillByCat,
-  getSpell,
-  getMonsterCounter,
   getBlackCrystalCellId,
   getAvatarOnCell,
   isTrapped,
-  getActionFlow,
   getCategories
 } from "./getters";
-import { triggerPower } from "../action/Power";
+import { setHealth, addInfoMessage } from "./setters";
+import { Avatar } from "../avatar/Avatar";
+import { toKey } from "../map/Cell";
 import {
-  setHealth,
-  addMonster,
-  setCellAvatar,
-  addInfoMessage,
-  setActionFlow,
-  upExhaustCounter,
   setExhaustCounter,
   setActionStatus,
-  upActionCount,
-  setSelectedAction
-} from "./setters";
-import { Avatar } from "../map/types";
-import { getCardType, loadSpell } from "../cards/Card";
+  getActionFlow,
+  setActionFlow,
+  upExhaustCounter
+} from "../action/actionStateHandling";
 import {
-  Skill,
-  Spell,
-  Caracs,
   ActionFlow,
+  ActionCategoryName,
   ActionTileStatus
-} from "../action/type";
-import { initMonsterAvatar } from "../map/Avatar";
-import { getCard } from "../cards/stateAccessors";
-import { toKey } from "../map/Cell";
+} from "../action/Action";
 
-// auto triggering enchantment logic
-// TODO : Handle several enchantment triggers
-export function triggerEnchantments(
-  G: SimpleGame,
-  ctx: GameContext,
-  playerId: string,
-  triggerValue: TriggerPhase
-): SimpleGame {
-  const enchantment = getEnchantment(G, playerId, "NoCategory");
-  const trigger = getEnchantmentTrigger(G, playerId, "NoCategory");
-  // Trigger enchantment based on trigger value.
-  // Target is always current player
-  const enchantmentTriggered: SimpleGame =
-    enchantment !== undefined && trigger === TriggerPhase.TurnEnd
-      ? triggerPower(
-          getEnchantment(G, playerId, "NoCategory"),
-          G,
-          ctx,
-          playerId
-        )
-      : G;
-  return enchantmentTriggered;
-}
-
+/*
 // Heal key word : Adding value to health, max by healthInit
 export function heal(
   g: SimpleGame,
@@ -82,7 +35,7 @@ export function heal(
     ? setHealth(g, avatarId, currentHealth + value)
     : setHealth(g, avatarId, max);
 }
-
+*/
 // Damage key word : substracting value to health, min by 0.
 export function damage(
   g: SimpleGame,
@@ -90,8 +43,9 @@ export function damage(
   value: number
 ): SimpleGame {
   const currentHealth = getHealth(g, avatarId);
-  return currentHealth - value < 0
-    ? setHealth(g, avatarId, 0)
+  // If health go 0 (or under), return a cleanedMonster state.
+  return currentHealth - value <= 0
+    ? cleanDeadMonsters(setHealth(g, avatarId, 0))
     : setHealth(g, avatarId, currentHealth - value);
 }
 
@@ -124,190 +78,39 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
   return noDeadOnAvatars;
 }
 
-export function cleanExhaustedSpell(
-  g: SimpleGame,
-  playerId: string
-): SimpleGame {
-  let newG: SimpleGame;
-  // Clean a spell if its charge < 1 for current category & player.
-  function reducer(prevG: SimpleGame, categoryName: string) {
-    const spellValue = g[`${categoryName.toLowerCase()}SpellPlayer${playerId}`];
-    if (
-      spellValue !== undefined &&
-      spellValue !== null &&
-      spellValue.charge !== undefined &&
-      spellValue.charge < 1
-    ) {
-      return {
-        ...prevG,
-        [`${categoryName.toLowerCase()}SpellPlayer${playerId}`]: null
-      };
-    } else {
-      return prevG;
-    }
-  }
-
-  newG = Object.keys(SkillCategoryLib).reduce(reducer, g);
-  return newG;
+export function generateMonsterId(g: SimpleGame, monsterName: string) {
+  return `M${g.monsterCounter + 1}`;
 }
-
-// Plug keyword : Plugging a card is based on its type.
-// Spell/Equipment are linked to the corresponding slot of their category.
-// Enchantment are linked to the Intelligence Spell slot.
-export function plugCard(
-  g: SimpleGame,
-  playerId: string,
-  cardIndex: number
-): SimpleGame {
-  switch (getCardType(getCard(g, playerId, cardIndex))) {
-    case ActionType.Equipment:
-      return plugEquipment(g, playerId, cardIndex);
-    case ActionType.Enchantment:
-      return plugEnchantment(g, playerId, cardIndex);
-    case ActionType.Spell:
-      return plugSpell(g, playerId, cardIndex);
-    default:
-      return g;
-  }
-}
-
-// TODO : Make it plugs on Intelligence prop only
-// (Enchantment should be longer to cast, trigger intelligence twice : draw card, then cast enchantment)
-export function plugEnchantment(
-  g: SimpleGame,
-  playerId: string,
-  cardIndex: number
-): SimpleGame {
-  const card = getCard(g, playerId, cardIndex);
-  const Enchant: Skill = {
-    name: "Enchant",
-    skillCategory: SkillCategoryName.Wisdom,
-    isTargetRequired: false,
-    symbol: 3,
-    toEquip: card.name,
-    caracs: {},
-    powerName: "Enchant"
-  };
-  const enchantSkill: Array<Skill> = g.playersContext[playerId].skills.map(
-    skill =>
-      skill.skillCategory === SkillCategoryName.Wisdom ? Enchant : skill
-  );
-  const withEnchantSkill: SimpleGame = {
-    ...g,
-    playersContext: {
-      ...g.playersContext,
-      [playerId]: {
-        ...g.playersContext[playerId],
-        skills: enchantSkill
-      }
-    }
-  };
-  return withEnchantSkill;
-
-  // const card = getCard(g, playerId, cardIndex);
-  // return { ...g, [`enchantmentPlayer${playerId}`]: loadEnchantment(card) };
-}
-
-// TODO : Refactor using correct setter/getter but need a refactor on Skills & PlayersContext state handling first.
-export function plugEquipment(
-  g: SimpleGame,
-  playerId: string,
-  cardIndex: number
-): SimpleGame {
-  const card = getCard(g, playerId, cardIndex);
-  const Equip: Skill = {
-    name: "Equip",
-    skillCategory: card.skillCategory,
-    isTargetRequired: false,
-    symbol: 3,
-    toEquip: card.name,
-    caracs: {},
-    powerName: "Equip"
-  };
-  const equipSkill: Array<Skill> = g.playersContext[playerId].skills.map(
-    skill => (skill.skillCategory === card.skillCategory ? Equip : skill)
-  );
-  const withEquipSkill: SimpleGame = {
-    ...g,
-    playersContext: {
-      ...g.playersContext,
-      [playerId]: {
-        ...g.playersContext[playerId],
-        skills: equipSkill
-      }
-    }
-  };
-  return withEquipSkill;
-}
-
-// TODO: Stored in the categorized spell slot of the player.
-export function plugSpell(
-  g: SimpleGame,
-  playerId: string,
-  cardIndex: number
-): SimpleGame {
-  const card = getCard(g, playerId, cardIndex);
-  const category = getCategory(card).toLowerCase();
-  return { ...g, [`${category}SpellPlayer${playerId}`]: loadSpell(card) };
-}
-
-// TODO : Use only setters
-// TODO : Better handling of charge caracs.
-export function diminishChargeSpell(
-  g: SimpleGame,
-  playerId: string,
-  categoryName: SkillCategoryName
-): SimpleGame {
-  const spell = getSpell(g, playerId, categoryName);
-  console.log(
-    "Diminish charge for " +
-      categoryName +
-      " spell of player " +
-      playerId +
-      "to " +
-      spell.charge !==
-    undefined
-      ? spell.charge - 1
-      : undefined
-  );
-  return {
-    ...g,
-    [`${categoryName.toLowerCase()}SpellPlayer${playerId}`]: {
-      ...spell,
-      charge: spell.charge !== undefined ? spell.charge - 1 : undefined
-    }
-  };
-}
-
-// Active Action is the spell one if any, if not it's the skill one.
-export function getActiveAction(
-  g: SimpleGame,
-  playerId: string,
-  categoryName: SkillCategoryName
-): Skill | Spell {
-  const spell = g[`${categoryName!.toLowerCase()}SpellPlayer${playerId}`];
-  return spell !== null && spell !== undefined
-    ? getSpell(g, playerId, categoryName!)
-    : getSkillByCat(g, playerId, categoryName!);
-}
-
+/*
 export function summon(
   g: SimpleGame,
   monsterName: string,
+  playerId: string,
   cellId: string,
   caracs?: Caracs
 ): SimpleGame {
-  // TODO : Better handling of the id, it's overloaded in the setter function.
-  const monster = initMonsterAvatar("NeverMind", cellId, caracs);
+  const monsterId = generateMonsterId(g, monsterName);
+  const monster = initMonsterAvatar(monsterId, cellId, caracs);
   const monsterAdded = addMonster(g, monster);
   const monsterPositionned = setCellAvatar(
     monsterAdded,
     cellId,
     "M" + getMonsterCounter(monsterAdded).toString()
   );
-  return monsterPositionned;
+  const newAction = loadActionMonster(g, monsterId, "CircularAttack");
+  const newActionWithTrigger: Action = {
+    ...newAction,
+    trigger: TriggerPhase.TurnEnd
+  };
+  const newActions = setNewAction(
+    getAllActions(g, playerId),
+    newActionWithTrigger,
+    playerId
+  );
+  const actionAdded = setActions(monsterPositionned, playerId, newActions);
+  return actionAdded;
 }
-
+*/
 // Black Crystal Cell is identified by the BlackCrystalCellId.
 export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));
@@ -317,7 +120,7 @@ export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
 export function refreshAction(
   g: SimpleGame,
   playerId: string,
-  category: SkillCategoryName
+  category: ActionCategoryName
 ): SimpleGame {
   const refreshExhaustCounter = setExhaustCounter(g, playerId, category, 0);
   return setActionStatus(
@@ -333,7 +136,7 @@ export function refreshAction(
 export function updateActionStatus(
   g: SimpleGame,
   playerId: string,
-  category: SkillCategoryName
+  category: ActionCategoryName
 ): SimpleGame {
   const actionFlow: ActionFlow = getActionFlow(g, playerId, category);
   let status: ActionTileStatus;
@@ -369,10 +172,10 @@ export function updateActionsStatus(
   g: SimpleGame,
   playerId: string
 ): SimpleGame {
-  return Object.keys(SkillCategoryName).reduce(
+  return Object.keys(ActionCategoryName).reduce(
     (tempG, currCat) =>
-      updateActionStatus(tempG, playerId, SkillCategoryName[currCat]),
-    // refreshAction(tempG, playerId, SkillCategoryName[currCat]),
+      updateActionStatus(tempG, playerId, ActionCategoryName[currCat]),
+    // refreshAction(tempG, playerId, ActionCategoryName[currCat]),
     { ...g }
   );
 }
@@ -381,7 +184,7 @@ export function updateActionsStatus(
 export function setActionClicked(
   g: SimpleGame,
   playerId: string,
-  category: SkillCategoryName
+  category: ActionCategoryName
 ): SimpleGame {
   const tempG = getCategories().reduce(
     (prevG, currCat) => {
@@ -403,24 +206,6 @@ export function setActionClicked(
   );
   return tempG;
 }
-// Finalizing an Action : Up action Counter, set Action Tile to exhausted, clean saved Action
-export function finalizeAction(
-  g: SimpleGame,
-  playerId: string,
-  category: SkillCategoryName
-): SimpleGame {
-  // Up Action counter
-  const actionCounted = upActionCount(g);
-  // Exhaust used Action
-  const actionExhausted = setActionStatus(
-    actionCounted,
-    playerId,
-    category,
-    ActionTileStatus.Exhausted
-  );
-  // Clean saved action
-  return setSelectedAction(actionExhausted, null, playerId);
-}
 
 // Check if a cell is trapped, if trigger the trapp (exhaust Dext + 3 & info).
 export function triggerTrap(
@@ -433,7 +218,7 @@ export function triggerTrap(
     const trappedPlayer = upExhaustCounter(
       g,
       playerId,
-      SkillCategoryName.Dexterity,
+      ActionCategoryName.Dexterity,
       3
     );
     // Add a funky message

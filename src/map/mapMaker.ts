@@ -1,7 +1,13 @@
 import { MapDef, initCell, CellsDef } from "./mapDefinitions";
 import { CellTypeName, toKey } from "./Cell";
-import { Cell, Avatar } from "./types";
-import { initPlayerAvatar, initMonsterAvatar } from "./Avatar";
+import { Cell } from "./types";
+import {
+  initPlayerAvatar,
+  initMonsterAvatar,
+  Avatar,
+  RaceName,
+  Class2Name
+} from "../avatar/Avatar";
 
 type MapStruct = Array<Array<string>>;
 
@@ -64,9 +70,9 @@ const getBlackCrystalXY = (cells: { string?: Cell }): string => {
 
 const initAvatarFromCell = (key: string, cell: Cell) => {
   if (cell.avatar === "0") {
-    return initPlayerAvatar("0", key);
+    return initPlayerAvatar("0", key, RaceName.Human, Class2Name.Mage);
   } else if (cell.avatar === "1") {
-    return initPlayerAvatar("1", key);
+    return initPlayerAvatar("1", key, RaceName.Orc, Class2Name.Warrior);
   } else {
     return initMonsterAvatar("M", key);
   }

@@ -1,22 +1,15 @@
-import {
-  Skill,
-  Caracs,
-  Equipment,
-  Enchantment,
-  Spell,
-  ActionTileStatus,
-  ActionsFlow
-} from "../action/type";
-import { SkillName, SkillCategoryName } from "../action/skillLib";
 import { CellsDef } from "../map/mapDefinitions";
-import { Avatar, PathMatrix } from "../map/types";
-import { Card } from "../cards/types";
+import { PathMatrix } from "../map/types";
+import { Caracs, Action, ActionCategoryName } from "../action/Action";
+import { ActionsFlow } from "../action/Action";
+import { Card } from "../cards/Card";
+import { Avatar } from "../avatar/Avatar";
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
-  playersContext: PlayersContextType;
-  selectedAction: SkillCategoryName | null;
+  players: PlayersContextType;
+  selectedAction: ActionCategoryName | null;
   avatars: Array<Avatar>;
   map: CellsDef;
   xMax: number;
@@ -33,24 +26,6 @@ export interface SimpleGame {
   // Player's deck props
   decksPlayer0: Array<Card>;
   decksPlayer1: Array<Card>;
-  // Player's actions props
-  actionsFlowPlayer0: ActionsFlow;
-  actionsFlowPlayer1: ActionsFlow;
-  // equipment props
-  equipmentPlayer0?: Equipment;
-  equipmentPlayer1?: Equipment;
-  // enchantment props
-  enchantmentPlayer0?: Enchantment;
-  enchantmentPlayer1?: Enchantment;
-  // spell props
-  dexteritySpellPlayer0?: Spell;
-  intelligenceSpellPlayer0?: Spell;
-  wisdomSpellPlayer0?: Spell;
-  strengthSpellPlayer0?: Spell;
-  dexteritySpellPlayer1?: Spell;
-  intelligenceSpellPlayer1?: Spell;
-  wisdomSpellPlayer1?: Spell;
-  strengthSpellPlayer1?: Spell;
 }
 
 export interface GameContext {
@@ -61,7 +36,7 @@ export interface GameContext {
 
 export interface Moves {
   activateCell(cellXY: number[]): object;
-  activateAction(category: SkillCategoryName): object;
+  activateAction(category: ActionCategoryName): object;
   activateCard(): object;
 }
 
@@ -113,17 +88,6 @@ export interface TilesBoardProps {
   playerId: string;
 }
 
-export interface ActionTileProps {
-  g: SimpleGame;
-  skill: Skill;
-  equipment: Equipment;
-  status: ActionTileStatus;
-  category: SkillCategoryName;
-  playerID: string;
-  activateAction(categoryName: string): object;
-  endTurn(): object;
-}
-
 // PlayerContext definitions.
 type PlayersContextType = { [index: string]: PlayerContext };
 
@@ -133,12 +97,14 @@ export interface PlayerCaracs extends Caracs {
   attackValue: number;
 }
 
-export interface PlayerContext {
-  playerID: string;
-  skills: Array<Skill>;
-  selectedSkill: SkillName | null;
-  caracs: PlayerCaracs;
-  cards: Array<Card>;
+export enum TriggerPhase {
+  TurnStart = "TurnStart",
+  TurnEnd = "TurnEnd"
 }
 
-// Skill related object definitions.
+export interface PlayerContext {
+  playerID: string;
+  actions: Array<Action>;
+  actionFlows: ActionsFlow;
+  cards: Array<Card>;
+}
