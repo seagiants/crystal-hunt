@@ -10,6 +10,22 @@ export interface CardTileProps {
   activateCard(cardIndex: number, playerId: string): object;
   endTurn(): object;
 }
+// ----- Components ----- //
+const getCardName = (name: string) => {
+  return splitCardName(name).map((n, i) => {
+    return (
+      <text key={`${n}-${i}`} x="10" y={(15 * (i + 1)).toString()} fontSize="9">
+        {n}
+      </text>
+    );
+  });
+};
+
+const getCardType = (type: string) => (
+  <text x="10" y="60" fontSize="8">
+    /{type.toUpperCase()}/
+  </text>
+);
 
 export const CardTile = (props: CardTileProps) => {
   return (
@@ -28,18 +44,8 @@ export const CardTile = (props: CardTileProps) => {
       >
         <title>{props.card.description}</title>
       </rect>
-      {splitCardName(props.card.name).map((name, i) => {
-        return (
-          <text
-            key={`${name}-${i}`}
-            x="10"
-            y={(15 * (i + 1)).toString()}
-            fontSize="8"
-          >
-            {name}
-          </text>
-        );
-      })}
+      {getCardName(props.card.name)}
+      {getCardType(props.card.cardType)}
       {Object.keys(props.card.abilityCaracs).map((carac, i) => (
         <text key={i} x="10" y={80 + (i + 1) * 10} fontSize="7">
           {`${carac}: ${props.card.abilityCaracs[carac]}`}
