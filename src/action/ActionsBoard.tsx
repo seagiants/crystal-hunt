@@ -3,7 +3,12 @@ import * as Mousetrap from "mousetrap";
 
 import { TilesBoardProps, SimpleGame } from "../types";
 import { getActiveAction, getActionColor } from "../action/actionLogic";
-import { Action, ActionCategoryName, ActionTileStatus } from "./Action";
+import {
+  Action,
+  ActionCategoryName,
+  ActionTileStatus,
+  CardTypeName
+} from "./Action";
 import { ActionCategoryLib } from "./actionLib";
 import { getActionStatus } from "./actionStateHandling";
 
@@ -62,7 +67,12 @@ export const ActionTile = (props: ActionTileProps) => {
         onClick={e => clickHandler(e, props)}
       />
       <text x="10" y="50">
-        {getActiveAction(props.g, props.playerID, props.category).name}
+        {props.action.name}
+      </text>
+      <text x="5" y="70">
+        {props.action.cardType === CardTypeName.Spell
+          ? "charge:" + props.action.charge
+          : ""}
       </text>
     </svg>
   );
