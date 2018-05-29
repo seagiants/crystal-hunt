@@ -157,6 +157,25 @@ export const CardLib: CardLibrairy = {
       moveRange: 1
     },
     abilityId: "Fly"
+  },
+  GandalfStaff: {
+    name: "GandalfStaff",
+    cardType: CardTypeName.Equipment,
+    abilityCategory: ActionCategoryName.Strength,
+    abilityCaracs: {
+      attackRange: 1
+    },
+    abilityId: "Attack"
+  },
+  Teleportation: {
+    name: "Teleportation",
+    cardType: CardTypeName.Spell,
+    abilityCategory: ActionCategoryName.Dexterity,
+    charge: 1,
+    abilityCaracs: {
+      moveRange: 2
+    },
+    abilityId: "Fly"
   }
 };
 

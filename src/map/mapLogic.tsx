@@ -7,11 +7,7 @@ export const getBehindCell = (
   targetId: string
 ): string | null => {
   const sourceCoord = toCoord(sourceId);
-  console.log(sourceCoord);
-
   const targetCoord = toCoord(targetId);
-  console.log(targetCoord);
-
   let behindId: string;
   // Push along x-axis
   if (sourceCoord[0] === targetCoord[0]) {

@@ -47,7 +47,6 @@ export function toPathMatrix(
     }
     tempMatrix.push(tempRows);
   }
-  console.log(tempMatrix);
   return tempMatrix;
 }
 

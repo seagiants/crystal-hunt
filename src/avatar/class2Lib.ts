@@ -5,7 +5,6 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "Sword",
     "Axe",
     "HealingPotion",
-    "FireAura",
     "SummonMonster",
     "NikeRMax",
     "Regeneration",
@@ -16,7 +15,7 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "Fireball",
     "MentalExplosion",
     "CrystalAffinity",
-    "Telekinesy",
+    "FireAura",
     "Teleportation",
     "GandalfStaff"
   ],

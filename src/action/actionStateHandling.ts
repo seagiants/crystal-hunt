@@ -19,7 +19,6 @@ import { AbilityLib } from "./ability/abilityLib";
 export function loadBasicActions(avatarId: string): Array<Action> {
   return Object.keys(BasicActionLib).map(cat => {
     const abilityName = BasicActionLib[cat].name;
-    console.log(abilityName);
     const ability = AbilityLib[abilityName];
     return {
       ...BasicActionLib[cat],

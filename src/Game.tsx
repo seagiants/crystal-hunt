@@ -156,8 +156,6 @@ const CrystalHunt = Game({
       // Check if a target is required before triggering action.
       const check = isTargetRequired(action);
       if (check) {
-        console.log("Check :");
-        console.log(check);
         // Corresponding category is stored in the state.
         const actionSaved: SimpleGame = setSelectedAction(
           actionClicked,
@@ -170,19 +168,14 @@ const CrystalHunt = Game({
         ): SimpleGame => {
           switch (checkPath) {
             case CheckName.checkMovePath:
-              console.log(11);
               return { ...g, pathMatrix: toPathMatrix(g, false) };
             case CheckName.checkAttackPath:
-              console.log(22);
               return { ...g, pathMatrix: toPathMatrix(g, false) };
             case CheckName.checkFlyingPath:
-              console.log(33);
               return { ...g, pathMatrix: toPathMatrix(g, true) };
             case CheckName.checkPushPath:
-              console.log(44);
               return { ...g, pathMatrix: toPathMatrix(g, false) };
             default:
-              console.log(55);
               return g;
           }
         };
