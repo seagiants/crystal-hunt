@@ -20,6 +20,7 @@ export interface Card extends ActionTemplate {
   charge?: number;
   upgradeName?: string;
   autoTarget?: AutoTargetKey;
+  description?: string;
 }
 
 export type CardLibrairy = { [key in string]: Card };

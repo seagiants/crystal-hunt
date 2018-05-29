@@ -25,7 +25,9 @@ export const CardTile = (props: CardTileProps) => {
           e.preventDefault();
           props.activateCard(props.index, props.playerId);
         }}
-      />
+      >
+        <title>{props.card.description}</title>
+      </rect>
       {splitCardName(props.card.name).map((name, i) => {
         return (
           <text

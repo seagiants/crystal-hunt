@@ -94,6 +94,5 @@ export function initMonsterAvatar(
       attackRange: attackRange
     }
   };
-  console.log(newMonster);
   return newMonster;
 }

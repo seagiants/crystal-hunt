@@ -15,6 +15,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Enchantment,
     triggerPhase: TriggerPhase.TurnEnd,
     autoTarget: AutoTargetKey.Self,
+    description: "Healing you",
     abilityCaracs: {
       healValue: 1
     },
@@ -27,8 +28,9 @@ export const CardLib: CardLibrairy = {
     abilityCategory: ActionCategoryName.Strength,
     upgradeName: "SwordOfPower",
     abilityCaracs: {
-      attackValue: 1
+      attackValue: 2
     },
+    description: "The good ol' sword in your face, still works great.",
     abilityId: "Attack",
     isFinal: true
   },
@@ -47,6 +49,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Dexterity,
     triggerPhase: TriggerPhase.TurnEnd,
+    description: "For greedy guys who likes yellow cell",
     abilityCaracs: {},
     abilityId: "Crystallize"
   },
@@ -59,6 +62,7 @@ export const CardLib: CardLibrairy = {
       attackValue: 1,
       attackRange: 5
     },
+    description: "Smoked meat anyone ?",
     abilityId: "Attack"
   },
   SevenLeagueBoots: {
@@ -75,6 +79,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Spell,
     abilityCategory: ActionCategoryName.Intelligence,
     charge: 2,
+    description: "Drawing all the deck at once feels good",
     isFinal: false,
     abilityCaracs: {
       drawNumber: 3
@@ -102,6 +107,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Strength,
     triggerPhase: TriggerPhase.TurnEnd,
+    description: "Healing you",
     isFinal: false,
     abilityCaracs: {
       healValue: 1
@@ -115,6 +121,7 @@ export const CardLib: CardLibrairy = {
     abilityCategory: ActionCategoryName.Strength,
     triggerPhase: TriggerPhase.TurnEnd,
     isFinal: false,
+    description: "Not good for the neighboorhood",
     abilityCaracs: {
       attackValue: 1
     },
@@ -127,6 +134,7 @@ export const CardLib: CardLibrairy = {
     abilityCaracs: {
       attackValue: 2
     },
+    description: "Really not good for the neighboorhood",
     abilityId: "CircularAttack",
     isFinal: true
   },
@@ -136,6 +144,7 @@ export const CardLib: CardLibrairy = {
     abilityCategory: ActionCategoryName.Wisdom,
     charge: 1,
     autoTarget: AutoTargetKey.Self,
+    description: "A mars and let's go !",
     abilityCaracs: {
       healValue: 3
     },
@@ -147,12 +156,14 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Equipment,
     abilityCategory: ActionCategoryName.Dexterity,
     abilityCaracs: {},
+    description: "Some has tried to stay in Giants' way, they had issues...",
     abilityId: "Push"
   },
   NikeRMax: {
     name: "NikeRMax",
     cardType: CardTypeName.Equipment,
     abilityCategory: ActionCategoryName.Dexterity,
+    description: "Jump, jump, jump !",
     abilityCaracs: {
       moveRange: 1
     },
@@ -165,6 +176,7 @@ export const CardLib: CardLibrairy = {
     abilityCaracs: {
       attackRange: 1
     },
+    description: "Piou, piou.",
     abilityId: "Attack"
   },
   Teleportation: {
@@ -175,6 +187,7 @@ export const CardLib: CardLibrairy = {
     abilityCaracs: {
       moveRange: 2
     },
+    description: "I was there ? I'm not anymore.",
     abilityId: "Fly"
   }
 };
