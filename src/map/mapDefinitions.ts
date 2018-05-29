@@ -43,6 +43,19 @@ const bibiMapStruct = [
   ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
 ];
 
+console.dir(bibiMapStruct);
+
+// prettier-ignore
+const v01MapStruct = [
+  ["R--", "---", "---", "---", "---", "---", "R--", "R--", "R--"],
+  ["R--", "---", "---", "---", "---", "---", "R--", "---", "R--"],
+  ["R--", "---", "---", "---", "---", "---", "R--", "---", "R--"],
+  ["R0-", "---", "R--", "R--", "R--", "R--", "R--", "---", "R1-"],
+  ["R--", "---", "R--", "---", "R--", "---", "---", "---", "R--"],
+  ["R--", "---", "R--", "---", "R--", "---", "---", "---", "R--"],
+  ["R--", "R--", "R--", "---", "B--", "---", "---", "---", "R--"]
+];
+
 // prettier-ignore
 const verticalStruct = [
   ["R0-", "---"],
@@ -58,7 +71,7 @@ export function initMapSetup(): {
   basicAvatars: Array<Avatar>;
   blackCrystalCellId: string;
 } {
-  const firstMapDef = mapMaker(bibiMapStruct);
+  const firstMapDef = mapMaker(v01MapStruct);
   return {
     map: firstMapDef,
     basicAvatars: firstMapDef.avatars,

@@ -83,6 +83,13 @@ export const MonsterActionLib: ActionLib = {
     abilityCategory: ActionCategoryName.Strength,
     abilityId: "CircularAttack",
     abilityCaracs: {}
+  },
+  Attack: {
+    name: "MonsterAttack",
+    cardType: CardTypeName.Equipment,
+    abilityCategory: ActionCategoryName.Strength,
+    abilityId: "Attack",
+    abilityCaracs: {}
   }
 };
 

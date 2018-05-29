@@ -83,36 +83,7 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
 export function generateMonsterId(g: SimpleGame, monsterName: string) {
   return `M${g.monsterCounter + 1}`;
 }
-/*
-export function summon(
-  g: SimpleGame,
-  monsterName: string,
-  playerId: string,
-  cellId: string,
-  caracs?: Caracs
-): SimpleGame {
-  const monsterId = generateMonsterId(g, monsterName);
-  const monster = initMonsterAvatar(monsterId, cellId, caracs);
-  const monsterAdded = addMonster(g, monster);
-  const monsterPositionned = setCellAvatar(
-    monsterAdded,
-    cellId,
-    "M" + getMonsterCounter(monsterAdded).toString()
-  );
-  const newAction = loadActionMonster(g, monsterId, "CircularAttack");
-  const newActionWithTrigger: Action = {
-    ...newAction,
-    trigger: TriggerPhase.TurnEnd
-  };
-  const newActions = setNewAction(
-    getAllActions(g, playerId),
-    newActionWithTrigger,
-    playerId
-  );
-  const actionAdded = setActions(monsterPositionned, playerId, newActions);
-  return actionAdded;
-}
-*/
+
 // Black Crystal Cell is identified by the BlackCrystalCellId.
 export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));

@@ -1,5 +1,5 @@
-import { SimpleGame, TriggerPhase } from "../../types";
-import { Caracs, Action } from "../Action";
+import { SimpleGame } from "../../types";
+import { Caracs } from "../Action";
 import {
   AbilityTrigger,
   AttackCaracs,
@@ -40,7 +40,6 @@ import {
 import { setNewAction } from "../actionLogic";
 import { drawCard } from "../../cards/cardLogic";
 import { initMonsterAvatar } from "../../avatar/Avatar";
-import { loadActionMonster } from "../actionLib";
 import { getBehindCell } from "../../map/mapLogic";
 
 export const move: AbilityTrigger = (
@@ -157,7 +156,8 @@ export const summon: AbilityTrigger = (
     targetId,
     "M" + getMonsterCounter(monsterAdded).toString()
   );
-  const newAction = loadActionMonster(g, monsterId, "CircularAttack");
+  return monsterPositionned;
+  /*const newAction = loadActionMonster(g, monsterId, "CircularAttack");
   const newActionWithTrigger: Action = {
     ...newAction,
     triggerPhase: TriggerPhase.TurnEnd
@@ -168,11 +168,7 @@ export const summon: AbilityTrigger = (
     avatarId
   );
   const actionAdded = setActions(monsterPositionned, avatarId, newActions);
-  return actionAdded;
-  /*
-  const monsterSummoned = summon(g, "BasicMonster", avatarId, targetId, caracs);
-  return monsterSummoned;
-  */
+  return actionAdded;*/
 };
 
 export const trapACell: AbilityTrigger = (

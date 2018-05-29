@@ -8,7 +8,7 @@ import { Game } from "boardgame.io/core";
 import { initMapSetup } from "./map/mapDefinitions";
 import { getSelectedActionCategory, getHealth } from "./state/getters";
 import { setSelectedAction } from "./state/setters";
-import { toKey, toPathMatrix } from "./map/Cell";
+import { toKey } from "./map/Cell";
 import {
   cleanDeadMonsters,
   getBlackCrystalCellAvatarId,
@@ -38,7 +38,8 @@ import {
   exhaustAction,
   autoTriggerActions
 } from "./action/actionLogic";
-import { CheckName } from "./action/ability/Ability";
+import { triggerMonsters } from "./avatar/monsterLogic";
+import { setNewPathMatrix } from "./map/mapLogic";
 
 // Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
@@ -162,23 +163,6 @@ const CrystalHunt = Game({
           action.abilityCategory,
           ctx.currentPlayer
         );
-        const setNewPathMatrix = (
-          g: SimpleGame,
-          checkPath: CheckName
-        ): SimpleGame => {
-          switch (checkPath) {
-            case CheckName.checkMovePath:
-              return { ...g, pathMatrix: toPathMatrix(g, false) };
-            case CheckName.checkAttackPath:
-              return { ...g, pathMatrix: toPathMatrix(g, false) };
-            case CheckName.checkFlyingPath:
-              return { ...g, pathMatrix: toPathMatrix(g, true) };
-            case CheckName.checkPushPath:
-              return { ...g, pathMatrix: toPathMatrix(g, false) };
-            default:
-              return g;
-          }
-        };
         console.log(action.name + " is selected");
         // If a target is required, a newPathMatrix is eventually calculated based on the triggerName
         return setNewPathMatrix(actionSaved, check);
@@ -254,9 +238,15 @@ const CrystalHunt = Game({
         endTurnActionsTriggered,
         ctx.currentPlayer
       );
+      // Trigger monsters
+      // Monsters only attack current player.
+      const monstersTriggered = triggerMonsters(
+        actionStatusUpdated,
+        ctx.currentPlayer
+      );
       // Clean Phase, to refactor ??
       // Clean deadMonsters
-      const deadMonstersCleaned = cleanDeadMonsters(actionStatusUpdated);
+      const deadMonstersCleaned = cleanDeadMonsters(monstersTriggered);
       // Clean Exhausted Spell
       const exhaustedSpellCleaned = cleanDeadAction(
         deadMonstersCleaned,

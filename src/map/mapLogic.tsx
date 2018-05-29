@@ -1,5 +1,6 @@
 import { SimpleGame } from "../types";
-import { toCoord, toKey } from "./Cell";
+import { toCoord, toKey, toPathMatrix } from "./Cell";
+import { CheckName } from "../action/ability/Ability";
 
 export const getBehindCell = (
   g: SimpleGame,
@@ -24,3 +25,22 @@ export const getBehindCell = (
   }
   return g.map[behindId] !== undefined ? behindId : null;
 };
+
+// Used to recalculate pathMatrix based on checkName
+export function setNewPathMatrix(
+  g: SimpleGame,
+  checkPath: CheckName
+): SimpleGame {
+  switch (checkPath) {
+    case CheckName.checkMovePath:
+      return { ...g, pathMatrix: toPathMatrix(g, false) };
+    case CheckName.checkAttackPath:
+      return { ...g, pathMatrix: toPathMatrix(g, false) };
+    case CheckName.checkFlyingPath:
+      return { ...g, pathMatrix: toPathMatrix(g, true) };
+    case CheckName.checkPushPath:
+      return { ...g, pathMatrix: toPathMatrix(g, false) };
+    default:
+      return g;
+  }
+}

@@ -78,6 +78,10 @@ export function initMonsterAvatar(
     caracs !== undefined && caracs.attackValue !== undefined
       ? caracs.attackValue
       : 2;
+  const attackRange =
+    caracs !== undefined && caracs.attackRange !== undefined
+      ? caracs.attackRange
+      : 1;
   return {
     id: id,
     type: AvatarTypeName.Monster,
@@ -86,7 +90,8 @@ export function initMonsterAvatar(
     position: position,
     caracs: {
       healthCurrent: healthCurrent,
-      attackValue: attackValue
+      attackValue: attackValue,
+      attackRange: attackRange
     }
   };
 }
