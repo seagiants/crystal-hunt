@@ -208,7 +208,9 @@ export function checkActionTarget(
 
 /** Is an action requiring a target. */
 export function isTargetRequired(action: Action): false | CheckName {
-  return loadAbility(action.abilityId).isTargetRequired;
+  return action.autoTarget !== undefined
+    ? false
+    : loadAbility(action.abilityId).isTargetRequired;
 }
 
 export function autoTarget(action: Action): string | undefined {
