@@ -68,13 +68,13 @@ const getBlackCrystalXY = (cells: { string?: Cell }): string => {
   return xy;
 };
 
-const initAvatarFromCell = (key: string, cell: Cell) => {
+const initAvatarFromCell = (key: string, cell: Cell, index: number) => {
   if (cell.avatar === "0") {
     return initPlayerAvatar("0", key, RaceName.Human, Class2Name.Mage);
   } else if (cell.avatar === "1") {
     return initPlayerAvatar("1", key, RaceName.Orc, Class2Name.Warrior);
   } else {
-    return initMonsterAvatar("M", key);
+    return initMonsterAvatar("M" + index, key);
   }
 };
 
@@ -84,7 +84,10 @@ const createAvatarArray = (cells: { string?: Cell }): Array<Avatar> => {
     .map(key => [key, cells[key]])
     .filter(tuple => tuple[1].avatar !== null)
     .reduce(
-      (acc, tuple) => [...acc, initAvatarFromCell(tuple[0], tuple[1])],
+      (acc, tuple, index) => [
+        ...acc,
+        initAvatarFromCell(tuple[0], tuple[1], index)
+      ],
       []
     );
   return avatars;

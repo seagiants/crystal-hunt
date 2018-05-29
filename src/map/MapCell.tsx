@@ -45,7 +45,11 @@ const renderAvatar = (
   matrix: PathMatrix,
   playerId: string
 ) => {
+  console.log("Rendering");
   const avatarId = g.map[toKey(x, y)].avatar;
+  console.log(avatarId);
+  console.log(g.map);
+
   if (avatarId !== null) {
     const avatar = getAvatar(g, avatarId);
     const computedPoints = `${x * 40 + 20},${y * 40 + 2} ${x * 40 + 2},${y *

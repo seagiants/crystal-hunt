@@ -82,7 +82,7 @@ export function initMonsterAvatar(
     caracs !== undefined && caracs.attackRange !== undefined
       ? caracs.attackRange
       : 1;
-  return {
+  const newMonster: Avatar = {
     id: id,
     type: AvatarTypeName.Monster,
     race: RaceName.Monster,
@@ -94,4 +94,6 @@ export function initMonsterAvatar(
       attackRange: attackRange
     }
   };
+  console.log(newMonster);
+  return newMonster;
 }

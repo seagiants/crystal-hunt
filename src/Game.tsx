@@ -5,7 +5,7 @@ import {
   TriggerPhase
 } from "./types/index";
 import { Game } from "boardgame.io/core";
-import { initMapSetup } from "./map/mapDefinitions";
+import { initMapSetup, CellsDef } from "./map/mapDefinitions";
 import { getSelectedActionCategory, getHealth } from "./state/getters";
 import { setSelectedAction } from "./state/setters";
 import { toKey } from "./map/Cell";
@@ -40,6 +40,7 @@ import {
 } from "./action/actionLogic";
 import { triggerMonsters } from "./avatar/monsterLogic";
 import { setNewPathMatrix } from "./map/mapLogic";
+import { Avatar } from "./avatar/Avatar";
 
 // Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
@@ -66,22 +67,42 @@ function initActionsFlow(): ActionsFlow {
   };
 }
 
+// Needed to have correct id on cell for monsters (initialization doesn't iterate on monster's id)
+// Todo : Refactor to be done on MapDefinition ?
+function setCorrectId(cells: CellsDef, avatars: Array<Avatar>): CellsDef {
+  function reducer(tempCells: CellsDef, currentAvatar: Avatar): CellsDef {
+    return {
+      ...tempCells,
+      [currentAvatar.position]: {
+        ...tempCells[currentAvatar.position],
+        avatar: currentAvatar.id
+      }
+    };
+  }
+  return avatars.reduce(reducer, cells);
+}
+
 export const setupGame = (): SimpleGame => {
   // TODO : playersContext should be dropped and state flattened.
   // TODO : dynamically set the monsterCounter.
   const basicSetup = initMapSetup();
+  const avatars = basicSetup.basicAvatars;
   const newG = {
-    map: basicSetup.map.cells,
+    map: setCorrectId(basicSetup.map.cells, avatars),
     xMax: basicSetup.map.xMax,
     yMax: basicSetup.map.yMax,
     players: { 0: initPlayerContext("0"), 1: initPlayerContext("1") },
-    avatars: basicSetup.basicAvatars,
+    avatars: avatars,
     blackCrystalCellId: basicSetup.blackCrystalCellId,
-    monsterCounter: 2,
+    monsterCounter: avatars.length,
     actionCount: 0,
     selectedAction: null,
-    decksPlayer0: loadDeck(basicSetup.basicAvatars[0].class2),
-    decksPlayer1: loadDeck(basicSetup.basicAvatars[1].class2),
+    decksPlayer0: loadDeck(
+      basicSetup.basicAvatars.filter(avatar => avatar.id === "0")[0].class2
+    ),
+    decksPlayer1: loadDeck(
+      basicSetup.basicAvatars.filter(avatar => avatar.id === "1")[0].class2
+    ),
     infoMessages: ["Game started"],
     pathMatrix: []
   };
