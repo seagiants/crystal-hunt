@@ -2,7 +2,9 @@ import * as React from "react";
 import { TilesBoardProps } from "../types";
 import { getCards } from "./cardStateHandling";
 import { Card, splitCardName, getCardColor } from "./Card";
+import { Caracs } from "../action/Action";
 
+// ----- Interfaces ----- // // FIXME should live in /types.ts
 export interface CardTileProps {
   card: Card;
   index: number;
@@ -10,22 +12,45 @@ export interface CardTileProps {
   activateCard(cardIndex: number, playerId: string): object;
   endTurn(): object;
 }
+
+interface CardNameProps {
+  name: string;
+}
+
+interface CardTypeProps {
+  type: string;
+}
+
+interface CardCaracsProps {
+  caracs: Caracs;
+}
+
 // ----- Components ----- //
-const getCardName = (name: string) => {
-  return splitCardName(name).map((n, i) => {
+const CardName = (props: CardNameProps) => {
+  const splits = splitCardName(props.name).map((n, i) => {
     return (
       <text key={`${n}-${i}`} x="10" y={(15 * (i + 1)).toString()} fontSize="9">
         {n}
       </text>
     );
   });
+  return <g>{splits}</g>;
 };
 
-const getCardType = (type: string) => (
+const CardType = (props: CardTypeProps) => (
   <text x="10" y="60" fontSize="8">
-    /{type.toUpperCase()}/
+    /{props.type.toUpperCase()}/
   </text>
 );
+
+const CardCaracs = (props: CardCaracsProps) => {
+  const caracList = Object.keys(props.caracs).map((carac, i) => (
+    <text key={i} x="10" y={80 + (i + 1) * 10} fontSize="7">
+      {`${carac}: ${props.caracs[carac]}`}
+    </text>
+  ));
+  return <g>{caracList}</g>;
+};
 
 export const CardTile = (props: CardTileProps) => {
   return (
@@ -44,13 +69,9 @@ export const CardTile = (props: CardTileProps) => {
       >
         <title>{props.card.description}</title>
       </rect>
-      {getCardName(props.card.name)}
-      {getCardType(props.card.cardType)}
-      {Object.keys(props.card.abilityCaracs).map((carac, i) => (
-        <text key={i} x="10" y={80 + (i + 1) * 10} fontSize="7">
-          {`${carac}: ${props.card.abilityCaracs[carac]}`}
-        </text>
-      ))}
+      <CardName name={props.card.name} />
+      <CardType type={props.card.cardType} />
+      <CardCaracs caracs={props.card.abilityCaracs} />
     </svg>
   );
 };
