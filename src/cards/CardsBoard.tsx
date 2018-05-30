@@ -46,7 +46,11 @@ const CardType = (props: CardTypeProps) => (
 const CardCaracs = (props: CardCaracsProps) => {
   const caracList = Object.keys(props.caracs).map((carac, i) => (
     <text key={i} x="10" y={80 + (i + 1) * 10} fontSize="7">
-      {`${carac}: ${props.caracs[carac]}`}
+      {`${carac}: ${
+        props.caracs[carac] > 0
+          ? "+" + props.caracs[carac]
+          : props.caracs[carac]
+      }`}
     </text>
   ));
   return <g>{caracList}</g>;
