@@ -70,7 +70,7 @@ const getBlackCrystalXY = (cells: { string?: Cell }): string => {
 
 const initAvatarFromCell = (key: string, cell: Cell, index: number) => {
   if (cell.avatar === "0") {
-    return initPlayerAvatar("0", key, RaceName.Human, Class2Name.Mage);
+    return initPlayerAvatar("0", key, RaceName.Human, Class2Name.Assassin);
   } else if (cell.avatar === "1") {
     return initPlayerAvatar("1", key, RaceName.Orc, Class2Name.Warrior);
   } else {

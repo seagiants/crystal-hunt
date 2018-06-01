@@ -187,8 +187,31 @@ export const CardLib: CardLibrairy = {
     abilityCaracs: {
       moveRange: 2
     },
-    description: "I was there ? I'm not anymore.",
+    description: "Was there ? Not anymore.",
     abilityId: "Fly"
+  },
+  Doliprane: {
+    name: "Doliprane",
+    cardType: CardTypeName.Spell,
+    abilityCategory: ActionCategoryName.Wisdom,
+    charge: 2,
+    abilityCaracs: {
+      healValue: 2
+    },
+    autoTarget: AutoTargetKey.Self,
+    description: "Just need a doliprane ?",
+    abilityId: "Heal"
+  },
+  PoisonnedArrows: {
+    name: "PoisonnedArrows",
+    cardType: CardTypeName.Equipment,
+    abilityCategory: ActionCategoryName.Strength,
+    abilityCaracs: {
+      attackRange: 1,
+      poisonValue: 1
+    },
+    description: "That's not fair, but hey, who cares ?",
+    abilityId: "PoisonAttack"
   }
 };
 

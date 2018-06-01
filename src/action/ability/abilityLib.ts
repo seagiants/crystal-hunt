@@ -24,6 +24,11 @@ export const AbilityLib: { [key in string]: Ability } = {
     abilityType: AbilityTypeName.Physical,
     trigger: TriggerName.attack
   },
+  PoisonAttack: {
+    isTargetRequired: CheckName.checkAttackPath,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.poisonAttack
+  },
   CircularAttack: {
     // id: "CircularAttack",
     isTargetRequired: false,
@@ -80,6 +85,11 @@ export const AbilityLib: { [key in string]: Ability } = {
     isTargetRequired: CheckName.checkFlyingPath,
     abilityType: AbilityTypeName.Magical,
     trigger: TriggerName.move
+  },
+  Poison: {
+    isTargetRequired: CheckName.checkAttackPath,
+    abilityType: AbilityTypeName.Magical,
+    trigger: TriggerName.poison
   }
 };
 

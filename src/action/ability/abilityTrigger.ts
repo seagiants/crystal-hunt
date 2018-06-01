@@ -1,5 +1,5 @@
-import { SimpleGame } from "../../types";
-import { Caracs } from "../Action";
+import { SimpleGame, TriggerPhase } from "../../types";
+import { Caracs, CardTypeName, ActionCategoryName } from "../Action";
 import {
   AbilityTrigger,
   AttackCaracs,
@@ -16,14 +16,10 @@ import {
   getCategories,
   getHealth,
   getHealthInit,
-  getMonsterCounter
+  getMonsterCounter,
+  getAvatar
 } from "../../state/getters";
-import {
-  checkTraps,
-  damage,
-  generateMonsterId,
-  refreshAction
-} from "../../state/gameLogic";
+import { checkTraps, damage, refreshAction } from "../../state/gameLogic";
 import {
   setAvatarPosition,
   setCellCrystallize,
@@ -35,12 +31,15 @@ import {
 import {
   loadActionFromTemplate,
   getAllActions,
-  setActions
+  setActions,
+  initAction
 } from "../actionStateHandling";
 import { setNewAction } from "../actionLogic";
 import { drawCard } from "../../cards/cardLogic";
 import { initMonsterAvatar } from "../../avatar/Avatar";
 import { getBehindCell } from "../../map/mapLogic";
+import { Card } from "../../cards/Card";
+import { generateMonsterId } from "../../avatar/monsterLogic";
 
 export const move: AbilityTrigger = (
   g: SimpleGame,
@@ -80,6 +79,64 @@ export const attack: AbilityTrigger = (
 ) => {
   const avatar = getAvatarOnCell(g, targetId);
   return avatar !== null ? damage(g, avatar, caracs.attackValue) : g;
+};
+
+export const poison: AbilityTrigger = (
+  g: SimpleGame,
+  avatarId: string,
+  targetId: string,
+  caracs: AttackCaracs
+) => {
+  // const avatar = getAvatarOnCell(g, targetId);
+  return getAvatar(g, targetId) !== null || getAvatar(g, targetId) !== undefined
+    ? damage(g, targetId, caracs.poisonValue)
+    : g;
+};
+
+export const poisonning: AbilityTrigger = (
+  g: SimpleGame,
+  avatarId: string,
+  targetId: string,
+  caracs: Caracs
+) => {
+  const cardPoisonning: Card = {
+    name: "Poison",
+    cardType: CardTypeName.Enchantment,
+    abilityCategory: ActionCategoryName.Strength,
+    triggerPhase: TriggerPhase.TurnStart,
+    isFinal: false,
+    description: "Feels a bit sick...",
+    autoTarget: targetId,
+    abilityCaracs: {
+      poisonValue: caracs.poisonValue
+    },
+    abilityId: "Poison"
+  };
+  const action = initAction(
+    cardPoisonning,
+    avatarId,
+    `${cardPoisonning.abilityCategory}${avatarId}${targetId}`
+  );
+  const newActions = setNewAction(getAllActions(g, avatarId), action, avatarId);
+  return setActions(g, avatarId, newActions);
+};
+
+export const poisonAttack: AbilityTrigger = (
+  g: SimpleGame,
+  avatarId: string,
+  targetId: string,
+  caracs: AttackCaracs
+) => {
+  const targetAvatarId = getAvatarOnCell(g, targetId);
+  if (targetAvatarId === null) {
+    return g;
+  }
+  const damaged = damage(g, targetAvatarId, caracs.poisonValue);
+  // Check if target still alive before poisonning
+  if (getAvatarOnCell(damaged, targetId) === null) {
+    return damaged;
+  }
+  return poisonning(damaged, avatarId, targetAvatarId, caracs);
 };
 
 export const circularAttack: AbilityTrigger = (
@@ -157,18 +214,6 @@ export const summon: AbilityTrigger = (
     "M" + getMonsterCounter(monsterAdded).toString()
   );
   return monsterPositionned;
-  /*const newAction = loadActionMonster(g, monsterId, "CircularAttack");
-  const newActionWithTrigger: Action = {
-    ...newAction,
-    triggerPhase: TriggerPhase.TurnEnd
-  };
-  const newActions = setNewAction(
-    getAllActions(g, avatarId),
-    newActionWithTrigger,
-    avatarId
-  );
-  const actionAdded = setActions(monsterPositionned, avatarId, newActions);
-  return actionAdded;*/
 };
 
 export const trapACell: AbilityTrigger = (
@@ -286,6 +331,10 @@ export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
       return circularAttack;
     case TriggerName.push:
       return push;
+    case TriggerName.poisonAttack:
+      return poisonAttack;
+    case TriggerName.poison:
+      return poison;
     default:
       console.log(triggerName + " not supported");
       return (g: SimpleGame) => g;

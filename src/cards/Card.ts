@@ -19,7 +19,7 @@ import { class2Lib } from "../avatar/class2Lib";
 export interface Card extends ActionTemplate {
   charge?: number;
   upgradeName?: string;
-  autoTarget?: AutoTargetKey;
+  autoTarget?: AutoTargetKey | string;
   description?: string;
 }
 

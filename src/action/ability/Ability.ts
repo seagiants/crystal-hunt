@@ -30,7 +30,9 @@ export enum TriggerName {
   enchant = "enchant",
   refreshAction = "refreshAction",
   circularAttack = "circularAttack",
-  push = "push"
+  push = "push",
+  poisonAttack = "poisonAttack",
+  poison = "poison"
 }
 
 export enum CheckName {

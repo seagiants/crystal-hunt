@@ -7,10 +7,9 @@ import {
 import { Game } from "boardgame.io/core";
 import { initMapSetup, CellsDef } from "./map/mapDefinitions";
 import { getSelectedActionCategory, getHealth } from "./state/getters";
-import { setSelectedAction } from "./state/setters";
+import { setSelectedAction, addInfoMessage } from "./state/setters";
 import { toKey } from "./map/Cell";
 import {
-  cleanDeadMonsters,
   getBlackCrystalCellAvatarId,
   updateActionsStatus,
   setActionClicked
@@ -38,7 +37,7 @@ import {
   exhaustAction,
   autoTriggerActions
 } from "./action/actionLogic";
-import { triggerMonsters } from "./avatar/monsterLogic";
+import { triggerMonsters, cleanDeadMonsters } from "./avatar/monsterLogic";
 import { setNewPathMatrix } from "./map/mapLogic";
 import { Avatar } from "./avatar/Avatar";
 
@@ -245,12 +244,31 @@ const CrystalHunt = Game({
       }
       return;
     },
+    onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
+      console.log("OTB");
+      console.log(ctx);
+      const addedInfo = addInfoMessage(
+        G,
+        "New turn begins for player" + ctx.currentPlayer
+      );
+      return autoTriggerActions(
+        addedInfo,
+        ctx.currentPlayer,
+        TriggerPhase.TurnStart
+      );
+    },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.actionCount >= 2,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
+      console.log("OTE");
+      console.log(ctx);
+      const addedInfo = addInfoMessage(
+        G,
+        "Turn ended for player" + ctx.currentPlayer
+      );
       // EndTurn Workflow :
       // Trigger EndTurn Actions
       const endTurnActionsTriggered = autoTriggerActions(
-        G,
+        addedInfo,
         ctx.currentPlayer,
         TriggerPhase.TurnEnd
       );
@@ -287,6 +305,8 @@ const CrystalHunt = Game({
           );
         },
         onPhaseBegin: (G: SimpleGame, ctx: GameContext) => {
+          console.log("OPB");
+          console.log(ctx);
           return G;
         }
       },

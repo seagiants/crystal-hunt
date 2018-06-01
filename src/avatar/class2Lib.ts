@@ -19,6 +19,14 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "Teleportation",
     "GandalfStaff"
   ],
-  Assassin: ["SummonMonster", "Fireball", "MentalExplosion", "CrystalAffinity"],
+  Assassin: [
+    "SetATrickyTrap",
+    "PoisonnedArrows",
+    "Illusion",
+    "Doliprane",
+    "SummonSpiderNest",
+    "FishermansFriend",
+    "SevenLeagueBoots2"
+  ],
   Monster: []
 };
