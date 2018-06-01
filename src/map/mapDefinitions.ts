@@ -43,8 +43,6 @@ const bibiMapStruct = [
   ["R--", "R--", "R--", "R--", "R--", "R--", "R1-"]
 ];
 
-console.dir(bibiMapStruct);
-
 // prettier-ignore
 const v01MapStruct = [
   ["R--", "---", "---", "---", "---", "---", "R--", "R--", "R--"],
@@ -56,14 +54,8 @@ const v01MapStruct = [
   ["R--", "R--", "R--", "---", "B--", "---", "---", "---", "R--"]
 ];
 
-// prettier-ignore
-const verticalStruct = [
-  ["R0-", "---"],
-  ["R--", "R--"],
-  ["---", "R1-"]
-];
-
-console.dir(verticalStruct);
+// Throw away
+bibiMapStruct.toString();
 
 // TODO : Improve BlackCrsytalCell handle.
 export function initMapSetup(): {

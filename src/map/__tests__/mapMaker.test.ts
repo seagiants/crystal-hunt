@@ -25,7 +25,7 @@ describe("mapMaker", () => {
     const keys = Object.keys(basicMapDef.cells);
     expect(keys).toHaveLength(6);
     expect(keys[0]).toEqual("0x0");
-    expect(keys[5]).toEqual("1x2");
+    expect(keys[5]).toEqual("2x1");
   });
   it("should handle empty cells", () => {
     const withEmptyMapDef = mapMaker(STRUCT_WITH_EMPTY);
