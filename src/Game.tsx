@@ -146,6 +146,7 @@ const CrystalHunt = Game({
         null,
         ctx.currentPlayer
       );
+      console.log(actionUnsaved);
       const actionFinalized: SimpleGame = exhaustAction(
         actionUnsaved,
         ctx.currentPlayer,

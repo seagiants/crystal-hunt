@@ -3,23 +3,19 @@ import * as React from "react";
 import { SimpleGame } from "../types";
 import { getCellType, getCrystallized, getAvatar } from "../state/getters";
 import { MapCellProps, PathMatrix } from "./types";
-import { AvatarTypeName } from "../avatar/Avatar";
-import { raceLib } from "../avatar/raceLib";
+import { AvatarTypeName, Class2Name } from "../avatar/Avatar";
 
 // ----- Utility functions ----- //
-/* const getAvatarDescription = (avatar: Avatar): string => {
-  switch (avatar.type) {
-    case "Monster":
-      return `A monster here with ${
-        avatar.caracs.healthCurrent
-      } HP! Run, you fool!`;
-    case "Player":
-      return "A fool";
+const getAvatarImage = (klass: string) => {
+  switch (klass) {
+    case Class2Name.Mage:
+      return "http://pixelartmaker.com/art/14e16d5f73516e6.png";
+    case Class2Name.Warrior:
+      return "http://www.nonadecimal.com/staging/SJW/paladin.png";
     default:
-      return "";
+      return "https://us.v-cdn.net/5022341/uploads/editor/ig/c4fkmp1vhsqq.png";
   }
 };
-*/
 
 const cssClass = (
   g: SimpleGame,
@@ -56,12 +52,19 @@ const renderAvatar = (
         ? avatarId
         : avatar.caracs.healthCurrent;
     const textColor = avatar.type === AvatarTypeName.Player ? "black" : "red";
+    computedPoints.toString();
     return (
       <g>
-        <polygon points={computedPoints} fill={raceLib[avatar.race].color} />
-        <text x={x * 40 + 15} y={y * 40 + 35} fill={textColor}>
+        <text x={x * 40 + 35} y={y * 40} fill={textColor}>
           {text}
         </text>
+        <image
+          xlinkHref={getAvatarImage(avatar.class2)}
+          x={x * 40}
+          y={y * 40}
+          height="40px"
+          width="40px"
+        />
       </g>
     );
   } else {
@@ -91,9 +94,8 @@ const clickHandler = (e: React.MouseEvent<SVGElement>, props: MapCellProps) => {
 // ----- Cell component ----- //
 const MapCell = (props: MapCellProps) => {
   return (
-    <g key={toKey(props.x, props.y)}>
+    <g key={toKey(props.x, props.y)} onClick={e => clickHandler(e, props)}>
       <rect
-        onClick={e => clickHandler(e, props)}
         className={cssClass(props.G, props.x, props.y, props.isClickable)}
         x={props.x * 40}
         y={props.y * 40}
