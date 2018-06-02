@@ -145,7 +145,6 @@ const CrystalHunt = Game({
         null,
         ctx.currentPlayer
       );
-      console.log(actionUnsaved);
       const actionFinalized: SimpleGame = exhaustAction(
         actionUnsaved,
         ctx.currentPlayer,
@@ -246,8 +245,6 @@ const CrystalHunt = Game({
       return;
     },
     onTurnBegin: (G: SimpleGame, ctx: GameContext) => {
-      console.log("OTB");
-      console.log(ctx);
       const addedInfo = addInfoMessage(
         G,
         "New turn begins for player" + ctx.currentPlayer
@@ -260,8 +257,6 @@ const CrystalHunt = Game({
     },
     endTurnIf: (G: SimpleGame, ctx: GameContext) => G.actionCount >= 2,
     onTurnEnd: (G: SimpleGame, ctx: GameContext) => {
-      console.log("OTE");
-      console.log(ctx);
       const addedInfo = addInfoMessage(
         G,
         "Turn ended for player" + ctx.currentPlayer
@@ -306,8 +301,6 @@ const CrystalHunt = Game({
           );
         },
         onPhaseBegin: (G: SimpleGame, ctx: GameContext) => {
-          console.log("OPB");
-          console.log(ctx);
           return G;
         }
       },

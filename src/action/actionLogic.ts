@@ -134,14 +134,10 @@ export function autoTriggerActions(
   playerId: string,
   triggerPhase: TriggerPhase
 ): SimpleGame {
-  console.log("Actions");
-  console.log(getAllActions(g, playerId));
   // In auto triggering, default target is player.
   const actionsToTrigger = getAllActions(g, playerId).filter(
     current => current.triggerPhase === triggerPhase
   );
-  console.log("Filtrée");
-  console.log(actionsToTrigger);
   const actionsTriggered = actionsToTrigger.reduce(
     (tempG, current) => {
       console.log("triggering " + current.name);

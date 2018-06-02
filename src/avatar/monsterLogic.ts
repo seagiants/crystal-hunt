@@ -73,16 +73,15 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
     currentPlayerId: string,
     deadMonsterIds: Array<string>
   ): SimpleGame => {
-    // TODO !!!!
-    console.log(
-      "You punk, need to implement the cleanDeadMonster correctly !!!!!"
-    );
     const actions = getAllActions(currentG, currentPlayerId).filter(
-      currentAction =>
-        deadMonsterIds.indexOf(currentAction.avatarId) < 0 ||
-        (currentAction.autoTarget
-          ? deadMonsterIds.indexOf(currentAction.autoTarget!) < 0
-          : false)
+      currentAction => {
+        return (
+          deadMonsterIds.indexOf(currentAction.avatarId) < 0 &&
+          (currentAction.autoTarget !== undefined
+            ? deadMonsterIds.indexOf(currentAction.autoTarget!) < 0
+            : true)
+        );
+      }
     );
     const actionsCleaned = setActions(currentG, currentPlayerId, actions);
     return actionsCleaned;
