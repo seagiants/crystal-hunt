@@ -12,6 +12,9 @@ const getAvatarImage = (klass: string) => {
       return "http://pixelartmaker.com/art/14e16d5f73516e6.png";
     case Class2Name.Warrior:
       return "http://www.nonadecimal.com/staging/SJW/paladin.png";
+    case Class2Name.Assassin:
+      // tslint:disable-next-line:max-line-length
+      return "https://orig00.deviantart.net/ab25/f/2014/330/6/9/pixel_art_raffle_sprite_ezio_from_assassin_s_creed_by_justingamedesign-d87t8nl.png";
     default:
       return "https://us.v-cdn.net/5022341/uploads/editor/ig/c4fkmp1vhsqq.png";
   }
