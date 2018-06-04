@@ -5,8 +5,8 @@
   "devDependencies": {
     "@types/jest": "^22.2.0",
     "@types/node": "^9.4.6",
-    "@types/react": "^16.0.40",
-    "@types/react-dom": "^16.0.4",
+    "@types/react": "^16.3.16",
+    "@types/react-dom": "^16.0.5",
     "react-scripts-ts": "2.13.0",
     "typescript": "^2.7.2"
   },
@@ -16,8 +16,8 @@
     "koa-static": "^4.0.2",
     "mousetrap": "^1.6.1",
     "pathfinding": "^0.4.18",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
   },
   "scripts": {
     "dev-start": "react-scripts-ts start",
