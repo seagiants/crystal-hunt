@@ -2,7 +2,8 @@ import {
   SimpleGame,
   GameContext,
   PlayerContext,
-  TriggerPhase
+  TriggerPhase,
+  ReadyState
 } from "./types/index";
 import { Game } from "boardgame.io/core";
 import { initMapSetup, CellsDef } from "./map/mapDefinitions";
@@ -39,7 +40,7 @@ import {
 } from "./action/actionLogic";
 import { triggerMonsters, cleanDeadMonsters } from "./avatar/monsterLogic";
 import { setNewPathMatrix } from "./map/mapLogic";
-import { Avatar } from "./avatar/Avatar";
+import { Avatar, Class2Name, RaceName } from "./avatar/Avatar";
 
 // Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
@@ -87,6 +88,7 @@ export const setupGame = (): SimpleGame => {
   const basicSetup = initMapSetup();
   const avatars = basicSetup.basicAvatars;
   const newG = {
+    readyState: ReadyState.None,
     map: setCorrectId(basicSetup.map.cells, avatars),
     xMax: basicSetup.map.xMax,
     yMax: basicSetup.map.yMax,
@@ -108,9 +110,41 @@ export const setupGame = (): SimpleGame => {
   return newG;
 };
 
+// ----- THE GAME DEFINITION ----- //
 const CrystalHunt = Game({
   setup: (): SimpleGame => setupGame(),
   moves: {
+    // Each player choose their avatar class and race at the start
+    // of each game
+    setAvatars: (
+      G: SimpleGame,
+      ctx: GameContext,
+      playerID: string,
+      klass: Class2Name,
+      race: RaceName
+    ) => {
+      if (playerID === "0") {
+        console.log("setting avatars for P0");
+        switch (G.readyState) {
+          case ReadyState.None:
+            return { ...G, readyState: ReadyState.Zero };
+          case ReadyState.One:
+            return { ...G, readyState: ReadyState.Both };
+          default:
+            return G;
+        }
+      } else {
+        console.log("setting avatars for P1");
+        switch (G.readyState) {
+          case ReadyState.None:
+            return { ...G, readyState: ReadyState.One };
+          case ReadyState.Zero:
+            return { ...G, readyState: ReadyState.Both };
+          default:
+            return G;
+        }
+      }
+    },
     // it seems that G and ctx are injected
     activateCell: (G: SimpleGame, ctx: GameContext, cellXY: number[]) => {
       /* activateCell Workflow :
@@ -291,6 +325,25 @@ const CrystalHunt = Game({
       return resetActionCount(exhaustedSpellCleaned);
     },
     phases: [
+      {
+        name: "Select Avatar",
+        allowedMoves: ["setAvatars"],
+        endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
+          console.log("select phase will end", G.readyState, ReadyState.Both);
+          return G.readyState === ReadyState.Both;
+        },
+        onPhaseBegin: (G: SimpleGame, ctx: GameContext) => {
+          console.log("select phase begins");
+          return G;
+        },
+        onPhaseEnd: (G: SimpleGame, ctx: GameContext) => {
+          console.log("select phase ends");
+          return G;
+        },
+        endTurnIf: (G: SimpleGame, ctx: GameContext) => {
+          return G.readyState !== ReadyState.None;
+        }
+      },
       {
         name: "Choose Action",
         allowedMoves: ["activateAction"],
