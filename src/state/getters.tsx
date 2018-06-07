@@ -40,12 +40,12 @@ export function getSkillByCat(
 */
 export function getHealth(g: SimpleGame, avatarId: string): number {
   return g.avatars.filter(avatar => avatar.id === avatarId)[0].caracs
-    .healthCurrent;
+    .healthCurrent as number;
 }
 
 export function getHealthInit(g: SimpleGame, avatarId: string): number {
   return g.avatars.filter(avatar => avatar.id === avatarId)[0].caracs
-    .healthInit;
+    .healthInit as number;
 }
 
 export function getAvatar(g: SimpleGame, avatarId: string): Avatar {

@@ -40,6 +40,7 @@ import { initMonsterAvatar } from "../../avatar/Avatar";
 import { getBehindCell } from "../../map/mapLogic";
 import { Card } from "../../cards/Card";
 import { generateMonsterId } from "../../avatar/monsterLogic";
+import { MonsterName } from "../../avatar/monsterLib";
 
 export const move: AbilityTrigger = (
   g: SimpleGame,
@@ -205,8 +206,12 @@ export const summon: AbilityTrigger = (
   targetId: string,
   caracs: Caracs
 ) => {
-  const monsterId = generateMonsterId(g, "BasicMonster");
-  const monster = initMonsterAvatar(monsterId, targetId);
+  const monsterType: string =
+    caracs.monsterType !== undefined
+      ? (caracs.monsterType as string)
+      : MonsterName.BasicMonster;
+  const monsterId = generateMonsterId(g);
+  const monster = initMonsterAvatar(monsterId, targetId, monsterType);
   const monsterAdded = addMonster(g, monster);
   const monsterPositionned = setCellAvatar(
     monsterAdded,

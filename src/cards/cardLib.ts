@@ -44,6 +44,17 @@ export const CardLib: CardLibrairy = {
     },
     abilityId: "Summon"
   },
+  SummonSpiderNest: {
+    name: "SummonSpiderNest",
+    cardType: CardTypeName.Spell,
+    abilityCategory: ActionCategoryName.Strength,
+    charge: 2,
+    abilityCaracs: {
+      attackValue: 3,
+      monsterType: "Spider"
+    },
+    abilityId: "Summon"
+  },
   GoldenShoes: {
     name: "GoldenShoes",
     cardType: CardTypeName.Enchantment,

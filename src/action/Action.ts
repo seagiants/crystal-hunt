@@ -1,4 +1,5 @@
 import { TriggerPhase } from "../types";
+import { MonsterName } from "../avatar/monsterLib";
 
 export enum ActionCategoryName {
   Dexterity = "Dexterity",
@@ -31,6 +32,8 @@ export interface ActionTemplate {
   triggerPhase?: TriggerPhase;
   /** Used to identify the upgrade name (cardName) */
   upgradeName?: string;
+  /** Used for summon ability */
+  summonTarget?: MonsterName;
 }
 
 export enum AutoTargetKey {
@@ -49,7 +52,7 @@ export interface Action extends ActionTemplate {
  * Caracteristics are tagged name assiociated with some game logic.
  */
 export interface Caracs {
-  [caracName: string]: number;
+  [caracName: string]: number | string;
 }
 
 export type ActionLib = { [key in string]: ActionTemplate };

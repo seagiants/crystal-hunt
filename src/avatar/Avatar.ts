@@ -1,6 +1,7 @@
 import { Caracs } from "../action/Action";
 import { addCaracs } from "../action/actionLogic";
 import { raceLib } from "./raceLib";
+import { MonsterLib } from "./monsterLib";
 
 export enum AvatarTypeName {
   Player = "Player",
@@ -30,12 +31,15 @@ export interface Avatar {
   caracs: Caracs;
 }
 
-export interface CaracsAvatar extends Caracs {
+export interface BasicCaracs extends Caracs {
   healthInit: number;
   healthCurrent: number;
   attackValue: number;
   attackRange: number;
   moveRange: number;
+}
+
+export interface CaracsAvatar extends BasicCaracs {
   drawNumber: number;
 }
 
@@ -68,31 +72,16 @@ export function initPlayerAvatar(
 export function initMonsterAvatar(
   id: string,
   position: string,
+  monsterType: string,
   caracs?: Caracs
 ): Avatar {
-  const healthCurrent =
-    caracs !== undefined && caracs.healthCurrent !== undefined
-      ? caracs.healthCurrent
-      : 2;
-  const attackValue =
-    caracs !== undefined && caracs.attackValue !== undefined
-      ? caracs.attackValue
-      : 2;
-  const attackRange =
-    caracs !== undefined && caracs.attackRange !== undefined
-      ? caracs.attackRange
-      : 1;
   const newMonster: Avatar = {
     id: id,
     type: AvatarTypeName.Monster,
     race: RaceName.Monster,
     class2: Class2Name.Monster,
     position: position,
-    caracs: {
-      healthCurrent: healthCurrent,
-      attackValue: attackValue,
-      attackRange: attackRange
-    }
+    caracs: MonsterLib[monsterType]
   };
   return newMonster;
 }

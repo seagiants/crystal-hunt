@@ -95,6 +95,6 @@ export function cleanDeadMonsters(g: SimpleGame): SimpleGame {
   return triggerOnDeadsCleaned;
 }
 
-export function generateMonsterId(g: SimpleGame, monsterName: string) {
+export function generateMonsterId(g: SimpleGame) {
   return `M${g.monsterCounter + 1}`;
 }
