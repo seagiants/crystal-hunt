@@ -3,11 +3,21 @@ import { PathMatrix } from "../map/types";
 import { Caracs, Action, ActionCategoryName } from "../action/Action";
 import { ActionsFlow } from "../action/Action";
 import { Card } from "../cards/Card";
-import { Avatar } from "../avatar/Avatar";
+import { Avatar, Class2Name, RaceName } from "../avatar/Avatar";
+
+export enum ReadyState {
+  None = "xx",
+  Zero = "0x",
+  One = "x1",
+  Both = "01",
+  Finished = ""
+}
 
 /* Types from boardgame.io */
 // FIXME shoud live in a .d.ts
 export interface SimpleGame {
+  // Mark if none, one or both player are ready for action
+  readyState: ReadyState;
   players: PlayersContextType;
   selectedAction: ActionCategoryName | null;
   avatars: Array<Avatar>;
@@ -35,6 +45,7 @@ export interface GameContext {
 }
 
 export interface Moves {
+  setAvatars(playerID: string, klass: Class2Name, race: RaceName): object;
   activateCell(cellXY: number[]): object;
   activateAction(category: ActionCategoryName): object;
   activateCard(): object;

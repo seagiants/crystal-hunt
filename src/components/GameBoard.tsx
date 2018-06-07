@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GameBoardProps } from "../types/index";
+import { GameBoardProps, ReadyState } from "../types/index";
 import { ActionsBoard } from "../action/ActionsBoard";
 import MutedActionBoard from "../action/MutedActionBoard";
 import PlayerInfo from "./PlayerInfo";
@@ -10,10 +10,10 @@ import { getHealth, getInfos, getAvatar } from "../state/getters";
 import { CardsBoard } from "../cards/CardsBoard";
 import { TriggersList } from "../action/TriggersList";
 import { getAutoTriggerActions } from "../action/actionStateHandling";
+import AvatarSelector from "./AvatarSelector";
 
 // ----- Utils
 const getActionBoard = (props: GameBoardProps) => {
-  // console.log("player is active:", props.isActive);
   if (props.isActive) {
     return (
       <ActionsBoard
@@ -41,6 +41,15 @@ const getActionBoard = (props: GameBoardProps) => {
 export const GameBoard = (props: GameBoardProps) => {
   if (props.ctx.gameover !== undefined) {
     return <div className="container">Player {props.ctx.gameover} wins!</div>;
+  }
+  if (props.G.readyState !== ReadyState.Both) {
+    return (
+      <AvatarSelector
+        readyState={props.G.readyState}
+        moves={props.moves}
+        playerID={props.playerID}
+      />
+    );
   } else {
     return (
       <div>

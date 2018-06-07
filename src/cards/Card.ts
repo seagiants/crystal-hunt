@@ -60,7 +60,6 @@ export function loadDeck(class2: Class2Name): Array<Card> {
     if (card !== undefined) {
       return [...temp, CardLib[prop]];
     } else {
-      console.log("Card " + prop + " can't be loaded");
       return temp;
     }
   };
