@@ -260,13 +260,22 @@ export function cleanDeadAction(g: SimpleGame, playerId: string): SimpleGame {
 
 /** Used to add caracs
  * caracs' props are summed based on key name.
+ * TODO : implement correctly the string case.
  */
 export function addCaracs(caracs1: Caracs, caracs2: Caracs): Caracs {
   let newCaracs: Caracs = { ...caracs1 };
   Object.keys(caracs2).forEach(carac => {
-    newCaracs[carac] !== undefined
-      ? (newCaracs[carac] = newCaracs[carac] + caracs2[carac])
-      : (newCaracs[carac] = caracs2[carac]);
+    switch (typeof newCaracs[carac]) {
+      case "undefined":
+        newCaracs[carac] = caracs2[carac];
+        break;
+      case "number":
+        newCaracs[carac] =
+          (newCaracs[carac] as number) + (caracs2[carac] as number);
+        break;
+      default:
+        break;
+    }
   });
   return newCaracs;
 }

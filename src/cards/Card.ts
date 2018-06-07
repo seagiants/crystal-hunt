@@ -19,7 +19,8 @@ import { class2Lib } from "../avatar/class2Lib";
 export interface Card extends ActionTemplate {
   charge?: number;
   upgradeName?: string;
-  autoTarget?: AutoTargetKey | string;
+  // Use to determine auto target for enchantments and secondary target for multiple target abilities
+  autoTarget?: AutoTargetKey | string;  
   description?: string;
 }
 

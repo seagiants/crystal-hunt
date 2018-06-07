@@ -8,6 +8,7 @@ import {
   RaceName,
   Class2Name
 } from "../avatar/Avatar";
+import { MonsterName } from "../avatar/monsterLib";
 
 type MapStruct = Array<Array<string>>;
 
@@ -74,7 +75,7 @@ const initAvatarFromCell = (key: string, cell: Cell, index: number) => {
   } else if (cell.avatar === "1") {
     return initPlayerAvatar("1", key, RaceName.Orc, Class2Name.Warrior);
   } else {
-    return initMonsterAvatar("M" + index, key);
+    return initMonsterAvatar("M" + index, key, MonsterName.BasicMonster);
   }
 };
 
