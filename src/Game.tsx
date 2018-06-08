@@ -40,7 +40,7 @@ import {
 } from "./action/actionLogic";
 import { triggerMonsters, cleanDeadMonsters } from "./avatar/monsterLogic";
 import { setNewPathMatrix } from "./map/mapLogic";
-import { Avatar, Class2Name, RaceName } from "./avatar/Avatar";
+import { Avatar, Class2Name, RaceName, setPlayerAvatar } from "./avatar/Avatar";
 
 // Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
@@ -114,8 +114,8 @@ export const setupGame = (): SimpleGame => {
 const CrystalHunt = Game({
   setup: (): SimpleGame => setupGame(),
   moves: {
-    // Each player choose their avatar class and race at the start
-    // of each game
+    // Each player choose their avatar class and race
+    // at the start of each game
     setAvatars: (
       G: SimpleGame,
       ctx: GameContext,
@@ -123,25 +123,24 @@ const CrystalHunt = Game({
       klass: Class2Name,
       race: RaceName
     ) => {
+      const newG = setPlayerAvatar(G, playerID, race, klass);
       if (playerID === "0") {
-        console.log("setting avatars for P0");
-        switch (G.readyState) {
+        switch (newG.readyState) {
           case ReadyState.None:
-            return { ...G, readyState: ReadyState.Zero };
+            return { ...newG, readyState: ReadyState.Zero };
           case ReadyState.One:
-            return { ...G, readyState: ReadyState.Both };
+            return { ...newG, readyState: ReadyState.Both };
           default:
-            return G;
+            return newG;
         }
       } else {
-        console.log("setting avatars for P1");
-        switch (G.readyState) {
+        switch (newG.readyState) {
           case ReadyState.None:
-            return { ...G, readyState: ReadyState.One };
+            return { ...newG, readyState: ReadyState.One };
           case ReadyState.Zero:
-            return { ...G, readyState: ReadyState.Both };
+            return { ...newG, readyState: ReadyState.Both };
           default:
-            return G;
+            return newG;
         }
       }
     },
@@ -329,15 +328,12 @@ const CrystalHunt = Game({
         name: "Select Avatar",
         allowedMoves: ["setAvatars"],
         endPhaseIf: (G: SimpleGame, ctx: GameContext) => {
-          console.log("select phase will end", G.readyState, ReadyState.Both);
           return G.readyState === ReadyState.Both;
         },
         onPhaseBegin: (G: SimpleGame, ctx: GameContext) => {
-          console.log("select phase begins");
           return G;
         },
         onPhaseEnd: (G: SimpleGame, ctx: GameContext) => {
-          console.log("select phase ends");
           return G;
         },
         endTurnIf: (G: SimpleGame, ctx: GameContext) => {

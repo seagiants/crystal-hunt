@@ -2,7 +2,9 @@ import { Caracs } from "../action/Action";
 import { addCaracs } from "../action/actionLogic";
 import { raceLib } from "./raceLib";
 import { MonsterLib } from "./monsterLib";
+import { SimpleGame } from "../types";
 
+// ----- Types
 export enum AvatarTypeName {
   Player = "Player",
   Monster = "Monster"
@@ -52,6 +54,7 @@ export const defaultCaracs: CaracsAvatar = {
   drawNumber: 3
 };
 
+// ----- Functions
 export function initPlayerAvatar(
   id: string,
   position: string,
@@ -85,3 +88,19 @@ export function initMonsterAvatar(
   };
   return newMonster;
 }
+
+export const setPlayerAvatar = (
+  G: SimpleGame,
+  playerID: string,
+  race: RaceName,
+  klass: Class2Name
+) => {
+  const newG = { ...G };
+  const avatar = newG.avatars.find(av => av.id === playerID);
+  const avatarPosition = newG.avatars.findIndex(av => av.id === playerID);
+  const newAvatars = Object.assign([...newG.avatars], {
+    [avatarPosition]: initPlayerAvatar(playerID, avatar!.position, race, klass)
+  });
+  newG.avatars = newAvatars;
+  return newG;
+};
