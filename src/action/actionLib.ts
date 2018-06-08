@@ -90,6 +90,13 @@ export const MonsterActionLib: ActionLib = {
     abilityCategory: ActionCategoryName.Strength,
     abilityId: "Attack",
     abilityCaracs: {}
+  },
+  PoisonAttack: {
+    name: "MonsterPoisonAttack",
+    cardType: CardTypeName.Equipment,
+    abilityCategory: ActionCategoryName.Strength,
+    abilityId: "PoisonAttack",
+    abilityCaracs: {}
   }
 };
 

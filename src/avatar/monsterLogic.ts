@@ -17,8 +17,17 @@ export const triggerMonsters = (
   const monsters = getMonsters(g);
   const playerPosition = getAvatarPosition(g, playerId);
   const updatedMatrix = setNewPathMatrix(g, CheckName.checkAttackPath);
+  // Default action is Attack for monsters. Specific one is stored in the caracs object (ToDo : Improve ?)
+  const getCurrentAction = (monster: Avatar): string =>
+    monster.caracs.abilityId !== undefined
+      ? monster.caracs.abilityId.toString()
+      : "Attack";
   const reducer = (tempG: SimpleGame, currentMonster: Avatar): SimpleGame => {
-    const currentAction = loadActionMonster(tempG, currentMonster.id, "Attack");
+    const currentAction = loadActionMonster(
+      tempG,
+      currentMonster.id,
+      getCurrentAction(currentMonster)
+    );
     const currentMonsterId = currentMonster.id;
     if (
       checkActionTarget(
