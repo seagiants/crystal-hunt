@@ -81,7 +81,7 @@ export function initMonsterAvatar(
     race: RaceName.Monster,
     class2: Class2Name.Monster,
     position: position,
-    caracs: MonsterLib[monsterType]
+    caracs: { ...MonsterLib[monsterType] }
   };
   return newMonster;
 }

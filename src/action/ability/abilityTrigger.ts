@@ -36,7 +36,7 @@ import {
 } from "../actionStateHandling";
 import { setNewAction } from "../actionLogic";
 import { drawCard } from "../../cards/cardLogic";
-import { initMonsterAvatar } from "../../avatar/Avatar";
+import { initMonsterAvatar, AvatarTypeName } from "../../avatar/Avatar";
 import { getBehindCell } from "../../map/mapLogic";
 import { Card } from "../../cards/Card";
 import { generateMonsterId } from "../../avatar/monsterLogic";
@@ -88,10 +88,13 @@ export const poison: AbilityTrigger = (
   targetId: string,
   caracs: AttackCaracs
 ) => {
-  // const avatar = getAvatarOnCell(g, targetId);
-  return getAvatar(g, targetId) !== null || getAvatar(g, targetId) !== undefined
-    ? damage(g, targetId, caracs.poisonValue)
-    : g;
+  // console.log("g");
+  // console.log(g);
+  console.log("Poison");
+  console.log("avatarId: " + avatarId);
+  console.log("targetId");
+  console.log(targetId);
+  return damage(g, targetId, caracs.poisonValue);
 };
 
 export const poisonning: AbilityTrigger = (
@@ -118,8 +121,21 @@ export const poisonning: AbilityTrigger = (
     avatarId,
     `${cardPoisonning.abilityCategory}${avatarId}${targetId}`
   );
-  const newActions = setNewAction(getAllActions(g, avatarId), action, avatarId);
-  return setActions(g, avatarId, newActions);
+  console.log("Action");
+  console.log(action);
+  console.log("avatarId: " + avatarId);
+  console.log("targetId: " + targetId);
+  const targetAvatarType = getAvatar(g, targetId).type;
+  // Action poison is added to target if it's a player, to the owner if not (which)
+  const targetToAddAction =
+    targetAvatarType === AvatarTypeName.Player ? targetId : avatarId;
+  console.log("result: " + targetToAddAction);
+  const newActions = setNewAction(
+    getAllActions(g, targetToAddAction),
+    action,
+    targetToAddAction
+  );
+  return setActions(g, targetToAddAction, newActions);
 };
 
 export const poisonAttack: AbilityTrigger = (
@@ -128,6 +144,9 @@ export const poisonAttack: AbilityTrigger = (
   targetId: string,
   caracs: AttackCaracs
 ) => {
+  console.log("avatarId: " + avatarId);
+  console.log("targetId: " + targetId);
+  console.log("caracs: " + caracs);
   const targetAvatarId = getAvatarOnCell(g, targetId);
   if (targetAvatarId === null) {
     return g;

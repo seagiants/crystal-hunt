@@ -15,7 +15,9 @@ export const MonsterLib: MonsterLibType = {
     healthCurrent: 1,
     attackValue: 1,
     attackRange: 1,
-    moveRange: 0
+    moveRange: 0,
+    poisonValue: 1,
+    abilityId: "PoisonAttack"
   },
   BasicMonster: {
     healthInit: 2,
