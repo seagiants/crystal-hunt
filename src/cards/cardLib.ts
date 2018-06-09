@@ -81,7 +81,7 @@ export const CardLib: CardLibrairy = {
     cardType: CardTypeName.Equipment,
     abilityCategory: ActionCategoryName.Dexterity,
     abilityCaracs: {
-      moveRange: 2
+      moveRange: 1
     },
     abilityId: "Move"
   },
@@ -223,6 +223,27 @@ export const CardLib: CardLibrairy = {
     },
     description: "That's not fair, but hey, who cares ?",
     abilityId: "PoisonAttack"
+  },
+  FishermansFriend: {
+    name: "FishermansFriend",
+    cardType: CardTypeName.Spell,
+    abilityCategory: ActionCategoryName.Wisdom,
+    charge: 2,
+    abilityCaracs: {},
+    isFinal: false,
+    autoTarget: AutoTargetKey.Self,
+    description: "Feels better than doliprane, isn't it ?",
+    abilityId: "RefreshPlayer"
+  },
+  Illusion: {
+    name: "Illusion",
+    cardType: CardTypeName.Spell,
+    abilityCategory: ActionCategoryName.Wisdom,
+    charge: 2,
+    abilityCaracs: {},
+    autoTarget: AutoTargetKey.Self,
+    description: "Not me !",
+    abilityId: "Hide"
   }
 };
 

@@ -9,8 +9,6 @@ import {
 import { setHealth, addInfoMessage } from "./setters";
 import { toKey } from "../map/Cell";
 import {
-  setExhaustCounter,
-  setActionStatus,
   getActionFlow,
   setActionFlow,
   upExhaustCounter
@@ -21,6 +19,7 @@ import {
   ActionTileStatus
 } from "../action/Action";
 import { cleanDeadMonsters } from "../avatar/monsterLogic";
+import { isHidden, setAvatarHidden } from "../avatar/avatarStateHandling";
 
 /*
 // Heal key word : Adding value to health, max by healthInit
@@ -37,11 +36,16 @@ export function heal(
 }
 */
 // Damage key word : substracting value to health, min by 0.
+// It's where the hidden mechanic is checked
+// It's where the cleaning of dead monster is handled
 export function damage(
   g: SimpleGame,
   avatarId: string,
   value: number
 ): SimpleGame {
+  if (isHidden(g, avatarId) === true) {
+    return setAvatarHidden(g, avatarId, false);
+  }
   const currentHealth = getHealth(g, avatarId);
   // If health go 0 (or under), return a cleanedMonster state.
   return currentHealth - value <= 0
@@ -54,21 +58,6 @@ export function damage(
 // Black Crystal Cell is identified by the BlackCrystalCellId.
 export function getBlackCrystalCellAvatarId(g: SimpleGame): string | null {
   return getAvatarOnCell(g, getBlackCrystalCellId(g));
-}
-
-// Refreshing Action : Set to Avalaible & exhaustCounter = 0
-export function refreshAction(
-  g: SimpleGame,
-  playerId: string,
-  category: ActionCategoryName
-): SimpleGame {
-  const refreshExhaustCounter = setExhaustCounter(g, playerId, category, 0);
-  return setActionStatus(
-    refreshExhaustCounter,
-    playerId,
-    category,
-    ActionTileStatus.Avalaible
-  );
 }
 
 // Updating Action Status is :

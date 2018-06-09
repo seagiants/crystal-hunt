@@ -10,7 +10,8 @@ export const AbilityLib: { [key in string]: Ability } = {
     // id: "Move",
     isTargetRequired: CheckName.checkMovePath,
     abilityType: AbilityTypeName.Physical,
-    trigger: TriggerName.move
+    trigger: TriggerName.move,
+    unHidden: true
   },
   Crystalize: {
     // id: "Crystalize",
@@ -22,18 +23,21 @@ export const AbilityLib: { [key in string]: Ability } = {
     // id: "Attack",
     isTargetRequired: CheckName.checkAttackPath,
     abilityType: AbilityTypeName.Physical,
-    trigger: TriggerName.attack
+    trigger: TriggerName.attack,
+    unHidden: true
   },
   PoisonAttack: {
     isTargetRequired: CheckName.checkAttackPath,
     abilityType: AbilityTypeName.Physical,
-    trigger: TriggerName.poisonAttack
+    trigger: TriggerName.poisonAttack,
+    unHidden: true
   },
   CircularAttack: {
     // id: "CircularAttack",
     isTargetRequired: false,
     abilityType: AbilityTypeName.Physical,
-    trigger: TriggerName.circularAttack
+    trigger: TriggerName.circularAttack,
+    unHidden: true
   },
   Draw: {
     // id: "Draw",
@@ -59,11 +63,11 @@ export const AbilityLib: { [key in string]: Ability } = {
     abilityType: AbilityTypeName.Magical,
     trigger: TriggerName.trapACell
   },
-  RefreshActionOnCrystal: {
+  RefreshPlayer: {
     // id: "RefreshActionOnCrystal",
     isTargetRequired: false,
     abilityType: AbilityTypeName.Magical,
-    trigger: TriggerName.refreshAction
+    trigger: TriggerName.refreshPlayer
   },
   Equip: {
     // id: "Equip",
@@ -79,17 +83,24 @@ export const AbilityLib: { [key in string]: Ability } = {
   Push: {
     isTargetRequired: CheckName.checkPushPath,
     abilityType: AbilityTypeName.Physical,
-    trigger: TriggerName.push
+    trigger: TriggerName.push,
+    unHidden: true
   },
   Fly: {
     isTargetRequired: CheckName.checkFlyingPath,
     abilityType: AbilityTypeName.Magical,
-    trigger: TriggerName.move
+    trigger: TriggerName.move,
+    unHidden: true
   },
   Poison: {
     isTargetRequired: CheckName.checkAttackPath,
     abilityType: AbilityTypeName.Magical,
     trigger: TriggerName.poison
+  },
+  Hide: {
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Magical,
+    trigger: TriggerName.hide
   }
 };
 

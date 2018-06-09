@@ -11,6 +11,7 @@ export interface Ability {
   abilityType: AbilityTypeName; // Magical/Physical, used to retrieve the corresponding caracs when triggering ability.
   isTargetRequired: false | CheckName;
   trigger: TriggerName;
+  unHidden?: boolean;
 }
 
 export enum AbilityTypeName {
@@ -28,11 +29,12 @@ export enum TriggerName {
   trapACell = "trapACell",
   equip = "equip",
   enchant = "enchant",
-  refreshAction = "refreshAction",
+  refreshPlayer = "refreshPlayer",
   circularAttack = "circularAttack",
   push = "push",
   poisonAttack = "poisonAttack",
-  poison = "poison"
+  poison = "poison",
+  hide = "hide"
 }
 
 export enum CheckName {

@@ -34,9 +34,9 @@ import {
   getActiveAction,
   triggerAction,
   isTargetRequired,
-  autoTarget,
   exhaustAction,
-  autoTriggerActions
+  autoTriggerActions,
+  retrieveTarget
 } from "./action/actionLogic";
 import { triggerMonsters, cleanDeadMonsters } from "./avatar/monsterLogic";
 import { setNewPathMatrix } from "./map/mapLogic";
@@ -222,13 +222,13 @@ const CrystalHunt = Game({
         return setNewPathMatrix(actionSaved, check);
       } else {
         // State is modified by the power.
+        // Target retrieving mechanism is fired.
         // Then Action is exhausted.
-        // By default, the triggered category is given as target (aka isTargetRequired = false)
         const actionTriggered = triggerAction(
           actionClicked,
           action,
           ctx.currentPlayer,
-          autoTarget(action)
+          retrieveTarget(actionClicked, ctx.currentPlayer, action)
         );
         console.log(action.name + " is triggered");
         // ActionCount is finalized if no card is drawn.

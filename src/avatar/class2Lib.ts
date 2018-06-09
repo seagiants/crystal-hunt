@@ -26,7 +26,7 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "Doliprane",
     "SummonSpiderNest",
     "FishermansFriend",
-    "SevenLeagueBoots2"
+    "SevenLeagueBoots"
   ],
   Monster: []
 };

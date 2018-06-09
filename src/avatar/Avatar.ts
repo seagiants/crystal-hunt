@@ -29,6 +29,7 @@ export interface Avatar {
   type: AvatarTypeName;
   position: string;
   caracs: Caracs;
+  hidden?: boolean;
 }
 
 export interface BasicCaracs extends Caracs {

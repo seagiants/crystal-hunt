@@ -4,7 +4,8 @@ import {
   setActionCharge,
   upActionCount,
   setActionStatus,
-  setActions
+  setActions,
+  setExhaustCounter
 } from "./actionStateHandling";
 import { SimpleGame, TriggerPhase } from "../types";
 import {
@@ -16,10 +17,11 @@ import {
   AutoTargetKey
 } from "./Action";
 import { addInfoMessage } from "../state/setters";
-import { loadActionCategory, CheckName } from "./ability/Ability";
+import { loadActionCategory, CheckName, Ability } from "./ability/Ability";
 import { loadAbility } from "./ability/abilityLib";
 import { loadAbilityReducer } from "./ability/abilityTrigger";
 import { loadAbilityChecker } from "./ability/abilityCheck";
+import { setAvatarHidden } from "../avatar/avatarStateHandling";
 
 // Used to get the color of a Skill
 export function getActionColor(
@@ -179,12 +181,38 @@ export function triggerAction(
       ? setActionCharge(withInfo, avatarId, action.id, action.charge - 1)
       : withInfo;
   // Trigger ability
-  return loadAbilityReducer(loadAbility(action.abilityId).trigger)(
+  return triggerAbility(
     chargeDiminished,
+    action.abilityId,
     avatarId,
     _targetId!,
     actionCaracs
   );
+}
+
+// Trigger ability
+// Workflow :
+// * ability trigger modifies the state,
+// * check if ability modifies the hidden status
+export function triggerAbility(
+  g: SimpleGame,
+  abilityId: string,
+  avatarId: string,
+  targetId: string,
+  abilityCaracs: Caracs
+): SimpleGame {
+  const ability: Ability = loadAbility(abilityId);
+  const abilityTriggered: SimpleGame = loadAbilityReducer(ability.trigger)(
+    g,
+    avatarId,
+    targetId,
+    abilityCaracs
+  );
+  const hiddenHandled =
+    ability.unHidden === true
+      ? setAvatarHidden(abilityTriggered, avatarId, false)
+      : abilityTriggered;
+  return hiddenHandled;
 }
 
 /** Checking an action target and returning true or false based on target validity.
@@ -232,6 +260,22 @@ export function exhaustAction(g: SimpleGame, playerId: string, action: Action) {
       : exhaustActionTile;
   return actionCounted;
 }
+
+// Refreshing Action : Set to Avalaible & exhaustCounter = 0
+export function refreshAction(
+  g: SimpleGame,
+  playerId: string,
+  category: ActionCategoryName
+): SimpleGame {
+  const refreshExhaustCounter = setExhaustCounter(g, playerId, category, 0);
+  return setActionStatus(
+    refreshExhaustCounter,
+    playerId,
+    category,
+    ActionTileStatus.Avalaible
+  );
+}
+
 /** Retrieve caracs used in an action Trigger */
 export function getActionCaracs(
   g: SimpleGame,

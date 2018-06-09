@@ -12,14 +12,13 @@ import {
   getAvatarPosition,
   getAvatarOnCell,
   getCell,
-  getCrystallized,
   getCategories,
   getHealth,
   getHealthInit,
   getMonsterCounter,
   getAvatar
 } from "../../state/getters";
-import { checkTraps, damage, refreshAction } from "../../state/gameLogic";
+import { checkTraps, damage } from "../../state/gameLogic";
 import {
   setAvatarPosition,
   setCellCrystallize,
@@ -32,15 +31,17 @@ import {
   loadActionFromTemplate,
   getAllActions,
   setActions,
-  initAction
+  initAction,
+  resetActionCount
 } from "../actionStateHandling";
-import { setNewAction } from "../actionLogic";
+import { setNewAction, refreshAction } from "../actionLogic";
 import { drawCard } from "../../cards/cardLogic";
 import { initMonsterAvatar, AvatarTypeName } from "../../avatar/Avatar";
 import { getBehindCell } from "../../map/mapLogic";
 import { Card } from "../../cards/Card";
 import { generateMonsterId } from "../../avatar/monsterLogic";
 import { MonsterName } from "../../avatar/monsterLib";
+import { setAvatarHidden } from "../../avatar/avatarStateHandling";
 
 export const move: AbilityTrigger = (
   g: SimpleGame,
@@ -248,24 +249,22 @@ export const trapACell: AbilityTrigger = (
   return setIsTrapped(g, targetId, true);
 };
 
-export const refreshActions: AbilityTrigger = (
+export const refreshPlayer: AbilityTrigger = (
   g: SimpleGame,
   avatarId: string,
   targetId: string
 ) => {
-  // Check if on crystalized.
-  // Todo To refactor
-  const cellId = getAvatarPosition(g, targetId);
-  const isTriggered = getCrystallized(g, cellId);
-  // Set exhaustCounter to 0 for each Action if target player onCrystallized.
-  if (isTriggered) {
-    return getCategories().reduce(
-      (prevG, currCat) => refreshAction(prevG, targetId, currCat),
-      { ...g }
-    );
-  } else {
-    return g;
-  }
+  console.log("Debug !!!!!");
+  console.log(avatarId);
+  console.log(targetId);
+  // Set exhaustCounter to 0 and avalaible for each ActionTile of targetPlayer.
+  // ActionTile = ActionFlow, to redesign ??
+  const actionsRefreshed = getCategories().reduce(
+    (prevG, currCat) => refreshAction(prevG, targetId, currCat),
+    { ...g }
+  );
+  const actionCountReseted = resetActionCount(actionsRefreshed);
+  return actionCountReseted;
 };
 
 export const equip: AbilityTrigger = (
@@ -329,6 +328,15 @@ export const push: AbilityTrigger = (
   }
 };
 
+export const hide: AbilityTrigger = (
+  g: SimpleGame,
+  avatarId: string,
+  targetId: string,
+  caracs: Caracs
+) => {
+  return setAvatarHidden(g, avatarId, true);
+};
+
 export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
   switch (triggerName) {
     case TriggerName.move:
@@ -349,8 +357,8 @@ export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
       return equip;
     case TriggerName.enchant:
       return enchant;
-    case TriggerName.refreshAction:
-      return refreshAction;
+    case TriggerName.refreshPlayer:
+      return refreshPlayer;
     case TriggerName.circularAttack:
       return circularAttack;
     case TriggerName.push:
@@ -359,6 +367,8 @@ export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
       return poisonAttack;
     case TriggerName.poison:
       return poison;
+    case TriggerName.hide:
+      return hide;
     default:
       console.log(triggerName + " not supported");
       return (g: SimpleGame) => g;
