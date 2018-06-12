@@ -132,7 +132,7 @@ export function isTrapped(g: SimpleGame, cellId: string): boolean {
   return g.map[cellId].trap;
 }
 
-export function getInfos(g: SimpleGame): Array<String> {
+export function getInfos(g: SimpleGame): Array<string> {
   return g.infoMessages;
 }
 

@@ -18,6 +18,22 @@ const getHealthBars = (health: number) =>
     </rect>
   ));
 
+const displayLogInfo = (infos: Array<string>) => {
+  return (
+    <ul>
+      {/*
+        infos.forEach(element => {
+          return <li>element</li>;
+        }) as React.ReactNode
+        */}
+      <li>{infos[infos.length - 1]}</li>
+      <li>{infos[infos.length - 2]}</li>
+      <li>{infos[infos.length - 3]}</li>
+      <li>{infos[infos.length - 4]}</li>
+    </ul>
+  );
+};
+
 const getTurnText = (yourID: string, currentPlayerID: string) =>
   yourID === currentPlayerID ? "Your turn" : "Opponent's turn";
 
@@ -38,7 +54,7 @@ const PlayerInfo = ({
   currentHealth: number;
   currentRace: string;
   currentClass2: string;
-  infos: Array<String>;
+  infos: Array<string>;
 }) => (
   <div style={style}>
     <p>{getTurnText(ID, currentPlayer)}</p>
@@ -48,7 +64,8 @@ const PlayerInfo = ({
         {getHealthBars(currentHealth)}
       </svg>
     </p>
-    <p className="Infos">Infos : {infos[infos.length - 1]}</p>
+    <p className="Infos">Infos : </p>
+    {displayLogInfo(infos)}
   </div>
 );
 

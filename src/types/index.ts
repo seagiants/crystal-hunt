@@ -32,7 +32,7 @@ export interface SimpleGame {
   // Used for pathFinding
   pathMatrix: PathMatrix;
   // Used to display info to players
-  infoMessages: Array<String>;
+  infoMessages: Array<string>;
   // Player's deck props
   decksPlayer0: Array<Card>;
   decksPlayer1: Array<Card>;
