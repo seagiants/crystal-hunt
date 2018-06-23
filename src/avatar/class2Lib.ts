@@ -8,7 +8,8 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "SummonMonster",
     "NikeRMax",
     "Regeneration",
-    "ShoesOfTheGiants"
+    "ShoesOfTheGiants",
+    "FeldonsCane"
   ],
   Mage: [
     "SummonMonster",
@@ -17,7 +18,8 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "CrystalAffinity",
     "FireAura",
     "Teleportation",
-    "GandalfStaff"
+    "GandalfStaff",
+    "FeldonsCane"
   ],
   Assassin: [
     "SetATrickyTrap",
@@ -26,7 +28,8 @@ export const class2Lib: { [key in Class2Name]: Array<string> } = {
     "Doliprane",
     "SummonSpiderNest",
     "FishermansFriend",
-    "SevenLeagueBoots"
+    "SevenLeagueBoots",
+    "FeldonsCane"
   ],
   Monster: []
 };

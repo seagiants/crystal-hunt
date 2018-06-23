@@ -38,10 +38,11 @@ import { setNewAction, refreshAction } from "../actionLogic";
 import { drawCard } from "../../cards/cardLogic";
 import { initMonsterAvatar, AvatarTypeName } from "../../avatar/Avatar";
 import { getBehindCell } from "../../map/mapLogic";
-import { Card } from "../../cards/Card";
+import { Card, loadDeck } from "../../cards/Card";
 import { generateMonsterId } from "../../avatar/monsterLogic";
 import { MonsterName } from "../../avatar/monsterLib";
 import { setAvatarHidden } from "../../avatar/avatarStateHandling";
+import { setDeck } from "../../cards/cardStateHandling";
 
 export const move: AbilityTrigger = (
   g: SimpleGame,
@@ -337,6 +338,15 @@ export const hide: AbilityTrigger = (
   return setAvatarHidden(g, avatarId, true);
 };
 
+export const recycleDeck: AbilityTrigger = (
+  g: SimpleGame,
+  playerId: string
+) => {
+  const player = getAvatar(g, playerId);
+  const freshDeck = loadDeck(player.class2);
+  return setDeck(g, playerId, freshDeck);
+};
+
 export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
   switch (triggerName) {
     case TriggerName.move:
@@ -369,6 +379,8 @@ export function loadAbilityReducer(triggerName: TriggerName): AbilityTrigger {
       return poison;
     case TriggerName.hide:
       return hide;
+    case TriggerName.recycleDeck:
+      return recycleDeck;
     default:
       console.log(triggerName + " not supported");
       return (g: SimpleGame) => g;

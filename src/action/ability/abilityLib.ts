@@ -101,6 +101,11 @@ export const AbilityLib: { [key in string]: Ability } = {
     isTargetRequired: false,
     abilityType: AbilityTypeName.Magical,
     trigger: TriggerName.hide
+  },
+  RecycleDeck: {
+    isTargetRequired: false,
+    abilityType: AbilityTypeName.Physical,
+    trigger: TriggerName.recycleDeck
   }
 };
 

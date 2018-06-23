@@ -142,13 +142,36 @@ export function discardCard(
   return handUpdated;
 }
 
-// Discard all the cards
-export function discardCards(g: SimpleGame, playerId: string): SimpleGame {
+// Remove a card from the hand without putting it in the deck.
+export function pickCard(
+  g: SimpleGame,
+  playerId: string,
+  cardIndex: number
+): SimpleGame {
+  const hand = getCards(g, playerId);
+  // Removing it from the hand
+  const newHand: Array<Card> = hand.filter(
+    (current, index) => index !== cardIndex
+  );
+  const handUpdated: SimpleGame = setCards(g, playerId, newHand);
+  return handUpdated;
+}
+
+// Non picked cards go back to deck (discarded), picked card just removed from hand (picked)
+export function cleanCards(
+  g: SimpleGame,
+  playerId: string,
+  pickedIndex: number
+): SimpleGame {
   // For each card in hand, discard it.
   const cardsDiscarded = getCards(g, playerId).reduce(
     (newG, card, index) => {
       // Always discarding the first card, as it's reducing.
-      return discardCard(newG, playerId, 0);
+      if (index === pickedIndex) {
+        return pickCard(newG, playerId, 0);
+      } else {
+        return discardCard(newG, playerId, 0);
+      }
     },
     { ...g }
   );
