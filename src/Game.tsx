@@ -17,7 +17,7 @@ import {
 } from "./state/gameLogic";
 import { loadDeck } from "./cards/Card";
 import { getCards } from "./cards/cardStateHandling";
-import { discardCards, plugCard } from "./cards/cardLogic";
+import { plugCard, cleanCards } from "./cards/cardLogic";
 import {
   loadBasicActions,
   resetActionCount,
@@ -252,7 +252,7 @@ const CrystalHunt = Game({
          - EndTurn is triggered.
       */
       const cardPlugged = plugCard(G, playerId, cardIndex);
-      const cardsCleaned = discardCards(cardPlugged, playerId);
+      const cardsCleaned = cleanCards(cardPlugged, playerId, cardIndex);
       // When picking card, one action is counted.
       const actionCounted = upActionCount(cardsCleaned);
       return actionCounted;

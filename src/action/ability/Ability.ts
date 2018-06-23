@@ -34,7 +34,8 @@ export enum TriggerName {
   push = "push",
   poisonAttack = "poisonAttack",
   poison = "poison",
-  hide = "hide"
+  hide = "hide",
+  recycleDeck = "recycleDeck"
 }
 
 export enum CheckName {

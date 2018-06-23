@@ -244,6 +244,16 @@ export const CardLib: CardLibrairy = {
     autoTarget: AutoTargetKey.Self,
     description: "Not me !",
     abilityId: "Hide"
+  },
+  FeldonsCane: {
+    name: "FeldonsCane",
+    cardType: CardTypeName.Spell,
+    abilityCategory: ActionCategoryName.Intelligence,
+    charge: 1,
+    abilityCaracs: {},
+    autoTarget: AutoTargetKey.Self,
+    description: "The good ol' days",
+    abilityId: "RecycleDeck"
   }
 };
 

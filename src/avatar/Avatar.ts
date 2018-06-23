@@ -3,6 +3,8 @@ import { addCaracs } from "../action/actionLogic";
 import { raceLib } from "./raceLib";
 import { MonsterLib } from "./monsterLib";
 import { SimpleGame } from "../types";
+import { setDeck } from "../cards/cardStateHandling";
+import { loadDeck } from "../cards/Card";
 
 // ----- Types
 export enum AvatarTypeName {
@@ -96,12 +98,13 @@ export const setPlayerAvatar = (
   race: RaceName,
   klass: Class2Name
 ) => {
-  const newG = { ...G };
+  let newG = { ...G };
   const avatar = newG.avatars.find(av => av.id === playerID);
   const avatarPosition = newG.avatars.findIndex(av => av.id === playerID);
   const newAvatars = Object.assign([...newG.avatars], {
     [avatarPosition]: initPlayerAvatar(playerID, avatar!.position, race, klass)
   });
   newG.avatars = newAvatars;
-  return newG;
+  const deck = loadDeck(klass);
+  return setDeck(newG, playerID, deck);
 };
