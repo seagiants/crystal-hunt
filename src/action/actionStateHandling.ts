@@ -3,7 +3,7 @@ import {
   Action,
   Caracs,
   ActionTemplate,
-  CardTypeName,
+  ActionTypeName,
   ActionCategoryName,
   ActionFlow,
   ActionTileStatus
@@ -84,7 +84,7 @@ export function getSpellAction(
   return getAllActions(g, playerId).filter(
     current =>
       current.abilityCategory === category &&
-      current.cardType === CardTypeName.Spell
+      current.cardType === ActionTypeName.Spell
   )[0];
 }
 

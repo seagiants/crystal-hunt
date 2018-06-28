@@ -1,5 +1,5 @@
 import { SimpleGame, TriggerPhase } from "../../types";
-import { Caracs, CardTypeName, ActionCategoryName } from "../Action";
+import { Caracs, ActionTypeName, ActionCategoryName } from "../Action";
 import {
   AbilityTrigger,
   AttackCaracs,
@@ -107,7 +107,7 @@ export const poisonning: AbilityTrigger = (
 ) => {
   const cardPoisonning: Card = {
     name: "Poison",
-    cardType: CardTypeName.Enchantment,
+    cardType: ActionTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Strength,
     triggerPhase: TriggerPhase.TurnStart,
     isFinal: false,

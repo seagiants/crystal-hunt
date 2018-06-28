@@ -1,7 +1,7 @@
 import { splitCardName } from "../Card";
 import { setupGame } from "../../Game";
 import { getDeck, setCards } from "../cardStateHandling";
-import { CardTypeName } from "../../action/Action";
+import { ActionTypeName } from "../../action/Action";
 import { plugCard } from "../cardLogic";
 import { getAllActions } from "../../action/actionStateHandling";
 import { getActiveAction, triggerAction } from "../../action/actionLogic";
@@ -28,7 +28,7 @@ describe("card workflow", () => {
   const g = setupGame();
   const deck = getDeck(g, PLAYER_ID);
   const equipment = deck.filter(
-    current => current.cardType === CardTypeName.Equipment
+    current => current.cardType === ActionTypeName.Equipment
   )[0];
   const newG = setCards(g, PLAYER_ID, [equipment]);
   const newG2 = plugCard(newG, PLAYER_ID, 0);

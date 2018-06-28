@@ -7,7 +7,7 @@ import {
   Action,
   ActionCategoryName,
   ActionTileStatus,
-  CardTypeName
+  ActionTypeName
 } from "./Action";
 import { ActionCategoryLib } from "./actionLib";
 import { getActionStatus } from "./actionStateHandling";
@@ -70,7 +70,7 @@ export const ActionTile = (props: ActionTileProps) => {
         {props.action.name}
       </text>
       <text x="5" y="70">
-        {props.action.cardType === CardTypeName.Spell
+        {props.action.cardType === ActionTypeName.Spell
           ? "charge:" + props.action.charge
           : ""}
       </text>

@@ -19,7 +19,7 @@ export interface ActionTemplate {
   /** Used to customize action layout. */
   name: string;
   abilityCategory: ActionCategoryName;
-  cardType: CardTypeName;
+  cardType: ActionTypeName;
   /** Used to retrieve the reducer ability function. */
   abilityId: string;
   /** Caracs to customize ability, as attackValue, drawCount,... */
@@ -57,7 +57,7 @@ export interface Caracs {
 
 export type ActionLib = { [key in string]: ActionTemplate };
 
-export enum CardTypeName {
+export enum ActionTypeName {
   Spell = "Spell",
   Equipment = "Equipment",
   Enchantment = "Enchantment"

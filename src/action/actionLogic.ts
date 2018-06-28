@@ -10,7 +10,7 @@ import {
 import { SimpleGame, TriggerPhase } from "../types";
 import {
   Action,
-  CardTypeName,
+  ActionTypeName,
   Caracs,
   ActionCategoryName,
   ActionTileStatus,
@@ -62,7 +62,7 @@ function getTypedActions(
   g: SimpleGame,
   playerId: string,
   categoryName: ActionCategoryName,
-  cardType: CardTypeName
+  cardType: ActionTypeName
 ) {
   return getCatActions(g, playerId, categoryName).filter(
     current => current.cardType === cardType
@@ -75,10 +75,10 @@ export function getActiveAction(
   playerId: string,
   categoryName: ActionCategoryName
 ): Action {
-  const spells = getTypedActions(g, playerId, categoryName, CardTypeName.Spell);
+  const spells = getTypedActions(g, playerId, categoryName, ActionTypeName.Spell);
   return spells.length > 0
     ? spells[0]
-    : getTypedActions(g, playerId, categoryName, CardTypeName.Equipment)[0];
+    : getTypedActions(g, playerId, categoryName, ActionTypeName.Equipment)[0];
 }
 
 /** Add a new Action to a playerContext.
@@ -92,7 +92,7 @@ export function setNewAction(
 ): Array<Action> {
   if (
     action.avatarId !== playerId ||
-    action.cardType === CardTypeName.Enchantment
+    action.cardType === ActionTypeName.Enchantment
   ) {
     return [...actions, action];
   } else {
@@ -284,7 +284,7 @@ export function getActionCaracs(
 ) {
   const actionCaracs = action.abilityCaracs;
   // For Enchantment, Avatar caracs are not added.
-  if (action.cardType === CardTypeName.Enchantment) {
+  if (action.cardType === ActionTypeName.Enchantment) {
     return actionCaracs;
   }
   // For others, Avatar caracs are retrieved

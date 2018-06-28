@@ -1,6 +1,6 @@
 import {
   ActionCategoryName,
-  CardTypeName,
+  ActionTypeName,
   Action,
   AutoTargetKey
 } from "../action/Action";
@@ -12,7 +12,7 @@ export const CardLib: CardLibrairy = {
   CrystalAffinity: {
     name: "CrystalAffinity",
     abilityCategory: ActionCategoryName.Wisdom,
-    cardType: CardTypeName.Enchantment,
+    cardType: ActionTypeName.Enchantment,
     triggerPhase: TriggerPhase.TurnEnd,
     autoTarget: AutoTargetKey.Self,
     description: "Healing you",
@@ -24,7 +24,7 @@ export const CardLib: CardLibrairy = {
   },
   Sword: {
     name: "Sword",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     upgradeName: "SwordOfPower",
     abilityCaracs: {
@@ -36,7 +36,7 @@ export const CardLib: CardLibrairy = {
   },
   SummonMonster: {
     name: "SummonMonster",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Strength,
     charge: 2,
     abilityCaracs: {
@@ -46,7 +46,7 @@ export const CardLib: CardLibrairy = {
   },
   SummonSpiderNest: {
     name: "SummonSpiderNest",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Strength,
     charge: 2,
     abilityCaracs: {
@@ -57,7 +57,7 @@ export const CardLib: CardLibrairy = {
   },
   GoldenShoes: {
     name: "GoldenShoes",
-    cardType: CardTypeName.Enchantment,
+    cardType: ActionTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Dexterity,
     triggerPhase: TriggerPhase.TurnEnd,
     description: "For greedy guys who likes yellow cell",
@@ -66,7 +66,7 @@ export const CardLib: CardLibrairy = {
   },
   Fireball: {
     name: "Fireball",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Strength,
     charge: 2,
     abilityCaracs: {
@@ -78,7 +78,7 @@ export const CardLib: CardLibrairy = {
   },
   SevenLeagueBoots: {
     name: "SevenLeagueBoots",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Dexterity,
     abilityCaracs: {
       moveRange: 1
@@ -87,7 +87,7 @@ export const CardLib: CardLibrairy = {
   },
   MentalExplosion: {
     name: "MentalExplosion",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Intelligence,
     charge: 2,
     description: "Drawing all the deck at once feels good",
@@ -99,7 +99,7 @@ export const CardLib: CardLibrairy = {
   },
   SetATrickyTrap: {
     name: "SetATrickyTrap",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Dexterity,
     charge: 1,
     abilityCaracs: {},
@@ -107,7 +107,7 @@ export const CardLib: CardLibrairy = {
   },
   CrystalFiiiiiz: {
     name: "CrystalFiiiiiz",
-    cardType: CardTypeName.Enchantment,
+    cardType: ActionTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Wisdom,
     triggerPhase: TriggerPhase.TurnEnd,
     abilityCaracs: {},
@@ -115,7 +115,7 @@ export const CardLib: CardLibrairy = {
   },
   Regeneration: {
     name: "Regeneration",
-    cardType: CardTypeName.Enchantment,
+    cardType: ActionTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Strength,
     triggerPhase: TriggerPhase.TurnEnd,
     description: "Healing you",
@@ -128,7 +128,7 @@ export const CardLib: CardLibrairy = {
   },
   FireAura: {
     name: "FireAura",
-    cardType: CardTypeName.Enchantment,
+    cardType: ActionTypeName.Enchantment,
     abilityCategory: ActionCategoryName.Strength,
     triggerPhase: TriggerPhase.TurnEnd,
     isFinal: false,
@@ -140,7 +140,7 @@ export const CardLib: CardLibrairy = {
   },
   Axe: {
     name: "Axe",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     abilityCaracs: {
       attackValue: 2
@@ -151,7 +151,7 @@ export const CardLib: CardLibrairy = {
   },
   HealingPotion: {
     name: "HealingPotion",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Wisdom,
     charge: 1,
     autoTarget: AutoTargetKey.Self,
@@ -164,7 +164,7 @@ export const CardLib: CardLibrairy = {
   },
   ShoesOfTheGiants: {
     name: "ShoesOfTheGiants",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Dexterity,
     abilityCaracs: {},
     description: "Some has tried to stay in Giants' way, they had issues...",
@@ -172,7 +172,7 @@ export const CardLib: CardLibrairy = {
   },
   NikeRMax: {
     name: "NikeRMax",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Dexterity,
     description: "Jump, jump, jump !",
     abilityCaracs: {
@@ -182,7 +182,7 @@ export const CardLib: CardLibrairy = {
   },
   GandalfStaff: {
     name: "GandalfStaff",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     abilityCaracs: {
       attackRange: 1
@@ -192,7 +192,7 @@ export const CardLib: CardLibrairy = {
   },
   Teleportation: {
     name: "Teleportation",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Dexterity,
     charge: 1,
     abilityCaracs: {
@@ -203,7 +203,7 @@ export const CardLib: CardLibrairy = {
   },
   Doliprane: {
     name: "Doliprane",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Wisdom,
     charge: 2,
     abilityCaracs: {
@@ -215,7 +215,7 @@ export const CardLib: CardLibrairy = {
   },
   PoisonnedArrows: {
     name: "PoisonnedArrows",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     abilityCaracs: {
       attackRange: 1,
@@ -226,7 +226,7 @@ export const CardLib: CardLibrairy = {
   },
   FishermansFriend: {
     name: "FishermansFriend",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Wisdom,
     charge: 2,
     abilityCaracs: {},
@@ -237,7 +237,7 @@ export const CardLib: CardLibrairy = {
   },
   Illusion: {
     name: "Illusion",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Wisdom,
     charge: 2,
     abilityCaracs: {},
@@ -247,7 +247,7 @@ export const CardLib: CardLibrairy = {
   },
   FeldonsCane: {
     name: "FeldonsCane",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Intelligence,
     charge: 1,
     abilityCaracs: {},

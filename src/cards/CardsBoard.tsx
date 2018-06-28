@@ -17,7 +17,7 @@ interface CardNameProps {
   name: string;
 }
 
-interface CardTypeProps {
+interface ActionTypeProps {
   type: string;
 }
 
@@ -37,7 +37,7 @@ const CardName = (props: CardNameProps) => {
   return <g>{splits}</g>;
 };
 
-const CardType = (props: CardTypeProps) => (
+const ActionType = (props: ActionTypeProps) => (
   <text x="10" y="60" fontSize="8">
     /{props.type.toUpperCase()}/
   </text>
@@ -74,7 +74,7 @@ export const CardTile = (props: CardTileProps) => {
         <title>{props.card.description}</title>
       </rect>
       <CardName name={props.card.name} />
-      <CardType type={props.card.cardType} />
+      <ActionType type={props.card.cardType} />
       <CardCaracs caracs={props.card.abilityCaracs} />
     </svg>
   );

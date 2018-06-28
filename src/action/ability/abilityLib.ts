@@ -1,7 +1,7 @@
 import { Ability, AbilityTypeName, TriggerName, CheckName } from "./Ability";
 import {
   ActionTemplate,
-  CardTypeName,
+  ActionTypeName,
   ActionCategoryName
 } from "../../action/Action";
 
@@ -112,7 +112,7 @@ export const AbilityLib: { [key in string]: Ability } = {
 export const UpgradeLib: { [key: string]: ActionTemplate } = {
   SwordOfPower: {
     name: "SwordOfPower",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     upgradeName: "SwordOfPower",
     abilityCaracs: {

@@ -1,6 +1,6 @@
 import {
   ActionCategoryName,
-  CardTypeName,
+  ActionTypeName,
   ActionLib,
   ActionCategory
 } from "./Action";
@@ -39,7 +39,7 @@ export const ActionCategoryLib: {
 export const BasicActionLib: ActionLib = {
   Move: {
     name: "Move",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Dexterity,
     abilityId: "Move",
     abilityCaracs: {
@@ -48,7 +48,7 @@ export const BasicActionLib: ActionLib = {
   },
   Crystallize: {
     name: "Crystalize",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Wisdom,
     abilityId: "Crystalize",
     abilityCaracs: {
@@ -58,7 +58,7 @@ export const BasicActionLib: ActionLib = {
   Attack: {
     name: "Attack",
     abilityCategory: ActionCategoryName.Strength,
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityId: "Attack",
     abilityCaracs: {
       attackValue: 0
@@ -67,7 +67,7 @@ export const BasicActionLib: ActionLib = {
   Draw: {
     name: "Draw",
     abilityCategory: ActionCategoryName.Intelligence,
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityId: "Draw",
     isFinal: false,
     abilityCaracs: {
@@ -79,21 +79,21 @@ export const BasicActionLib: ActionLib = {
 export const MonsterActionLib: ActionLib = {
   CircularAttack: {
     name: "CircularAttack",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     abilityId: "CircularAttack",
     abilityCaracs: {}
   },
   Attack: {
     name: "MonsterAttack",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     abilityId: "Attack",
     abilityCaracs: {}
   },
   PoisonAttack: {
     name: "MonsterPoisonAttack",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     abilityId: "PoisonAttack",
     abilityCaracs: {}
@@ -103,7 +103,7 @@ export const MonsterActionLib: ActionLib = {
 export const UpgradeLib: ActionLib = {
   SwordOfPower: {
     name: "SwordOfPower",
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     abilityCategory: ActionCategoryName.Strength,
     upgradeName: "SwordOfPower",
     abilityCaracs: {

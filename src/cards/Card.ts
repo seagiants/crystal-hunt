@@ -1,7 +1,7 @@
 import { CardLib } from "./cardLib";
 import {
   ActionTemplate,
-  CardTypeName,
+  ActionTypeName,
   ActionCategoryName,
   ActionCategory,
   AutoTargetKey
@@ -79,7 +79,7 @@ export function getCardColor(card: Card): string {
   return loadCardCategory(card.abilityCategory).color;
 }
 
-export function getCardType(card: Card): CardTypeName {
+export function getActionType(card: Card): ActionTypeName {
   return card.cardType;
 }
 

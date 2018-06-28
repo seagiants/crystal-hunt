@@ -6,8 +6,8 @@ import {
   getDeck,
   getCard
 } from "../cards/cardStateHandling";
-import { Card, getCardType } from "./Card";
-import { CardTypeName, Action, ActionCategoryName } from "../action/Action";
+import { Card, getActionType } from "./Card";
+import { ActionTypeName, Action, ActionCategoryName } from "../action/Action";
 import {
   loadActionFromTemplate,
   getAllActions,
@@ -24,12 +24,12 @@ export function plugCard(
   playerId: string,
   cardIndex: number
 ): SimpleGame {
-  switch (getCardType(getCard(g, playerId, cardIndex))) {
-    case CardTypeName.Equipment:
+  switch (getActionType(getCard(g, playerId, cardIndex))) {
+    case ActionTypeName.Equipment:
       return plugEquipment(g, playerId, cardIndex);
-    case CardTypeName.Enchantment:
+    case ActionTypeName.Enchantment:
       return plugEnchantment(g, playerId, cardIndex);
-    case CardTypeName.Spell:
+    case ActionTypeName.Spell:
       return plugSpell(g, playerId, cardIndex);
     default:
       return g;
@@ -46,7 +46,7 @@ export function plugEnchantment(
   const Enchant: Action = {
     id: toActionId("Enchant", ActionCategoryName.Intelligence, playerId),
     name: "Enchant",
-    cardType: CardTypeName.Spell,
+    cardType: ActionTypeName.Spell,
     charge: 1,
     autoTarget: card.name,
     avatarId: playerId,
@@ -77,7 +77,7 @@ export function plugEquipment(
     name: "Equip",
     abilityCategory: card.abilityCategory,
     avatarId: playerId,
-    cardType: CardTypeName.Equipment,
+    cardType: ActionTypeName.Equipment,
     autoTarget: card.name,
     abilityCaracs: {},
     abilityId: "Equip"
