@@ -24,6 +24,8 @@ export interface ActionTemplate {
   abilityId: string;
   /** Caracs to customize ability, as attackValue, drawCount,... */
   abilityCaracs: Caracs;
+  /** Upgraded caracs when on crystallized */
+  crystallizedCaracs?: Caracs;
   /** Used to identify if actionCount should be increased. */
   isFinal?: boolean;
   /** Used for spell use count. */

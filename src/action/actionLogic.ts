@@ -22,6 +22,7 @@ import { loadAbility } from "./ability/abilityLib";
 import { loadAbilityReducer } from "./ability/abilityTrigger";
 import { loadAbilityChecker } from "./ability/abilityCheck";
 import { setAvatarHidden } from "../avatar/avatarStateHandling";
+import { getCrystallized, getAvatarPosition } from "../state/getters";
 
 // Used to get the color of a Skill
 export function getActionColor(
@@ -75,7 +76,12 @@ export function getActiveAction(
   playerId: string,
   categoryName: ActionCategoryName
 ): Action {
-  const spells = getTypedActions(g, playerId, categoryName, ActionTypeName.Spell);
+  const spells = getTypedActions(
+    g,
+    playerId,
+    categoryName,
+    ActionTypeName.Spell
+  );
   return spells.length > 0
     ? spells[0]
     : getTypedActions(g, playerId, categoryName, ActionTypeName.Equipment)[0];
@@ -276,13 +282,20 @@ export function refreshAction(
   );
 }
 
-/** Retrieve caracs used in an action Trigger */
+/** Retrieve caracs used in an action Trigger
+ * If on crystallized, add basic and crystallized caracs of the action.
+ * Then add avatar caracs.
+ */
 export function getActionCaracs(
   g: SimpleGame,
   avatarId: string,
   action: Action
 ) {
-  const actionCaracs = action.abilityCaracs;
+  const actionCaracs =
+    action.crystallizedCaracs !== undefined &&
+    getCrystallized(g, getAvatarPosition(g, avatarId))
+      ? addCaracs(action.abilityCaracs, action.crystallizedCaracs)
+      : action.abilityCaracs;
   // For Enchantment, Avatar caracs are not added.
   if (action.cardType === ActionTypeName.Enchantment) {
     return actionCaracs;

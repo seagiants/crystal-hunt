@@ -69,8 +69,12 @@ export const CardLib: CardLibrairy = {
     cardType: ActionTypeName.Spell,
     abilityCategory: ActionCategoryName.Strength,
     charge: 2,
-    abilityCaracs: {
+    crystallizedCaracs: {
       attackValue: 1,
+      attackRange: 10
+    },
+    abilityCaracs: {
+      attackValue: 0,
       attackRange: 5
     },
     description: "Smoked meat anyone ?",
