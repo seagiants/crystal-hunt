@@ -40,7 +40,7 @@ import {
 } from "./action/actionLogic";
 import { triggerMonsters, cleanDeadMonsters } from "./avatar/monsterLogic";
 import { setNewPathMatrix } from "./map/mapLogic";
-import { Avatar, Class2Name, RaceName, setPlayerAvatar } from "./avatar/Avatar";
+import { Avatar, KlassName, RaceName, setPlayerAvatar } from "./avatar/Avatar";
 
 // Todo : Refactor, flatten playerContext or merge other props in playerContext
 function initPlayerContext(playerId: string): PlayerContext {
@@ -99,10 +99,10 @@ export const setupGame = (): SimpleGame => {
     actionCount: 0,
     selectedAction: null,
     decksPlayer0: loadDeck(
-      basicSetup.basicAvatars.filter(avatar => avatar.id === "0")[0].class2
+      basicSetup.basicAvatars.filter(avatar => avatar.id === "0")[0].klass
     ),
     decksPlayer1: loadDeck(
-      basicSetup.basicAvatars.filter(avatar => avatar.id === "1")[0].class2
+      basicSetup.basicAvatars.filter(avatar => avatar.id === "1")[0].klass
     ),
     infoMessages: ["Game started"],
     pathMatrix: []
@@ -120,7 +120,7 @@ const CrystalHunt = Game({
       G: SimpleGame,
       ctx: GameContext,
       playerID: string,
-      klass: Class2Name,
+      klass: KlassName,
       race: RaceName
     ) => {
       const newG = setPlayerAvatar(G, playerID, race, klass);

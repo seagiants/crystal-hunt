@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Class2Name } from "../avatar/Avatar";
+import { KlassName } from "../avatar/Avatar";
 
 interface GameSelectorProps {
   handleSubmit: (e: React.FormEvent<HTMLElement>) => void;
@@ -38,9 +38,9 @@ const GameSelector = (props: GameSelectorProps) => (
             value={props.inProgressRaceName}
             onChange={props.handleRNChange}
           >
-            <option value={Class2Name.Mage}>Mage</option>
-            <option value={Class2Name.Warrior}>Warrior</option>
-            <option value={Class2Name.Assassin}>Assassin</option>
+            <option value={KlassName.Mage}>Mage</option>
+            <option value={KlassName.Warrior}>Warrior</option>
+            <option value={KlassName.Assassin}>Assassin</option>
           </select>
         </div>
         <div>

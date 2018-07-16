@@ -3,7 +3,7 @@ import { PathMatrix } from "../map/types";
 import { Caracs, Action, ActionCategoryName } from "../action/Action";
 import { ActionsFlow } from "../action/Action";
 import { Card } from "../cards/Card";
-import { Avatar, Class2Name, RaceName } from "../avatar/Avatar";
+import { Avatar, KlassName, RaceName } from "../avatar/Avatar";
 
 export enum ReadyState {
   None = "xx",
@@ -45,7 +45,7 @@ export interface GameContext {
 }
 
 export interface Moves {
-  setAvatars(playerID: string, klass: Class2Name, race: RaceName): object;
+  setAvatars(playerID: string, klass: KlassName, race: RaceName): object;
   activateCell(cellXY: number[]): object;
   activateAction(category: ActionCategoryName): object;
   activateCard(): object;

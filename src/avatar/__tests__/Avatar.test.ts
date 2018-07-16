@@ -2,7 +2,7 @@ import {
   initPlayerAvatar,
   RaceName,
   defaultCaracs,
-  Class2Name
+  KlassName
 } from "../Avatar";
 
 /* ---> use describe() for a block of tests,
@@ -14,7 +14,7 @@ describe("initPlayerAvatar", () => {
       "0",
       "0x0",
       RaceName.Human,
-      Class2Name.Warrior
+      KlassName.Warrior
     );
     expect(avatar.type).toBe("Player");
   });
@@ -23,7 +23,7 @@ describe("initPlayerAvatar", () => {
       "0",
       "0x0",
       RaceName.Human,
-      Class2Name.Warrior
+      KlassName.Warrior
     );
     let initCaracs = defaultCaracs;
     initCaracs.drawNumber = 4;

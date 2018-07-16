@@ -58,7 +58,7 @@ export const GameBoard = (props: GameBoardProps) => {
             ID={props.playerID}
             currentPlayer={props.ctx.currentPlayer}
             currentHealth={getHealth(props.G, props.playerID)}
-            currentClass2={getAvatar(props.G, props.playerID).class2}
+            currentklass={getAvatar(props.G, props.playerID).klass}
             currentRace={getAvatar(props.G, props.playerID).race}
             infos={getInfos(props.G)}
           />

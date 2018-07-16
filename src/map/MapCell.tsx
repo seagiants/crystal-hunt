@@ -3,16 +3,16 @@ import * as React from "react";
 import { SimpleGame } from "../types";
 import { getCellType, getCrystallized, getAvatar } from "../state/getters";
 import { MapCellProps, PathMatrix } from "./types";
-import { AvatarTypeName, Class2Name } from "../avatar/Avatar";
+import { AvatarTypeName, KlassName } from "../avatar/Avatar";
 
 // ----- Utility functions ----- //
 const getAvatarImage = (klass: string) => {
   switch (klass) {
-    case Class2Name.Mage:
+    case KlassName.Mage:
       return "http://pixelartmaker.com/art/14e16d5f73516e6.png";
-    case Class2Name.Warrior:
+    case KlassName.Warrior:
       return "http://www.nonadecimal.com/staging/SJW/paladin.png";
-    case Class2Name.Assassin:
+    case KlassName.Assassin:
       // tslint:disable-next-line:max-line-length
       return "https://orig00.deviantart.net/ab25/f/2014/330/6/9/pixel_art_raffle_sprite_ezio_from_assassin_s_creed_by_justingamedesign-d87t8nl.png";
     default:
@@ -62,7 +62,7 @@ const renderAvatar = (
           {text}
         </text>
         <image
-          xlinkHref={getAvatarImage(avatar.class2)}
+          xlinkHref={getAvatarImage(avatar.klass)}
           x={x * 40}
           y={y * 40}
           height="40px"
