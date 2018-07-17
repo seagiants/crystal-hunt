@@ -1,14 +1,11 @@
 import * as React from "react";
-import { KlassName } from "../avatar/Avatar";
 
 interface GameSelectorProps {
   handleSubmit: (e: React.FormEvent<HTMLElement>) => void;
   handleGIDChange: (e: React.FormEvent<HTMLInputElement>) => void;
   handlePIDChange: (e: React.FormEvent<HTMLSelectElement>) => void;
-  handleRNChange: (e: React.FormEvent<HTMLSelectElement>) => void;
   inProgressGameId: string;
   inProgressPlayerId: string;
-  inProgressRaceName: string;
 }
 
 const GameSelector = (props: GameSelectorProps) => (
@@ -31,16 +28,6 @@ const GameSelector = (props: GameSelectorProps) => (
           >
             <option value="O">zero</option>
             <option value="1">one</option>
-          </select>
-        </div>
-        <div>
-          <select
-            value={props.inProgressRaceName}
-            onChange={props.handleRNChange}
-          >
-            <option value={KlassName.Mage}>Mage</option>
-            <option value={KlassName.Warrior}>Warrior</option>
-            <option value={KlassName.Assassin}>Assassin</option>
           </select>
         </div>
         <div>
