@@ -24,7 +24,7 @@ export function loadBasicActions(avatarId: string): Array<Action> {
       ...BasicActionLib[cat],
       id: `basic${cat}${avatarId}`,
       avatarId: avatarId,
-      status: ActionTileStatus.Avalaible,
+      status: ActionTileStatus.Available,
       exhaustCounter: 0,
       abilityType: ability.abilityType,
       isTargetRequired: ability.isTargetRequired,

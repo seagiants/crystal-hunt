@@ -55,7 +55,7 @@ function initPlayerContext(playerId: string): PlayerContext {
 // Todo : Refactor
 function initActionsFlow(): ActionsFlow {
   const initActionFlow = (category: ActionCategoryName): ActionFlow => ({
-    status: ActionTileStatus.Avalaible,
+    status: ActionTileStatus.Available,
     actionCategory: category,
     exhaustCounter: 0
   });

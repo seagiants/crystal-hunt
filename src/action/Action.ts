@@ -68,7 +68,7 @@ export enum ActionTypeName {
 export enum ActionTileStatus {
   Clicked = "Clicked",
   Exhausted = "Exhausted",
-  Avalaible = "Avalaible"
+  Available = "Avalaible"
 }
 
 export type ActionsFlow = { [key in ActionCategoryName]: ActionFlow };
