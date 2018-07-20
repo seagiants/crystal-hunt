@@ -20,11 +20,11 @@ export interface Card extends ActionTemplate {
   charge?: number;
   upgradeName?: string;
   // Use to determine auto target for enchantments and secondary target for multiple target abilities
-  autoTarget?: AutoTargetKey | string;  
+  autoTarget?: AutoTargetKey | string;
   description?: string;
 }
 
-export type CardLibrairy = { [key in string]: Card };
+export type CardLibrary = { [key in string]: Card };
 
 // Loader for Card
 export function loadCard(cardName: string): Card {

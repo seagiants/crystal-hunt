@@ -4,11 +4,11 @@ import {
   Action,
   AutoTargetKey
 } from "../action/Action";
-import { CardLibrairy } from "./Card";
+import { CardLibrary } from "./Card";
 import { SimpleGame, TriggerPhase } from "../types";
 import { initAction } from "../action/actionStateHandling";
 
-export const CardLib: CardLibrairy = {
+export const CardLib: CardLibrary = {
   CrystalAffinity: {
     name: "CrystalAffinity",
     abilityCategory: ActionCategoryName.Wisdom,
