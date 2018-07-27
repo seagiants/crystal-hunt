@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ReadyState, Moves } from "../types";
-import { Class2Name, RaceName } from "../avatar/Avatar";
+import { KlassName, RaceName } from "../avatar/Avatar";
 
 interface ASProps {
   readyState: ReadyState;
@@ -9,21 +9,21 @@ interface ASProps {
 }
 
 interface ASState {
-  klass: Class2Name;
+  klass: KlassName;
   race: RaceName;
 }
 
 class AvatarSelector extends React.Component<ASProps, ASState> {
   constructor(props: ASProps) {
     super(props);
-    this.state = { klass: Class2Name.Assassin, race: RaceName.Elve };
+    this.state = { klass: KlassName.Assassin, race: RaceName.Elve };
     this.handleClassSelection = this.handleClassSelection.bind(this);
     this.handleRaceSelection = this.handleRaceSelection.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClassSelection(event: React.FormEvent<HTMLInputElement>) {
-    this.setState({ klass: Class2Name[event.currentTarget.value] });
+    this.setState({ klass: KlassName[event.currentTarget.value] });
   }
 
   handleRaceSelection(event: React.FormEvent<HTMLInputElement>) {
@@ -45,16 +45,16 @@ class AvatarSelector extends React.Component<ASProps, ASState> {
       <div>
         <div>Players not ready -> {this.props.readyState}</div>
         <div>
-          {Object.keys(Class2Name).map((k, i) => (
+          {Object.keys(KlassName).map((k, i) => (
             <label key={`${k}${i}`}>
               <input
                 key={k}
                 type="radio"
-                value={Class2Name[k]}
+                value={KlassName[k]}
                 checked={this.state.klass === k}
                 onChange={this.handleClassSelection}
               />
-              {Class2Name[k]}
+              {KlassName[k]}
             </label>
           ))}
         </div>

@@ -343,7 +343,7 @@ export const recycleDeck: AbilityTrigger = (
   playerId: string
 ) => {
   const player = getAvatar(g, playerId);
-  const freshDeck = loadDeck(player.class2);
+  const freshDeck = loadDeck(player.klass);
   return setDeck(g, playerId, freshDeck);
 };
 

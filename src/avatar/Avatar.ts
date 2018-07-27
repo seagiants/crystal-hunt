@@ -19,7 +19,7 @@ export enum RaceName {
   Monster = "Monster"
 }
 
-export enum Class2Name {
+export enum KlassName {
   Warrior = "Warrior",
   Mage = "Mage",
   Assassin = "Assassin",
@@ -29,7 +29,7 @@ export enum Class2Name {
 export interface Avatar {
   id: string;
   race: RaceName;
-  class2: Class2Name;
+  klass: KlassName;
   type: AvatarTypeName;
   position: string;
   caracs: Caracs;
@@ -62,12 +62,12 @@ export function initPlayerAvatar(
   id: string,
   position: string,
   race: RaceName,
-  class2: Class2Name
+  klass: KlassName
 ): Avatar {
   return {
     id: id,
     race: race,
-    class2: class2,
+    klass: klass,
     type: AvatarTypeName.Player,
     position: position,
     caracs: addCaracs(defaultCaracs, raceLib[race].caracs)
@@ -85,7 +85,7 @@ export function initMonsterAvatar(
     id: id,
     type: AvatarTypeName.Monster,
     race: RaceName.Monster,
-    class2: Class2Name.Monster,
+    klass: KlassName.Monster,
     position: position,
     caracs: { ...MonsterLib[monsterType] }
   };
@@ -96,7 +96,7 @@ export const setPlayerAvatar = (
   G: SimpleGame,
   playerID: string,
   race: RaceName,
-  klass: Class2Name
+  klass: KlassName
 ) => {
   let newG = { ...G };
   const avatar = newG.avatars.find(av => av.id === playerID);

@@ -33,7 +33,7 @@ export function getActionColor(
   switch (status) {
     case undefined:
       return cat.color;
-    case ActionTileStatus.Avalaible:
+    case ActionTileStatus.Available:
       return cat.color;
     case ActionTileStatus.Clicked:
       return cat.clickedColor;
@@ -297,7 +297,7 @@ export function refreshAction(
     refreshExhaustCounter,
     playerId,
     category,
-    ActionTileStatus.Avalaible
+    ActionTileStatus.Available
   );
 }
 

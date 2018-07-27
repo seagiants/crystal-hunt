@@ -53,7 +53,7 @@ describe("basic action workflow", () => {
   it("After setup, action Flow shoud have default values", () => {
     expect(af.actionCategory).toEqual(CATEGORY);
     expect(af.exhaustCounter).toEqual(0);
-    expect(af.status).toEqual(ActionTileStatus.Avalaible);
+    expect(af.status).toEqual(ActionTileStatus.Available);
   });
   it("After set to Exhausted, new value of status should be exhausted", () => {
     const b = setActionStatus(

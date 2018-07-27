@@ -8,8 +8,8 @@ import {
 } from "../action/Action";
 import { UpgradeLib } from "../action/ability/abilityLib";
 import { ActionCategoryLib } from "../action/actionLib";
-import { Class2Name } from "../avatar/Avatar";
-import { class2Lib } from "../avatar/class2Lib";
+import { KlassName } from "../avatar/Avatar";
+import { klassLib } from "../avatar/klassLib";
 
 /** Defining Card based upon ActionTemplate,
  * adding a optional charge counter (for spell only ??)
@@ -53,8 +53,8 @@ export function shuffle<T>(array: T[]): T[] {
   return array;
 }
 
-export function loadDeck(class2: Class2Name): Array<Card> {
-  const cardsList = class2Lib[class2];
+export function loadDeck(klass: KlassName): Array<Card> {
+  const cardsList = klassLib[klass];
   const reducer = (temp: Array<Card>, prop: string, index: number) => {
     const card = CardLib[prop];
     if (card !== undefined) {

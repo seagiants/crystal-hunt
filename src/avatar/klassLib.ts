@@ -1,6 +1,6 @@
-import { Class2Name } from "./Avatar";
+import { KlassName } from "./Avatar";
 
-export const class2Lib: { [key in Class2Name]: Array<string> } = {
+export const klassLib: { [key in KlassName]: Array<string> } = {
   Warrior: [
     "Sword",
     "Axe",

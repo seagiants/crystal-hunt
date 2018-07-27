@@ -37,8 +37,8 @@ const displayLogInfo = (infos: Array<string>) => {
 const getTurnText = (yourID: string, currentPlayerID: string) =>
   yourID === currentPlayerID ? "Your turn" : "Opponent's turn";
 
-const getAvatarText = (currentRace: string, currentClass2: string) =>
-  currentRace + "/" + currentClass2;
+const getAvatarText = (currentRace: string, currentklass: string) =>
+  currentRace + "/" + currentklass;
 
 // ------ Component
 const PlayerInfo = ({
@@ -46,19 +46,19 @@ const PlayerInfo = ({
   currentPlayer,
   currentHealth,
   currentRace,
-  currentClass2,
+  currentklass,
   infos
 }: {
   ID: string;
   currentPlayer: string;
   currentHealth: number;
   currentRace: string;
-  currentClass2: string;
+  currentklass: string;
   infos: Array<string>;
 }) => (
   <div style={style}>
     <p>{getTurnText(ID, currentPlayer)}</p>
-    <p>{getAvatarText(currentRace, currentClass2)}</p>
+    <p>{getAvatarText(currentRace, currentklass)}</p>
     <p className="HPBar">
       <svg width="200" height="60">
         {getHealthBars(currentHealth)}

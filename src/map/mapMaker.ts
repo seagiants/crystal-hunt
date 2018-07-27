@@ -6,7 +6,7 @@ import {
   initMonsterAvatar,
   Avatar,
   RaceName,
-  Class2Name
+  KlassName
 } from "../avatar/Avatar";
 import { MonsterName } from "../avatar/monsterLib";
 
@@ -71,9 +71,9 @@ const getBlackCrystalXY = (cells: { string?: Cell }): string => {
 
 const initAvatarFromCell = (key: string, cell: Cell, index: number) => {
   if (cell.avatar === "0") {
-    return initPlayerAvatar("0", key, RaceName.Human, Class2Name.Mage);
+    return initPlayerAvatar("0", key, RaceName.Human, KlassName.Mage);
   } else if (cell.avatar === "1") {
-    return initPlayerAvatar("1", key, RaceName.Orc, Class2Name.Warrior);
+    return initPlayerAvatar("1", key, RaceName.Orc, KlassName.Warrior);
   } else {
     return initMonsterAvatar("M" + index, key, MonsterName.BasicMonster);
   }

@@ -74,16 +74,16 @@ export function updateActionStatus(
       status =
         g.actionCount === 0
           ? ActionTileStatus.Exhausted
-          : ActionTileStatus.Avalaible;
+          : ActionTileStatus.Available;
       break;
     case ActionTileStatus.Exhausted:
       status =
         actionFlow.exhaustCounter === 0
-          ? ActionTileStatus.Avalaible
+          ? ActionTileStatus.Available
           : ActionTileStatus.Exhausted;
       break;
     default:
-      status = ActionTileStatus.Avalaible;
+      status = ActionTileStatus.Available;
       break;
   }
   // Diminshing exhausted counter after status check to handle correctly avalaible vs exhausted.
@@ -125,7 +125,7 @@ export function setActionClicked(
             status:
               // If Clicked, then Avalaible, nor Clicked (was the clicked one case)
               actionFlow.status === ActionTileStatus.Clicked
-                ? ActionTileStatus.Avalaible
+                ? ActionTileStatus.Available
                 : ActionTileStatus.Clicked
           })
         : prevG;

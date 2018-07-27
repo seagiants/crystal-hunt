@@ -29,7 +29,7 @@ export interface ActionTileProps {
 const actionActivationHandler = (props: ActionTileProps) => {
   if (
     getActionStatus(props.g, props.playerID, props.category) ===
-    ActionTileStatus.Avalaible
+    ActionTileStatus.Available
   ) {
     props.activateAction(props.action.abilityCategory);
   }
