@@ -150,7 +150,8 @@ export const CardLib: CardLibrairy = {
       attackValue: 2
     },
     description: "Really not good for the neighboorhood",
-    abilityId: "CircularAttack",
+    abilityId: "Attack",
+    crystallizedAbilityId: "CircularAttack",
     isFinal: true
   },
   HealingPotion: {

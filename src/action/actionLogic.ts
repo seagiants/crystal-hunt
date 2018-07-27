@@ -87,6 +87,18 @@ export function getActiveAction(
     : getTypedActions(g, playerId, categoryName, ActionTypeName.Equipment)[0];
 }
 
+/** Return the crystallized ability if player on crystallized cell, basic one if not. */
+export function getActionAbility(
+  g: SimpleGame,
+  playerId: string,
+  action: Action
+): string {
+  return action.crystallizedAbilityId &&
+    getCrystallized(g, getAvatarPosition(g, playerId))
+    ? action.crystallizedAbilityId
+    : action.abilityId;
+}
+
 /** Add a new Action to a playerContext.
  * If spell or equipment for the player (aka not monster's one),
  * it will remplace same type of action, if enchantment, just add.
@@ -187,9 +199,10 @@ export function triggerAction(
       ? setActionCharge(withInfo, avatarId, action.id, action.charge - 1)
       : withInfo;
   // Trigger ability
+  const activeAbilityId = getActionAbility(g, avatarId, action);
   return triggerAbility(
     chargeDiminished,
-    action.abilityId,
+    activeAbilityId,
     avatarId,
     _targetId!,
     actionCaracs
@@ -234,7 +247,8 @@ export function checkActionTarget(
 ): boolean {
   // Retrieving caracs.
   const actionCaracs = getActionCaracs(g, avatarId, action);
-  const test = loadAbility(action.abilityId).isTargetRequired;
+  const activeAbilityId = getActionAbility(g, avatarId, action);
+  const test = loadAbility(activeAbilityId).isTargetRequired;
   // Trigger ability
   return test
     ? loadAbilityChecker(test!)(g, avatarId, targetId, actionCaracs)
@@ -242,10 +256,15 @@ export function checkActionTarget(
 }
 
 /** Is an action requiring a target. */
-export function isTargetRequired(action: Action): false | CheckName {
+export function isTargetRequired(
+  g: SimpleGame,
+  action: Action,
+  avatarId: string
+): false | CheckName {
+  const activeAbilityId = getActionAbility(g, avatarId, action);
   return action.autoTarget !== undefined
     ? false
-    : loadAbility(action.abilityId).isTargetRequired;
+    : loadAbility(activeAbilityId).isTargetRequired;
 }
 
 export function autoTarget(action: Action): string | undefined {

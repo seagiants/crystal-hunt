@@ -22,6 +22,8 @@ export interface ActionTemplate {
   cardType: ActionTypeName;
   /** Used to retrieve the reducer ability function. */
   abilityId: string;
+  /** Upgraded ability when on crystallized */
+  crystallizedAbilityId?: string;
   /** Caracs to customize ability, as attackValue, drawCount,... */
   abilityCaracs: Caracs;
   /** Upgraded caracs when on crystallized */
