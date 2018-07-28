@@ -208,7 +208,7 @@ const CrystalHunt = Game({
         categoryName
       );
       // Check if a target is required before triggering action.
-      const check = isTargetRequired(action);
+      const check = isTargetRequired(G, action, ctx.currentPlayer);
       if (check) {
         // Corresponding category is stored in the state.
         const actionSaved: SimpleGame = setSelectedAction(
