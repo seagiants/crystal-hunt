@@ -5,7 +5,9 @@ import {
   upActionCount,
   setActionStatus,
   setActions,
-  setExhaustCounter
+  setExhaustCounter,
+  setPlayerContext,
+  getPlayerContext
 } from "./actionStateHandling";
 import { SimpleGame, TriggerPhase } from "../types";
 import {
@@ -23,6 +25,7 @@ import { loadAbilityReducer } from "./ability/abilityTrigger";
 import { loadAbilityChecker } from "./ability/abilityCheck";
 import { setAvatarHidden } from "../avatar/avatarStateHandling";
 import { getCrystallized, getAvatarPosition } from "../state/getters";
+import { loadCard, Card } from "../cards/Card";
 
 // Used to get the color of a Skill
 export function getActionColor(
@@ -324,14 +327,38 @@ export function getActionCaracs(
   return addCaracs(avatarCaracs, actionCaracs);
 }
 
-/** Clean Actions with a charge < 1 */
+/** Clean Actions with a charge < 1
+ * Adding the corresponding card to the graveyard.
+ * Deleting the action from the PlayerContext.
+ */
 export function cleanDeadAction(g: SimpleGame, playerId: string): SimpleGame {
   // Clean an action if its charge < 1.
-  const actionsCleaned = getAllActions(g, playerId).filter(
+  const actionsDiscarded = getAllActions(g, playerId).reduce(
+    (currentG, currentAction) =>
+      loadCard(currentAction.name) !== undefined
+        ? addToGraveyard(currentG, playerId, loadCard(currentAction.name))
+        : currentG,
+    { ...g }
+  );
+  const cleanedActions = getAllActions(g, playerId).filter(
     currentAction =>
       currentAction.charge !== undefined ? currentAction.charge > 0 : true
   );
-  return setActions(g, playerId, actionsCleaned);
+  return setActions(actionsDiscarded, playerId, cleanedActions);
+}
+
+export function addToGraveyard(
+  g: SimpleGame,
+  playerId: string,
+  card: Card
+): SimpleGame {
+  const context = getPlayerContext(g, playerId);
+  const context2 = {
+    ...context,
+    graveyard:
+      context.graveyard !== undefined ? [...context.graveyard, card] : [card]
+  };
+  return setPlayerContext(g, playerId, context2);
 }
 
 /** Used to add caracs

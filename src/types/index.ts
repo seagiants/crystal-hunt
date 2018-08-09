@@ -114,8 +114,14 @@ export enum TriggerPhase {
 }
 
 export interface PlayerContext {
+  // Id of the player (currently 0 or 1)
   playerID: string;
+  // Actions of the player
   actions: Array<Action>;
+  // ActionFlow, which deal with ActionTile workflow (clickable, exhausted, etc.)
   actionFlows: ActionsFlow;
+  // Cards in the player deck, hand is a temp extract view of some cards.
   cards: Array<Card>;
+  // Cards that have been exhausted.
+  graveyard?: Array<Card>;
 }

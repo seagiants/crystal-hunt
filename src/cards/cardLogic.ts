@@ -140,7 +140,7 @@ export function discardCard(
   );
   const handUpdated: SimpleGame = setCards(deckSetted, playerId, newHand);
   return handUpdated;
-}
+} 
 
 // Remove a card from the hand without putting it in the deck.
 export function pickCard(
