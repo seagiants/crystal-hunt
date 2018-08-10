@@ -13,7 +13,7 @@ interface MutedActionTileProps {
 }
 
 const MutedActionTile = (props: MutedActionTileProps) => {
-  return (
+  return props.action !== undefined ? (
     <svg width="130" height="130">
       <rect
         width="100"
@@ -27,7 +27,7 @@ const MutedActionTile = (props: MutedActionTileProps) => {
         {props.action.name}
       </text>
     </svg>
-  );
+  ) : null;
 };
 
 const MutedActionsBoard = (props: TilesBoardProps) => {

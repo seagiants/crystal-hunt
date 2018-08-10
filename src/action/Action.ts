@@ -5,7 +5,8 @@ export enum ActionCategoryName {
   Dexterity = "Dexterity",
   Intelligence = "Intelligence",
   Wisdom = "Wisdom",
-  Strength = "Strength"
+  Strength = "Strength",
+  Magical = "Magical"
 }
 
 export interface ActionCategory {

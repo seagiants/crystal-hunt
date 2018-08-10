@@ -85,7 +85,11 @@ export function plugSpell(
   cardIndex: number
 ): SimpleGame {
   const card = getCard(g, playerId, cardIndex);
-  const action = loadActionFromTemplate(g, playerId, card.name);
+  // Tweak to test new ActionCategory
+  const action = {
+    ...loadActionFromTemplate(g, playerId, card.name),
+    abilityCategory: ActionCategoryName.Magical
+  };
   return setNewAction(g, playerId, action);
 }
 
