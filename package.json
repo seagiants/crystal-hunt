@@ -6,18 +6,21 @@
     "@types/jest": "^22.2.0",
     "@types/node": "^9.4.6",
     "@types/react": "^16.3.16",
+    "@types/react-bootstrap": "^0.32.11",
     "@types/react-dom": "^16.0.5",
+    "@types/react-overlays": "^0.8.5",
     "react-scripts-ts": "2.13.0",
     "typescript": "^2.7.2"
   },
   "dependencies": {
     "@types/mousetrap": "^1.6.0",
-    "boardgame.io": "^0.22.1",
+    "boardgame.io": "^0.25.4",
     "koa-static": "^4.0.2",
     "mousetrap": "^1.6.1",
     "pathfinding": "^0.4.18",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react": "^16.4.2",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.4.2"
   },
   "scripts": {
     "dev-start": "react-scripts-ts start",
