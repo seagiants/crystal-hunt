@@ -5,7 +5,9 @@ import {
   upActionCount,
   setActionStatus,
   setActions,
-  setExhaustCounter
+  setExhaustCounter,
+  setPlayerContext,
+  getPlayerContext
 } from "./actionStateHandling";
 import { SimpleGame, TriggerPhase } from "../types";
 import {
@@ -23,6 +25,7 @@ import { loadAbilityReducer } from "./ability/abilityTrigger";
 import { loadAbilityChecker } from "./ability/abilityCheck";
 import { setAvatarHidden } from "../avatar/avatarStateHandling";
 import { getCrystallized, getAvatarPosition } from "../state/getters";
+import { loadCard, Card } from "../cards/Card";
 
 // Used to get the color of a Skill
 export function getActionColor(
@@ -104,22 +107,76 @@ export function getActionAbility(
  * it will remplace same type of action, if enchantment, just add.
  */
 export function setNewAction(
-  actions: Array<Action>,
-  action: Action,
-  playerId: string
-): Array<Action> {
-  if (
-    action.avatarId !== playerId ||
-    action.cardType === ActionTypeName.Enchantment
-  ) {
-    return [...actions, action];
+  g: SimpleGame,
+  playerId: string,
+  action: Action
+): SimpleGame {
+  if (action.avatarId !== playerId) {
+    console.log("Poison ? Or bad case impl ??? To be checked.");
+    console.log(action);
+    console.log("playerId: " + playerId);
+    return setActions(g, playerId, [...getAllActions(g, playerId), action]);
   } else {
-    const withoutOldAction = actions.filter(
+    console.log("ReplaceNewAction");
+    console.log(playerId);
+    console.log(action);
+    // Replacing an Action is discarding the current one if any (same type&category), then adding new one.
+    const replaceAction = (
+      G: SimpleGame,
+      PlayerId: string,
+      newAction: Action
+    ): SimpleGame => {
+      // Getting the previous similar action (===cat&type if any)
+      const previousAction: Action = getAllActions(G, PlayerId).filter(
+        currentAction =>
+          currentAction.abilityCategory === newAction.abilityCategory &&
+          currentAction.cardType === newAction.cardType
+      )[0];
+      console.log("previous :");
+      console.log(previousAction);
+      // Clean actions of the previous action (if any)
+      const actionsCleaned: Action[] =
+        previousAction !== undefined && previousAction !== null
+          ? getAllActions(G, PlayerId).filter(
+              currentAction =>
+                currentAction.abilityCategory !== newAction.abilityCategory ||
+                currentAction.cardType !== newAction.cardType
+            )
+          : getAllActions(G, PlayerId);
+      // Add previous action to graveyard if any.
+      const previousActionDiscarded =
+        previousAction !== undefined &&
+        previousAction !== null &&
+        loadCard(previousAction.name) !== null &&
+        loadCard(previousAction.name) !== undefined
+          ? addToGraveyard(g, PlayerId, loadCard(previousAction.name))
+          : G;
+      return setActions(previousActionDiscarded, PlayerId, [
+        ...actionsCleaned,
+        newAction
+      ]);
+    };
+    switch (action.cardType) {
+      // Spell : Replace other spell of same category if any.
+      // Todo : Redesign spell workflow
+      case ActionTypeName.Spell:
+        return replaceAction(g, playerId, action);
+      // Equipment : Replace other equipment of same category if any.
+      case ActionTypeName.Equipment:
+        return replaceAction(g, playerId, action);
+      // Enchantment : just add the new action at the end of the player's actions.
+      case ActionTypeName.Enchantment:
+        return setActions(g, playerId, [...getAllActions(g, playerId), action]);
+      default:
+        console.log("ActionType : " + action.cardType + " not handled.");
+        return g;
+    }
+    const withoutOldAction = getAllActions(g, playerId).filter(
       currentAction =>
         currentAction.abilityCategory !== action.abilityCategory ||
         currentAction.cardType !== action.cardType
     );
-    return [...withoutOldAction, action];
+    return setActions(g, playerId, [...withoutOldAction, action]);
   }
 }
 
@@ -324,14 +381,43 @@ export function getActionCaracs(
   return addCaracs(avatarCaracs, actionCaracs);
 }
 
-/** Clean Actions with a charge < 1 */
+/** Clean Actions with a charge < 1
+ * Adding the corresponding card to the graveyard.
+ * Deleting the action from the PlayerContext.
+ */
 export function cleanDeadAction(g: SimpleGame, playerId: string): SimpleGame {
   // Clean an action if its charge < 1.
-  const actionsCleaned = getAllActions(g, playerId).filter(
-    currentAction =>
-      currentAction.charge !== undefined ? currentAction.charge > 0 : true
+  const actionsDiscarded = getAllActions(g, playerId).reduce(
+    (currentG, currentAction) =>
+      currentAction.charge !== undefined &&
+      currentAction.charge === 0 &&
+      loadCard(currentAction.name) !== undefined &&
+      loadCard(currentAction.name) !== null
+        ? addToGraveyard(currentG, playerId, loadCard(currentAction.name))
+        : currentG,
+    { ...g }
   );
-  return setActions(g, playerId, actionsCleaned);
+  const cleanedActions = getAllActions(g, playerId).filter(
+    currentAction =>
+      currentAction.charge !== undefined && currentAction.charge !== null
+        ? currentAction.charge > 0
+        : true
+  );
+  return setActions(actionsDiscarded, playerId, cleanedActions);
+}
+
+export function addToGraveyard(
+  g: SimpleGame,
+  playerId: string,
+  card: Card
+): SimpleGame {
+  const context = getPlayerContext(g, playerId);
+  const context2 = {
+    ...context,
+    graveyard:
+      context.graveyard !== undefined ? [...context.graveyard, card] : [card]
+  };
+  return setPlayerContext(g, playerId, context2);
 }
 
 /** Used to add caracs

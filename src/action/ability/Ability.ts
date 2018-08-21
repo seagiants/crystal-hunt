@@ -12,6 +12,7 @@ export interface Ability {
   isTargetRequired: false | CheckName;
   trigger: TriggerName;
   unHidden?: boolean;
+  description?: string; // Use to describe ability to player.
 }
 
 export enum AbilityTypeName {

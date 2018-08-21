@@ -28,7 +28,11 @@ export type CardLibrary = { [key in string]: Card };
 
 // Loader for Card
 export function loadCard(cardName: string): Card {
-  return CardLib[cardName];
+  const card = CardLib[cardName];
+  if (card === undefined || card === null) {
+    console.log("No card : " + cardName);
+  }
+  return card;
 }
 
 export function loadUpgrade(card: Card): ActionTemplate {

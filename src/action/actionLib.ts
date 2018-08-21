@@ -33,6 +33,12 @@ export const ActionCategoryLib: {
     color: "#ff0005",
     clickedColor: "#ff5050",
     exhaustedColor: "gray"
+  },
+  Magical: {
+    name: ActionCategoryName.Magical,
+    color: "#a442f4",
+    clickedColor: "#d041f4",
+    exhaustedColor: "gray"
   }
 };
 

@@ -3,6 +3,8 @@ import { TilesBoardProps } from "../types";
 import { getCards } from "./cardStateHandling";
 import { Card, splitCardName, getCardColor } from "./Card";
 import { Caracs } from "../action/Action";
+import { OverlayTrigger, Tooltip } from "react-bootstrap/lib";
+import { loadAbility } from "../action/ability/abilityLib";
 
 // ----- Interfaces ----- // // FIXME should live in /types.ts
 export interface CardTileProps {
@@ -56,27 +58,52 @@ const CardCaracs = (props: CardCaracsProps) => {
   return <g>{caracList}</g>;
 };
 
+function getCardDescription(card: Card) {
+  return (
+    <Tooltip id={"tooltip" + card.name} placement="bottom">
+      <strong>
+        {card.name} ({card.cardType})
+      </strong>{" "}
+      <br />
+      {card.abilityId}: {loadAbility(card.abilityId).description}
+      <br />
+      {abilityCaracsDescription(card.abilityCaracs)}
+    </Tooltip>
+  );
+}
+
+function abilityCaracsDescription(caracs: Caracs) {
+  const caracList = Object.keys(caracs).map((carac, i) => (
+    <text key={i}>
+      {`${carac}: ${caracs[carac] > 0 ? "+" + caracs[carac] : caracs[carac]}`}
+      <br />
+    </text>
+  ));
+  return <g>{caracList}</g>;
+}
 export const CardTile = (props: CardTileProps) => {
   return (
-    <svg width="120" height="140" key={props.index}>
-      <rect
-        width="110"
-        height="140"
-        style={{ fill: getCardColor(props.card) }}
-        stroke="black"
-        rx="20"
-        ry="20"
-        onClick={e => {
-          e.preventDefault();
-          props.activateCard(props.index, props.playerId);
-        }}
-      >
-        <title>{props.card.description}</title>
-      </rect>
-      <CardName name={props.card.name} />
-      <ActionType type={props.card.cardType} />
-      <CardCaracs caracs={props.card.abilityCaracs} />
-    </svg>
+    <OverlayTrigger overlay={getCardDescription(props.card)} placement="bottom">
+      <svg width="120" height="140" key={props.index}>
+        <rect
+          width="110"
+          height="140"
+          style={{ fill: getCardColor(props.card) }}
+          stroke="black"
+          rx="20"
+          ry="20"
+          onClick={e => {
+            e.preventDefault();
+            props.activateCard(props.index, props.playerId);
+          }}
+        >
+          <title>{props.card.description}</title>
+        </rect>
+        <CardName name={props.card.name} />
+        <ActionType type={props.card.cardType} />
+        <CardCaracs caracs={props.card.abilityCaracs} />
+      </svg>
+    </OverlayTrigger>
   );
 };
 

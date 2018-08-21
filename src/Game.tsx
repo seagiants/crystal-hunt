@@ -63,7 +63,8 @@ function initActionsFlow(): ActionsFlow {
     Dexterity: initActionFlow(ActionCategoryName.Dexterity),
     Intelligence: initActionFlow(ActionCategoryName.Intelligence),
     Wisdom: initActionFlow(ActionCategoryName.Wisdom),
-    Strength: initActionFlow(ActionCategoryName.Strength)
+    Strength: initActionFlow(ActionCategoryName.Strength),
+    Magical: initActionFlow(ActionCategoryName.Magical)
   };
 }
 

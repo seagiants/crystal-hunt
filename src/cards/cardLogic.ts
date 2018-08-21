@@ -10,8 +10,6 @@ import { Card, getActionType } from "./Card";
 import { ActionTypeName, Action, ActionCategoryName } from "../action/Action";
 import {
   loadActionFromTemplate,
-  getAllActions,
-  setActions,
   toActionId
 } from "../action/actionStateHandling";
 import { setNewAction } from "../action/actionLogic";
@@ -54,12 +52,7 @@ export function plugEnchantment(
     abilityCaracs: {},
     abilityId: "Enchant"
   };
-  const withEnchantActions = setNewAction(
-    getAllActions(g, playerId),
-    Enchant,
-    playerId
-  );
-  return setActions(g, playerId, withEnchantActions);
+  return setNewAction(g, playerId, Enchant);
 }
 
 /** Plugging an Equipment :
@@ -82,12 +75,7 @@ export function plugEquipment(
     abilityCaracs: {},
     abilityId: "Equip"
   };
-  const withEquipActions = setNewAction(
-    getAllActions(g, playerId),
-    Equip,
-    playerId
-  );
-  return setActions(g, playerId, withEquipActions);
+  return setNewAction(g, playerId, Equip);
 }
 
 /** Plugging a spell : Just adding it as a new action. */
@@ -97,9 +85,12 @@ export function plugSpell(
   cardIndex: number
 ): SimpleGame {
   const card = getCard(g, playerId, cardIndex);
-  const action = loadActionFromTemplate(g, playerId, card.name);
-  const newActions = setNewAction(getAllActions(g, playerId), action, playerId);
-  return setActions(g, playerId, newActions);
+  // Tweak to test new ActionCategory
+  const action = {
+    ...loadActionFromTemplate(g, playerId, card.name),
+    abilityCategory: ActionCategoryName.Magical
+  };
+  return setNewAction(g, playerId, action);
 }
 
 // Draw the first card of a deck

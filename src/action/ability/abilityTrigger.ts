@@ -29,8 +29,6 @@ import {
 } from "../../state/setters";
 import {
   loadActionFromTemplate,
-  getAllActions,
-  setActions,
   initAction,
   resetActionCount
 } from "../actionStateHandling";
@@ -123,21 +121,16 @@ export const poisonning: AbilityTrigger = (
     avatarId,
     `${cardPoisonning.abilityCategory}${avatarId}${targetId}`
   );
-  console.log("Action");
-  console.log(action);
-  console.log("avatarId: " + avatarId);
-  console.log("targetId: " + targetId);
+  // console.log("Action");
+  // console.log(action);
+  // console.log("avatarId: " + avatarId);
+  // console.log("targetId: " + targetId);
   const targetAvatarType = getAvatar(g, targetId).type;
   // Action poison is added to target if it's a player, to the owner if not (which)
   const targetToAddAction =
     targetAvatarType === AvatarTypeName.Player ? targetId : avatarId;
-  console.log("result: " + targetToAddAction);
-  const newActions = setNewAction(
-    getAllActions(g, targetToAddAction),
-    action,
-    targetToAddAction
-  );
-  return setActions(g, targetToAddAction, newActions);
+  // console.log("result: " + targetToAddAction);
+  return setNewAction(g, targetToAddAction, action);
 };
 
 export const poisonAttack: AbilityTrigger = (
@@ -275,8 +268,7 @@ export const equip: AbilityTrigger = (
   caracs: Caracs
 ) => {
   const action = loadActionFromTemplate(g, avatarId, targetId);
-  const newActions = setNewAction(getAllActions(g, avatarId), action, avatarId);
-  return setActions(g, avatarId, newActions);
+  return setNewAction(g, avatarId, action);
 };
 
 export const enchant: AbilityTrigger = (
@@ -286,8 +278,7 @@ export const enchant: AbilityTrigger = (
   caracs: Caracs
 ) => {
   const action = loadActionFromTemplate(g, avatarId, targetId);
-  const newActions = setNewAction(getAllActions(g, avatarId), action, avatarId);
-  return setActions(g, avatarId, newActions);
+  return setNewAction(g, avatarId, action);
 };
 
 /** push

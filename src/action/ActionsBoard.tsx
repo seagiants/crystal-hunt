@@ -45,7 +45,10 @@ const clickHandler = (
 
 // ----- Components
 export const ActionTile = (props: ActionTileProps) => {
-  const shortcut = props.action.name.substring(0, 1).toLowerCase();
+  const shortcut =
+    props.action !== undefined
+      ? props.action.name.substring(0, 1).toLowerCase()
+      : "";
   // console.log(shortcut);
   // Binding to keys
   Mousetrap.bind(`a ${shortcut}`, thing => {
@@ -84,7 +87,11 @@ export const ActionsBoard = (props: TilesBoardProps) => {
     <div style={style}>
       {Object.keys(ActionCategoryLib).map(
         (abilityCategoryName: ActionCategoryName, idx: number) => {
-          return (
+          return getActiveAction(
+            props.G,
+            props.playerId,
+            abilityCategoryName
+          ) !== undefined ? (
             <ActionTile
               key={`ActionTile${idx}${props.playerId}`}
               g={props.G}
@@ -103,7 +110,7 @@ export const ActionsBoard = (props: TilesBoardProps) => {
                 abilityCategoryName
               )}
             />
-          );
+          ) : null;
         }
       )}
     </div>
