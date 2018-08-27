@@ -11,7 +11,6 @@ import { CardsBoard } from "../cards/CardsBoard";
 import { TriggersList } from "../action/TriggersList";
 import { getAutoTriggerActions } from "../action/actionStateHandling";
 import AvatarSelector from "./AvatarSelector";
-import { DeckInfo } from "../cards/DeckInfo";
 
 // ----- Utils
 const getActionBoard = (props: GameBoardProps) => {
@@ -82,7 +81,6 @@ export const GameBoard = (props: GameBoardProps) => {
           events={props.events}
           playerId={props.playerID}
         />
-        <DeckInfo G={props.G} />
       </div>
     );
   }

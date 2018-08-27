@@ -5,6 +5,7 @@ import { Card, splitCardName, getCardColor } from "./Card";
 import { Caracs } from "../action/Action";
 import { OverlayTrigger, Tooltip } from "react-bootstrap/lib";
 import { loadAbility } from "../action/ability/abilityLib";
+import { DeckInfo } from "./DeckInfo";
 
 // ----- Interfaces ----- // // FIXME should live in /types.ts
 export interface CardTileProps {
@@ -112,6 +113,7 @@ export const CardsBoard = (props: TilesBoardProps) => {
   if (cards.length > 0) {
     return (
       <div className="card-container">
+        <DeckInfo G={props.G} playerId={props.playerId} />
         {cards.map((card: Card, idx: number) => (
           <CardTile
             key={idx}
@@ -125,6 +127,10 @@ export const CardsBoard = (props: TilesBoardProps) => {
       </div>
     );
   } else {
-    return <div />;
+    return (
+      <div>
+        <DeckInfo G={props.G} playerId={props.playerId} />
+      </div>
+    );
   }
 };
