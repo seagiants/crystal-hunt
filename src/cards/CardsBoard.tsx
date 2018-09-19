@@ -82,6 +82,7 @@ function abilityCaracsDescription(caracs: Caracs) {
   ));
   return <g>{caracList}</g>;
 }
+
 export const CardTile = (props: CardTileProps) => {
   return (
     <OverlayTrigger overlay={getCardDescription(props.card)} placement="bottom">
@@ -112,18 +113,20 @@ export const CardsBoard = (props: TilesBoardProps) => {
   const cards: Array<Card> = getCards(props.G, props.playerId);
   if (cards.length > 0) {
     return (
-      <div className="card-container">
+      <div>
         <DeckInfo G={props.G} playerId={props.playerId} />
-        {cards.map((card: Card, idx: number) => (
-          <CardTile
-            key={idx}
-            activateCard={props.moves.activateCard}
-            endTurn={props.events.endTurn}
-            card={card}
-            index={idx}
-            playerId={props.playerId}
-          />
-        ))}
+        <div className="card-container">
+          {cards.map((card: Card, idx: number) => (
+            <CardTile
+              key={idx}
+              activateCard={props.moves.activateCard}
+              endTurn={props.events.endTurn}
+              card={card}
+              index={idx}
+              playerId={props.playerId}
+            />
+          ))}
+        </div>
       </div>
     );
   } else {
